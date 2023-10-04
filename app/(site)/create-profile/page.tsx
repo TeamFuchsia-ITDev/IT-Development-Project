@@ -40,7 +40,7 @@ interface FormData {
   };
 }
 
-export default function Profile2() {
+export default function CreateProfile() {
   const { data: session, status } = useSession();
   const [isLoading, setIsLoading] = useState(false);
 
