@@ -42,24 +42,33 @@ export default function Login() {
   }, [errorParams, session, status, router]);
 
   const loginWithFacebook = async () => {
-    signIn("facebook", { callbackUrl: "http://localhost:3000/" }).then(
-      (callback) => {
-        if (callback?.ok && !callback?.error) {
-          toast.success("Logged in successfully!");
-          setTimeout(
-            () =>
-              toast.loading("Redirecting now to the user dashboard", {
-                duration: 4000,
-              }),
-            1000
-          );
-          setTimeout(() => {
-            toast.dismiss();
-            router.replace("/");
-          }, 2000);
-        }
-      }
-    );
+    toast.loading("Logging in...", {
+      duration: 4000,
+    });
+
+    const response = signIn("facebook", {
+      callbackUrl: "http://localhost:3000/",
+    });
+
+    response
+      .then(() => {
+        toast.remove();
+        toast.success("Logged in successfully!");
+        setTimeout(() => {
+          toast.dismiss();
+          toast.loading("Redirecting now to the user dashboard", {
+            duration: 4000,
+          });
+        }, 1000);
+
+        setTimeout(() => {
+          toast.remove();
+          router.replace("/");
+        }, 5000);
+      })
+      .catch(() => {
+        toast.error("Something went wrong");
+      });
   };
 
   const loginWithGoogle = async () => {
