@@ -49,11 +49,13 @@ export const Navbar = () => {
                     className="m-2"
                 />
 
-                <div className="flex gap-5 mr-4">
+                <div className="flex gap-5 mr-4 text-sm">
                     <a href="/homepage" className="flex items-center">Home</a>
                     <a href="/post" className="flex items-center">Post Request</a>
                     <a href="/myrequest" className="flex items-center">My Requests</a>
                     <a href="/myjobs" className="flex items-center">My Applied Jobs</a>
+                </div>
+                <div className="mr-4">
                     {user ? (
                         <>
                             <img

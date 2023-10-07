@@ -5,6 +5,8 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import leftarrow from "../../images/leftarrow.svg";
 import rightarrow from "../../images/rightarrow.svg";
+import { Card } from "@/app/components/card";
+import Carousel from "@/app/components/carousel"
 
 interface UserProps {
     id: string;
@@ -66,17 +68,20 @@ export default function homepage() {
 
                 </div>
 
-                <div className="ml-4 mr-4 border-2 border-gray-300 rounded-[5px] mt-12">
+                <div className="ml-4 mr-4 border-2 border-gray-300 rounded-[5px] mt-12 overflow-hidden mb-12">
                     <div className="flex flex-row justify-between mt-2 ml-2">
                         <h1 className="text-2xl"> Latest requests</h1>
 
                         <div className="flex gap-4 mr-4">
-                        <img src={leftarrow.src} width={20}/>
-                        <img src={rightarrow.src} width={20}/>
+                            <img src={leftarrow.src} width={20} />
+                            <img src={rightarrow.src} width={20} />
                         </div>
 
                     </div>
-                    <p></p>
+                    <div className="mt-4 ml-12 mb-6 gap-12">
+                        <Card />
+                       
+                    </div>
                 </div>
             </div>
         </>
