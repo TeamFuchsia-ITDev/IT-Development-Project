@@ -15,6 +15,7 @@ export default function Login() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const errorParams = searchParams.get("error");
+  //   const [loading, setLoading] = useState(false);
   const [data, setData] = useState({
     email: "",
     password: "",
@@ -39,6 +40,7 @@ export default function Login() {
       );
       router.replace("/login"); // Use router.replace to avoid extra rendering
     }
+  
   }, [errorParams, session, status, router]);
 
   const loginWithFacebook = async () => {
@@ -72,24 +74,40 @@ export default function Login() {
   };
 
   const loginWithGoogle = async () => {
-    signIn("google", { callbackUrl: "http://localhost:3000/" }).then(
-      (callback) => {
-        if (callback?.ok && !callback?.error) {
-          toast.success("Logged in successfully!");
-          setTimeout(
-            () =>
-              toast.loading("Redirecting now to the user dashboard", {
-                duration: 4000,
-              }),
-            1000
-          );
-          setTimeout(() => {
-            toast.dismiss();
-            router.replace("/");
-          }, 2000);
-        }
-      }
-    );
+    toast.loading("Logging in...", {
+      duration: 4000,
+    });
+
+    setTimeout(() => {
+      toast.loading("Redirecting to Google Sign up", {
+        duration: 4000,
+      });
+    }, 5000);
+
+    setTimeout(() => {
+      signIn("google", { callbackUrl: "http://localhost:3000/profile?success=true" });
+    }, 9000);
+
+    // response
+    //   .then(() => {})
+    //   .catch(() => {
+    //     toast.error("Something went wrong");
+    //   })
+    //   .finally(() => {
+    //     toast.remove();
+    //     toast.success("Logged in successfully!");
+    //     setTimeout(() => {
+    //       toast.dismiss();
+    //       toast.loading("Redirecting now to the user dashboard", {
+    //         duration: 4000,
+    //       });
+    //     }, 1000);
+
+    //     // setTimeout(() => {
+    //     //   toast.remove();
+    //     //   router.replace("/");
+    //     // }, 5000);
+    //   });
   };
 
   const loginUser = async (e: FormEvent) => {

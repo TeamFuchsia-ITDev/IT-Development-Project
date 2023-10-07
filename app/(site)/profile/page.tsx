@@ -1,10 +1,11 @@
 "use client";
 
-import { useSearchParams, redirect } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { use, useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import getGeolocation from "@/app/libs/geolocation";
+import { toast } from "react-hot-toast";
 
 interface UserProps {
   id: string;
@@ -30,11 +31,23 @@ interface UserProps {
 const Profile = () => {
   const [user, setUser] = useState<UserProps | undefined>(undefined);
   const { data: session, status } = useSession();
+  const [isMounted, setisMounted] = useState(false);
+  const searchParams = useSearchParams();
+  const successParams = searchParams.get("success");
 
   //   const searchParams = useSearchParams();
   //   const profileEmail = searchParams.get("id");
 
   useEffect(() => {
+    if (isMounted) {
+      if (successParams) {
+        toast.success("Google successful login");
+      }
+    }
+  }, [session, successParams]);
+
+  useEffect(() => {
+    setisMounted(true);
     getGeolocation()
       .then((location) => {
         console.log("Latitude:", location.lat);
