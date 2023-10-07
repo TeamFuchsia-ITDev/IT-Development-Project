@@ -19,7 +19,7 @@ export default async function Home() {
 
   if (session) {
     if (session?.user?.isNewUser === true) {
-      redirect("/profile2");
+      redirect("/create-profile");
     }
   }
 

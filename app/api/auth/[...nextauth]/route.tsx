@@ -62,17 +62,19 @@ export const authOptions: NextAuthOptions = {
           },
         });
 
-		const user = await prisma.user.findUnique({
-			where: {
-				email: credentials.email,
-				provider: "credentials"
-			}
-		})
+        const user = await prisma.user.findUnique({
+          where: {
+            email: credentials.email,
+            provider: "credentials",
+          },
+        });
 
         const hashPassword = user?.hashedPassword;
 
         if (emailExistDifferentAccount) {
-          throw new Error("An account with this email already exists. Please login accordingly.");
+          throw new Error(
+            "An account with this email already exists. Please login accordingly."
+          );
         }
 
         if (!user || !hashPassword) {
@@ -98,35 +100,36 @@ export const authOptions: NextAuthOptions = {
   },
   callbacks: {
     async signIn({ account, profile }) {
-      if (account?.provider === "google" && profile) {
-        const existingUser = await prisma.user.findUnique({
-          where: {
-            email: profile?.email!,
-            NOT: {
-              provider: "google",
-            },
-          },
-        });
-        if (existingUser) {
-          return false;
-        }
-      }
-
-      if (account?.provider === "facebook" && profile) {
-        const existingUser = await prisma.user.findUnique({
-          where: {
-            email: profile?.email!,
-            NOT: {
-              provider: "facebook",
-            },
-          },
-        });
-        if (existingUser) {
-          return false;
-        }
-      }
-
-      return true;
+		if (account?.provider === "google" && profile) {
+			const existingUser = await prisma.user.findUnique({
+			  where: {
+				email: profile?.email!,
+				NOT: {
+				  provider: "google",
+				},
+			  },
+			});
+			if (existingUser) {
+			  return false;
+			}
+		  }
+	
+		  if (account?.provider === "facebook" && profile) {
+			const existingUser = await prisma.user.findUnique({
+			  where: {
+				email: profile?.email!,
+				NOT: {
+				  provider: "facebook",
+				},
+			  },
+			});
+			if (existingUser) {
+			  return false;
+			}
+		  }
+	
+		  return true;
+		
     },
     async jwt({ token, user, session, account, profile }) {
       console.log("jwt callback", { token, user, session, account, profile });
