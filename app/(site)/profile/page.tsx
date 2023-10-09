@@ -1,11 +1,12 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { use, useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import getGeolocation from "@/app/libs/geolocation";
 import { toast } from "react-hot-toast";
+
 
 interface UserProps {
   id: string;
@@ -29,11 +30,16 @@ interface UserProps {
 }
 
 const Profile = () => {
+  const router = useRouter();
   const [user, setUser] = useState<UserProps | undefined>(undefined);
   const { data: session, status } = useSession();
   const [isMounted, setisMounted] = useState(false);
   const searchParams = useSearchParams();
   const providerParams = searchParams.get("provider");
+
+  if(session?.user.isNewUser) {
+    router.replace("/create-profile")
+  }
 
   //   const searchParams = useSearchParams();
   //   const profileEmail = searchParams.get("id");
