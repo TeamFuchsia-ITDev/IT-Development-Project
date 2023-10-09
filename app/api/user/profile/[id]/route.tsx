@@ -4,8 +4,7 @@ import { NextResponse } from "next/server";
 export async function GET(request: Request, { params }: { params: { id: string } }) {
     try {
         const { id } = params;
-
-        // Get the book with the given ID from the database...
+		
         const profile = await prisma.profile.findUnique({
             where: {
                 userEmail: id,
