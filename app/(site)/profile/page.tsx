@@ -33,18 +33,21 @@ const Profile = () => {
   const { data: session, status } = useSession();
   const [isMounted, setisMounted] = useState(false);
   const searchParams = useSearchParams();
-  const successParams = searchParams.get("success");
+  const providerParams = searchParams.get("provider");
 
   //   const searchParams = useSearchParams();
   //   const profileEmail = searchParams.get("id");
 
   useEffect(() => {
     if (isMounted) {
-      if (successParams) {
+      if (providerParams === "google") {
         toast.success("Google successful login");
       }
+	  if (providerParams === "facebook") {
+        toast.success("Facebook successful login");
+      }
     }
-  }, [session, successParams]);
+  }, [session, providerParams]);
 
   useEffect(() => {
     setisMounted(true);

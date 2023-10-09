@@ -61,7 +61,7 @@ export const Navbar = () => {
                             <img
                                 src={user.image}
                                 alt="Selected File"
-                                className="w-[30px] h-[30px] rounded-full ring-1 ring-gray-300 dark:ring-gray-500"
+                                className="w-[40px] h-[40px] object-fit-cover rounded-full ring-1 ring-gray-300 dark:ring-gray-500"
                             />
                         </>
                     ) : (
