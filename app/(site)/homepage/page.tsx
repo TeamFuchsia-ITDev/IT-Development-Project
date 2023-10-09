@@ -34,6 +34,7 @@ interface UserProps {
 export default function homepage() {
     const { data: session, status } = useSession();
     const [user, setUser] = useState<UserProps | undefined>(undefined);
+    const [emptyDiv, setEmptyDiv] = useState(false);
 
 
     useEffect(() => {
@@ -44,6 +45,8 @@ export default function homepage() {
         };
         if (session?.user.email) getUser();
     }, [session?.user.email]);
+
+    
 
     return (
         <>
@@ -60,8 +63,8 @@ export default function homepage() {
                     <p className="text-[20px] w-[900px] ">In here you will be able to see latest requests and also allows you to search certain requests you want to help someone with</p>
                 </div>
 
-                <div className=" flex flex-row ml-4 mr-4 mt-12">
-                    <input type="text" placeholder="Search for a request" className="border-2 border-gray-300  h-[45px] w-[500px] " />
+                <div className=" flex flex-row ml-4 mr-4 mt-12 justify-center">
+                    <input type="text" placeholder="Search for a request" className="border-2 border-gray-300  h-[45px] w-[500px] "/>
 
                     <select className="border-2 border-gray-300  h-[45px] w-[200px] ml-4" />
                     <select className="border-2 border-gray-300  h-[45px] w-[200px] ml-4" />
