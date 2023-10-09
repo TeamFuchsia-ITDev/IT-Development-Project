@@ -241,13 +241,13 @@ export default function CreateProfile() {
                     <img
                       src={imageBase64}
                       alt="Selected File"
-                     className="w-[100px] h-auto m-auto rounded-[10px] border-2 border-grey-500"                 
+                     className="w-[200px] h-auto m-auto rounded-[10px] border-2 border-grey-500 "                 
                     />
                   ) : (
                     <img
                       src={defaultProfileImage.src}
                       alt="Default Image"
-                      className="w-[100px] h-[95px] m-auto "
+                      className="w-[100px] h-[90px] m-auto object-fit-cover"
                     />
                   )}
                 </div>
