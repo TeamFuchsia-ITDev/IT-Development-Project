@@ -44,6 +44,13 @@ export default async function Home() {
           </button>
         </Link>
       </div>
+	  <div>
+        <Link href={`/register`}>
+          <button className="text-gray-900 underline hover:text-gray-900/70">
+            Go to register
+          </button>
+        </Link>
+      </div>
     </section>
   );
 }

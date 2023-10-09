@@ -3,7 +3,7 @@
 import { useState, FormEvent, useEffect } from "react";
 import { signIn, useSession } from "next-auth/react";
 import { toast } from "react-hot-toast";
-import { redirect, useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import lsimage from "../../images/lsimage.png";
 import SElogo from "../../images/logov3.svg";
@@ -15,7 +15,6 @@ export default function Login() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const errorParams = searchParams.get("error");
-  //   const [loading, setLoading] = useState(false);
   const [data, setData] = useState({
     email: "",
     password: "",
@@ -24,13 +23,13 @@ export default function Login() {
   useEffect(() => {
     // Check if the session is still loading
     if (status === "loading") {
-      return; // Return early to prevent rendering more hooks
+      return;
     }
 
-    // If there is no session, redirect to the login page
+    // If there is a session, redirect to the login page
     if (session) {
-      router.replace("/"); // Use router.replace to avoid extra rendering
-      return; // Return early to prevent rendering more hooks
+      router.replace("/");
+      return;
     }
 
     // Handle errorParams
@@ -38,35 +37,20 @@ export default function Login() {
       toast.error(
         "Email already exists, please login using the provider you initially used to register"
       );
-      router.replace("/login"); // Use router.replace to avoid extra rendering
+      router.replace("/login");
     }
-  
   }, [errorParams, session, status, router]);
 
   const loginWithFacebook = async () => {
-    toast.loading("Logging in...", {
-      duration: 4000,
-    });
-
     const response = signIn("facebook", {
-      callbackUrl: "http://localhost:3000/",
+      callbackUrl: "http://localhost:3000/profile?provider=facebook",
     });
 
     response
       .then(() => {
-        toast.remove();
-        toast.success("Logged in successfully!");
-        setTimeout(() => {
-          toast.dismiss();
-          toast.loading("Redirecting now to the user dashboard", {
-            duration: 4000,
-          });
-        }, 1000);
-
-        setTimeout(() => {
-          toast.remove();
-          router.replace("/");
-        }, 5000);
+        toast.loading("Logging in using your facebook account...", {
+          duration: 4000,
+        });
       })
       .catch(() => {
         toast.error("Something went wrong");
@@ -82,57 +66,41 @@ export default function Login() {
       toast.loading("Redirecting to Google Sign up", {
         duration: 4000,
       });
-    }, 5000);
+    }, 4000);
 
     setTimeout(() => {
-      signIn("google", { callbackUrl: "http://localhost:3000/profile?success=true" });
-    }, 9000);
-
-    // response
-    //   .then(() => {})
-    //   .catch(() => {
-    //     toast.error("Something went wrong");
-    //   })
-    //   .finally(() => {
-    //     toast.remove();
-    //     toast.success("Logged in successfully!");
-    //     setTimeout(() => {
-    //       toast.dismiss();
-    //       toast.loading("Redirecting now to the user dashboard", {
-    //         duration: 4000,
-    //       });
-    //     }, 1000);
-
-    //     // setTimeout(() => {
-    //     //   toast.remove();
-    //     //   router.replace("/");
-    //     // }, 5000);
-    //   });
+      signIn("google", {
+        callbackUrl: "http://localhost:3000/profile?provider=google",
+      });
+    }, 4000);
   };
 
   const loginUser = async (e: FormEvent) => {
     e.preventDefault();
 
-    signIn("credentials", { ...data, redirect: false }).then((callback) => {
-      if (callback?.error) {
-        toast.error(callback.error);
-      }
-
-      if (callback?.ok && !callback?.error) {
-        toast.success("Logged in successfully!");
-        setTimeout(
-          () =>
-            toast.loading("Redirecting now to the user dashboard", {
-              duration: 4000,
-            }),
-          1000
-        );
-        setTimeout(() => {
-          toast.dismiss();
-          router.replace("/");
-        }, 2000);
-      }
+    toast.loading("Logging in...", {
+      duration: 2000,
     });
+
+    setTimeout(() => {
+      signIn("credentials", { ...data, redirect: false }).then((callback) => {
+        if (callback?.error) {
+          toast.error(callback.error);
+        }
+
+        if (session?.user.isNewUser) {
+          if (callback?.ok && !callback?.error) {
+            toast.success(
+              "Logged in successfully! Please create your profile."
+            );
+          }
+        } else {
+          if (callback?.ok && !callback?.error) {
+            toast.success("Logged in successfully! Welcome to your dashboard!");
+          }
+        }
+      });
+    }, 2000);
   };
 
   return (

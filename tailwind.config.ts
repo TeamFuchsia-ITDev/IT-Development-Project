@@ -18,5 +18,11 @@ const config: Config = {
   plugins: [
 	require("@tailwindcss/forms")
   ],
+  variants: {
+    extend: {
+      // ...
+      translate: ['hover'], // Enable translate variant for hover
+    },
+  },
 }
 export default config
