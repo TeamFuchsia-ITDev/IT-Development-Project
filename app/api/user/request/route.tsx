@@ -66,8 +66,8 @@ export async function POST(request: Request) {
         data: {
           taskname,
           category,
-          amount,
-          datetime,
+          amount: parseFloat(amount),
+          datetime: new Date(datetime),
           description,
           user: {
             connect: {

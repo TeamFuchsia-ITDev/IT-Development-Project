@@ -24,11 +24,6 @@ export default function Register() {
 
   const registerUser = async (e: FormEvent) => {
     e.preventDefault();
-
-    toast.loading("Signing up...", {
-      duration: 4000,
-    });
-
     try {
       const response = await axios.post(`api/register`, data);
 

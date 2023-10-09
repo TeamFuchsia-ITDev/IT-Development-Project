@@ -24,7 +24,7 @@ export const Card = ({ smallCard }: CardProps) => {
 
                         /><p>Michael Chua</p>
                     </div>
-                    <div className="flex flex-col mt-6 gap-4 text-center items-center">
+                    <div className="flex flex-col mt-4 gap-4 text-center items-center">
                         <p className="text-[20px]">Coding With me</p>
                         <p className="text-[11px]"> Technology</p>
                         <p className="text-[11px]">MM/DD/TIME</p>
@@ -40,7 +40,7 @@ export const Card = ({ smallCard }: CardProps) => {
                 </div>
 
 
-                : <div className="border-2 w-[380px] h-[430px] rounded-[10px] shadow-lg hover:ease-in-out duration-300  hover:border-[2px] hover:border-rose-500 ">
+                : <div className="border-2 w-[420px] h-[440px] rounded-[10px] shadow-lg hover:ease-in-out duration-300  hover:border-[2px] hover:border-rose-500 ">
                     <img
                         src={gaming.src}
                         className="rounded-[5px]"
@@ -52,7 +52,7 @@ export const Card = ({ smallCard }: CardProps) => {
 
                         /><p>Michael Chua</p>
                     </div>
-                    <div className="flex flex-col mt-6 gap-4 text-center items-center">
+                    <div className="flex flex-col mt-4 gap-4 text-center items-center">
                         <p className="text-[30px]">Coding With me</p>
                         <p>Technology</p>
                         <p>MM/DD/TIME</p>
