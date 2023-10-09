@@ -5,7 +5,7 @@ import blankprofile from "../images/blank-profile.jpg"
 
 export const Card = ({ smallCard }) => {
     const cardClasses = `
-    border-2 rounded-[20px] shadow-lg
+    border-2 rounded-[20px] shadow-lg 
   
     ${smallCard ? 'w-[180px] h-[180px]' : ''}
   `;
