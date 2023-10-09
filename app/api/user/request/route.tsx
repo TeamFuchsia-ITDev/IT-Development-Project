@@ -22,6 +22,46 @@ export async function POST(request: Request) {
       const body = await request.json();
       const { taskname, category, amount, datetime, description } = body;
 
+      const userRequests = await prisma.request.count({
+        where: {
+          userEmail: session.user.email,
+        },
+      });
+
+      if (!taskname)
+        throw {
+          code: 400,
+          message: "Please enter the taskname for your request",
+        };
+      if (!category)
+        throw {
+          code: 400,
+          message: "Please select a category for your request",
+        };
+      if (!amount)
+        throw {
+          code: 400,
+          message: "Please indicate your offer for the requested service",
+        };
+      if (!datetime)
+        throw {
+          code: 400,
+          message:
+            "Please select a date and time for when you want the requested service",
+        };
+      if (!description)
+        throw {
+          code: 400,
+          message:
+            "Please enter a brief description or detail for your requested service",
+        };
+
+      if (userRequests === 3)
+        throw {
+          code: 400,
+          message: "You cannot have more than three requests",
+        };
+
       const userRequest = await prisma.request.create({
         data: {
           taskname,
