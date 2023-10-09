@@ -56,29 +56,15 @@ export default function Register() {
   };
 
   const loginWithFacebook = async () => {
-    toast.loading("Logging in...", {
-      duration: 4000,
-    });
-
     const response = signIn("facebook", {
-      callbackUrl: "http://localhost:3000/",
+      callbackUrl: "http://localhost:3000/profile?provider=facebook",
     });
 
     response
       .then(() => {
-        toast.remove();
-        toast.success("Logged in successfully!");
-        setTimeout(() => {
-          toast.dismiss();
-          toast.loading("Redirecting now to the user dashboard", {
-            duration: 4000,
-          });
-        }, 1000);
-
-        setTimeout(() => {
-          toast.remove();
-          router.replace("/");
-        }, 5000);
+        toast.loading("Signing in using your facebook account...", {
+          duration: 4000,
+        });
       })
       .catch(() => {
         toast.error("Something went wrong");
@@ -86,33 +72,21 @@ export default function Register() {
   };
 
   const loginWithGoogle = async () => {
-    toast.loading("Logging in...", {
+    toast.loading("Signing in...", {
       duration: 4000,
     });
 
-    const response = signIn("google", {
-      callbackUrl: "http://localhost:3000/",
-    });
-
-    response
-      .then(() => {
-        toast.remove();
-        toast.success("Logged in successfully!");
-        setTimeout(() => {
-          toast.dismiss();
-          toast.loading("Redirecting now to the user dashboard", {
-            duration: 4000,
-          });
-        }, 1000);
-
-        setTimeout(() => {
-          toast.remove();
-          router.replace("/");
-        }, 5000);
-      })
-      .catch(() => {
-        toast.error("Something went wrong");
+    setTimeout(() => {
+      toast.loading("Redirecting to Google Sign up", {
+        duration: 4000,
       });
+    }, 4000);
+
+    setTimeout(() => {
+      signIn("google", {
+        callbackUrl: "http://localhost:3000/profile?provider=google",
+      });
+    }, 4000);
   };
 
   return (
