@@ -1,10 +1,10 @@
 import React from 'react';
-import SwiperCore, { Navigation } from 'swiper/core';
+import SwiperCore  from 'swiper/core';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css'; // Import Swiper CSS directly
 
 // Install Swiper modules
-SwiperCore.use([Navigation]);
+
 
 interface CarouselProps {
   cards: JSX.Element[];
