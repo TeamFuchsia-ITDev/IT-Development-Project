@@ -3,36 +3,13 @@ import axios from "axios";
 import { Navbar } from "../../components/navbar";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-
-interface UserProps {
-  id: string;
-  name: string;
-  ethnicity: string;
-  gender: string;
-  birthday: string;
-  phonenumber: string;
-  image: string;
-  userEmail: string;
-  location: {
-    lng: number;
-    lat: number;
-    address: {
-      fullAddress: string;
-      pointOfInterest: string;
-      city: string;
-      country: string;
-    };
-  };
-}
-
-interface RequestProps {
-  taskname: string;
-}
+import {UserProps, RequestProps } from "../../libs/interfaces"
 
 export default function MyRequest() {
   const { data: session, status } = useSession();
   const [user, setUser] = useState<UserProps | undefined>(undefined);
   const [myRequests, setMyRequests] = useState<RequestProps[]>([]);
+
 
   console.log("myrequests", myRequests);
 
@@ -72,7 +49,26 @@ export default function MyRequest() {
         </div>
         <div>
           {myRequests.map((request, index) => (
-            <p key={index}>{request.taskname}</p>
+            <div key={index}>
+              <p>{request.taskname}</p>
+              <p>{request.category}</p>
+              <p>{request.amount}</p>
+              <p>
+                {new Date(request.datetime).toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </p>
+              <input
+                type="datetime-local"
+                value={new Date(new Date(request.datetime).getTime() - (new Date(request.datetime).getTimezoneOffset() * 60000)).toISOString().slice(0, 16)}
+                readOnly
+              />
+              <p>{request.userEmail}</p>
+            </div>
           ))}
         </div>
       </div>
