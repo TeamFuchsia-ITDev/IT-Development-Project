@@ -83,13 +83,16 @@ model Address {
 }
 
 model Request {
-    id          String   @id @default(auto()) @map("_id") @db.ObjectId
-    taskname    String
-    category    String
-    amount      Float
-    datetime    DateTime
-    description String
+    id             String   @id @default(auto()) @map("_id") @db.ObjectId
+    taskname       String
+    category       String
+    amount         Float
+    datetime       DateTime
+    description    String
+    requesterName  String
+    requesterImage String
+    requesterCity  String
 
-    user   User   @relation(fields: [userEmail], references: [email])
+    user      User   @relation(fields: [userEmail], references: [email])
     userEmail String
 }

@@ -28,6 +28,19 @@ export async function POST(request: Request) {
         },
       });
 
+      const userProfile = await prisma.profile.findUnique({
+        where: {
+          userEmail: session.user?.email!,
+        },
+        include: {
+          location: {
+            include: {
+              address: true,
+            },
+          },
+        },
+      });
+
       if (!taskname)
         throw {
           code: 400,
@@ -69,6 +82,9 @@ export async function POST(request: Request) {
           amount: parseFloat(amount),
           datetime: new Date(datetime),
           description,
+          requesterName: userProfile?.name!,
+          requesterImage: userProfile?.image!,
+          requesterCity: userProfile?.location?.address?.city!,
           user: {
             connect: {
               email: session.user.email,
