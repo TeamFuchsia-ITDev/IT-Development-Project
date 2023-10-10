@@ -80,7 +80,7 @@ export default function homepage() {
             <Card smallCard={false} />
           </div>
         </div>
-        <div className="ml-16 mt-12 mb-12 flex justify-center">
+        <div className="">
           <Carousel
             cards={[
               <Card smallCard={true} />,
