@@ -23,14 +23,14 @@ export const Card = ({ smallCard, request }: CardProps) => {
                         /></div>
                     <div className="flex flex-col items-end ">
                         <img
-                            src={blankprofile.src}
+                            src={request?.requesterImage}
                             className=" object-cover w-[50px] h-[50px] rounded-full mt-[-28px] mr-4 border-4 border-neutral-900"
 
                         />
                     </div>
                     <div className="flex flex-col ml-2 mt-[-20px]">
                         <p className="text-[20px]">{request?.taskname}</p>
-                        <p>NAME</p>
+                        <p>{request?.requesterName}</p>
                         <p className="text-[11px] mt-2"> {request?.category}</p>
                         <p className="text-[11px] mt-2"> {new Date(request?.datetime!).toLocaleDateString("en-US", {
                             year: "numeric",

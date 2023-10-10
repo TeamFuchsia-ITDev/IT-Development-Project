@@ -25,4 +25,7 @@ export interface RequestProps {
   amount: GLfloat;
   datetime: string;
   userEmail: string;
+  requesterName: string;
+  requesterImage: string;
+  requesterCity: string;
 }
