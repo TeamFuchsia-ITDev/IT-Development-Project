@@ -2,22 +2,25 @@
 
 import gaming from "../images/gaming.png"
 import blankprofile from "../images/blank-profile.jpg"
+import { RequestProps } from "../libs/interfaces"
 
 interface CardProps {
     smallCard?: boolean
+    request?: RequestProps
+
 }
 
-export const Card = ({ smallCard }: CardProps) => {
+export const Card = ({ smallCard, request }: CardProps) => {
 
     return (
         <>
             {smallCard ?
                 <div className="border-2 w-[300px] h-[260px] rounded-[10px] bg-neutral-900 text-white hover:ease-in-out duration-300  hover:border-[2px]  ">
                     <div className="flex items-center justify-center mt-2">
-                    <img
-                        src={gaming.src}
-                        className="rounded-[5px] w-[275px]"
-                    /></div>
+                        <img
+                            src={gaming.src}
+                            className="rounded-[5px] w-[275px]"
+                        /></div>
                     <div className="flex flex-col items-end ">
                         <img
                             src={blankprofile.src}
@@ -25,11 +28,17 @@ export const Card = ({ smallCard }: CardProps) => {
 
                         />
                     </div>
-                    <div className="flex flex-col ml-2 mt-[-20px] ">
-                        <p className="text-[20px]">Coding With me</p>
-                        <p>Michael Chua</p>
-                        <p className="text-[11px] mt-2"> Technology</p>
-                        <p className="text-[11px] mt-2">October 11, 2023 at 11:30 AM</p>
+                    <div className="flex flex-col ml-2 mt-[-20px]">
+                        <p className="text-[20px]">{request?.taskname}</p>
+                        <p>NAME</p>
+                        <p className="text-[11px] mt-2"> {request?.category}</p>
+                        <p className="text-[11px] mt-2"> {new Date(request?.datetime!).toLocaleDateString("en-US", {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                        })}</p>
 
 
                     </div>
@@ -43,11 +52,11 @@ export const Card = ({ smallCard }: CardProps) => {
 
 
                 : <div className="border-2 w-[420px] h-[440px] bg-neutral-900 text-white rounded-[10px] shadow-lg hover:ease-in-out duration-300  hover:border-[2px] hover:border-rose-500 ">
-                       <div className="flex items-center justify-center mt-2">
-                    <img
-                        src={gaming.src}
-                        className="rounded-[5px] w-[400px]"
-                    /></div>
+                    <div className="flex items-center justify-center mt-2">
+                        <img
+                            src={gaming.src}
+                            className="rounded-[5px] w-[400px]"
+                        /></div>
                     <div className="flex flex-col items-center ">
                         <img
                             src={blankprofile.src}
@@ -55,7 +64,7 @@ export const Card = ({ smallCard }: CardProps) => {
 
                         /><p>Michael Chua</p>
                     </div>
-                    <div className="flex flex-col mt-4 gap-4 text-center items-center">
+                    <div className="flex flex-col mt-4 gap-4 items-center">
                         <p className="text-[30px]">Coding With me</p>
                         <p>Technology</p>
                         <p>October 20 2023 at 9:00 PM</p>
