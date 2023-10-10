@@ -3,6 +3,8 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]/route";
 import { v2 as cloudinary } from "cloudinary";
+import { Prisma } from "@prisma/client";
+import { DefaultArgs } from "@prisma/client/runtime/library";
 
 cloudinary.config({
   cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
@@ -44,6 +46,29 @@ const validateImage = (imageBase64: string) => {
   return false; // Invalid image format
 };
 
+async function createProfileWithGenericErrorHandling(data: {
+  select?: Prisma.ProfileSelect<DefaultArgs> | null | undefined;
+  include?: Prisma.ProfileInclude<DefaultArgs> | null | undefined;
+  data:
+    | (Prisma.Without<
+        Prisma.ProfileCreateInput,
+        Prisma.ProfileUncheckedCreateInput
+      > &
+        Prisma.ProfileUncheckedCreateInput)
+    | (Prisma.Without<
+        Prisma.ProfileUncheckedCreateInput,
+        Prisma.ProfileCreateInput
+      > &
+        Prisma.ProfileCreateInput);
+}) {
+  try {
+    const userProfile = await prisma.profile.create(data);
+    return userProfile;
+  } catch (error) {
+    throw new Error("Something went wrong");
+  }
+}
+
 export async function POST(request: Request) {
   const session = await getServerSession(authOptions);
 
@@ -55,8 +80,15 @@ export async function POST(request: Request) {
   } else {
     try {
       const body = await request.json();
-      const { name, ethnicity, gender, birthday, phonenumber, location, image } =
-        body;
+      const {
+        name,
+        ethnicity,
+        gender,
+        birthday,
+        phonenumber,
+        location,
+        image,
+      } = body;
 
       const exist = await prisma.user.findUnique({
         where: {
@@ -149,7 +181,7 @@ export async function POST(request: Request) {
       });
       const imageUrl = cloudinaryResponse.secure_url;
 
-      const userProfile = await prisma.profile.create({
+      const userProfile = await createProfileWithGenericErrorHandling({
         data: {
           name,
           ethnicity,
@@ -157,20 +189,20 @@ export async function POST(request: Request) {
           birthday,
           phonenumber,
           image: imageUrl,
-		  location: {
-			create: {
-			  lng: location.lng,
-			  lat: location.lat,
-			  address: {
-				create: {
-				  fullAddress: location.address.fullAddress,
-				  pointOfInterest: location.address.pointOfInterest,
-				  city: location.address.city,
-				  country: location.address.country,
-				},
-			  },
-			},
-		  },
+          location: {
+            create: {
+              lng: location.lng,
+              lat: location.lat,
+              address: {
+                create: {
+                  fullAddress: location.address.fullAddress,
+                  pointOfInterest: location.address.pointOfInterest,
+                  city: location.address.city,
+                  country: location.address.country,
+                },
+              },
+            },
+          },
           user: {
             connect: {
               email: session.user?.email!,
@@ -183,7 +215,7 @@ export async function POST(request: Request) {
         userProfile,
         status: 200,
       });
-    } catch (error) {
+    } catch (error: any) {
       const { code = 500, message = "Internal server error" } = error as APIErr;
       return NextResponse.json({
         status: code,

@@ -163,6 +163,7 @@ export default function CreateProfile() {
       if (response.data.status !== 200) {
         const errorMessage = response.data?.error || "An error occurred";
         toast.error(errorMessage);
+		setIsLoading(false)
       } else {
         toast.success("Profile successfully created!");
 
