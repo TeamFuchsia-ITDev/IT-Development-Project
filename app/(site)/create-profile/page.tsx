@@ -1,12 +1,13 @@
 "use client";
 
 import { redirect, useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { useState, FormEvent, ChangeEvent, useRef, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import defaultProfileImage from "../../images/blank-profile.jpg";
 import logo1 from "../../images/logov1.svg";
+import photo from "../../images/photo.svg";
 
 // Define interfaces for location data
 interface LocationFeature {
@@ -241,14 +242,22 @@ export default function CreateProfile() {
                     <img
                       src={imageBase64}
                       alt="Selected File"
-                     className="w-[200px] h-auto m-auto rounded-[10px] border-2 border-grey-500 "                 
+                      className="w-[200px] h-auto m-auto rounded-[10px] border-2 border-grey-500 "
                     />
                   ) : (
-                    <img
-                      src={defaultProfileImage.src}
-                      alt="Default Image"
-                      className="w-[100px] h-[90px] m-auto object-fit-cover"
-                    />
+                    <div className="flex flex-col items-center">
+
+                      <img
+                        src={defaultProfileImage.src}
+                        alt="Default Image"
+                        className="w-[100px] h-[80px] m-auto object-fit"
+                      />
+                      <img
+                        src={photo.src}
+                        alt="Default Image"
+                        className="w-[20px] absolute mt-6 object-fit"
+                      />
+                    </div>
                   )}
                 </div>
                 <input
@@ -434,7 +443,7 @@ export default function CreateProfile() {
                 </div>
               )}
             </div>
-
+            <div className="flex text-center items-center justify-center">Want to continue later? <a className="ml-[4px] text-rose-500 hover:cursor-pointer" onClick={() => signOut()}> Sign Out</a></div>
             <div>
               <button
                 type="submit"

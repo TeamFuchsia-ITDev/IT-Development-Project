@@ -33,6 +33,7 @@ export default function PostRequest() {
     const { data: session, status } = useSession();
     const router = useRouter();
     const [user, setUser] = useState<UserProps | undefined>(undefined);
+    const [disabled, setDisabled] = useState(false);
 
     const [data, setData] = useState({
         taskname: "",
@@ -72,30 +73,37 @@ export default function PostRequest() {
     // };
 
     const postRequest = async (e: FormEvent) => {
+        setDisabled(true);
         e.preventDefault();
         toast.loading("Creating Request...", {
             duration: 4000,
 
         });
+
+        
+        
         const response = await axios.post(`api/user/request`, data);
         if (response.data.status !== 200) {
             const errorMessage = response.data?.error || "An error occurred";
             toast.error(errorMessage);
-          } else {
+        } else {
             toast.success("Request Creation successful!");
             setTimeout(
-              () =>
-                toast.loading("Redirecting now to the your request page...", {
-                  duration: 4000,
-                }),
-              1000
+                () =>
+                    toast.loading("Redirecting now to the your request page...", {
+                        duration: 4000,
+                    }),
+                1000
             );
             setTimeout(() => {
-              toast.dismiss();
-              router.push("/myrequest");
+                toast.dismiss();
+                router.push("/myrequest");
             }, 2000);
-          }
+        }
+        setTimeout(() => setDisabled(false), 4000);
     }
+
+
 
 
     return (
@@ -110,14 +118,12 @@ export default function PostRequest() {
                     </p>
                 </div>
 
-                <div className="flex flex-col items-center">
-                    <p className="text-center underline underline-offset-8 decoration-rose-500 decoration-2 mt-24">
-                        Request Form
-                    </p>
+                <div className="flex flex-col items-center mt-24">
 
-                    <div className="flex flex-col w-[700px] border-2 mt-4 items-center mb-12 shadow-lg">
+
+                    <div className="flex flex-col w-[700px] border-2 mt-4 items-center mb-12 shadow-lg ">
                         <img src={gaming.src} className="" />
-                        <div className="flex flex-col">
+                        {/* <div className="flex flex-col">
                             <img
                                 src={blankprofile.src}
                                 className=" object-cover w-[150px] h-[150px] rounded-full border-4 mt-[-80px] border-white"
@@ -125,10 +131,12 @@ export default function PostRequest() {
                             <p className="flex items-center text-[20px] justify-center mb-12">
                                 Name
                             </p>
-                        </div>
+                        </div> */}
 
-                        <div className="flex flex-col w-[400px] gap-4 ">
-                            <p className="text-[13px]">Task Name</p>
+                        <div className="flex flex-col w-[400px] gap-4 "> <p className="text-center underline underline-offset-8 decoration-rose-500 decoration-2 mt-12">
+                            Request Form
+                        </p>
+                            <p className="text-[13px] mt-4">Task Name</p>
                             <input
                                 type="text"
                                 placeholder=""
@@ -146,7 +154,7 @@ export default function PostRequest() {
                                 id="categories"
                                 name="categories"
 
-                               
+
                                 value={data.category}
                                 onChange={(e) =>
                                     setData({ ...data, category: e.target.value })}
@@ -160,7 +168,7 @@ export default function PostRequest() {
                                         {option}
                                     </option>
                                 ))}
-                                
+
                             </select>
 
                             <p className="text-[13px]">Amount (this is optional kindly input 0 if free)</p>
@@ -204,7 +212,7 @@ export default function PostRequest() {
                                 viewed the request.
                             </p>
                             <button className="text-center bg-rose-500 text-white font-bold mb-12 rounded h-[45px] hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300"
-                            onClick={postRequest}>
+                                onClick={postRequest} disabled={disabled}>
                                 Post Request
                             </button>
                         </div>

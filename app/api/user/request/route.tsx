@@ -2,12 +2,15 @@ import prisma from "../../../libs/prismadb";
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]/route";
+import { RequestProps } from "../../../libs/interfaces"
 
 export interface APIErr {
   code: number;
   message: string;
   cause: string | Error;
 }
+
+
 
 export async function POST(request: Request) {
   const session = await getServerSession(authOptions);
