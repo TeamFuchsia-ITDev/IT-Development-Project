@@ -38,7 +38,7 @@ export default function MyRequest() {
   }, [session?.user.email, status]);
 
   return (
-    <>
+    <main className="ml-12 mr-12">
       <Navbar />
       <div className="ml-4 mr-4 mt-24">
         <div className="ml-4 mr-4">
@@ -77,6 +77,6 @@ export default function MyRequest() {
           ))}
         </div>
       </div>
-    </>
+    </main>
   );
 }
