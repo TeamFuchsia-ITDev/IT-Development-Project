@@ -35,12 +35,31 @@ export default function PostRequest() {
     if (session?.user?.email) getUser();
   }, [session?.user?.emai]);
 
-  const Categoryoptions = [
+  const CategoryOptions = [
+    "Groceries",
+    "House Cleaning",
+    "Lawn Care",
+    "Cooking",
+    "Shopping",
+    "Pet Care",
+    "Babysitting",
+    "Tutoring",
+    "Moving",
+    "Transportation",
+    "Tech Support",
     "Gaming",
-    "Travel",
-    "Technology",
-    "Sports",
-    "Workout",
+    "Fitness",
+    "Music",
+    "Art & Design",
+    "Handyman",
+    "Language Practice",
+    "Companionship",
+    "Outdoor Activities",
+    "Virtual Assistance",
+    "Event Planning",
+    "Health & Wellness",
+    "Professional Services",
+    "Hobbies",
   ];
 
   const imageMapping: ImageMapping = {
@@ -120,7 +139,7 @@ export default function PostRequest() {
                 <option value="" disabled>
                   Select Category
                 </option>
-                {Categoryoptions.map((option) => (
+                {CategoryOptions.map((option) => (
                   <option key={option} value={option}>
                     {option}
                   </option>

@@ -1,7 +1,10 @@
 "use client";
 
-import gaming from "../images/gaming.png";
-import { CardProps } from "@/app/libs/interfaces";
+import gaming from "@/app/images/gaming.png";
+import sports from "@/app/images/sports.png";
+import technology from "@/app/images/technology.png";
+import travel from "@/app/images/travel.png";
+import { CardProps, ImageMapping } from "@/app/libs/interfaces";
 import { useEffect, useState } from "react";
 
 export const Card = ({ smallCard, request }: CardProps) => {
@@ -9,6 +12,13 @@ export const Card = ({ smallCard, request }: CardProps) => {
     request?.taskname ?? ""
   );
   const [showDetails, setShowDetails] = useState(false);
+
+  const categoryImages: ImageMapping = {
+    Gaming: gaming.src,
+    Travel: travel.src, 
+    Technology: technology.src, 
+    Sports: sports.src, 
+  };
 
   // Function to limit the text length
   const limitText = (text: string, maxLength: number) => {
@@ -29,7 +39,7 @@ export const Card = ({ smallCard, request }: CardProps) => {
         <div className="shadow-xl border-2 w-[300px] h-[260px] rounded-[5px] hover:ease-in-out duration-300  2xl:w-[410px] 2xl:h-auto md:w-[325px] md:h-auto">
           <div className="flex items-center justify-center mt-2">
             <img
-              src={gaming.src}
+              src={categoryImages[request?.category!]}
               className="rounded-[5px] w-[275px] 2xl:w-[385px] md:w-[307px]"
             />
           </div>
