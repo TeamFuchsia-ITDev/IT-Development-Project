@@ -112,7 +112,7 @@ export default function PostRequest() {
             <Navbar />
             <div className="ml-4 mr-4 mt-24">
                 <div className="ml-4 mr-4">
-                    <p className="text-[60px]">Welcome to your Post page</p>
+                    <p className="text-[40px]">Welcome to your Post page</p>
                     <p className="text-[20px] w-[900px] ">
                         In here you will be able to fill up and post requests you need help
                         with{" "}
