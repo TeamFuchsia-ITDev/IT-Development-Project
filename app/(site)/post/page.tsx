@@ -43,6 +43,13 @@ export default function PostRequest() {
     "Workout",
   ];
 
+  const imageMapping: ImageMapping = {
+    Gaming: gaming.src,
+    Travel: travel.src,
+    Technology: technology.src, 
+    Sports: sports.src,
+};
+
   const postRequest = async (e: FormEvent) => {
     setDisabled(true);
     e.preventDefault();
@@ -85,7 +92,7 @@ export default function PostRequest() {
 
         <div className="flex flex-col items-center mt-24">
           <div className="flex flex-col w-[700px] border-2 mt-4 items-center mb-12 shadow-lg ">
-            <img src={gaming.src} className="" />
+            <img src={imageMapping[data.category]} className="" />
 
             <div className="flex flex-col w-[400px] gap-4 ">
               {" "}
