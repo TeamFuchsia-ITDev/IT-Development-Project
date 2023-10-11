@@ -25,11 +25,11 @@ export default function MyJobs () {
         <>
         <Navbar />
             <div className="ml-4 mr-4 mt-24">
-                <div className="ml-4 mr-4">
+                <div className="ml-4 mr-4 text-center">
                   
-                        <p className="text-[60px]">Welcome to your Jobs page</p>
+                        <p className="text-[40px]">Welcome to your Jobs page</p>
                  
-                    <p className="text-[20px] w-[900px] ">In here you will be able to see all of the requests you have applied to </p>
+                    <p className="text-[20px]  ">In here you will be able to see all of the requests you have applied to </p>
                 </div>
 
             </div>

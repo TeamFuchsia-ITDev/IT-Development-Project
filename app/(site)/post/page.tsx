@@ -82,15 +82,15 @@ export default function PostRequest() {
     <main className="ml-12 mr-12">
       <Navbar />
       <div className="ml-4 mr-4 mt-24">
-        <div className="ml-4 mr-4">
+        <div className="ml-4 mr-4 text-center">
           <p className="text-[40px]">Welcome to your Post page</p>
-          <p className="text-[20px] w-[900px] ">
+          <p className="text-[20px]  ">
             In here you will be able to fill up and post requests you need help
-            with{" "}
+            with
           </p>
         </div>
 
-        <div className="flex flex-col items-center mt-24">
+        <div className="flex flex-col items-center mt-4">
           <div className="flex flex-col w-[700px] border-2 mt-4 items-center mb-12 shadow-lg ">
             <img src={imageMapping[data.category]} className="" />
 

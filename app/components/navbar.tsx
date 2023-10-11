@@ -39,21 +39,35 @@ export const Navbar = () => {
         if (session?.user.email) getUser();
     }, [session?.user.email]);
 
+
+
     return (
         <main className="">
             <div className="flex flex-row justify-between items-center">
                 <img
                     src={logo.src}
                     alt="Logo"
-                    width={60}
+                    width={70}
                     className="m-2"
                 />
 
                 <div className="flex gap-5 mr-4 text-sm">
-                    <a href="/homepage" className="flex items-center ">Home</a>
-                    <a href="/post" className="flex items-center">Post Request</a>
-                    <a href="/myrequest" className="flex items-center">My Requests</a>
-                    <a href="/myjobs" className="flex items-center">My Applied Jobs</a>
+                    <a href="/homepage" className="relative group">
+                        Home
+                        <div className="absolute left-0 w-0 h-[2px] bg-rose-500 group-hover:w-full transition-transform transform origin-left transform scale-x-0 group-hover:scale-x-100"></div>
+                    </a>
+                    <a href="/post" className="relative group">
+                        Post Request
+                        <div className="absolute left-0 w-0 h-[2px] bg-rose-500 group-hover:w-full transition-transform transform origin-left transform scale-x-0 group-hover:scale-x-100"></div>
+                    </a>
+                    <a href="/myrequest" className="relative group">
+                        My Requests
+                        <div className="absolute left-0 w-0 h-[2px] bg-rose-500 group-hover:w-full transition-transform transform origin-left transform scale-x-0 group-hover:scale-x-100"></div>
+                    </a>
+                    <a href="/myjobs" className="relative group">
+                        My Applied Jobs
+                        <div className="absolute left-0 w-0 h-[2px] bg-rose-500 group-hover:w-full transition-transform transform origin-left transform scale-x-0 group-hover:scale-x-100"></div>
+                    </a>
                 </div>
                 <div className="mr-4">
                     {user ? (

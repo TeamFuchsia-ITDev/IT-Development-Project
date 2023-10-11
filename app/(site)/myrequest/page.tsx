@@ -48,7 +48,7 @@ export default function MyRequest() {
           </p>
         </div>
         <div>
-          <p className="text-[30px] mt-8 text-center underline decoration-rose-500 underline-offset-6">
+          <p className="text-[30px] mt-8 text-center underline underline-offset-8 decoration-rose-500 decoration-2 underline-offset-6">
             My Requests
           </p>
         </div>
