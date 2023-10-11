@@ -1,73 +1,21 @@
-import prisma from "../../../libs/prismadb";
+import prisma from "@/app/libs/prismadb";
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../../auth/[...nextauth]/route";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { v2 as cloudinary } from "cloudinary";
-import { Prisma } from "@prisma/client";
-import { DefaultArgs } from "@prisma/client/runtime/library";
+import { APIErr } from "@/app/libs/interfaces";
+import {
+  validateName,
+  validatePhoneNumber,
+  validateImage,
+} from "@/app/libs/validations";
+import { createProfile } from "@/app/libs/actions";
 
 cloudinary.config({
   cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
-
-export interface APIErr {
-  code: number;
-  message: string;
-  cause: string | Error;
-}
-
-// Validation function for name
-const validateName = (name: string) => {
-  const nameRegEx = /^[a-zA-Z]+(?: [a-zA-Z]+)*$/;
-  return nameRegEx.test(name);
-};
-
-// Validation function for phone number
-const validatePhoneNumber = (phonenumber: string) => {
-  const phoneNumberRegEx = /^\d{3}-\d{3}-\d{4}$/;
-  return phoneNumberRegEx.test(phonenumber);
-};
-
-// Validation function for image
-const validateImage = (imageBase64: string) => {
-  // Check if the base64 string contains common image file extensions
-  const validExtensions = [".jpg", ".jpeg", ".png"];
-  const regex = /^data:image\/(jpeg|jpg|png);base64,/;
-
-  if (regex.test(imageBase64)) {
-    const extension = imageBase64.match(regex)![1];
-    if (validExtensions.includes(`.${extension}`)) {
-      return true; // Valid image format
-    }
-  }
-
-  return false; // Invalid image format
-};
-
-async function createProfileWithGenericErrorHandling(data: {
-  select?: Prisma.ProfileSelect<DefaultArgs> | null | undefined;
-  include?: Prisma.ProfileInclude<DefaultArgs> | null | undefined;
-  data:
-    | (Prisma.Without<
-        Prisma.ProfileCreateInput,
-        Prisma.ProfileUncheckedCreateInput
-      > &
-        Prisma.ProfileUncheckedCreateInput)
-    | (Prisma.Without<
-        Prisma.ProfileUncheckedCreateInput,
-        Prisma.ProfileCreateInput
-      > &
-        Prisma.ProfileCreateInput);
-}) {
-  try {
-    const userProfile = await prisma.profile.create(data);
-    return userProfile;
-  } catch (error) {
-    throw new Error("Something went wrong");
-  }
-}
 
 export async function POST(request: Request) {
   const session = await getServerSession(authOptions);
@@ -181,7 +129,7 @@ export async function POST(request: Request) {
       });
       const imageUrl = cloudinaryResponse.secure_url;
 
-      const userProfile = await createProfileWithGenericErrorHandling({
+      const userProfile = await createProfile({
         data: {
           name,
           ethnicity,

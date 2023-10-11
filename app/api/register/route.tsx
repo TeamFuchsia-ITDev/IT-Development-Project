@@ -1,12 +1,7 @@
 import bcrypt from "bcrypt";
-import prisma from "../../libs/prismadb";
+import prisma from "@/app/libs/prismadb";
 import { NextResponse } from "next/server";
-
-export interface APIErr {
-  code: number;
-  message: string;
-  cause: string | Error;
-}
+import { APIErr } from "@/app/libs/interfaces";
 
 export async function POST(request: Request) {
   try {
