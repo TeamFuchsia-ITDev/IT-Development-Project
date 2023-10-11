@@ -3,28 +3,7 @@
 import { Navbar } from "../../components/navbar";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-
-interface UserProps {
-    id: string;
-    name: string;
-    ethnicity: string;
-    gender: string;
-    birthday: string;
-    phonenumber: string;
-    image: string;
-    userEmail: string;
-    location: {
-        lng: number;
-        lat: number;
-        address: {
-            fullAddress: string;
-            pointOfInterest: string;
-            city: string;
-            country: string;
-        };
-    };
-}
-
+import { UserProps } from "@/app/libs/interfaces";
 
 export default function MyJobs () {
     const { data: session, status } = useSession();

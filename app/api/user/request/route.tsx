@@ -1,16 +1,8 @@
-import prisma from "../../../libs/prismadb";
+import prisma from "@/app/libs/prismadb";
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../../auth/[...nextauth]/route";
-import { RequestProps } from "../../../libs/interfaces"
-
-export interface APIErr {
-  code: number;
-  message: string;
-  cause: string | Error;
-}
-
-
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { APIErr } from "@/app/libs/interfaces";
 
 export async function POST(request: Request) {
   const session = await getServerSession(authOptions);

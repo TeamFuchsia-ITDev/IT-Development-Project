@@ -1,45 +1,14 @@
 "use client";
 
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
 import { useState, FormEvent, ChangeEvent, useRef, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
-import defaultProfileImage from "../../images/blank-profile.jpg";
-import logo1 from "../../images/logov1.svg";
-import photo from "../../images/photo.svg";
-
-// Define interfaces for location data
-interface LocationFeature {
-  geometry: {
-    coordinates: [number, number];
-  };
-  place_name: string;
-  context: Array<{ text: string }>;
-}
-
-interface LocationData {
-  features: LocationFeature[];
-}
-
-// Define an interface for your form data
-interface FormData {
-  name: string;
-  birthday: string;
-  ethnicity: string;
-  gender: string;
-  phonenumber: string;
-  location: {
-    lng: number;
-    lat: number;
-    address: {
-      fullAddress: string;
-      pointOfInterest: string;
-      city: string;
-      country: string;
-    };
-  };
-}
+import defaultProfileImage from "@/app/images/blank-profile.jpg";
+import logo1 from "@/app/images/logov1.svg";
+import photo from "@/app/images/photo.svg";
+import { LocationData, LocationFeature, FormData } from "@/app/libs/interfaces";
 
 export default function CreateProfile() {
   const { data: session, status } = useSession();
