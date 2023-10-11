@@ -88,16 +88,8 @@ export default function Login() {
           toast.error(callback.error);
         }
 
-        if (session?.user.isNewUser) {
-          if (callback?.ok && !callback?.error) {
-            toast.success(
-              "Logged in successfully! Please create your profile."
-            );
-          }
-        } else {
-          if (callback?.ok && !callback?.error) {
-            toast.success("Logged in successfully! Welcome to your dashboard!");
-          }
+        if (callback?.ok && !callback?.error) {
+          toast.success("Logged in successfully!");
         }
       });
     }, 2000);
