@@ -8,6 +8,7 @@ export const Card = ({ smallCard, request }: CardProps) => {
   const [truncatedTaskName, setTruncatedTaskName] = useState<string>(
     request?.taskname ?? ""
   );
+  const [showDetails, setShowDetails] = useState(false);
 
   // Function to limit the text length
   const limitText = (text: string, maxLength: number) => {
@@ -41,22 +42,29 @@ export const Card = ({ smallCard, request }: CardProps) => {
           <div className="flex flex-col ml-3 mt-[-20px] 2xl:ml-3 gap-2">
             <p className="text-[20px] font-bold">{truncatedTaskName}</p>
             <p className="text-[13px]">{request?.requesterName}</p>
-            <p className="text-[13px]">{request?.category}</p>
-            <p className="text-[13px]">$ {request?.amount} CAD</p>
-            <p className="text-[13px]">
-              {" "}
-              {new Date(request?.datetime!).toLocaleDateString("en-US", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-                hour: "2-digit",
-                minute: "2-digit",
-              })}
-            </p>
+            {showDetails && (
+              <div className="flex flex-col ml-2 mt-[-20px] 2xl:ml-3">
+                <p className="text-[11px] mt-2">{request?.category}</p>
+                <p className="text-[11px] mt-2">{request?.requesterCity}</p>
+                <p className="text-[11px] mt-2">{request?.amount}</p>
+                <p className="text-[11px] mt-2">
+                  {new Date(request?.datetime!).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </p>
+              </div>
+            )}
           </div>
           <div className="flex justify-center mt-2">
-            <button className="text-center bg-rose-500 text-white font-bold w-[280px] text-[11px] rounded h-[25px] hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300 2xl:w-[390px] 2xl:h-[40px] 2xl:mt-[7px] md:w-[305px]">
-              Learn more
+            <button
+              className="text-center bg-rose-500 text-white font-bold w-[280px] text-[11px] rounded h-[25px] hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300 2xl:w-[390px] 2xl:h-[40px] 2xl:mt-[7px] md:w-[305px]"
+              onClick={() => setShowDetails(!showDetails)}
+            >
+              {showDetails ? "Hide Details" : "Learn more"}
             </button>
           </div>
         </div>
@@ -77,22 +85,29 @@ export const Card = ({ smallCard, request }: CardProps) => {
           <div className="flex flex-col mt-4 gap-2 items-start mt-[-35px] ml-4 mb-4">
             <p className="text-[30px] font-bold">{truncatedTaskName} </p>
             <p>{request?.requesterName}</p>
-            <p>{request?.category}</p>
-            <p>$ {request?.amount} CAD</p>
-            <p className=" ">
-              {" "}
-              {new Date(request?.datetime!).toLocaleDateString("en-US", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-                hour: "2-digit",
-                minute: "2-digit",
-              })}
-            </p>
+            {showDetails && (
+              <div className="flex flex-col ml-2 mt-[-20px] 2xl:ml-3">
+                <p className="text-[11px] mt-2">{request?.category}</p>
+                <p className="text-[11px] mt-2">{request?.requesterCity}</p>
+                <p className="text-[11px] mt-2">{request?.amount}</p>
+                <p className="text-[11px] mt-2">
+                  {new Date(request?.datetime!).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </p>
+              </div>
+            )}
           </div>
           <div className="flex items-center justify-center">
-            <button className="text-center bg-rose-500 text-white font-bold w-[410px] rounded h-[35px] hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300 2xl:w-[535px] 2xl:h-[45px]">
-              Learn more
+            <button
+              className="text-center bg-rose-500 text-white font-bold w-[410px] rounded h-[35px] hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300 2xl:w-[535px] 2xl:h-[45px]"
+              onClick={() => setShowDetails(!showDetails)}
+            >
+              {showDetails ? "Hide Details" : "Learn more"}
             </button>
           </div>
         </div>
