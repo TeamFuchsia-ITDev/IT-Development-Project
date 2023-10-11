@@ -7,6 +7,8 @@ import { Card } from "@/app/components/card";
 import Carousel from "@/app/components/carousel";
 import axios from "axios";
 import { UserProps, RequestProps } from "../../libs/interfaces";
+import search from "../../images/search.svg";
+
 
 export default function homepage() {
   const { data: session, status } = useSession();
@@ -36,19 +38,47 @@ export default function homepage() {
     }
   }, [session?.user.email, status]);
 
+
+  const Categoryoptions = [
+    "Gaming",
+    "Travel",
+    "Technology",
+    "Sports",
+    "Workout",
+  ];
+
+
+  const CityOptions = [
+    "Vancouver",
+    "Victoria",
+    "Nanaimo",
+    "Kelowna",
+    "Burnaby",
+    "Richmond",
+    "Abbotsford",
+    "Coquitlam",
+    "Surrey",
+    "Langley",
+    "North Vancouver",
+    "Maple Ridge",
+    "Prince George",
+    "New Westminster",
+    "Port Coquitlam",
+  ];
+
   return (
-    <>
+    <main className="ml-12 mr-12">
       <Navbar />
       <div className="ml-4 mr-4 mt-24">
-        <div className="ml-4 mr-4">
+        <div className="mr-4">
           {user ? (
             <>
-              <p className="text-[60px]">
+              <p className="text-[40px]">
                 Welcome to your Homepage {user.name.split(" ")[0]}
               </p>
             </>
           ) : (
-            <p className="text-[60px]">Welcome to your Homepage</p>
+            <p className="text-[40px]">Welcome to your Homepage</p>
           )}
           <p className="text-[20px] w-[900px] ">
             In here you will be able to see latest requests and also allows you
@@ -56,31 +86,53 @@ export default function homepage() {
           </p>
         </div>
 
-        <div className=" flex flex-row ml-4 mr-4 mt-12 justify-center">
+        <div className=" flex flex-row  mr-4 mt-12">
           <input
             type="text"
             placeholder="Search for a request"
-            className="border-2 border-gray-300  h-[45px] w-[500px] "
+            className="border-2 border-gray-300  h-[45px] w-[520px] "
           />
+          
+       
+          <select className="border-2 border-gray-300  h-[45px] w-[250px] ml-4" > <option value="" disabled>
 
-          <select className="border-2 border-gray-300  h-[45px] w-[200px] ml-4" />
-          <select className="border-2 border-gray-300  h-[45px] w-[200px] ml-4" />
-          <select className="border-2 border-gray-300  h-[45px] w-[200px] ml-4" />
+            Select Category
+          </option>
+            {/* Map through the array to generate options */}
+            {Categoryoptions.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}</select>
+
+
+          <select className="border-2 border-gray-300  h-[45px] w-[250px] ml-4" > <option value="" disabled>
+            Select City
+          </option>
+            {/* Map through the array to generate options */}
+            {CityOptions.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}</select>
+
+
+          <select className="border-2 border-gray-300  h-[45px] w-[250px] ml-4" />
         </div>
 
-        <div className="ml-4 mr-4 border-2 border-gray-300 rounded-[5px] mt-12 overflow-hidden mb-12">
-          <div className="flex flex-row justify-between mt-2 ml-2">
-            <h1 className="text-2xl mt-4 ml-4"> Latest requests</h1>
+        <div className="rounded-[5px] mt-12  mb-12">
+          <div className="flex flex-row mt-2 ml-2">
+            <h1 className="text-2xl ">Most Recent <a className="text-rose-500">Requests</a></h1>
 
             <div className="flex gap-4 mr-4  mt-4 "></div>
           </div>
-          <div className="mt-12 mb-12 gap-12 flex justify-center">
+          <div className="mt-12 mb-12 gap-4 flex  overflow-hidden">
             <Card smallCard={false} />
             <Card smallCard={false} />
             <Card smallCard={false} />
           </div>
         </div>
-        <div className="">
+        <div className="shadow-inner mr-2">
           <Carousel
             cards={[
               <Card smallCard={true} />,
@@ -111,7 +163,7 @@ export default function homepage() {
                 type="datetime-local"
                 value={new Date(
                   new Date(request.datetime).getTime() -
-                    new Date(request.datetime).getTimezoneOffset() * 60000
+                  new Date(request.datetime).getTimezoneOffset() * 60000
                 )
                   .toISOString()
                   .slice(0, 16)}
@@ -122,6 +174,6 @@ export default function homepage() {
           ))}
         </div>
       </div>
-    </>
+    </main>
   );
 }

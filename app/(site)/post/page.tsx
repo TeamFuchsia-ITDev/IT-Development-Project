@@ -60,6 +60,7 @@ export default function PostRequest() {
         "Sports",
         "Workout",
     ];
+    
 
 
     // const postRequest = async (e: FormEvent) => {
@@ -107,7 +108,7 @@ export default function PostRequest() {
 
 
     return (
-        <>
+        <main className="ml-12 mr-12">
             <Navbar />
             <div className="ml-4 mr-4 mt-24">
                 <div className="ml-4 mr-4">
@@ -219,6 +220,6 @@ export default function PostRequest() {
                     </div>
                 </div>
             </div>
-        </>
+        </main>
     );
 }
