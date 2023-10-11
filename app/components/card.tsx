@@ -32,6 +32,8 @@ export const Card = ({ smallCard, request }: CardProps) => {
                         <p className="text-[20px]">{request?.taskname}</p>
                         <p>{request?.requesterName}</p>
                         <p className="text-[11px] mt-2">{request?.category}</p>
+						<p className="text-[11px] mt-2">{request?.requesterCity}</p>
+						<p className="text-[11px] mt-2">{request?.amount}</p>
                         <p className="text-[11px] mt-2"> {new Date(request?.datetime!).toLocaleDateString("en-US", {
                             year: "numeric",
                             month: "long",
@@ -70,6 +72,7 @@ export const Card = ({ smallCard, request }: CardProps) => {
                         <p className="text-[30px]">{request?.taskname} </p>
                         <p>{request?.requesterName}</p>
                         <p>{request?.category}</p>
+						<p>{request?.amount}</p>
                         <p className="text-[11px] mt-2"> {new Date(request?.datetime!).toLocaleDateString("en-US", {
                             year: "numeric",
                             month: "long",

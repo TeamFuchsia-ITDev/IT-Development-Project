@@ -7,14 +7,19 @@ import { Card } from "@/app/components/card";
 import Carousel from "@/app/components/carousel";
 import axios from "axios";
 import { UserProps, RequestProps } from "../../libs/interfaces";
-import search from "../../images/search.svg";
-
 
 export default function homepage() {
   const { data: session, status } = useSession();
   const [user, setUser] = useState<UserProps | undefined>(undefined);
   const [requests, setRequests] = useState<RequestProps[]>([]);
 
+  /** Search Related useStates */
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [amount, setAmount] = useState("");
+  const [selectedCity, setSelectedCity] = useState("");
+  const [cities, setCities] = useState<string[]>([]);
+ 
   useEffect(() => {
     const getUser = async () => {
       const response = await fetch(`/api/user/profile/${session?.user.email}`);
@@ -25,11 +30,22 @@ export default function homepage() {
     const getRequests = async () => {
       const response = await axios.get(`/api/user/request`);
       const data = await response.data;
-      const filteredRequests = data.requests.filter(
+      const filteredRequests: RequestProps[] = data.requests.filter(
         (request: { userEmail: string }) =>
           request.userEmail !== session?.user.email
-      );
+      );	  
       setRequests(filteredRequests);
+
+	 
+	  const uniqueCities = new Set<string>();
+
+	  filteredRequests.forEach((item: RequestProps) => {
+		if (item.requesterCity) {
+			uniqueCities.add(item.requesterCity)
+		}
+	  })
+
+	  setCities(Array.from(uniqueCities))
     };
 
     if (status !== "loading" && session?.user.email) {
@@ -38,33 +54,42 @@ export default function homepage() {
     }
   }, [session?.user.email, status]);
 
-
-  const Categoryoptions = [
-    "Gaming",
-    "Travel",
-    "Technology",
-    "Sports",
-    "Workout",
+  const CategoryOptions = [
+	"Groceries",
+	"House Cleaning",
+	"Lawn Care",
+	"Cooking",
+	"Shopping",
+	"Pet Care",
+	"Babysitting",
+	"Tutoring",
+	"Moving",
+	"Transportation",
+	"Tech Support",
+	"Gaming",
+	"Fitness",
+	"Music",
+	"Art & Design",
+	"Handyman",
+	"Language Practice",
+	"Companionship",
+	"Outdoor Activities",
+	"Virtual Assistance",
+	"Event Planning",
+	"Health & Wellness",
+	"Professional Services",
+	"Hobbies",
   ];
 
-
-  const CityOptions = [
-    "Vancouver",
-    "Victoria",
-    "Nanaimo",
-    "Kelowna",
-    "Burnaby",
-    "Richmond",
-    "Abbotsford",
-    "Coquitlam",
-    "Surrey",
-    "Langley",
-    "North Vancouver",
-    "Maple Ridge",
-    "Prince George",
-    "New Westminster",
-    "Port Coquitlam",
-  ];
+  const searchFilteredRequests = requests.filter((request) => {
+    return (
+      (request.taskname.includes(searchTerm) ||
+        request.description.includes(searchTerm)) &&
+      (selectedCategory === "" || request.category === selectedCategory) &&
+      (amount === "" || parseFloat(amount) >= request.amount) &&
+      (selectedCity === "" || request.requesterCity === selectedCity)
+    );
+  });
 
   return (
     <main className="ml-12 mr-12">
@@ -90,39 +115,61 @@ export default function homepage() {
           <input
             type="text"
             placeholder="Search for a request"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
             className="border-2 border-gray-300  h-[45px] w-[520px] "
           />
-          
-       
-          <select className="border-2 border-gray-300  h-[45px] w-[250px] ml-4" > <option value="" disabled>
 
-            Select Category
-          </option>
+          <select
+            className="border-2 border-gray-300  h-[45px] w-[250px] ml-4"
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+          >
+            <option value="" disabled>
+              Select Category
+            </option>
+            <option value="">All Categories</option>
             {/* Map through the array to generate options */}
-            {Categoryoptions.map((option) => (
+            {CategoryOptions.map((option) => (
               <option key={option} value={option}>
                 {option}
               </option>
-            ))}</select>
+            ))}
+          </select>
 
-
-          <select className="border-2 border-gray-300  h-[45px] w-[250px] ml-4" > <option value="" disabled>
-            Select City
-          </option>
+          <select
+            className="border-2 border-gray-300  h-[45px] w-[250px] ml-4"
+            value={selectedCity}
+            onChange={(e) => setSelectedCity(e.target.value)}
+          >
+            <option value="" disabled>
+              Select City
+            </option>
+            <option value="">All Cities</option>
             {/* Map through the array to generate options */}
-            {CityOptions.map((option) => (
+            {cities.map((option) => (
               <option key={option} value={option}>
                 {option}
               </option>
-            ))}</select>
+            ))}
+          </select>
 
-
-          <select className="border-2 border-gray-300  h-[45px] w-[250px] ml-4" />
+          <input
+            type="text"
+            id="amount"
+            name="amount"
+            placeholder="Enter amount"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+            className="border-2 border-gray-300  h-[45px] w-[250px] ml-4"
+          />
         </div>
 
         <div className="rounded-[5px] mt-12  mb-12">
           <div className="flex flex-row mt-2 ml-2">
-            <h1 className="text-2xl ">Most Recent <a className="text-rose-500">Requests</a></h1>
+            <h1 className="text-2xl ">
+              Most Recent <a className="text-rose-500">Requests</a>
+            </h1>
 
             <div className="flex gap-4 mr-4  mt-4 "></div>
           </div>
@@ -134,44 +181,14 @@ export default function homepage() {
         </div>
         <div className="shadow-inner mr-2">
           <Carousel
-            cards={[
-              <Card smallCard={true} />,
-              <Card smallCard={true} />,
-              <Card smallCard={true} />,
-              <Card smallCard={true} />,
-              <Card smallCard={true} />,
-              <Card smallCard={true} />,
-            ]}
+            cards={searchFilteredRequests.map(
+              (request: RequestProps, index: number) => (
+                <div key={index}>
+                  <Card request={request} smallCard={true} />
+                </div>
+              )
+            )}
           />
-        </div>
-        <div>
-          {requests.map((request, index) => (
-            <div key={index}>
-              <p>{request.taskname}</p>
-              <p>{request.category}</p>
-              <p>{request.amount}</p>
-              <p>
-                {new Date(request.datetime).toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}
-              </p>
-              <input
-                type="datetime-local"
-                value={new Date(
-                  new Date(request.datetime).getTime() -
-                  new Date(request.datetime).getTimezoneOffset() * 60000
-                )
-                  .toISOString()
-                  .slice(0, 16)}
-                readOnly
-              />
-              <p>{request.userEmail}</p>
-            </div>
-          ))}
         </div>
       </div>
     </main>

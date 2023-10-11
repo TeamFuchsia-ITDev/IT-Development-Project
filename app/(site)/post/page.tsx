@@ -153,7 +153,7 @@ export default function PostRequest() {
                             <select
                                 className="border-2 border-gray-300  h-[45px] "
                                 id="categories"
-                                name="categories"
+                                name="categories"	
 
 
                                 value={data.category}
