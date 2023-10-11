@@ -3,14 +3,13 @@ import axios from "axios";
 import { Navbar } from "../../components/navbar";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import {UserProps, RequestProps } from "../../libs/interfaces"
+import { UserProps, RequestProps } from "../../libs/interfaces";
 import { Card } from "@/app/components/card";
 
 export default function MyRequest() {
   const { data: session, status } = useSession();
   const [user, setUser] = useState<UserProps | undefined>(undefined);
   const [myRequests, setMyRequests] = useState<RequestProps[]>([]);
-
 
   console.log("myrequests", myRequests);
 
@@ -49,13 +48,24 @@ export default function MyRequest() {
           </p>
         </div>
         <div>
-          <p className="text-[30px] mt-8 text-center underline decoration-rose-500 underline-offset-6">My Requests</p>
+          <p className="text-[30px] mt-8 text-center underline decoration-rose-500 underline-offset-6">
+            My Requests
+          </p>
         </div>
         <div className="flex flex-row">
           {myRequests.map((request: RequestProps, index: number) => (
-            <div key={index} >
-              <Card request={request} smallCard={true}/>
-              {/* <p>{request.taskname}</p>
+            <div key={index}>
+              <Card request={request} smallCard={true} />
+            </div>
+          ))}
+        </div>
+      </div>
+    </main>
+  );
+}
+
+{
+  /* <p>{request.taskname}</p>
               <p>{request.category}</p>
               <p>{request.amount}</p>
               <p>
@@ -72,11 +82,5 @@ export default function MyRequest() {
                 value={new Date(new Date(request.datetime).getTime() - (new Date(request.datetime).getTimezoneOffset() * 60000)).toISOString().slice(0, 16)}
                 readOnly
               />
-              <p>{request.userEmail}</p> */}
-            </div>
-          ))}
-        </div>
-      </div>
-    </main>
-  );
+              <p>{request.userEmail}</p> */
 }
