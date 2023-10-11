@@ -13,8 +13,8 @@ interface CarouselProps {
 const Carousel: React.FC<CarouselProps> = ({ cards }) => {
   return (
     <Swiper
-      spaceBetween={50} // Adjust the space between slides as needed
-      slidesPerView={5} // Number of slides to show at a time
+      spaceBetween={17} // Adjust the space between slides as needed
+      slidesPerView={4} // Number of slides to show at a time
       navigation={{
         nextEl: '.swiper-button-next',
         prevEl: '.swiper-button-prev',

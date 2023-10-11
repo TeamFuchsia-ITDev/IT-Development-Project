@@ -41,8 +41,8 @@ export default function MyRequest() {
       <Navbar />
       <div className="ml-4 mr-4 mt-24">
         <div className="ml-4 mr-4">
-          <p className="text-[60px]">Welcome to your Requests page</p>
-          <p className="text-[20px] w-[900px] ">
+          <p className="text-[40px] text-center">Welcome to your Requests page</p>
+          <p className="text-[20px]  text-center">
             In here you will be able to see all the requests that you have
             created
           </p>
@@ -52,12 +52,13 @@ export default function MyRequest() {
             My Requests
           </p>
         </div>
-        <div className="flex flex-row">
+        <div className="flex flex-row gap-4 justify-center mt-4">
           {myRequests.map((request: RequestProps, index: number) => (
             <div key={index}>
               <Card request={request} smallCard={true} />
             </div>
-          ))}
+           
+          ))} 
         </div>
       </div>
     </main>

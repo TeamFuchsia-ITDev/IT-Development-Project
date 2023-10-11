@@ -19,7 +19,7 @@ export default function homepage() {
   const [amount, setAmount] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
   const [cities, setCities] = useState<string[]>([]);
- 
+
   useEffect(() => {
     const getUser = async () => {
       const response = await fetch(`/api/user/profile/${session?.user.email}`);
@@ -33,19 +33,19 @@ export default function homepage() {
       const filteredRequests: RequestProps[] = data.requests.filter(
         (request: { userEmail: string }) =>
           request.userEmail !== session?.user.email
-      );	  
+      );
       setRequests(filteredRequests);
 
-	 
-	  const uniqueCities = new Set<string>();
 
-	  filteredRequests.forEach((item: RequestProps) => {
-		if (item.requesterCity) {
-			uniqueCities.add(item.requesterCity)
-		}
-	  })
+      const uniqueCities = new Set<string>();
 
-	  setCities(Array.from(uniqueCities))
+      filteredRequests.forEach((item: RequestProps) => {
+        if (item.requesterCity) {
+          uniqueCities.add(item.requesterCity)
+        }
+      })
+
+      setCities(Array.from(uniqueCities))
     };
 
     if (status !== "loading" && session?.user.email) {
@@ -55,30 +55,30 @@ export default function homepage() {
   }, [session?.user.email, status]);
 
   const CategoryOptions = [
-	"Groceries",
-	"House Cleaning",
-	"Lawn Care",
-	"Cooking",
-	"Shopping",
-	"Pet Care",
-	"Babysitting",
-	"Tutoring",
-	"Moving",
-	"Transportation",
-	"Tech Support",
-	"Gaming",
-	"Fitness",
-	"Music",
-	"Art & Design",
-	"Handyman",
-	"Language Practice",
-	"Companionship",
-	"Outdoor Activities",
-	"Virtual Assistance",
-	"Event Planning",
-	"Health & Wellness",
-	"Professional Services",
-	"Hobbies",
+    "Groceries",
+    "House Cleaning",
+    "Lawn Care",
+    "Cooking",
+    "Shopping",
+    "Pet Care",
+    "Babysitting",
+    "Tutoring",
+    "Moving",
+    "Transportation",
+    "Tech Support",
+    "Gaming",
+    "Fitness",
+    "Music",
+    "Art & Design",
+    "Handyman",
+    "Language Practice",
+    "Companionship",
+    "Outdoor Activities",
+    "Virtual Assistance",
+    "Event Planning",
+    "Health & Wellness",
+    "Professional Services",
+    "Hobbies",
   ];
 
   const searchFilteredRequests = requests.filter((request) => {
@@ -165,7 +165,7 @@ export default function homepage() {
           />
         </div>
 
-        <div className="rounded-[5px] mt-12  mb-12">
+        <div className="mt-12 mb-12">
           <div className="flex flex-row mt-2 ml-2">
             <h1 className="text-2xl ">
               Most Recent <a className="text-rose-500">Requests</a>
@@ -173,13 +173,18 @@ export default function homepage() {
 
             <div className="flex gap-4 mr-4  mt-4 "></div>
           </div>
-          <div className="mt-12 mb-12 gap-4 flex  overflow-hidden">
+          <div className="mt-12 mb-12 gap-4 flex">
+            {/* <Card smallCard={false} />
             <Card smallCard={false} />
-            <Card smallCard={false} />
-            <Card smallCard={false} />
+            <Card smallCard={false} /> */}
+            {searchFilteredRequests.slice(0, 3).map((request, index) => (
+              <div key={index}>
+                <Card request={request} smallCard={false} />
+              </div>
+            ))}
           </div>
         </div>
-        <div className="shadow-inner mr-2">
+        <div className="" >
           <Carousel
             cards={searchFilteredRequests.map(
               (request: RequestProps, index: number) => (
