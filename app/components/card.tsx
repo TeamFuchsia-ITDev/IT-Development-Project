@@ -26,7 +26,7 @@ export const Card = ({ smallCard, request }: CardProps) => {
   return (
     <>
       {smallCard ? (
-        <div className="shadow-xl border-2 w-[300px] h-[260px] rounded-[5px] hover:ease-in-out duration-300  2xl:w-[410px] 2xl:h-[365px] md:w-[325px] md:h-[310px]">
+        <div className="shadow-xl border-2 w-[300px] h-[260px] rounded-[5px] hover:ease-in-out duration-300  2xl:w-[410px] 2xl:h-auto md:w-[325px] md:h-auto">
           <div className="flex items-center justify-center mt-2">
             <img
               src={gaming.src}
@@ -39,14 +39,14 @@ export const Card = ({ smallCard, request }: CardProps) => {
               className=" object-cover w-[60px] h-[60px] rounded-full mt-[-35px] mr-4 border-4 border-white"
             />
           </div>
-          <div className="flex flex-col ml-3 mt-[-20px] 2xl:ml-3 gap-2">
+          <div className="flex flex-col ml-3 mt-[-20px] gap-2">
             <p className="text-[20px] font-bold">{truncatedTaskName}</p>
             <p className="text-[13px]">{request?.requesterName}</p>
             {showDetails && (
-              <div className="flex flex-col ml-2 mt-[-20px] 2xl:ml-3">
+              <div className="flex flex-col  gap-4">
                 <p className="text-[11px] mt-2">{request?.category}</p>
                 <p className="text-[11px] mt-2">{request?.requesterCity}</p>
-                <p className="text-[11px] mt-2">{request?.amount}</p>
+                <p className="text-[11px] mt-2">$ {request?.amount} CAD</p>
                 <p className="text-[11px] mt-2">
                   {new Date(request?.datetime!).toLocaleDateString("en-US", {
                     year: "numeric",
@@ -61,7 +61,7 @@ export const Card = ({ smallCard, request }: CardProps) => {
           </div>
           <div className="flex justify-center mt-2">
             <button
-              className="text-center bg-rose-500 text-white font-bold w-[280px] text-[11px] rounded h-[25px] hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300 2xl:w-[390px] 2xl:h-[40px] 2xl:mt-[7px] md:w-[305px]"
+              className="text-center bg-rose-500 text-white font-bold w-[280px] mb-4 text-[11px] rounded h-[25px] hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300 2xl:w-[390px] 2xl:h-[40px] 2xl:mt-[7px] md:w-[305px]"
               onClick={() => setShowDetails(!showDetails)}
             >
               {showDetails ? "Hide Details" : "Learn more"}
@@ -69,7 +69,7 @@ export const Card = ({ smallCard, request }: CardProps) => {
           </div>
         </div>
       ) : (
-        <div className="border-2 border-gray-200 w-[440px] h-[410px] md:h-[410px] 2xl:w-[565px] 2xl:h-[465px] rounded-[10px] shadow-lg hover:transform hover:scale-105 hover:shadow-xl transition-transform duration-300 ease-in-out">
+        <div className="border-2 border-gray-200 w-[440px] h-[410px] md:h-auto 2xl:w-[565px] 2xl:h-auto rounded-[10px] shadow-lg hover:transform hover:scale-105 hover:shadow-xl transition-transform duration-300 ease-in-out">
           <div className="flex items-center justify-center mt-2">
             <img
               src={gaming.src}
@@ -86,11 +86,11 @@ export const Card = ({ smallCard, request }: CardProps) => {
             <p className="text-[30px] font-bold">{truncatedTaskName} </p>
             <p>{request?.requesterName}</p>
             {showDetails && (
-              <div className="flex flex-col ml-2 mt-[-20px] 2xl:ml-3">
-                <p className="text-[11px] mt-2">{request?.category}</p>
-                <p className="text-[11px] mt-2">{request?.requesterCity}</p>
-                <p className="text-[11px] mt-2">{request?.amount}</p>
-                <p className="text-[11px] mt-2">
+              <div className="flex flex-col gap-4">
+                <p className="">{request?.category}</p>
+                <p className="">{request?.requesterCity}</p>
+                <p className="">$ {request?.amount} CAD</p>
+                <p className="">
                   {new Date(request?.datetime!).toLocaleDateString("en-US", {
                     year: "numeric",
                     month: "long",
@@ -104,7 +104,7 @@ export const Card = ({ smallCard, request }: CardProps) => {
           </div>
           <div className="flex items-center justify-center">
             <button
-              className="text-center bg-rose-500 text-white font-bold w-[410px] rounded h-[35px] hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300 2xl:w-[535px] 2xl:h-[45px]"
+              className="text-center bg-rose-500 text-white font-bold w-[410px] rounded h-[35px] hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300 2xl:w-[535px] 2xl:h-[45px] mb-4"
               onClick={() => setShowDetails(!showDetails)}
             >
               {showDetails ? "Hide Details" : "Learn more"}
