@@ -4,8 +4,12 @@ import { CardProps } from "@/app/libs/interfaces";
 import { useEffect, useState } from "react";
 import { imageMapping } from "@/app/libs/reusables";
 
-
-export const Card = ({ smallCard, request }: CardProps) => {
+export const Card = ({
+  smallCard,
+  request,
+  toggleFormVisibility,
+  onApplyClick
+}: CardProps) => {
   const [truncatedTaskName, setTruncatedTaskName] = useState<string>(
     request?.taskname ?? ""
   );
@@ -23,6 +27,11 @@ export const Card = ({ smallCard, request }: CardProps) => {
   useEffect(() => {
     setTruncatedTaskName(limitText(request?.taskname ?? "", 20));
   }, [request]);
+
+  const handleApplyClick = () => {
+    onApplyClick(request?.id!);
+    toggleFormVisibility(true);
+  };
 
   return (
     <>
@@ -55,13 +64,17 @@ export const Card = ({ smallCard, request }: CardProps) => {
                     hour: "2-digit",
                     minute: "2-digit",
                   })}
-                </p><p className="text-[11px] mt-2">{request?.description}</p>
+                </p>
+                <p className="text-[11px] mt-2">{request?.description}</p>
                 <div className="flex itmes-center">
-                  
-                  <button className="text-center text-[11px] bg-green-500 text-white font-bold w-[299px] rounded h-[25px] hover:bg-white hover:text-green-500 hover:border-[2px] hover:border-green-500 hover:ease-in-out duration-300 2xl:w-[380px] 2xl:h-[40px] ">Apply</button>
-                  </div>
+                  <button
+                    className="text-center text-[11px] bg-green-500 text-white font-bold w-[299px] rounded h-[25px] hover:bg-white hover:text-green-500 hover:border-[2px] hover:border-green-500 hover:ease-in-out duration-300 2xl:w-[380px] 2xl:h-[40px] "
+                    onClick={handleApplyClick}
+                  >
+                    Apply
+                  </button>
+                </div>
               </div>
-              
             )}
           </div>
           <div className="flex justify-center mt-2">
@@ -102,10 +115,15 @@ export const Card = ({ smallCard, request }: CardProps) => {
                     hour: "2-digit",
                     minute: "2-digit",
                   })}
-                </p><p className="">{request?.description}</p>
+                </p>
+                <p className="">{request?.description}</p>
                 <div className="flex itmes-center">
-                  
-                <button className="text-center bg-green-500 text-white font-bold w-[406px] rounded h-[35px] hover:bg-white hover:text-green-500 hover:border-[2px] hover:border-green-500 hover:ease-in-out duration-300 2xl:w-[530px] 2xl:h-[45px] ">Apply</button>
+                  <button
+                    className="text-center bg-green-500 text-white font-bold w-[406px] rounded h-[35px] hover:bg-white hover:text-green-500 hover:border-[2px] hover:border-green-500 hover:ease-in-out duration-300 2xl:w-[530px] 2xl:h-[45px] "
+                    onClick={handleApplyClick}
+                  >
+                    Apply
+                  </button>
                 </div>
               </div>
             )}

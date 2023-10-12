@@ -20,6 +20,7 @@ export interface UserProps {
 }
 
 export interface RequestProps {
+  id: string;
   taskname: string;
   category: string;
   datetime: string;
@@ -43,6 +44,8 @@ export interface APIErr {
 export interface CardProps {
   smallCard?: boolean;
   request?: RequestProps;
+  toggleFormVisibility: (isVisible: boolean) => void;
+  onApplyClick: (requestId: string) => void;
 }
 
 // Define interfaces for location data
