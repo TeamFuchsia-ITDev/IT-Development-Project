@@ -69,7 +69,7 @@ model Location {
     lat       Float
     address   Address?
     profile   Profile  @relation(fields: [profileId], references: [id])
-    profileId String   @unique
+    profileId String   @unique @db.ObjectId
 }
 
 model Address {
@@ -79,20 +79,38 @@ model Address {
     city            String
     country         String
     location        Location @relation(fields: [locationId], references: [id])
-    locationId      String   @unique
+    locationId      String   @unique @db.ObjectId
 }
 
 model Request {
     id             String   @id @default(auto()) @map("_id") @db.ObjectId
     taskname       String
     category       String
-    amount         Float
     datetime       DateTime
     description    String
     requesterName  String
     requesterImage String
     requesterCity  String
+    status         String // "Waiting, Pending, OnGoing, Cancelled, Completed"
 
     user      User   @relation(fields: [userEmail], references: [email])
     userEmail String
+
+    // Define the relation to the Applications model
+    applications Application[]
+}
+
+model Application {
+    id            String @id @default(auto()) @map("_id") @db.ObjectId
+    amount        Float
+    description   String
+    userEmail     String
+    compEthnicity String
+    compGender    String
+    compBirthday  String
+    status        String // "Pending, Cancelled, Accepted"
+
+    // Define the relation to the Request model
+    request   Request @relation(fields: [requestId], references: [id])
+    requestId String  @db.ObjectId
 }

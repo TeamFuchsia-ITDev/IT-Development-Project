@@ -22,7 +22,6 @@ export interface UserProps {
 export interface RequestProps {
   taskname: string;
   category: string;
-  amount: GLfloat;
   datetime: string;
   description: string;
   userEmail: string;

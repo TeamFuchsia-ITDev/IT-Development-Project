@@ -47,7 +47,6 @@ export const Card = ({ smallCard, request }: CardProps) => {
               <div className="flex flex-col  gap-4">
                 <p className="text-[11px] mt-2">{request?.category}</p>
                 <p className="text-[11px] mt-2">{request?.requesterCity}</p>
-                <p className="text-[11px] mt-2">$ {request?.amount} CAD</p>
                 <p className="text-[11px] mt-2">
                   {new Date(request?.datetime!).toLocaleDateString("en-US", {
                     year: "numeric",
@@ -90,7 +89,6 @@ export const Card = ({ smallCard, request }: CardProps) => {
               <div className="flex flex-col gap-4">
                 <p className="">{request?.category}</p>
                 <p className="">{request?.requesterCity}</p>
-                <p className="">$ {request?.amount} CAD</p>
                 <p className="">
                   {new Date(request?.datetime!).toLocaleDateString("en-US", {
                     year: "numeric",
