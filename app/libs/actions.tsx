@@ -21,6 +21,6 @@ export async function createProfile(data: {
     const userProfile = await prisma.profile.create(data);
     return userProfile;
   } catch (error) {
-    throw new Error("Something went wrong");
+    throw new Error("Please enter your complete address");
   }
 }
