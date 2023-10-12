@@ -11,8 +11,6 @@ export default function MyRequest() {
   const [user, setUser] = useState<UserProps | undefined>(undefined);
   const [myRequests, setMyRequests] = useState<RequestProps[]>([]);
 
-  console.log("myrequests", myRequests);
-
   useEffect(() => {
     const getUser = async () => {
       const response = await fetch(`/api/user/profile/${session?.user.email}`);

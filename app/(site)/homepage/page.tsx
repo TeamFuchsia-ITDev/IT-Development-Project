@@ -63,7 +63,6 @@ export default function homepage() {
       (request.taskname.includes(searchTerm) ||
         request.description.includes(searchTerm)) &&
       (selectedCategory === "" || request.category === selectedCategory) &&
-      (amount === "" || parseFloat(amount) >= request.amount) &&
       (selectedCity === "" || request.requesterCity === selectedCity)
     );
   });

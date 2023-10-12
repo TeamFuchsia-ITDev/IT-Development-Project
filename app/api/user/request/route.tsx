@@ -74,7 +74,6 @@ export async function POST(request: Request) {
         data: {
           taskname,
           category,
-          amount: parseFloat(amount),
           datetime: new Date(datetime),
           description,
           requesterName: userProfile?.name!,
