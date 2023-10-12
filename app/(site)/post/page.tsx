@@ -4,34 +4,10 @@ import { Navbar } from "@/app/components/navbar";
 import { useSession } from "next-auth/react";
 import { FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import gaming from "@/app/images/gaming.png";
-import sports from "@/app/images/sports.png";
-import technology from "@/app/images/technology.png";
-import travel from "@/app/images/travel.png";
-import shopping from "@/app/images/shopping.png";
-import cooking from "@/app/images/cooking.png";
-import Housecleaning from "@/app/images/HouseCleaning.png";
-import groceries from "@/app/images/Groceries.png";
-
-import Arts from "@/app/images/Arts.png";
-import assistance from "@/app/images/Assistance.png";
-import babysitting from "@/app/images/Babysitting.png";
-import companionship from "@/app/images/Companionship.png";
-import fitness from "@/app/images/Fitness.png";
-import handyman from "@/app/images/Handyman.png";
-import music from "@/app/images/Music.png";
-import petcare from "@/app/images/PetCare.png";
-import tutoring from "@/app/images/Tutoring.png";
-import virtual from "@/app/images/Virtual.png";
-import outdoor from "@/app/images/Outdoor.png";
-import transportation from "@/app/images/Transportation.png";
-import tech from "@/app/images/Techsupport.png";
-
-
-
 import axios from "axios";
 import toast from "react-hot-toast";
-import { UserProps, ImageMapping } from "@/app/libs/interfaces";
+import { UserProps } from "@/app/libs/interfaces";
+import { imageMapping, CategoryOptions  } from "@/app/libs/reusables";
 
 export default function PostRequest() {
   const { data: session, status } = useSession();
@@ -54,58 +30,7 @@ export default function PostRequest() {
       setUser(data);
     };
     if (session?.user?.email) getUser();
-  }, [session?.user?.emai]);
-
-  
-  const CategoryOptions = [
-    "Companionship", 
-    "Assistance",
-    "Outdoor Activities",  
-   "Virtual Assistance", 
-    "Gaming",
-    "Travel",
-    "Sports",
-    "Technology",
-    "Fitness",
-    "Music",
-    "House Cleaning",
-    "Cooking",
-    "Shopping",
-    "Pet Care",
-    "Babysitting",
-    "Tutoring",
-    "Transportation",
-    "Tech Support",
-    "Art & Design",
-    "Handyman", 
-    "Groceries",
-  ];
-
-  const imageMapping: ImageMapping = {
-  
-    Gaming: gaming.src,
-    Travel: travel.src,
-    Technology: technology.src, 
-    Sports: sports.src,
-    Shopping: shopping.src,
-    Cooking: cooking.src,
-    "House Cleaning": Housecleaning.src,
-    Groceries: groceries.src,
-    "Art & Design": Arts.src,
-    Assistance: assistance.src,
-    Babysitting: babysitting.src,
-    Companionship: companionship.src,
-    Fitness: fitness.src,
-    Handyman: handyman.src,
-    Music: music.src,
-    "Pet Care": petcare.src,
-    Tutoring: tutoring.src,
-    "Virtual Assistance": virtual.src,
-    "Outdoor Activities": outdoor.src,
-    Transportation: transportation.src,
-    "Tech Support": tech.src,
-
-};
+  }, [session?.user?.emai]); 
 
   const postRequest = async (e: FormEvent) => {
     setDisabled(true);
