@@ -1,24 +1,15 @@
 "use client";
 
-import gaming from "@/app/images/gaming.png";
-import sports from "@/app/images/sports.png";
-import technology from "@/app/images/technology.png";
-import travel from "@/app/images/travel.png";
-import { CardProps, ImageMapping } from "@/app/libs/interfaces";
+import { CardProps } from "@/app/libs/interfaces";
 import { useEffect, useState } from "react";
+import { imageMapping } from "@/app/libs/reusables";
+
 
 export const Card = ({ smallCard, request }: CardProps) => {
   const [truncatedTaskName, setTruncatedTaskName] = useState<string>(
     request?.taskname ?? ""
   );
   const [showDetails, setShowDetails] = useState(false);
-
-  const categoryImages: ImageMapping = {
-    Gaming: gaming.src,
-    Travel: travel.src, 
-    Technology: technology.src, 
-    Sports: sports.src, 
-  };
 
   // Function to limit the text length
   const limitText = (text: string, maxLength: number) => {
@@ -39,7 +30,7 @@ export const Card = ({ smallCard, request }: CardProps) => {
         <div className="shadow-xl border-2 w-[300px] h-[260px] rounded-[5px] hover:ease-in-out duration-300  2xl:w-[410px] 2xl:h-auto md:w-[325px] md:h-auto">
           <div className="flex items-center justify-center mt-2">
             <img
-              src={categoryImages[request?.category!]}
+              src={imageMapping[request?.category!]}
               className="rounded-[5px] w-[275px] 2xl:w-[385px] md:w-[307px]"
             />
           </div>
@@ -82,7 +73,7 @@ export const Card = ({ smallCard, request }: CardProps) => {
         <div className="border-2 border-gray-200 w-[440px] h-[410px] md:h-auto 2xl:w-[565px] 2xl:h-auto rounded-[10px] shadow-lg hover:transform hover:scale-105 hover:shadow-xl transition-transform duration-300 ease-in-out">
           <div className="flex items-center justify-center mt-2">
             <img
-              src={gaming.src}
+              src={imageMapping[request?.category!]}
               className="rounded-[5px] w-[540px] 2xl:w-[540px] md:w-[415px]"
             />
           </div>

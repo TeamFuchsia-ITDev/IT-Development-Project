@@ -7,6 +7,8 @@ import { Card } from "@/app/components/card";
 import Carousel from "@/app/components/carousel";
 import axios from "axios";
 import { UserProps, RequestProps } from "../../libs/interfaces";
+import { CategoryOptions  } from "@/app/libs/reusables";
+
 
 export default function homepage() {
   const { data: session, status } = useSession();
@@ -54,29 +56,7 @@ export default function homepage() {
     }
   }, [session?.user.email, status]);
 
-  const CategoryOptions = [
-    "Companionship", 
-    "Assistance",
-    "Outdoor Activities",  
-   "Virtual Assistance", 
-    "Gaming",
-    "Travel",
-    "Sports",
-    "Technology",
-    "Fitness",
-    "Music",
-    "House Cleaning",
-    "Cooking",
-    "Shopping",
-    "Pet Care",
-    "Babysitting",
-    "Tutoring",
-    "Transportation",
-    "Tech Support",
-    "Art & Design",
-    "Handyman", 
-    "Groceries",
-  ];
+  
 
   const searchFilteredRequests = requests.filter((request) => {
     return (
