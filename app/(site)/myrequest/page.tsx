@@ -10,6 +10,7 @@ export default function MyRequest() {
   const { data: session, status } = useSession();
   const [user, setUser] = useState<UserProps | undefined>(undefined);
   const [myRequests, setMyRequests] = useState<RequestProps[]>([]);
+  const [isFormVisible, setIsFormVisible] = useState(false);
 
   useEffect(() => {
     const getUser = async () => {
@@ -34,12 +35,18 @@ export default function MyRequest() {
     }
   }, [session?.user.email, status]);
 
+  const handleApplyRequest = (requestId: string) => {
+    console.log(`Applying for request with ID: ${requestId}`);
+  };
+
   return (
     <main className="ml-12 mr-12">
       <Navbar />
       <div className="ml-4 mr-4 mt-24">
         <div className="ml-4 mr-4">
-          <p className="text-[40px] text-center">Welcome to your Requests page</p>
+          <p className="text-[40px] text-center">
+            Welcome to your Requests page
+          </p>
           <p className="text-[20px]  text-center">
             In here you will be able to see all the requests that you have
             created
@@ -53,10 +60,14 @@ export default function MyRequest() {
         <div className="flex flex-row gap-4 justify-center mt-4">
           {myRequests.map((request: RequestProps, index: number) => (
             <div key={index}>
-              <Card request={request} smallCard={true} />
+              <Card
+                request={request}
+                smallCard={true}
+                toggleFormVisibility={setIsFormVisible}
+                onApplyClick={handleApplyRequest}
+              />
             </div>
-           
-          ))} 
+          ))}
         </div>
       </div>
     </main>
