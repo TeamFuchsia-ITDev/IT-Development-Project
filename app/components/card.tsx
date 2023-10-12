@@ -8,7 +8,7 @@ export const Card = ({
   smallCard,
   request,
   toggleFormVisibility,
-  onApplyClick
+  onApplyClick,
 }: CardProps) => {
   const [truncatedTaskName, setTruncatedTaskName] = useState<string>(
     request?.taskname ?? ""
@@ -29,7 +29,19 @@ export const Card = ({
   }, [request]);
 
   const handleApplyClick = () => {
-    onApplyClick(request?.id!);
+    const requestData = {
+      id: request?.id!,
+      taskname: request?.taskname!,
+      requesterName: request?.requesterName!,
+      datetime: new Date(request?.datetime!).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+    };
+    onApplyClick(requestData);
     toggleFormVisibility(true);
   };
 

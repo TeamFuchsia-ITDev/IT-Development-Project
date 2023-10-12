@@ -2,20 +2,22 @@
 
 import { Navbar } from "../../components/navbar";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { Card } from "@/app/components/card";
 import Carousel from "@/app/components/carousel";
 import x from "@/app/images/x.svg";
 import axios from "axios";
-import { UserProps, RequestProps } from "../../libs/interfaces";
+import { UserProps, RequestProps, RequestData } from "../../libs/interfaces";
 import { CategoryOptions } from "@/app/libs/reusables";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 export default function homepage() {
   const { data: session, status } = useSession();
   const [user, setUser] = useState<UserProps | undefined>(undefined);
   const [requests, setRequests] = useState<RequestProps[]>([]);
   const [isFormVisible, setIsFormVisible] = useState(false);
-  const [requestID, setRequestID] = useState<string>("");
+  const router = useRouter();
 
   /** Search Related useStates */
   const [searchTerm, setSearchTerm] = useState("");
@@ -23,6 +25,19 @@ export default function homepage() {
   const [amount, setAmount] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
   const [cities, setCities] = useState<string[]>([]);
+  const [disabled, setDisabled] = useState(false);
+
+  const [data, setData] = useState({
+    requestid: "",
+    amount: "",
+    description: "",
+  });
+
+  const [applicationData, setapplicationData] = useState({
+    taskname: "",
+    requesterName: "",
+    dateime: "",
+  });
 
   useEffect(() => {
     const getUser = async () => {
@@ -66,8 +81,41 @@ export default function homepage() {
     );
   });
 
-  const handleApplyRequest = (requestId: string) => {
-    setRequestID(requestId);
+  const handleApplyRequest = (requestData: RequestData) => {
+    setData({ ...data, requestid: requestData.id });
+    setapplicationData({
+      taskname: requestData.taskname!,
+      requesterName: requestData.requesterName!,
+      dateime: requestData.datetime!,
+    });
+  };
+
+  const postApplication = async (e: FormEvent) => {
+    setDisabled(true);
+    e.preventDefault();
+    toast.loading("Sending application...", {
+      duration: 4000,
+    });
+
+    const response = await axios.post(`api/user/application`, data);
+    if (response.data.status !== 200) {
+      const errorMessage = response.data?.error || "An error occurred";
+      toast.error(errorMessage);
+    } else {
+      toast.success("Application successful!");
+      setTimeout(
+        () =>
+          toast.loading("Redirecting now to the your jobs page...", {
+            duration: 4000,
+          }),
+        1000
+      );
+      setTimeout(() => {
+        toast.dismiss();
+        router.push("/myjobs");
+      }, 2000);
+    }
+    setTimeout(() => setDisabled(false), 4000);
   };
 
   return (
@@ -202,8 +250,7 @@ export default function homepage() {
           </p>
           <div className="ml-4 mr-4 text-center ">
             <h1 className="text-[13.5px] mt-4">
-              You are now applying for (Requester name)'s (task name) at
-              (Datetime).{" "}
+              You are now applying for {applicationData.requesterName}'s {applicationData.taskname} at {applicationData.dateime}.{" "}
             </h1>
             <p className="text-[13px]">
               to let the requester know more about you fill up the form below
@@ -215,23 +262,41 @@ export default function homepage() {
               <a className="text-green-500">Amount</a> ( the amount you want for
               your service, input 0 if free)
             </p>
+            {/* <input
+              type="hidden"
+              id="requestid"
+              name="requestid"
+              value={requestID}
+            /> */}
             <input
               type="text"
+              id="amount"
+              name="amount"
               placeholder="$ CAD"
               className="border-2 border-gray-300 h-[45px] w-[400px]"
+              value={data.amount}
+              onChange={(e) => setData({ ...data, amount: e.target.value })}
             />
             <p className="text-[13px] mt-4 mb-4">
               <a className="text-rose-500">Explain</a> Why are you a good fit to
               apply?
             </p>
             <textarea
-              placeholder="experience, skills, etc."
-              className="border-2 border-gray-300 h-[150px] resize-none w-[400px] mb-4"
               id="description"
               name="description"
+              placeholder="Experience, skills, passion, etc."
+              className="border-2 border-gray-300 h-[150px] resize-none w-[400px] mb-4"
+              value={data.description}
+              onChange={(e) =>
+                setData({ ...data, description: e.target.value })
+              }
             />
           </div>
-          <button className="text-center bg-green-500 text-white font-bold mb-8 rounded h-[45px] w-[400px] hover:bg-white hover:text-green-500 hover:border-[2px] hover:border-green-500 hover:ease-in-out duration-300">
+          <button
+            className="text-center bg-green-500 text-white font-bold mb-8 rounded h-[45px] w-[400px] hover:bg-white hover:text-green-500 hover:border-[2px] hover:border-green-500 hover:ease-in-out duration-300"
+            onClick={postApplication}
+            disabled={disabled}
+          >
             Apply
           </button>
         </div>
