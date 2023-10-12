@@ -55,30 +55,27 @@ export default function homepage() {
   }, [session?.user.email, status]);
 
   const CategoryOptions = [
-    "Groceries",
+    "Companionship", 
+    "Assistance",
+    "Outdoor Activities",  
+   "Virtual Assistance", 
+    "Gaming",
+    "Travel",
+    "Sports",
+    "Technology",
+    "Fitness",
+    "Music",
     "House Cleaning",
-    "Lawn Care",
     "Cooking",
     "Shopping",
     "Pet Care",
     "Babysitting",
     "Tutoring",
-    "Moving",
     "Transportation",
     "Tech Support",
-    "Gaming",
-    "Fitness",
-    "Music",
     "Art & Design",
-    "Handyman",
-    "Language Practice",
-    "Companionship",
-    "Outdoor Activities",
-    "Virtual Assistance",
-    "Event Planning",
-    "Health & Wellness",
-    "Professional Services",
-    "Hobbies",
+    "Handyman", 
+    "Groceries",
   ];
 
   const searchFilteredRequests = requests.filter((request) => {
@@ -177,6 +174,7 @@ export default function homepage() {
             {/* <Card smallCard={false} />
             <Card smallCard={false} />
             <Card smallCard={false} /> */}
+            
             {searchFilteredRequests.slice(0, 3).map((request, index) => (
               <div key={index}>
                 <Card request={request} smallCard={false} />

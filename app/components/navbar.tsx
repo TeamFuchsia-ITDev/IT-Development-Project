@@ -47,9 +47,10 @@ export const Navbar = () => {
                 <img
                     src={logo.src}
                     alt="Logo"
-                    width={70}
+                    width={60}
                     className="m-2"
                 />
+               
 
                 <div className="flex gap-5 mr-4 text-sm">
                     <a href="/homepage" className="relative group">
