@@ -15,7 +15,7 @@ export async function POST(request: Request) {
   } else {
     try {
       const body = await request.json();
-      const { taskname, category, amount, datetime, description } = body;
+      const { taskname, category, datetime, description } = body;
 
       const userRequests = await prisma.request.count({
         where: {
@@ -46,11 +46,6 @@ export async function POST(request: Request) {
           code: 400,
           message: "Please select a category for your request",
         };
-      if (!amount)
-        throw {
-          code: 400,
-          message: "Please indicate your offer for the requested service",
-        };
       if (!datetime)
         throw {
           code: 400,
@@ -79,6 +74,7 @@ export async function POST(request: Request) {
           requesterName: userProfile?.name!,
           requesterImage: userProfile?.image!,
           requesterCity: userProfile?.location?.address?.city!,
+		  status: "Waiting",
           user: {
             connect: {
               email: session.user.email,

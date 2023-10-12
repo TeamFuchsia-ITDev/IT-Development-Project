@@ -18,7 +18,6 @@ export default function PostRequest() {
   const [data, setData] = useState({
     taskname: "",
     category: "",
-    amount: "",
     datetime: "",
     description: "",
   });
@@ -107,19 +106,7 @@ export default function PostRequest() {
                     {option}
                   </option>
                 ))}
-              </select>
-              <p className="text-[13px]">
-                Amount (this is optional kindly input 0 if free)
-              </p>
-              <input
-                type="text"
-                placeholder=""
-                className="border-2 border-gray-300 h-[45px] "
-                id="amount"
-                name="amount"
-                value={data.amount}
-                onChange={(e) => setData({ ...data, amount: e.target.value })}
-              />
+              </select>              
               <p className="text-[13px]">Date</p>
               <input
                 type="Datetime-local"
