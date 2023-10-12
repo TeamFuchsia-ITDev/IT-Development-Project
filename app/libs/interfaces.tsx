@@ -45,7 +45,12 @@ export interface CardProps {
   smallCard?: boolean;
   request?: RequestProps;
   toggleFormVisibility: (isVisible: boolean) => void;
-  onApplyClick: (requestId: string) => void;
+  onApplyClick: (requestData: {
+    id: string;
+    taskname?: string;
+    requesterName?: string;
+    datetime?: string;
+  }) => void;
 }
 
 // Define interfaces for location data
@@ -78,4 +83,11 @@ export interface FormData {
       country: string;
     };
   };
+}
+
+export interface RequestData {
+  id: string;
+  taskname?: string;
+  requesterName?: string;
+  datetime?: string;
 }

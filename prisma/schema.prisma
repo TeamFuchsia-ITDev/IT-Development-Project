@@ -105,6 +105,7 @@ model Application {
     amount        Float
     description   String
     userEmail     String
+    compName      String
     compEthnicity String
     compGender    String
     compBirthday  String
