@@ -14,10 +14,11 @@ import { useRouter } from "next/navigation";
 
 export default function homepage() {
   const { data: session, status } = useSession();
+  const router = useRouter();
+
   const [user, setUser] = useState<UserProps | undefined>(undefined);
   const [requests, setRequests] = useState<RequestProps[]>([]);
   const [isFormVisible, setIsFormVisible] = useState(false);
-  const router = useRouter();
 
   /** Search Related useStates */
   const [searchTerm, setSearchTerm] = useState("");
@@ -38,6 +39,13 @@ export default function homepage() {
     requesterName: "",
     dateime: "",
   });
+
+  useEffect(() => {
+    // Redirect to login page if there is no session
+    if (status !== "loading" && !session) {
+      router.push("/login");
+    }
+  }, [session, status, router]);
 
   useEffect(() => {
     const getUser = async () => {
@@ -117,7 +125,6 @@ export default function homepage() {
     }
     setTimeout(() => setDisabled(false), 4000);
   };
-
 
   return (
     <main className={`ml-12 mr-12 relative`}>
@@ -237,7 +244,10 @@ export default function homepage() {
       </div>
 
       {isFormVisible && (
-        <div className="flex flex-col w-[500px] border-2 mt-4 items-center mb-12 bg-white fixed left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 " style={{ boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.5)" }}>
+        <div
+          className="flex flex-col w-[500px] border-2 mt-4 items-center mb-12 bg-white fixed left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 "
+          style={{ boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.5)" }}
+        >
           <img
             src={x.src}
             alt="X"
@@ -251,7 +261,8 @@ export default function homepage() {
           </p>
           <div className="ml-4 mr-4 text-center ">
             <h1 className="text-[13.5px] mt-4">
-              You are now applying for {applicationData.requesterName}'s {applicationData.taskname} at {applicationData.dateime}.{" "}
+              You are now applying for {applicationData.requesterName}'s{" "}
+              {applicationData.taskname} at {applicationData.dateime}.{" "}
             </h1>
             <p className="text-[13px]">
               to let the requester know more about you fill up the form below
