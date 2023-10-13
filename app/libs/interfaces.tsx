@@ -91,3 +91,8 @@ export interface RequestData {
   requesterName?: string;
   datetime?: string;
 }
+
+export interface MapProps {
+  startLocation: [number, number];
+  endLocation: [number, number];
+}

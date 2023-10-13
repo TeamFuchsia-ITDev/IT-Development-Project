@@ -29,7 +29,7 @@ export default async function Home() {
       <h1>Server Side Rendered</h1>
       <pre>{JSON.stringify(session)}</pre>
       <h1>Client Side Rendered</h1>
-      <User />
+      <User />	  
       <div>
         <Link href="/login">
           <button className="text-gray-900 underline hover:text-gray-900/70">
