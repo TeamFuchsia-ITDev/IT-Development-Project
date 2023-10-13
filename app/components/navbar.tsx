@@ -1,7 +1,7 @@
 'use client'
 
 import logo from "../images/logov2.svg";
-import { useSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import { useEffect, useState } from "react";
 
 interface UserProps {
@@ -29,6 +29,11 @@ export const Navbar = () => {
     const { data: session, status } = useSession();
     const [user, setUser] = useState<UserProps | undefined>(undefined);
 
+    const [isDropdownOpen, setDropdownOpen] = useState(false);
+
+    const toggleDropdown = () => {
+        setDropdownOpen(!isDropdownOpen);
+    };
 
     useEffect(() => {
         const getUser = async () => {
@@ -39,6 +44,12 @@ export const Navbar = () => {
         if (session?.user.email) getUser();
     }, [session?.user.email]);
 
+    const currentPath = window.location.pathname;
+
+    const isLinkActive = (href: string) => {
+        return currentPath === href ? "text-rose-500 underline underline-offset-[5px] decoration-rose-500 decoration-2 " : "";
+    };
+
 
 
     return (
@@ -48,37 +59,57 @@ export const Navbar = () => {
                     src={logo.src}
                     alt="Logo"
                     width={60}
-                    className="m-2"
+                    className="m-2 "
                 />
-               
-
                 <div className="flex gap-5 mr-4 text-sm">
-                    <a href="/homepage" className="relative group">
+                    <a href="/homepage" className={`relative group ${isLinkActive("/homepage")}`}>
                         Home
-                        <div className="absolute left-0 w-0 h-[2px] bg-rose-500 group-hover:w-full transition-transform transform origin-left transform scale-x-0 group-hover:scale-x-100"></div>
+                        <div
+                            className={`absolute left-0 w-0 h-[2px] bg-rose-500 group-hover:w-full transition-transform transform origin-left transform scale-x-0 group-hover:scale-x-100`}
+                        ></div>
                     </a>
-                    <a href="/post" className="relative group">
+                    <a href="/post" className={`relative group ${isLinkActive("/post")}`}>
                         Post Request
-                        <div className="absolute left-0 w-0 h-[2px] bg-rose-500 group-hover:w-full transition-transform transform origin-left transform scale-x-0 group-hover:scale-x-100"></div>
+                        <div
+                            className={`absolute left-0 w-0 h-[2px] bg-rose-500 group-hover:w-full transition-transform transform origin-left transform scale-x-0 group-hover:scale-x-100`}
+                        ></div>
                     </a>
-                    <a href="/myrequest" className="relative group">
+                    <a href="/myrequest" className={`relative group ${isLinkActive("/myrequest")}`}>
                         My Requests
-                        <div className="absolute left-0 w-0 h-[2px] bg-rose-500 group-hover:w-full transition-transform transform origin-left transform scale-x-0 group-hover:scale-x-100"></div>
+                        <div
+                            className={`absolute left-0 w-0 h-[2px] bg-rose-500 group-hover:w-full transition-transform transform origin-left transform scale-x-0 group-hover:scale-x-100`}
+                        ></div>
                     </a>
-                    <a href="/myjobs" className="relative group">
+                    <a href="/myjobs" className={`relative group ${isLinkActive("/myjobs")}`}>
                         My Applied Jobs
-                        <div className="absolute left-0 w-0 h-[2px] bg-rose-500 group-hover:w-full transition-transform transform origin-left transform scale-x-0 group-hover:scale-x-100"></div>
+                        <div
+                            className={`absolute left-0 w-0 h-[2px] bg-rose-500 group-hover:w-full transition-transform transform origin-left transform scale-x-0 group-hover:scale-x-100`}
+                        ></div>
                     </a>
                 </div>
-                <div className="mr-4">
+                <div className="mr-4 relative">
                     {user ? (
-                        <>
+                        <div className="relative inline-block">
+
                             <img
                                 src={user.image}
+                                onClick={() => toggleDropdown()}
                                 alt="Selected File"
                                 className="w-[40px] h-[40px] object-fit rounded-full ring-1 ring-gray-300 dark:ring-gray-500"
                             />
-                        </>
+
+                            <ul className={`absolute w-[200px] right-0 mt-2 bg-white border border-gray-300 rounded-md shadow-md ${isDropdownOpen ? 'block' : 'hidden'}`} >
+                                <li>
+                                    <a href="/dashboard" className="block px-4 py-2 cursor-pointer hover:bg-gray-100 hover:text-gray-800">Go to Dashboard</a>
+                                </li>
+                                <li>
+                                    <a href="/edit-profile" className="block px-4 py-2 hover:bg-gray-100 hover:text-gray-800">Edit Profile</a>
+                                </li>
+                                <li>
+                                    <a className="block px-4 py-2 cursor-pointer hover:bg-gray-100 hover:text-red-500" onClick={() => signOut()}>Sign Out</a>
+                                </li>
+                            </ul>
+                        </div>
                     ) : (
                         <div role="status">
                             <svg aria-hidden="true" className="inline w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-400 fill-rose-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -91,6 +122,6 @@ export const Navbar = () => {
                 </div>
             </div>
         </main>
+    );
+};
 
-    )
-}

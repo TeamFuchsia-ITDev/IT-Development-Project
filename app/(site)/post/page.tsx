@@ -83,7 +83,7 @@ export default function PostRequest() {
               <p className="text-[13px] mt-4">Task Name</p>
               <input
                 type="text"
-                placeholder=""
+                placeholder="Playing basketball, walking my dog, etc."
                 className="border-2 border-gray-300 h-[45px]"
                 id="taskname"
                 name="taskname"
@@ -119,7 +119,7 @@ export default function PostRequest() {
               />
               <p className="text-[13px]">Brief Description of the task</p>
               <textarea
-                placeholder=""
+                placeholder="what the goal of the task is, etc."
                 className="border-2 border-gray-300 h-[150px] resize-none "
                 id="description"
                 name="description"
