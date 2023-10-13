@@ -28,7 +28,10 @@ const Map = ({ startLocation, endLocation }: MapProps) => {
       const directions = new MapboxDirections({
         accessToken: mapboxgl.accessToken,
         unit: "metric",
-        profile: "mapbox/driving",
+        profile: "mapbox/driving-traffic",
+		alternatives: true
+
+
       });
 
       map.addControl(directions, "top-left");

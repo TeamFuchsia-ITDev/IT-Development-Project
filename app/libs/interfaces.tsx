@@ -53,7 +53,6 @@ export interface CardProps {
   }) => void;
 }
 
-// Define interfaces for location data
 export interface LocationFeature {
   geometry: {
     coordinates: [number, number];
@@ -66,7 +65,6 @@ export interface LocationData {
   features: LocationFeature[];
 }
 
-// Define an interface for your form data
 export interface FormData {
   name: string;
   birthday: string;
