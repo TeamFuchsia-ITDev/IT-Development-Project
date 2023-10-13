@@ -3,27 +3,9 @@
 import logo from "../images/logov2.svg";
 import { useSession, signOut } from "next-auth/react";
 import { useEffect, useState } from "react";
+import { UserProps } from "@/app/libs/interfaces";
 
-interface UserProps {
-  id: string;
-  name: string;
-  ethnicity: string;
-  gender: string;
-  birthday: string;
-  phonenumber: string;
-  image: string;
-  userEmail: string;
-  location: {
-    lng: number;
-    lat: number;
-    address: {
-      fullAddress: string;
-      pointOfInterest: string;
-      city: string;
-      country: string;
-    };
-  };
-}
+
 
 export const Navbar = () => {
   const { data: session, status } = useSession();
