@@ -193,15 +193,7 @@ export default function homepage() {
             ))}
           </select>
 
-          <input
-            type="text"
-            id="amount"
-            name="amount"
-            placeholder="Enter amount"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-            className="border-2 border-gray-300  h-[45px] w-[250px] ml-4"
-          />
+         
         </div>
 
         <div className="mt-12 mb-12">
@@ -225,7 +217,7 @@ export default function homepage() {
             ))}
           </div>
         </div>
-        <div className="">
+        <div className="mb-24">
           <Carousel
             cards={searchFilteredRequests.map(
               (request: RequestProps, index: number) => (
@@ -252,7 +244,7 @@ export default function homepage() {
             src={x.src}
             alt="X"
             width={20}
-            className="m-2 absolute right-0 top-0 cursor-pointer"
+            className="m-2 absolute right-0 top-0 cursor-pointer "
             onClick={() => setIsFormVisible(!isFormVisible)}
           />
 

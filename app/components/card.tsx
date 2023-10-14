@@ -58,15 +58,13 @@ export const Card = ({
     <>
       {smallCard ? (
         <div className="shadow-xl border-2 w-[300px] h-[260px] mb-4 rounded-[10px] hover:ease-in-out duration-300 2xl:w-[410px] 2xl:h-auto md:w-[325px] md:h-auto" style={{ boxShadow: "4px 4px 10px rgba(153, 153, 153, 100%)" }}>
-          <div className="flex items-center justify-center">
-            <img
-              src={imageMapping[request?.category!]}
-              className="rounded-[9px] w-[275px] 2xl:w-[405px] md:w-[340px]"
-            />
-          </div>
-          <div className="ml-4 mr-4 items-center">
+          <img
+            src={imageMapping[request?.category!]}
+            className="rounded-[9px]"
+          />
+          <div className="tems-center">
 
-            <div className="flex flex-row">
+            <div className="flex flex-row ml-[11px] mr-4">
               <img
                 src={request?.requesterImage}
                 className="object-cover w-[70px] h-[70px] rounded-full mt-[-30px]  border-4 border-white"
@@ -79,8 +77,8 @@ export const Card = ({
                 <p className="font-bold text-[10px]">{request?.category}</p>
               </div>
             </div>
-            <p className="text-[20px] font-bold  ">{truncatedTNsmall}</p>
-            <p className="mb-6  text-gray-500 text-[14px]">
+            <p className="text-[20px] font-bold ml-[11px] 2xl:ml-[17.5px] ">{truncatedTNsmall}</p>
+            <p className="mb-6  text-gray-500 text-[14px] ml-[11px] 2xl:ml-[17.5px]">
               {new Date(request?.datetime!).toLocaleDateString("en-US", {
                 year: "numeric",
                 month: "long",
@@ -91,12 +89,12 @@ export const Card = ({
             </p>
             <div className="flex flex-col mt-4 gap-2 items-start mt-[-35px] mb-4">
               {showDetails && (
-                <div className="flex flex-col  mt-4 gap-2 ">
+                <div className="flex flex-col  mt-4 gap-2">
                   {/* <p className=" ">{request?.taskname}</p> */}
-                  <p className="">{request?.description}</p>
-                  <div className="flex flex-row items-center justify-center">
+                  <p className="ml-[11px] 2xl:ml-[17.5px]">{request?.description}</p>
+                 <div >
                     <button
-                      className="text-center bg-green-500 text-white text-[11px] font-bold md:w-[290px] rounded-[10px] h-[35px] hover:bg-white hover:text-green-500 hover:border-[2px] hover:border-green-500 hover:ease-in-out duration-300 2xl:w-[375px] 2xl:h-[45px] "
+                      className="md:ml-[11px] xl:ml-[11px] 2xl:ml-[17.5px] text-center bg-green-500 text-white text-[11px] font-bold md:w-[300px]  h-[35px] hover:bg-white hover:text-green-500 hover:border-[2px] hover:border-green-500 hover:ease-in-out duration-300 2xl:w-[370px] 2xl:h-[40px] "
                       onClick={handleApplyClick}
                     >
                       Apply
@@ -109,7 +107,7 @@ export const Card = ({
           </div>
           <div className="flex items-center justify-center">
             <button
-              className="text-center bg-rose-500 text-white text-[11px] font-bold md:w-[300px] rounded-[10px] h-[35px] hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300 2xl:w-[390px] 2xl:h-[45px] mb-4 "
+              className="text-center bg-rose-500 text-white text-[11px] font-bold md:w-[300px]  h-[35px] hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300 2xl:w-[370px] 2xl:h-[40px] mb-4 "
               onClick={() => setShowDetails(!showDetails)}
             >
               {showDetails ? "Hide Description" : "Show Task Description"}
@@ -119,13 +117,10 @@ export const Card = ({
 
       ) : (
         <div className="border-2 border-gray-300  h-[410px] md:w-[448px] md:h-auto 2xl:w-[571px] 2xl:h-auto rounded-[10px] hover:transform hover:scale-105 transition-transform duration-300 ease-in-out" style={{ boxShadow: "4px 4px 10px rgba(153, 153, 153, 100%)" }}>
-          <div className="flex items-center justify-center ">
-            <img
-              src={imageMapping[request?.category!]}
-              className="rounded-[9px] w-[540px] 2xl:w-[568px] md:w-[450px]"
-            />
-          </div>
-
+          <img
+            src={imageMapping[request?.category!]}
+            className="rounded-[9px]"
+          />
           <div className="flex flex-row">
             <img
               src={request?.requesterImage}
@@ -154,9 +149,9 @@ export const Card = ({
             {showDetails && (
               <div className="flex flex-col  mt-4 gap-2 ">
                 <p className="">{request?.description}</p>
-                <div className="flex itmes-center">
+                <div className="flex items-center justify-center">
                   <button
-                    className="text-center bg-green-500 text-white font-bold w-[406px] rounded-[10px] h-[35px] hover:bg-white hover:text-green-500 hover:border-[2px] hover:border-green-500 hover:ease-in-out duration-300 2xl:w-[530px] 2xl:h-[45px] "
+                    className="text-center bg-green-500 text-white font-bold md:w-[410px]  h-[40px] hover:bg-white hover:text-green-500 hover:border-[2px] hover:border-green-500 hover:ease-in-out duration-300 2xl:w-[535px] 2xl:h-[45px] "
                     onClick={handleApplyClick}
                   >
                     Apply
@@ -167,7 +162,7 @@ export const Card = ({
           </div>
           <div className="flex items-center justify-center">
             <button
-              className="text-center bg-rose-500 text-white font-bold w-[410px] rounded-[10px] h-[35px] hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300 2xl:w-[535px] 2xl:h-[45px] mb-4 "
+              className="text-center bg-rose-500 text-white font-bold md:w-[410px] h-[40px] hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300 2xl:w-[535px] 2xl:h-[45px] mb-4 "
               onClick={() => setShowDetails(!showDetails)}
             >
               {showDetails ? "Hide Description" : "Show Task Description"}

@@ -128,8 +128,8 @@ export default function PostRequest() {
                   setData({ ...data, description: e.target.value })
                 }
               />
-              <p className="text-[10px]">
-                <a className="text-rose-600">Note:</a> Once request is posted,
+              <p className="text-[10px] text-[13px]">
+                <a className="text-rose-600 text-[13px]">Note:</a> Once request is posted,
                 your profile details will be shown to the companions once they
                 viewed the request.
               </p>
