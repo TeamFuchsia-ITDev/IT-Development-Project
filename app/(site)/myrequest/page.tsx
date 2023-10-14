@@ -34,7 +34,7 @@ export default function MyRequest() {
       getRequest();
     }
   }, [session?.user.email, status]);
-
+  
   return (
     <main className="ml-12 mr-12">
       <Navbar />

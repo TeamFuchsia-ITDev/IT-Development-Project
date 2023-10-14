@@ -4,13 +4,13 @@ import logo from "../images/logov2.svg";
 import { useSession, signOut } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { UserProps } from "@/app/libs/interfaces";
-
-
+import { usePathname } from "next/navigation";
 
 export const Navbar = () => {
   const { data: session, status } = useSession();
   const [user, setUser] = useState<UserProps | undefined>(undefined);
   const [isDropdownOpen, setDropdownOpen] = useState(false);
+  const pathname = usePathname();
 
   const toggleDropdown = () => {
     setDropdownOpen(!isDropdownOpen);
@@ -25,48 +25,50 @@ export const Navbar = () => {
     if (session?.user.email) getUser();
   }, [session?.user.email]);
 
-  const currentPath = typeof window !== 'undefined' ? window.location.pathname : ''; // Check if window is defined
-
-  const isLinkActive = (href: string) => {
-    return currentPath === href
-      ? "text-rose-500 underline underline-offset-[5px] decoration-rose-500 decoration-2": " ";
-  };
-  
+  const isLinkActive =
+    " text-rose-500 underline underline-offset-[5px] decoration-rose-500 decoration-2";
 
   return (
     <main className="">
       <div className="flex flex-row justify-between items-center">
         <img src={logo.src} alt="Logo" width={60} className="m-2 " />
         <div className="flex gap-5 mr-4 text-sm">
-          
-          <a href="/homepage" className={`relative group ${isLinkActive("/homepage")}`}>
+          <a
+            href="/homepage"
+            className={`relative group ${
+              pathname === "/homepage" ? isLinkActive : ""
+            }`}
+          >
             Home
-            <div className="absolute left-0 w-0 h-[2px] bg-rose-500 group-hover:w-full transition-transform transform origin-left transform scale-x-0 group-hover:scale-x-100" ></div>
+            <div className="absolute left-0 w-0 h-[2px] bg-rose-500 group-hover:w-full transition-transform transform origin-left transform scale-x-0 group-hover:scale-x-100"></div>
           </a>
-          
-          <a href="/post" className={`relative group ${isLinkActive("/post")}`}>
+
+          <a
+            href="/post "
+            className={`relative group ${
+              pathname === "/post" ? isLinkActive : ""
+            }`}
+          >
             Post Request
-            <div
-               className="absolute left-0 w-0 h-[2px] bg-rose-500 group-hover:w-full transition-transform transform origin-left transform scale-x-0 group-hover:scale-x-100"
-            ></div>
+            <div className="absolute left-0 w-0 h-[2px] bg-rose-500 group-hover:w-full transition-transform transform origin-left transform scale-x-0 group-hover:scale-x-100"></div>
           </a>
           <a
             href="/myrequest"
-            className={`relative group ${isLinkActive("/myrequest")}`}
+            className={`relative group ${
+              pathname === "/myrequest" ? isLinkActive : ""
+            }`}
           >
             My Requests
-            <div
-               className="absolute left-0 w-0 h-[2px] bg-rose-500 group-hover:w-full transition-transform transform origin-left transform scale-x-0 group-hover:scale-x-100"
-            ></div>
+            <div className="absolute left-0 w-0 h-[2px] bg-rose-500 group-hover:w-full transition-transform transform origin-left transform scale-x-0 group-hover:scale-x-100"></div>
           </a>
           <a
             href="/myjobs"
-            className={`relative group ${isLinkActive("/myjobs")}`}
+            className={`relative group ${
+              pathname === "/myjobs" ? isLinkActive : ""
+            }`}
           >
             My Applied Jobs
-            <div
-               className="absolute left-0 w-0 h-[2px] bg-rose-500 group-hover:w-full transition-transform transform origin-left transform scale-x-0 group-hover:scale-x-100"
-            ></div>
+            <div className="absolute left-0 w-0 h-[2px] bg-rose-500 group-hover:w-full transition-transform transform origin-left transform scale-x-0 group-hover:scale-x-100"></div>
           </a>
         </div>
         <div className=" relative">
@@ -85,10 +87,9 @@ export const Navbar = () => {
                 }`}
               >
                 <li>
-                  <a
-                    className="block px-4 py-2 cursor-pointer hover:bg-gray-100 hover:text-gray-800"
-                  >
-                    Signed in as <br /> <span className="font-bold">{user.name}</span>
+                  <a className="block px-4 py-2 cursor-pointer hover:bg-gray-100 hover:text-gray-800">
+                    Signed in as <br />{" "}
+                    <span className="font-bold">{user.name}</span>
                   </a>
                 </li>
                 <li>
