@@ -102,7 +102,7 @@ export default function Login() {
           <Image
             src={SElogo}
             alt="Login"
-            className="w-[200px] h-[200px] m-none absolute mt-[-60px]"
+            className="w-[200px] h-[200px] m-none absolute mt-[-60px] ml-4"
           />
         </div>
 

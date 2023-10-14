@@ -78,7 +78,7 @@ export const Card = ({
               </div>
             </div>
             <p className="text-[20px] font-bold ml-[11px] 2xl:ml-[17.5px] ">{truncatedTNsmall}</p>
-            <p className="mb-6  text-gray-500 text-[14px] ml-[11px] 2xl:ml-[17.5px]">
+            <p className="mb-6  text-gray-500 2xl:text-[14px] md:text-[12px] ml-[11px] 2xl:ml-[17.5px]">
               {new Date(request?.datetime!).toLocaleDateString("en-US", {
                 year: "numeric",
                 month: "long",
