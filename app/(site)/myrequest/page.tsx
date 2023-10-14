@@ -4,14 +4,13 @@ import { Navbar } from "../../components/navbar";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { UserProps, RequestProps } from "../../libs/interfaces";
-import { Card } from "@/app/components/card";
-import {RequestCard} from "@/app/components/requestcard";
+import { RequestCard } from "@/app/components/requestcard";
+import Carousel from "@/app/components/carousel";
 
 export default function MyRequest() {
   const { data: session, status } = useSession();
   const [user, setUser] = useState<UserProps | undefined>(undefined);
   const [myRequests, setMyRequests] = useState<RequestProps[]>([]);
-  const [isFormVisible, setIsFormVisible] = useState(false);
 
   useEffect(() => {
     const getUser = async () => {
@@ -36,10 +35,6 @@ export default function MyRequest() {
     }
   }, [session?.user.email, status]);
 
-  const handleApplyRequest = (requestId: string) => {
-    console.log(`Applying for request with ID: ${requestId}`);
-  };
-
   return (
     <main className="ml-12 mr-12">
       <Navbar />
@@ -54,20 +49,16 @@ export default function MyRequest() {
           </p>
         </div>
 
-      <div className="flex flex-row gap-6 items-center justify-center mt-12 mb-12">
-        <div className="flex flex-col gap-4">
-          {myRequests.map((request: RequestProps, index: number) => (
-            <div key={index}>
-              <RequestCard
-                request={request}
-               
-              />
-            </div>
-          ))}
-          </div>
+        <div className="flex flex-row gap-6 items-center justify-center mt-12 mb-12">
+          <Carousel
+            cards={myRequests.map((request: RequestProps, index: number) => (
+              <div key={index}>
+                <RequestCard request={request} />
+              </div>
+            ))}
+          />
         </div>
       </div>
     </main>
   );
 }
-

@@ -59,10 +59,10 @@ export async function POST(request: Request) {
             "Please enter a brief description or detail for your requested service",
         };
 
-      if (userRequests === 3)
+      if (userRequests === 5)
         throw {
           code: 400,
-          message: "You cannot have more than three requests",
+          message: "You cannot have more than five requests",
         };
 
       const userRequest = await prisma.request.create({
