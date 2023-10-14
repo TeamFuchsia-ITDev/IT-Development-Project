@@ -10,7 +10,7 @@ interface CarouselProps {
   cards: JSX.Element[];
 }
 
-const Carousel: React.FC<CarouselProps> = ({ cards }) => {
+const Carousel = ({ cards }: CarouselProps) => {
   return (
     <Swiper
       spaceBetween={17} // Adjust the space between slides as needed

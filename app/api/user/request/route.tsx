@@ -74,7 +74,7 @@ export async function POST(request: Request) {
           requesterName: userProfile?.name!,
           requesterImage: userProfile?.image!,
           requesterCity: userProfile?.location?.address?.city!,
-		  status: "Waiting",
+          status: "Waiting",
           user: {
             connect: {
               email: session.user.email,
@@ -104,5 +104,34 @@ export async function GET(request: Request) {
       status: code,
       error: message,
     });
+  }
+}
+
+export async function DELETE(request: Request) {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    return NextResponse.json({
+      message: "Unauthorized access",
+      status: 401,
+    });
+  } else {
+    try {
+      const body = await request.json();
+      const { requestid } = body;
+      const userRequest = await prisma.request.delete({
+        where: {
+          id: requestid,
+        },
+      });
+
+      return NextResponse.json({ message: "deleted", status: 200 });
+    } catch (error) {
+      const { code = 500, message = "internal server error" } = error as APIErr;
+      return NextResponse.json({
+        status: code,
+        error: message,
+      });
+    }
   }
 }
