@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { UserProps, RequestProps } from "../../libs/interfaces";
 import { Card } from "@/app/components/card";
+import {RequestCard} from "@/app/components/requestcard";
 
 export default function MyRequest() {
   const { data: session, status } = useSession();
@@ -52,45 +53,21 @@ export default function MyRequest() {
             created
           </p>
         </div>
-        <div>
-          {/* <p className="text-[30px] mt-8 text-center underline underline-offset-8 decoration-rose-500 decoration-2 underline-offset-6">
-            My Requests
-          </p> */}
-        </div>
-        <div className="flex flex-row gap-4 justify-center mt-4">
+
+      <div className="flex flex-row gap-6 items-center justify-center mt-12 mb-12">
+        <div className="flex flex-col gap-4">
           {myRequests.map((request: RequestProps, index: number) => (
             <div key={index}>
-              <Card
+              <RequestCard
                 request={request}
-                smallCard={true}
-                toggleFormVisibility={setIsFormVisible}
-                onApplyClick={handleApplyRequest}
+               
               />
             </div>
           ))}
+          </div>
         </div>
       </div>
     </main>
   );
 }
 
-{
-  /* <p>{request.taskname}</p>
-              <p>{request.category}</p>
-              <p>{request.amount}</p>
-              <p>
-                {new Date(request.datetime).toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}
-              </p>
-              <input
-                type="datetime-local"
-                value={new Date(new Date(request.datetime).getTime() - (new Date(request.datetime).getTimezoneOffset() * 60000)).toISOString().slice(0, 16)}
-                readOnly
-              />
-              <p>{request.userEmail}</p> */
-}
