@@ -1,9 +1,8 @@
 import React from 'react';
 import SwiperCore  from 'swiper/core';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css'; // Import Swiper CSS directly
-
-// Install Swiper modules
+import 'swiper/css'; 
+import 'swiper/css/effect-fade';
 
 
 interface CarouselProps {
@@ -13,8 +12,8 @@ interface CarouselProps {
 const Carousel = ({ cards }: CarouselProps) => {
   return (
     <Swiper
-      spaceBetween={17} // Adjust the space between slides as needed
-      slidesPerView={4} // Number of slides to show at a time
+      spaceBetween={17}
+      slidesPerView={4} 
       navigation={{
         nextEl: '.swiper-button-next',
         prevEl: '.swiper-button-prev',
