@@ -22,7 +22,7 @@ export default function MyJobs () {
 
 
     return (
-        <>
+        <main className="ml-12 mr-12">
         <Navbar />
             <div className="ml-4 mr-4 mt-24">
                 <div className="ml-4 mr-4 text-center">
@@ -33,6 +33,6 @@ export default function MyJobs () {
                 </div>
 
             </div>
-        </>
+        </main>
     )
 }

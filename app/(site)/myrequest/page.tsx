@@ -4,14 +4,13 @@ import { Navbar } from "../../components/navbar";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { UserProps, RequestProps } from "../../libs/interfaces";
-import { Card } from "@/app/components/card";
 import {RequestCard} from "@/app/components/requestcard";
 
 export default function MyRequest() {
   const { data: session, status } = useSession();
   const [user, setUser] = useState<UserProps | undefined>(undefined);
   const [myRequests, setMyRequests] = useState<RequestProps[]>([]);
-  const [isFormVisible, setIsFormVisible] = useState(false);
+
 
   useEffect(() => {
     const getUser = async () => {
@@ -36,9 +35,6 @@ export default function MyRequest() {
     }
   }, [session?.user.email, status]);
 
-  const handleApplyRequest = (requestId: string) => {
-    console.log(`Applying for request with ID: ${requestId}`);
-  };
 
   return (
     <main className="ml-12 mr-12">
