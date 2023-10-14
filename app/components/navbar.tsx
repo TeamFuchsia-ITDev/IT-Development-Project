@@ -78,7 +78,7 @@ export const Navbar = () => {
                 src={user.image}
                 onClick={() => toggleDropdown()}
                 alt="Selected File"
-                className="w-[30px] h-[30px] object-fit rounded-full ring-1 ring-gray-300 dark:ring-gray-500"
+                className="w-[50px] h-[50px] object-cover rounded-full ring-1 ring-gray-300 dark:ring-gray-500"
               />
 
               <ul

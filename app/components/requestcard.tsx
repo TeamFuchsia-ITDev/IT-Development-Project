@@ -3,9 +3,36 @@
 import { RequestProps } from "@/app/libs/interfaces";
 import { useState } from "react";
 import { imageMapping } from "@/app/libs/reusables";
+import axios from "axios";
+import toast from "react-hot-toast";
+
 
 export const RequestCard = ({ request }: { request: RequestProps }) => {
   const [showOptions, setShowOptions] = useState(false);
+  const [disabled, setDisabled] = useState(false);
+
+
+  const deleteRequest = async (requestid: string) => {
+    setDisabled(true);
+    toast.loading("Deleting request...", {
+      duration: 4000,
+    });
+
+    const response = await axios.delete(`api/user/request`, {
+      data: { requestid },
+    });
+    if (response.data.status !== 200) {
+      const errorMessage = response.data?.error || "An error occurred";
+      toast.error(errorMessage);
+    } else {
+      toast.success("Request deleted successfully!");
+    }
+    setTimeout(() => {
+      toast.dismiss();
+      window.location.reload();
+    }, 2000);
+    setTimeout(() => setDisabled(false), 4000);
+  };
 
   return (
     <>
@@ -45,12 +72,18 @@ export const RequestCard = ({ request }: { request: RequestProps }) => {
             <button className="text-center bg-orange-500 text-white mb-4 rounded h-[40px] md:w-[360px] hover:bg-white hover:text-yellow-500 hover:border-[2px] hover:border-yellow-500 hover:ease-in-out duration-300">
               Edit Request
             </button>
-            <button className="text-center bg-rose-500 text-white  mb-4 rounded h-[40px] md:w-[360px] hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300">
+            <button
+              className={`text-center bg-rose-500 text-white  rounded h-[40px] md:w-[360px] hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300 ${
+                disabled ? "pointer-events-none opacity-50" : ""
+              }`}
+              onClick={() => deleteRequest(request?.id!)}
+              disabled={disabled}
+            >
               Cancel Request
             </button>
           </div>
         )}
-        <div className="flex flex-col justify-center items-center mt-4">
+        <div className="flex flex-col justify-center items-center mt-4 mb-4">
           <button
             className="text-center bg-green-500 text-white  mb-0 rounded h-[40px] md:w-[360px] hover:bg-white hover:text-green-500 hover:border-[2px] hover:border-green-500 hover:ease-in-out duration-300"
             onClick={() => setShowOptions(!showOptions)}
@@ -58,7 +91,6 @@ export const RequestCard = ({ request }: { request: RequestProps }) => {
             {showOptions ? "Hide Options" : "Show Options"}
           </button>
         </div>
-        ;
       </div>
     </>
   );
