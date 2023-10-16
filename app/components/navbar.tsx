@@ -92,6 +92,26 @@ export const Navbar = () => {
                     <span className="font-bold">{user.name}</span>
                   </a>
                 </li>
+
+                <li>
+                  <label
+                    htmlFor="Toggle1"
+                    className="inline-flex items-center space-x-4 cursor-pointer  block px-4 py-2"
+                  >
+                    <span>Req</span>
+                    <span className="relative">
+                      <input
+                        id="Toggle1"
+                        type="checkbox"
+                        className="hidden peer"
+                      />
+                      <div className="w-12 h-6 rounded-full shadow-inner dark:bg-black peer-checked:dark:bg-rose-500"></div>
+                      <div className="absolute inset-y-0 left-0 w-4 h-4 m-1 rounded-full shadow peer-checked:right-0 peer-checked:left-auto dark:bg-white"></div>
+                    </span>
+                    <span>Com</span>
+                  </label>
+                </li>
+
                 <li>
                   <a
                     href="/dashboard"

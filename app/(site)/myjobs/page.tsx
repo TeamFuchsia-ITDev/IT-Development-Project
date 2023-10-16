@@ -22,7 +22,7 @@ export default function MyJobs () {
 
 
     return (
-        <main className="ml-12 mr-12">
+        <main className="pl-24 pr-24">
         <Navbar />
             <div className="ml-4 mr-4 mt-24">
                 <div className="ml-4 mr-4 text-center">
