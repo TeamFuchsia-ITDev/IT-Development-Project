@@ -127,7 +127,7 @@ export default function homepage() {
   };
 
   return (
-    <main className={`ml-12 mr-12 relative`}>
+    <main className={`pl-24 pr-24 relative`}>
       <Navbar />
       <div
         className={`ml-4 mr-4 mt-24 w-[100%] ${
@@ -144,7 +144,7 @@ export default function homepage() {
           ) : (
             <p className="text-[40px]">Welcome to your Homepage</p>
           )}
-          <p className="text-[20px] w-[900px] ">
+          <p className="text-[17px] w-[700px] ">
             In here you will be able to see latest requests and also allows you
             to search certain requests you want to help someone with
           </p>
@@ -204,8 +204,8 @@ export default function homepage() {
 
             <div className="flex gap-4 mr-4  mt-4 "></div>
           </div>
-          <div className="mt-12 mb-12 gap-4 flex">
-            {searchFilteredRequests.slice(0, 3).map((request, index) => (
+          {/* <div className="mt-12 gap-4 flex"> */}
+            {/* {searchFilteredRequests.slice(0, 3).map((request, index) => (
               <div key={index}>
                 <Card
                   request={request}
@@ -214,11 +214,13 @@ export default function homepage() {
                   onApplyClick={handleApplyRequest}
                 />
               </div>
-            ))}
-          </div>
+            ))} */}
+          {/* </div> */}
         </div>
         <div className="mb-24">
           <Carousel
+          loop={true}
+          slidesPerView={4}
             cards={searchFilteredRequests.map(
               (request: RequestProps, index: number) => (
                 <div key={index}>
@@ -251,14 +253,15 @@ export default function homepage() {
           <p className="text-center underline underline-offset-8 decoration-rose-500 decoration-2 mt-6">
             Application Form
           </p>
-          <div className="ml-4 mr-4 text-center ">
-            <h1 className="text-[13.5px] mt-4">
+          <div className="ml-4 mr-4 text-center "> 
+          <p className="text-[13px] mt-4">
+              to let the requester know more about you fill up the form below
+            </p>
+            <h1 className="text-[13px] ">
               You are now applying for {applicationData.requesterName}'s{" "}
               {applicationData.taskname} at {applicationData.dateime}.{" "}
             </h1>
-            <p className="text-[13px]">
-              to let the requester know more about you fill up the form below
-            </p>
+           
           </div>
 
           <div className="">

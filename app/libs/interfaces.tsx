@@ -94,3 +94,5 @@ export interface MapProps {
   startLocation: [number, number];
   endLocation: [number, number];
 }
+
+

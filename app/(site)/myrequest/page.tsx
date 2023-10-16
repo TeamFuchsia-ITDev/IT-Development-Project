@@ -39,7 +39,7 @@ export default function MyRequest() {
 
   
   return (
-    <main className="ml-12 mr-12">
+    <main className="pl-24 pr-24">
       <Navbar />
       <div className="ml-4 mr-4 mt-24">
         <div className="ml-4 mr-4">
@@ -54,6 +54,8 @@ export default function MyRequest() {
 
         <div className="mt-6 ">
           <Carousel
+          loop={false}
+          slidesPerView={3}
             cards={myRequests.map((request: RequestProps, index: number) => (
               <div key={index}>
                 <RequestCard request={request} />
