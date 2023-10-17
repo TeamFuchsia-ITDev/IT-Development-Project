@@ -6,12 +6,20 @@ import { useEffect, useState } from "react";
 import { UserProps, RequestProps } from "../../libs/interfaces";
 import { RequestCard } from "@/app/components/requestcard";
 import Carousel from "@/app/components/carousel";
+import { useRouter } from "next/navigation";
 
 export default function MyRequest() {
   const { data: session, status } = useSession();
+  const router = useRouter();
   const [user, setUser] = useState<UserProps | undefined>(undefined);
   const [myRequests, setMyRequests] = useState<RequestProps[]>([]);
-  
+
+  useEffect(() => {
+    // Redirect to login page if there is no session
+    if (status !== "loading" && !session) {
+      router.push("/login");
+    }
+  }, [session, status, router]);
 
   useEffect(() => {
     const getUser = async () => {
@@ -36,8 +44,6 @@ export default function MyRequest() {
     }
   }, [session?.user.email, status]);
 
-
-  
   return (
     <main className="pl-24 pr-24">
       <Navbar />
@@ -54,8 +60,8 @@ export default function MyRequest() {
 
         <div className="mt-6 ">
           <Carousel
-          loop={false}
-          slidesPerView={3}
+            loop={false}
+            slidesPerView={3}
             cards={myRequests.map((request: RequestProps, index: number) => (
               <div key={index}>
                 <RequestCard request={request} />
