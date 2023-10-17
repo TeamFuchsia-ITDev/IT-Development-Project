@@ -64,6 +64,8 @@ export async function POST(request: Request) {
           description,
           userEmail: userProfile?.userEmail!,
           compName: userProfile?.name!,
+		  compImage: userProfile?.image!,
+		  compCity: userProfile?.location?.address?.city!,
           compEthnicity: userProfile?.ethnicity!,
           compBirthday: userProfile?.birthday!,
           compGender: userProfile?.gender!,

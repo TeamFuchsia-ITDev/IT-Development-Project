@@ -207,7 +207,7 @@ export default function homepage() {
         </div>
         <div className="mb-24">
           <Carousel
-          loop={true}
+          loop={false}
           slidesPerView={4}
             cards={searchFilteredRequests.map(
               (request: RequestProps, index: number) => (
