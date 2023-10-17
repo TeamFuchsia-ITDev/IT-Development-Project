@@ -6,15 +6,16 @@ import { imageMapping } from "@/app/libs/reusables";
 import axios from "axios";
 import toast from "react-hot-toast";
 
-
 export const RequestCard = ({ request }: { request: RequestProps }) => {
   const [showOptions, setShowOptions] = useState(false);
   const [disabled, setDisabled] = useState(false);
+  const [applications, setApplications] = useState([]);
+
+  console.log("length", applications.length);
 
   const [truncatedDescription, setTruncatedDescription] = useState<string>(
     request?.description ?? ""
   );
-
 
   const deleteRequest = async (requestid: string) => {
     setDisabled(true);
@@ -46,12 +47,21 @@ export const RequestCard = ({ request }: { request: RequestProps }) => {
   };
 
   useEffect(() => {
+	const getApplications = async () => {
+		const response = await fetch(`/api/user/applications/${request?.id}`);
+		const data = await response.json();
+		setApplications(data)
+	  };
+	  if (request?.id) getApplications();
+  }, []);
+
+  useEffect(() => {
     setTruncatedDescription(limitText(request?.description ?? "", 35));
   }, [request]);
 
   return (
     <>
-     <div
+      <div
         className="shadow-xl border-2  h-auto w-[410px] mb-4 rounded-[10px] hover:ease-in-out duration-300 "
         style={{ boxShadow: "4px 4px 10px rgba(153, 153, 153, 100%)" }}
       >
@@ -80,14 +90,16 @@ export const RequestCard = ({ request }: { request: RequestProps }) => {
               minute: "2-digit",
             })}
           </p>
-          <p className=" md:text-[14px] 2xl:text-[18px]">{showOptions ? request?.description: truncatedDescription}</p>
+          <p className=" md:text-[14px] 2xl:text-[18px]">
+            {showOptions ? request?.description : truncatedDescription}
+          </p>
         </div>
         {showOptions && (
           <div className="flex flex-col justify-center items-center mt-4">
             <button className="text-center bg-orange-500 text-white mb-4 rounded-full h-[40px]  w-[360px] hover:bg-white hover:text-yellow-500 hover:border-[2px] hover:border-yellow-500 hover:ease-in-out duration-300">
               Edit Request
             </button>
-          
+
             <button
               className={`text-center bg-rose-500 text-white rounded-full h-[40px]  w-[360px] hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300 ${
                 disabled ? "pointer-events-none opacity-25" : ""
@@ -98,10 +110,9 @@ export const RequestCard = ({ request }: { request: RequestProps }) => {
               Cancel Request
             </button>
 
-            <button className="text-center bg-blue-700 text-white mt-4 rounded-full h-[40px]  w-[360px] hover:bg-white hover:text-blue-500 hover:border-[2px] hover:border-blue-500 hover:ease-in-out duration-300">
-              View Applicants
+            <button className={`text-center ${applications.length > 0 ? "bg-blue-700" : "bg-blue-700 opacity-50 pointer-events-none"} text-white mt-4 rounded-full h-[40px]  w-[360px] hover:bg-white hover:text-blue-500 hover:border-[2px] hover:border-blue-500 hover:ease-in-out duration-300`}>
+              {applications.length > 0 ? `View Applications (${applications.length})` : "No Applications Yet"}
             </button>
-            
           </div>
         )}
         <div className="flex flex-col justify-center items-center mt-4 mb-4">
