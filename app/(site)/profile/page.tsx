@@ -84,10 +84,10 @@ const Profile = () => {
           </button>
         </Link>
       </div>
-      <Map
+      {/* <Map
         startLocation={[-122.830069, 49.112609]}
         endLocation={[-122.950891, 49.215401]}
-      />
+      /> */}
     </div>
   );
 };

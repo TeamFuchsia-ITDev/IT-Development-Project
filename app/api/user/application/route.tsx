@@ -17,7 +17,12 @@ export async function POST(request: Request) {
       const body = await request.json();
       const { requestid, amount, description } = body;
 
-      console.log(amount);
+      const existingApplication = await prisma.application.findMany({
+        where: {
+          requestId: requestid,
+          userEmail: session.user.email,
+        },
+      });
 
       const userProfile = await prisma.profile.findUnique({
         where: {
@@ -32,10 +37,20 @@ export async function POST(request: Request) {
         },
       });
 
+      if (existingApplication.length >= 1)
+        throw {
+          code: 400,
+          message: "You already have an existing application for this request",
+        };
       if (!amount)
         throw {
           code: 400,
           message: "Please an amount for your service",
+        };
+      if (isNaN(amount) && amount < 0)
+        throw {
+          code: 400,
+          message: "Please enter a valid amount for your service",
         };
       if (!description)
         throw {

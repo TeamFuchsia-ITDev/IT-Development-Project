@@ -203,19 +203,7 @@ export default function homepage() {
             </h1>
 
             <div className="flex gap-4 mr-4  mt-4 "></div>
-          </div>
-          {/* <div className="mt-12 gap-4 flex"> */}
-            {/* {searchFilteredRequests.slice(0, 3).map((request, index) => (
-              <div key={index}>
-                <Card
-                  request={request}
-                  smallCard={false}
-                  toggleFormVisibility={setIsFormVisible}
-                  onApplyClick={handleApplyRequest}
-                />
-              </div>
-            ))} */}
-          {/* </div> */}
+          </div>        
         </div>
         <div className="mb-24">
           <Carousel
@@ -268,18 +256,14 @@ export default function homepage() {
             <p className="text-[13px] mt-8 mb-4">
               <a className="text-green-500">Amount</a> ( the amount you want for
               your service, input 0 if free)
-            </p>
-            {/* <input
-              type="hidden"
-              id="requestid"
-              name="requestid"
-              value={requestID}
-            /> */}
+            </p>           
             <input
-              type="text"
+              type="number"
               id="amount"
               name="amount"
               placeholder="$ CAD"
+			  step="0.01"
+			  min="0"
               className="border-2 border-gray-300 h-[45px] w-[400px]"
               value={data.amount}
               onChange={(e) => setData({ ...data, amount: e.target.value })}
