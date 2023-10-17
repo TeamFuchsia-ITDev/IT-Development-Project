@@ -21,7 +21,15 @@ export default function MyJobs() {
       const data = await response.json();
       setApplications(data);
     };
-    if (requestIDParams) getApplications();
+    const getRequest = async () => {
+      const response = await fetch(`/api/user/request/${requestIDParams}`);
+      const data = await response.json();
+      setRequest(data);
+    };
+    if (requestIDParams) {
+      getApplications();
+      getRequest();
+    }
   }, [session?.user.email, requestIDParams]);
 
   return (
@@ -30,7 +38,7 @@ export default function MyJobs() {
       <div>
         <div className="mt-6 text-center">
           <p className="text-[40px]">
-            These are the applicants for (task name)
+            These are the applicants for {request?.taskname}
           </p>
           <p className="text-[20px]  ">
             In here you will be able to see al the companions that have applied
