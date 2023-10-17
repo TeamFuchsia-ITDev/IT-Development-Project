@@ -17,7 +17,7 @@ export async function POST(request: Request) {
       const body = await request.json();
       const { requestid, amount, description } = body;
 
-	  console.log(amount)
+      console.log(amount);
 
       const userProfile = await prisma.profile.findUnique({
         where: {
