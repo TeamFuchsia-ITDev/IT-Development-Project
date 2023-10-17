@@ -5,19 +5,19 @@ export async function GET(request: Request, { params }: { params: { id: string }
     try {
         const { id } = params;
 		
-        const applications = await prisma.application.findMany({
+        const request = await prisma.request.findUnique({
             where: {
-                requestId: id,
+                id: id,
             }
         });
 
-        if (!applications) {
-            return NextResponse.json({ error: "No applications found" }, { status: 404 });
+        if (!request) {
+            return NextResponse.json({ error: "Request not found" }, { status: 404 });
         }
 
-        return NextResponse.json(applications, { status: 200 });
+        return NextResponse.json(request, { status: 200 });
     } catch (error) {
-        console.error("Error fetching applications:", error);
+        console.error("Error fetching request:", error);
         return NextResponse.json({ error: "Internal server error" }, { status: 500 });
     }
 }
