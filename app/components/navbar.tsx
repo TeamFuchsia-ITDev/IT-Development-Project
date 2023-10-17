@@ -10,7 +10,9 @@ export const Navbar = () => {
   const { data: session, status } = useSession();
   const [user, setUser] = useState<UserProps | undefined>(undefined);
   const [isDropdownOpen, setDropdownOpen] = useState(false);
+  const [mode, setMode] = useState(false);
   const pathname = usePathname();
+  
 
   const toggleDropdown = () => {
     setDropdownOpen(!isDropdownOpen);
@@ -98,17 +100,19 @@ export const Navbar = () => {
                     htmlFor="Toggle1"
                     className="inline-flex items-center space-x-4 cursor-pointer  block px-4 py-2"
                   >
-                    <span>Req</span>
+                    <span>{mode ? "Companion" : "Requester"}</span>
                     <span className="relative">
                       <input
                         id="Toggle1"
                         type="checkbox"
                         className="hidden peer"
+                        value={mode.toString()}
+                        onChange={() => setMode(!mode)}
                       />
                       <div className="w-12 h-6 rounded-full shadow-inner dark:bg-black peer-checked:dark:bg-rose-500"></div>
                       <div className="absolute inset-y-0 left-0 w-4 h-4 m-1 rounded-full shadow peer-checked:right-0 peer-checked:left-auto dark:bg-white"></div>
                     </span>
-                    <span>Com</span>
+                  
                   </label>
                 </li>
 

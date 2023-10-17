@@ -80,16 +80,7 @@ export default function PostRequest() {
               <p className="text-center underline underline-offset-8 decoration-rose-500 decoration-2 mt-12">
                 Request Form
               </p>
-              <p className="text-[13px] mt-4">Task Name</p>
-              <input
-                type="text"
-                placeholder="Playing basketball, walking my dog, etc."
-                className="border-2 border-gray-300 h-[45px]"
-                id="taskname"
-                name="taskname"
-                value={data.taskname}
-                onChange={(e) => setData({ ...data, taskname: e.target.value })}
-              />
+              
               <p className="text-[13px]">Category</p>
               <select
                 className="border-2 border-gray-300  h-[45px] "
@@ -106,7 +97,17 @@ export default function PostRequest() {
                     {option}
                   </option>
                 ))}
-              </select>              
+              </select>
+              <p className="text-[13px] mt-4">Task Name</p>
+              <input
+                type="text"
+                placeholder="Playing basketball, walking my dog, etc."
+                className="border-2 border-gray-300 h-[45px]"
+                id="taskname"
+                name="taskname"
+                value={data.taskname}
+                onChange={(e) => setData({ ...data, taskname: e.target.value })}
+              />              
               <p className="text-[13px]">Date</p>
               <input
                 type="Datetime-local"
@@ -138,7 +139,7 @@ export default function PostRequest() {
                 onClick={postRequest}
                 disabled={disabled}
               >
-                Post Request
+                Create Request
               </button>
             </div>
           </div>

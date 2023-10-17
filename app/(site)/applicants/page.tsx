@@ -38,6 +38,12 @@ export default function MyJobs() {
                 Select Ethnicity
               </option>
             </select>
+            <select className="mt-4">
+              {" "}
+              <option value="" disabled>
+                Select Gender
+              </option>
+            </select>
             <input type="text" placeholder="Input age" />
           </div>
         </div>
