@@ -3,21 +3,26 @@
 import { Navbar } from "../../components/navbar";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import { UserProps } from "@/app/libs/interfaces";
+import { useRouter, useSearchParams } from "next/navigation";
+import { ApplicationProps, RequestProps } from "@/app/libs/interfaces";
 import { CompanionCard } from "@/app/components/companioncard";
+import Carousel from "@/app/components/carousel";
 
 export default function MyJobs() {
   const { data: session, status } = useSession();
-  const [user, setUser] = useState<UserProps | undefined>(undefined);
+  const searchParams = useSearchParams();
+  const requestIDParams = searchParams.get("id");
+  const [applications, setApplications] = useState([]);
+  const [request, setRequest] = useState<RequestProps | undefined>(undefined);
 
   useEffect(() => {
-    const getUser = async () => {
-      const response = await fetch(`/api/user/profile/${session?.user.email}`);
+    const getApplications = async () => {
+      const response = await fetch(`/api/user/applications/${requestIDParams}`);
       const data = await response.json();
-      setUser(data);
+      setApplications(data);
     };
-    if (session?.user.email) getUser();
-  }, [session?.user.email]);
+    if (requestIDParams) getApplications();
+  }, [session?.user.email, requestIDParams]);
 
   return (
     <main className="pl-24 pr-24">
@@ -49,8 +54,18 @@ export default function MyJobs() {
         </div>
 
         <div>
-            <h1>Applicants</h1>
-            <CompanionCard />
+          <h1>Applicants</h1>
+          <Carousel
+            loop={false}
+            slidesPerView={3}
+            cards={applications.map(
+              (application: ApplicationProps, index: number) => (
+                <div key={index}>
+                  <CompanionCard application={application} />
+                </div>
+              )
+            )}
+          />
         </div>
       </div>
     </main>

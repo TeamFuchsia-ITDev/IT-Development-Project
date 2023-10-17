@@ -106,6 +106,8 @@ model Application {
     description   String
     userEmail     String
     compName      String
+    compImage     String
+    compCity      String
     compEthnicity String
     compGender    String
     compBirthday  String

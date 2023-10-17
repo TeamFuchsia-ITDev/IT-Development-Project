@@ -31,6 +31,21 @@ export interface RequestProps {
   requesterCity: string;
 }
 
+export interface ApplicationProps {
+  id: string;
+  amount: GLfloat;
+  description: string;
+  userEmail: string;
+  compName: string;
+  compImage: string;
+  compCity: string;
+  compEthnicity: string;
+  compGender: string;
+  compBirthday: string;
+  status: string;
+  requestId: string;
+}
+
 export interface ImageMapping {
   [key: string]: string;
 }
@@ -94,5 +109,3 @@ export interface MapProps {
   startLocation: [number, number];
   endLocation: [number, number];
 }
-
-
