@@ -37,21 +37,21 @@ export default function MyJobs() {
       <Navbar />
       <div>
         <div className="mt-6 text-center">
-          <p className="text-[40px]">
+          <p className="text-[40px] mt-12">
             These are the applicants for {request?.taskname}
           </p>
           <p className="text-[20px]  ">
             In here you will be able to see al the companions that have applied
             to your request
           </p>
-          <div>
-            <select className="mt-4">
+          <div className="flex flex-row gap-4  justify-center mt-4">
+            <select className="">
               {" "}
               <option value="" disabled>
                 Select Ethnicity
               </option>
             </select>
-            <select className="mt-4">
+            <select className="">
               {" "}
               <option value="" disabled>
                 Select Gender
@@ -62,10 +62,10 @@ export default function MyJobs() {
         </div>
 
         <div>
-          <h1>Applicants</h1>
+          <h1 className="font-bold mt-4 mb-4">Applicants</h1>
           <Carousel
             loop={false}
-            slidesPerView={3}
+            slidesPerView={4}
             cards={applications.map(
               (application: ApplicationProps, index: number) => (
                 <div key={index}>

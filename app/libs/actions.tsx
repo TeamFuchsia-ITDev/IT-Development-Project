@@ -24,3 +24,11 @@ export async function createProfile(data: {
     throw new Error("Please enter your complete address");
   }
 }
+
+export const limitText = (text: string, maxLength: number) => {
+  if (text.length > maxLength) {
+    return text.slice(0, maxLength) + "...";
+  }
+  return text;
+};
+

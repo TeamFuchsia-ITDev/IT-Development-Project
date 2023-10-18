@@ -70,6 +70,14 @@ export default function MyRequest() {
           />
         </div>
       </div>
+      <div>
+        <h1 className="text-[40px] text-center mt-12">Ongoing</h1>
+        
+      </div>
+
+      <div>
+        <h1 className="text-[40px] text-center mt-12 ">Completed</h1>
+      </div>
     </main>
   );
 }
