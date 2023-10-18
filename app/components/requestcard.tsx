@@ -57,11 +57,14 @@ export const RequestCard = ({ request }: { request: RequestProps }) => {
         className="shadow-xl border-2  h-auto w-[390px] mb-4 rounded-[10px] hover:ease-in-out duration-300 "
         style={{ boxShadow: "4px 4px 10px rgba(153, 153, 153, 100%)" }}
       >
-        <img src={imageMapping[request?.category!]} className="rounded-[9px]" />
+        <img src={imageMapping[request?.category!]} className="rounded-t-lg" />
         <div className="flex flex-row">
           <img
             src={request?.requesterImage}
-            className="object-cover  ml-4 w-[90px] h-[90px]  rounded-full mt-[-30px]  border-4 border-white shadow-xl"
+            className="object-cover  ml-4 w-[90px] h-[90px]  rounded-full mt-[-30px]  border-4 border-white"
+			style={{
+				boxShadow: "4px 4px 10px rgba(153, 153, 153, 100%)",
+			  }}
           />
           <div className="flex flex-col justify-center ml-2">
             <p className="text-[15px]">{request?.requesterName}</p>
@@ -82,7 +85,7 @@ export const RequestCard = ({ request }: { request: RequestProps }) => {
               minute: "2-digit",
             })}
           </p>
-          <p className=" md:text-[14px] 2xl:text-[18px]">
+          <p className=" md:text-[14px] 2xl:text-[18px] overflow-hidden">
             {showOptions ? request?.description : truncatedDescription}
           </p>
         </div>

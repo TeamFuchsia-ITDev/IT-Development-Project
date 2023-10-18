@@ -50,10 +50,10 @@ export const Card = ({
   return (
     <>
       {smallCard ? (
-        <main className=" border-2 w-[300px] h-auto rounded-[10px]" >
+        <main className=" border-2 w-[300px] h-auto rounded-[10px]">
           <div className="">
-            <img src={imageMapping[request?.category!]} className="" />
-            <div className="ml-2 mr-2">
+            <img src={imageMapping[request?.category!]} className="rounded-t-lg" />				
+            <div className="ml-2 mr-2" >
               <div className="flex flex-row">
                 <img
                   src={request?.requesterImage}
@@ -73,22 +73,22 @@ export const Card = ({
                 </div>
               </div>
               <div className="flex flex-col pl-2">
-              <p className="text-[20px] font-bold mt-4">{truncatedTNsmall}</p>
-              <p className="  text-gray-500 text-[12px]">
-                {new Date(request?.datetime!).toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}
-              </p>
+                <p className="text-[20px] font-bold mt-4">{truncatedTNsmall}</p>
+                <p className="  text-gray-500 text-[12px]">
+                  {new Date(request?.datetime!).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </p>
               </div>
             </div>
             {showDetails && (
               <div className="flex flex-col gap-2 ">
                 <p className="pl-4">{request?.description}</p>
-               
+
                 <div className="flex justify-center">
                   <button
                     className="text-center h-[35px] w-[270px] bg-green-500 text-white text-[11px] font-bold rounded-full hover:bg-white hover:text-green-500 hover:border-[2px] hover:border-green-500 hover:ease-in-out duration-300 "
@@ -100,8 +100,10 @@ export const Card = ({
               </div>
             )}
             <div className="flex justify-center mt-2">
-              <button className="text-center bg-rose-500 text-white text-[11px] font-bold  w-[270px] h-[35px] rounded-full hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300  mb-4"
-              onClick={() => setShowDetails(!showDetails)}>
+              <button
+                className="text-center bg-rose-500 text-white text-[11px] font-bold  w-[270px] h-[35px] rounded-full hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300  mb-4"
+                onClick={() => setShowDetails(!showDetails)}
+              >
                 {showDetails ? "Hide Description" : "Show Task Description"}
               </button>
             </div>
@@ -157,8 +159,8 @@ export const Card = ({
           </div>
           <div className="flex items-center justify-center">
             <button
-              className="text-center bg-rose-500 text-white font-bold md:w-[410px] h-[40px] hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300 2xl:w-[535px] 2xl:h-[45px] mb-4 "
-              onClick={() => setShowDetails(!showDetails)}
+              className="text-center bg-rose-500 text-white font-bold md:w-[410px] h-[40px] hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300 2xl:w-[535px] 2xl:h-[45px] mb-4 shadow-xl"
+              onClick={() => setShowDetails(!showDetails)}             
             >
               {showDetails ? "Hide Description" : "Show Task Description"}
             </button>

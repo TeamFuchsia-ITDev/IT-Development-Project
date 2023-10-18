@@ -15,12 +15,9 @@ export const CompanionCard = ({
     application?.compEthnicity ?? ""
   );
 
-  
   useEffect(() => {
     setTruncatedEthnicity(limitText(application?.compEthnicity ?? "", 7));
   }, [application]);
-
-
 
   function calculateAge(birthdate: string) {
     const birthYear = new Date(birthdate).getFullYear();
@@ -30,11 +27,14 @@ export const CompanionCard = ({
   }
   return (
     <>
-      <div className=" border-2  h-auto w-auto mb-4 rounded-[10px] ">
+      <div
+        className=" border-2  h-auto w-auto mb-4 rounded-[10px] "
+        style={{ boxShadow: "4px 4px 10px rgba(153, 153, 153, 100%)" }}
+      >
         <div className="flex flex-col">
           <img
             src={application.compImage}
-            className="rounded-[9px] h-[150px] w-auto object-cover"
+            className="rounded-t-lg h-[150px] w-auto object-cover"
           />
           <div className="flex flex-row pl-4 pr-4">
             <div className="w-[70%] mt-4">
@@ -51,14 +51,18 @@ export const CompanionCard = ({
               <h1>
                 RATE: <a className="text-rose-500">${application.amount}</a>
               </h1>{" "}
-              <h1 className="">{showWhy ? application.compEthnicity : truncatedEthnicity}</h1>
+              <h1 className="">
+                {showWhy ? application.compEthnicity : truncatedEthnicity}
+              </h1>
             </div>
           </div>
           <div>
-          <h1 className="ml-4 mr-4 mt-2 mb-2">{showWhy ? application.description : ""}</h1>
+            <h1 className="ml-4 mr-4 mt-2 mb-2">
+              {showWhy ? application.description : ""}
+            </h1>
           </div>
           <div className="flex flex-col pl-4 pr-4 gap-2 mt-2 mb-4">
-          <button
+            <button
               className="text-center bg-rose-500 text-white text-[15px] rounded-full h-[35px]  w-auto hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300"
               onClick={() => setShowWhy(!showWhy)}
             >
@@ -67,10 +71,9 @@ export const CompanionCard = ({
             <button className="text-center bg-lime-500 text-white text-[15px] rounded-full h-[35px]  w-auto hover:bg-white hover:text-green-500 hover:border-[2px] hover:border-green-500 hover:ease-in-out duration-300">
               Accept
             </button>
-            </div>
+          </div>
         </div>
       </div>
-      
     </>
   );
 };
