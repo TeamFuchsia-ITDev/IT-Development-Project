@@ -3,6 +3,7 @@
 import { CardProps } from "@/app/libs/interfaces";
 import { useEffect, useState } from "react";
 import { imageMapping } from "@/app/libs/reusables";
+import { limitText } from "@/app/libs/actions";
 
 export const Card = ({
   smallCard,
@@ -19,14 +20,6 @@ export const Card = ({
   );
 
   const [showDetails, setShowDetails] = useState(false);
-
-  // Function to limit the text length
-  const limitText = (text: string, maxLength: number) => {
-    if (text.length > maxLength) {
-      return text.slice(0, maxLength) + "...";
-    }
-    return text;
-  };
 
   useEffect(() => {
     setTruncatedTNsmall(limitText(request?.taskname ?? "", 25));

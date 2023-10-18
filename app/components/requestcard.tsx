@@ -6,14 +6,12 @@ import { imageMapping } from "@/app/libs/reusables";
 import axios from "axios";
 import toast from "react-hot-toast";
 import Link from "next/link";
+import { limitText } from "@/app/libs/actions";
 
 export const RequestCard = ({ request }: { request: RequestProps }) => {
   const [showOptions, setShowOptions] = useState(false);
   const [disabled, setDisabled] = useState(false);
   const [applications, setApplications] = useState([]);
-
-  console.log("length", applications.length);
-
   const [truncatedDescription, setTruncatedDescription] = useState<string>(
     request?.description ?? ""
   );
@@ -40,20 +38,13 @@ export const RequestCard = ({ request }: { request: RequestProps }) => {
     setTimeout(() => setDisabled(false), 4000);
   };
 
-  const limitText = (text: string, maxLength: number) => {
-    if (text.length > maxLength) {
-      return text.slice(0, maxLength) + "...";
-    }
-    return text;
-  };
-
   useEffect(() => {
-	const getApplications = async () => {
-		const response = await fetch(`/api/user/applications/${request?.id}`);
-		const data = await response.json();
-		setApplications(data)
-	  };
-	  if (request?.id) getApplications();
+    const getApplications = async () => {
+      const response = await fetch(`/api/user/applications/${request?.id}`);
+      const data = await response.json();
+      setApplications(data);
+    };
+    if (request?.id) getApplications();
   }, []);
 
   useEffect(() => {
@@ -63,14 +54,14 @@ export const RequestCard = ({ request }: { request: RequestProps }) => {
   return (
     <>
       <div
-        className="shadow-xl border-2  h-auto w-[410px] mb-4 rounded-[10px] hover:ease-in-out duration-300 "
+        className="shadow-xl border-2  h-auto w-[390px] mb-4 rounded-[10px] hover:ease-in-out duration-300 "
         style={{ boxShadow: "4px 4px 10px rgba(153, 153, 153, 100%)" }}
       >
         <img src={imageMapping[request?.category!]} className="rounded-[9px]" />
         <div className="flex flex-row">
           <img
             src={request?.requesterImage}
-            className="object-cover  ml-4 w-[90px] h-[90px]  rounded-full mt-[-30px]  border-4 border-white "
+            className="object-cover  ml-4 w-[90px] h-[90px]  rounded-full mt-[-30px]  border-4 border-white shadow-xl"
           />
           <div className="flex flex-col justify-center ml-2">
             <p className="text-[15px]">{request?.requesterName}</p>
@@ -110,12 +101,27 @@ export const RequestCard = ({ request }: { request: RequestProps }) => {
             >
               Cancel Request
             </button>
-			
-			<Link href={`/applicants?id=${request?.id}`}>
-            <button className={`text-center ${applications.length > 0 ? "bg-blue-700" : "bg-blue-700 opacity-50 pointer-events-none"} text-white mt-4 rounded-full h-[40px]  w-[360px] hover:bg-white hover:text-blue-500 hover:border-[2px] hover:border-blue-500 hover:ease-in-out duration-300`}>
-              {applications.length > 0 ? `View Applications (${applications.length})` : "No Applications Yet"}
-            </button>
-			</Link>
+
+            <Link
+              href={`/applicants?id=${request?.id}`}
+              className={`${
+                applications.length > 0
+                  ? ""
+                  : "pointer-events-none"
+              }`}
+            >
+              <button
+                className={`text-center ${
+                  applications.length > 0
+                    ? "bg-blue-600"
+                    : "bg-blue-600 opacity-50 pointer-events-none"
+                } text-white mt-4 rounded-full h-[40px]  w-[360px] hover:bg-white hover:text-blue-500 hover:border-[2px] hover:border-blue-500 hover:ease-in-out duration-300`}
+              >
+                {applications.length > 0
+                  ? `View Applications (${applications.length})`
+                  : "No Applications Yet"}
+              </button>
+            </Link>
           </div>
         )}
         <div className="flex flex-col justify-center items-center mt-4 mb-4">

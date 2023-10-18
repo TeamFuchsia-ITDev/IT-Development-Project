@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { UserProps } from "@/app/libs/interfaces";
-import { imageMapping, CategoryOptions  } from "@/app/libs/reusables";
+import { imageMapping, CategoryOptions, numberofCompanion  } from "@/app/libs/reusables";
 
 export default function PostRequest() {
   const { data: session, status } = useSession();
@@ -81,7 +81,7 @@ export default function PostRequest() {
                 Request Form
               </p>
               
-              <p className="text-[13px]">Category</p>
+              <p className="text-[13px] mt-4">Category</p>
               <select
                 className="border-2 border-gray-300  h-[45px] "
                 id="categories"
@@ -98,7 +98,26 @@ export default function PostRequest() {
                   </option>
                 ))}
               </select>
-              <p className="text-[13px] mt-4">Task Name</p>
+
+
+              <p className="text-[13px] ">Companion Needed</p>
+              <select
+                className="border-2 border-gray-300  h-[45px] "
+                id="companionCount"
+                name="companionCount"
+              >
+                <option value="" disabled>
+                  Companion Count
+                </option>
+                {numberofCompanion.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+
+
+              <p className="text-[13px] ">Task Name</p>
               <input
                 type="text"
                 placeholder="Playing basketball, walking my dog, etc."

@@ -69,3 +69,12 @@ export const CategoryOptions = [
   "Handyman",
   "Groceries",
 ];
+
+
+export const numberofCompanion = [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+]
