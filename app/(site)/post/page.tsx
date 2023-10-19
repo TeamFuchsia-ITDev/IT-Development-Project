@@ -110,7 +110,7 @@ export default function PostRequest() {
 				onChange={(e) => setData({ ...data, compNeeded: e.target.value })}
               >
                 <option value="" disabled>
-                  Companion Count
+                  Select Number of Companion Needed
                 </option>
                 {numberofCompanion.map((option) => (
                   <option key={option} value={option}>

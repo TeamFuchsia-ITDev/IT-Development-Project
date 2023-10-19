@@ -1,13 +1,14 @@
 "use client";
 
-import { CompanionCardProps } from "@/app/libs/interfaces";
-import { useState, useEffect } from "react";
+import { ApplicationProps, CompanionCardProps } from "@/app/libs/interfaces";
+import toast from "react-hot-toast";
+import { useState, useEffect, FormEvent } from "react";
 import { limitText } from "@/app/libs/actions";
+import axios from "axios";
 
-export const CompanionCard = ({
-  application,
-}: CompanionCardProps) => {
+export const CompanionCard = ({ application }: CompanionCardProps) => {
   const [showWhy, setShowWhy] = useState(false);
+  const [disabled, setDisabled] = useState(false);
 
   const [truncatedEthnicity, setTruncatedEthnicity] = useState<string>(
     application?.compEthnicity ?? ""
@@ -24,8 +25,32 @@ export const CompanionCard = ({
     return age;
   }
 
-  const handleAcceptClick = () => {
+  const handleAcceptClick = async (
+    e: FormEvent,
+    applicationData: ApplicationProps
+  ) => {
+    setDisabled(true);
+    toast.loading("Sending application...", {
+      duration: 4000,
+    });
 
+    const response = await axios.patch(`api/user/application`, {
+      data: {
+        requestId: applicationData.requestId,
+        applicationId: applicationData.id,
+      },
+    });
+    if (response.data.status !== 200) {
+      const errorMessage = response.data?.error || "An error occurred";
+      toast.error(errorMessage);
+      setTimeout(() => setDisabled(false), 2000);
+    } else {
+      toast.success("Application accepted");
+      setTimeout(() => {
+        toast.dismiss();
+        window.location.reload();
+      }, 2000);
+    }
   };
 
   return (
@@ -73,7 +98,7 @@ export const CompanionCard = ({
             </button>
             <button
               className="text-center bg-lime-500 text-white text-[15px] rounded-full h-[35px]  w-auto hover:bg-white hover:text-green-500 hover:border-[2px] hover:border-green-500 hover:ease-in-out duration-300"
-              onClick={handleAcceptClick}
+              onClick={(e) => handleAcceptClick(e, application!)}
             >
               Accept
             </button>

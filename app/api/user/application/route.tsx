@@ -113,7 +113,7 @@ export async function PATCH(request: Request) {
   } else {
     try {
       const body = await request.json();
-      const { applicationId, requestId } = body;
+      const { applicationId, requestId } = body.data;
 
       const updatedApplication = await prisma.application.update({
         where: { id: applicationId },
@@ -126,17 +126,12 @@ export async function PATCH(request: Request) {
         },
       });
 
-	  console.log("applied request", appliedRequest)
-
       const acceptedApplications = await prisma.application.findMany({
         where: {
           requestId: requestId,
           status: "Accepted",
         },
       });
-
-	  console.log("accepted applications", acceptedApplications)
-
 
       if (appliedRequest?.compNeeded === acceptedApplications.length) {
         await prisma.request.update({
