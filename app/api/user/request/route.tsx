@@ -114,31 +114,52 @@ export async function GET(request: Request) {
   }
 }
 
-export async function DELETE(request: Request) {
-  const session = await getServerSession(authOptions);
-
-  if (!session) {
-    return NextResponse.json({
-      message: "Unauthorized access",
-      status: 401,
-    });
-  } else {
-    try {
-      const body = await request.json();
-      const { requestid } = body;
-      const userRequest = await prisma.request.delete({
-        where: {
-          id: requestid,
-        },
-      });
-
-      return NextResponse.json({ message: "deleted", status: 200 });
-    } catch (error) {
-      const { code = 500, message = "internal server error" } = error as APIErr;
-      return NextResponse.json({
-        status: code,
-        error: message,
-      });
-    }
+export async function PATCH(request: Request) {
+	const session = await getServerSession(authOptions);
+  
+	if (!session) {
+	  return NextResponse.json({
+		message: "Unauthorized access",
+		status: 401,
+	  });
+	} else {
+	  try {
+		const body = await request.json();
+		const { requestid } = body;
+  
+		const canceledRequest = await prisma.request.update({
+		  where: {
+			id: requestid,
+		  },
+		  data: {
+			status: "Cancelled",
+		  },
+		});
+  
+		const applications = await prisma.application.findMany({
+		  where: {
+			requestId: requestid,
+		  },
+		});
+  
+		if (applications.length > 0) {
+		  await prisma.application.updateMany({
+			where: {
+			  requestId: requestid,
+			},
+			data: {
+			  status: "Requester-Cancelled",
+			},
+		  });
+		}
+  
+		return NextResponse.json(canceledRequest, { status: 200 });
+	  } catch (error) {
+		const { code = 500, message = "internal server error" } = error as APIErr;
+		return NextResponse.json({
+		  status: code,
+		  error: message,
+		});
+	  }
+	}
   }
-}

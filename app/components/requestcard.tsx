@@ -16,9 +16,9 @@ export const RequestCard = ({ request }: { request: RequestProps }) => {
     request?.description ?? ""
   );
 
-  const deleteRequest = async (requestid: string) => {
+  const canceledRequest = async (requestid: string) => {
     setDisabled(true);
-    toast.loading("Deleting request...", {
+    toast.loading("Cancelled request...", {
       duration: 4000,
     });
 
@@ -29,7 +29,7 @@ export const RequestCard = ({ request }: { request: RequestProps }) => {
       const errorMessage = response.data?.error || "An error occurred";
       toast.error(errorMessage);
     } else {
-      toast.success("Request deleted successfully!");
+      toast.success("Request cancelled successfully!");
     }
     setTimeout(() => {
       toast.dismiss();
@@ -100,7 +100,7 @@ export const RequestCard = ({ request }: { request: RequestProps }) => {
               className={`text-center bg-rose-500 text-white rounded-full h-[40px]  w-[360px] hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300 ${
                 disabled ? "pointer-events-none opacity-25" : ""
               }`}
-              onClick={() => deleteRequest(request?.id!)}
+              onClick={() => canceledRequest(request?.id!)}
               disabled={disabled}
             >
               Cancel Request
