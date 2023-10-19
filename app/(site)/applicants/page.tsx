@@ -66,7 +66,7 @@ export default function MyJobs() {
           <Carousel
             loop={false}
             slidesPerView={4}
-            cards={applications.map(
+            cards={applications.filter((application: ApplicationProps) => application.status === "Pending").map(
               (application: ApplicationProps, index: number) => (
                 <div key={index}>
                   <CompanionCard application={application} />

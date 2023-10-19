@@ -1,6 +1,6 @@
 "use client";
 
-import { RequestProps } from "@/app/libs/interfaces";
+import { ApplicationProps, RequestProps } from "@/app/libs/interfaces";
 import { useState, useEffect } from "react";
 import { imageMapping } from "@/app/libs/reusables";
 import axios from "axios";
@@ -42,7 +42,8 @@ export const RequestCard = ({ request }: { request: RequestProps }) => {
     const getApplications = async () => {
       const response = await fetch(`/api/user/applications/${request?.id}`);
       const data = await response.json();
-      setApplications(data);
+	  const filteredData = data.filter((app: ApplicationProps) => app.status === "Pending")
+      setApplications(filteredData);
     };
     if (request?.id) getApplications();
   }, []);
