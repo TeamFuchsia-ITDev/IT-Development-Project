@@ -91,6 +91,7 @@ model Request {
     requesterName  String
     requesterImage String
     requesterCity  String
+	compNeeded 	   Int
     status         String // "Waiting, Pending, OnGoing, Cancelled, Completed"
 
     user      User   @relation(fields: [userEmail], references: [email])

@@ -18,6 +18,7 @@ export default function PostRequest() {
   const [data, setData] = useState({
     taskname: "",
     category: "",
+	compNeeded: "",
     datetime: "",
     description: "",
   });
@@ -105,6 +106,8 @@ export default function PostRequest() {
                 className="border-2 border-gray-300  h-[45px] "
                 id="companionCount"
                 name="companionCount"
+				value={data.compNeeded}
+				onChange={(e) => setData({ ...data, compNeeded: e.target.value })}
               >
                 <option value="" disabled>
                   Companion Count

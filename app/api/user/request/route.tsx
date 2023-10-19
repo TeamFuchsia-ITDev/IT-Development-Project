@@ -15,7 +15,7 @@ export async function POST(request: Request) {
   } else {
     try {
       const body = await request.json();
-      const { taskname, category, datetime, description } = body;
+      const { taskname, category, compNeeded, datetime, description } = body;
 
       const userRequests = await prisma.request.count({
         where: {
@@ -36,15 +36,21 @@ export async function POST(request: Request) {
         },
       });
 
-      if (!taskname)
-        throw {
-          code: 400,
-          message: "Please enter the taskname for your request",
-        };
       if (!category)
         throw {
           code: 400,
           message: "Please select a category for your request",
+        };
+      if (!compNeeded)
+        throw {
+          code: 400,
+          message:
+            "Please select the number of companions you need for your request",
+        };
+      if (!taskname)
+        throw {
+          code: 400,
+          message: "Please enter the taskname for your request",
         };
       if (!datetime)
         throw {
@@ -75,6 +81,7 @@ export async function POST(request: Request) {
           requesterImage: userProfile?.image!,
           requesterCity: userProfile?.location?.address?.city!,
           status: "Waiting",
+          compNeeded: +compNeeded,
           user: {
             connect: {
               email: session.user.email,
