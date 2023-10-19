@@ -29,6 +29,7 @@ export interface RequestProps {
   requesterName: string;
   requesterImage: string;
   requesterCity: string;
+  status: string;
 }
 
 export interface ApplicationProps {

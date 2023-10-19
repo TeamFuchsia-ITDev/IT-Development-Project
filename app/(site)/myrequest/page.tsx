@@ -62,7 +62,7 @@ export default function MyRequest() {
           <Carousel
             loop={false}
             slidesPerView={3}
-            cards={myRequests.map((request: RequestProps, index: number) => (
+            cards={myRequests.filter((request: RequestProps) => request.status === "Pending").map((request: RequestProps, index: number) => (
               <div key={index}>
                 <RequestCard request={request} />
               </div>
@@ -72,7 +72,15 @@ export default function MyRequest() {
       </div>
       <div>
         <h1 className="text-[40px] text-center mt-12">Ongoing</h1>
-        
+        <Carousel
+          loop={false}
+          slidesPerView={3}
+          cards={myRequests.filter((request: RequestProps) => request.status === "OnGoing").map((request: RequestProps, index: number) => (
+            <div key={index}>
+              <RequestCard request={request} />
+            </div>
+          ))}
+        />
       </div>
 
       <div>
