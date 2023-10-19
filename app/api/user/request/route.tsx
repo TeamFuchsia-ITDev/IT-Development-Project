@@ -80,7 +80,7 @@ export async function POST(request: Request) {
           requesterName: userProfile?.name!,
           requesterImage: userProfile?.image!,
           requesterCity: userProfile?.location?.address?.city!,
-          status: "Waiting",
+          status: "Pending",
           compNeeded: +compNeeded,
           user: {
             connect: {

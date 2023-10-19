@@ -57,8 +57,8 @@ export default function homepage() {
       const response = await axios.get(`/api/user/request`);
       const data = await response.data;
       const filteredRequests: RequestProps[] = data.requests.filter(
-        (request: { userEmail: string }) =>
-          request.userEmail !== session?.user.email
+        (request: { userEmail: string, status: string }) =>
+          request.userEmail !== session?.user.email && request.status === "Pending"
       );
       setRequests(filteredRequests);
 
