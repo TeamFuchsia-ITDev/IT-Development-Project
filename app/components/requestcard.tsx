@@ -22,10 +22,11 @@ export const RequestCard = ({ request }: { request: RequestProps }) => {
       duration: 4000,
     });
 
-    const response = await axios.delete(`api/user/request`, {
+    const response = await axios.patch(`api/user/request`, {
       data: { requestid },
     });
-    if (response.data.status !== 200) {
+
+    if (response.status !== 200) {
       const errorMessage = response.data?.error || "An error occurred";
       toast.error(errorMessage);
     } else {
@@ -42,7 +43,9 @@ export const RequestCard = ({ request }: { request: RequestProps }) => {
     const getApplications = async () => {
       const response = await fetch(`/api/user/applications/${request?.id}`);
       const data = await response.json();
-	  const filteredData = data.filter((app: ApplicationProps) => app.status === "Pending")
+      const filteredData = data.filter(
+        (app: ApplicationProps) => app.status === "Pending"
+      );
       setApplications(filteredData);
     };
     if (request?.id) getApplications();
@@ -63,9 +66,9 @@ export const RequestCard = ({ request }: { request: RequestProps }) => {
           <img
             src={request?.requesterImage}
             className="object-cover  ml-4 w-[90px] h-[90px]  rounded-full mt-[-30px]  border-4 border-white"
-			style={{
-				boxShadow: "4px 4px 10px rgba(153, 153, 153, 100%)",
-			  }}
+            style={{
+              boxShadow: "4px 4px 10px rgba(153, 153, 153, 100%)",
+            }}
           />
           <div className="flex flex-col justify-center ml-2">
             <p className="text-[15px]">{request?.requesterName}</p>
@@ -109,9 +112,7 @@ export const RequestCard = ({ request }: { request: RequestProps }) => {
             <Link
               href={`/applicants?id=${request?.id}`}
               className={`${
-                applications.length > 0
-                  ? ""
-                  : "pointer-events-none"
+                applications.length > 0 ? "" : "pointer-events-none"
               }`}
             >
               <button
