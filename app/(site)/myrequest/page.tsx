@@ -62,11 +62,13 @@ export default function MyRequest() {
           <Carousel
             loop={false}
             slidesPerView={3}
-            cards={myRequests.filter((request: RequestProps) => request.status === "Pending").map((request: RequestProps, index: number) => (
-              <div key={index}>
-                <RequestCard request={request} />
-              </div>
-            ))}
+            cards={myRequests
+              .filter((request: RequestProps) => request.status === "Pending")
+              .map((request: RequestProps, index: number) => (
+                <div key={index}>
+                  <RequestCard request={request} />
+                </div>
+              ))}
           />
         </div>
       </div>
@@ -75,24 +77,28 @@ export default function MyRequest() {
         <Carousel
           loop={false}
           slidesPerView={3}
-          cards={myRequests.filter((request: RequestProps) => request.status === "OnGoing").map((request: RequestProps, index: number) => (
-            <div key={index}>
-              <RequestCard request={request} />
-            </div>
-          ))}
+          cards={myRequests
+            .filter((request: RequestProps) => request.status === "OnGoing")
+            .map((request: RequestProps, index: number) => (
+              <div key={index}>
+                <RequestCard request={request} />
+              </div>
+            ))}
         />
       </div>
 
       <div>
         <h1 className="text-[40px] text-center mt-12 ">Completed</h1>
-		<Carousel
+        <Carousel
           loop={false}
           slidesPerView={3}
-          cards={myRequests.filter((request: RequestProps) => request.status === "Completed").map((request: RequestProps, index: number) => (
-            <div key={index}>
-              <RequestCard request={request} />
-            </div>
-          ))}
+          cards={myRequests
+            .filter((request: RequestProps) => request.status === "Completed")
+            .map((request: RequestProps, index: number) => (
+              <div key={index}>
+                <RequestCard request={request} />
+              </div>
+            ))}
         />
       </div>
     </main>

@@ -129,7 +129,7 @@ export default function homepage() {
     <main className={`pl-24 pr-24 relative`}>
       <Navbar />
       <div
-        className={`ml-4 mr-4 mt-24 w-[100%] ${
+        className={`mt-24 w-[100%] ${
           isFormVisible ? "pointer-events-none blur-sm" : ""
         }`}
       >
@@ -143,10 +143,11 @@ export default function homepage() {
           ) : (
             <p className="text-[40px]">Welcome to your Homepage</p>
           )}
-          <p className="text-[17px] w-[700px] ">
+          <p className="text-[16px] ">
             In here you will be able to see latest requests and also allows you
-            to search certain requests you want to help someone with
           </p>
+          <p className="text-[16px]">
+            to search certain requests you want to help someone with</p>
         </div>
 
         <div className=" flex flex-row  mr-4 mt-12">
