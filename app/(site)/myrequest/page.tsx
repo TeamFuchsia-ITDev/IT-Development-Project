@@ -85,6 +85,15 @@ export default function MyRequest() {
 
       <div>
         <h1 className="text-[40px] text-center mt-12 ">Completed</h1>
+		<Carousel
+          loop={false}
+          slidesPerView={3}
+          cards={myRequests.filter((request: RequestProps) => request.status === "Completed").map((request: RequestProps, index: number) => (
+            <div key={index}>
+              <RequestCard request={request} />
+            </div>
+          ))}
+        />
       </div>
     </main>
   );

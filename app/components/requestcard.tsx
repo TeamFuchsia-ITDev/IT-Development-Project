@@ -95,38 +95,44 @@ export const RequestCard = ({ request }: { request: RequestProps }) => {
         </div>
         {showOptions && (
           <div className="flex flex-col justify-center items-center mt-4">
-            <button className="text-center bg-orange-500 text-white mb-4 rounded-full h-[40px]  w-[360px] hover:bg-white hover:text-yellow-500 hover:border-[2px] hover:border-yellow-500 hover:ease-in-out duration-300">
-              Edit Request
-            </button>
-
-            <button
-              className={`text-center bg-rose-500 text-white rounded-full h-[40px]  w-[360px] hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300 ${
-                disabled ? "pointer-events-none opacity-25" : ""
-              }`}
-              onClick={() => canceledRequest(request?.id!)}
-              disabled={disabled}
-            >
-              Cancel Request
-            </button>
-
-            <Link
-              href={`/applicants?id=${request?.id}`}
-              className={`${
-                applications.length > 0 ? "" : "pointer-events-none"
-              }`}
-            >
-              <button
-                className={`text-center ${
-                  applications.length > 0
-                    ? "bg-blue-600"
-                    : "bg-blue-600 opacity-50 pointer-events-none"
-                } text-white mt-4 rounded-full h-[40px]  w-[360px] hover:bg-white hover:text-blue-500 hover:border-[2px] hover:border-blue-500 hover:ease-in-out duration-300`}
-              >
-                {applications.length > 0
-                  ? `View Applications (${applications.length})`
-                  : "No Applications Yet"}
+            {request?.status === "Pending" ? (
+              <button className="text-center bg-orange-500 text-white mb-4 rounded-full h-[40px]  w-[360px] hover:bg-white hover:text-yellow-500 hover:border-[2px] hover:border-yellow-500 hover:ease-in-out duration-300">
+                Edit Request
               </button>
-            </Link>
+            ) : null}
+
+            {request?.status === "Pending" || request?.status === "OnGoing" ? (
+              <button
+                className={`text-center bg-rose-500 text-white rounded-full h-[40px]  w-[360px] hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300 ${
+                  disabled ? "pointer-events-none opacity-25" : ""
+                }`}
+                onClick={() => canceledRequest(request?.id!)}
+                disabled={disabled}
+              >
+                Cancel Request
+              </button>
+            ) : null}
+
+            {request?.status === "Pending" ? (
+              <Link
+                href={`/applicants?id=${request?.id}`}
+                className={`${
+                  applications.length > 0 ? "" : "pointer-events-none"
+                }`}
+              >
+                <button
+                  className={`text-center ${
+                    applications.length > 0
+                      ? "bg-blue-600"
+                      : "bg-blue-600 opacity-50 pointer-events-none"
+                  } text-white mt-4 rounded-full h-[40px]  w-[360px] hover:bg-white hover:text-blue-500 hover:border-[2px] hover:border-blue-500 hover:ease-in-out duration-300`}
+                >
+                  {applications.length > 0
+                    ? `View Applications (${applications.length})`
+                    : "No Applications Yet"}
+                </button>
+              </Link>
+            ) : null}
           </div>
         )}
         <div className="flex flex-col justify-center items-center mt-4 mb-4">
