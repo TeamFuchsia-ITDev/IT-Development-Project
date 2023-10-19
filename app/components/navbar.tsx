@@ -31,11 +31,12 @@ export const Navbar = () => {
     " text-rose-500 underline underline-offset-[5px] decoration-rose-500 decoration-2";
 
   return (
-    <main className="">
+    <main className="pt-4">
       <div className="flex flex-row justify-between items-center">
-        <img src={logo.src} alt="Logo" width={60} className="m-2 " />
-        <div className="flex gap-5 mr-4 text-sm">
-          <a
+        {/* <img src={logo.src} alt="Logo" width={60} className="m-2 " /> */}
+        <h1>Serve-Ease</h1>
+        <div className=" relative flex gap-5 mr-4 text-sm  items-center">
+        <a
             href="/homepage"
             className={`relative group ${
               pathname === "/homepage" ? isLinkActive : ""
@@ -55,6 +56,15 @@ export const Navbar = () => {
             <div className="absolute left-0 w-0 h-[2px] bg-rose-500 group-hover:w-full transition-transform transform origin-left transform scale-x-0 group-hover:scale-x-100"></div>
           </a>
           <a
+            href="/post "
+            className={`relative group ${
+              pathname === "/post" ? isLinkActive : ""
+            }`}
+          >
+            Analytics
+            <div className="absolute left-0 w-0 h-[2px] bg-rose-500 group-hover:w-full transition-transform transform origin-left transform scale-x-0 group-hover:scale-x-100"></div>
+          </a>
+          <a
             href="/myrequest"
             className={`relative group ${
               pathname === "/myrequest" ? isLinkActive : ""
@@ -64,17 +74,16 @@ export const Navbar = () => {
             <div className="absolute left-0 w-0 h-[2px] bg-rose-500 group-hover:w-full transition-transform transform origin-left transform scale-x-0 group-hover:scale-x-100"></div>
           </a>
           <a
-            href="/myjobs"
+            href="/dashboard"
             className={`relative group ${
-              pathname === "/myjobs" ? isLinkActive : ""
+              pathname === "/dashboard" ? isLinkActive : ""
             }`}
           >
-            My Applied Jobs
+           Dashboard
             <div className="absolute left-0 w-0 h-[2px] bg-rose-500 group-hover:w-full transition-transform transform origin-left transform scale-x-0 group-hover:scale-x-100"></div>
           </a>
-        </div>
-        <div className=" relative">
           {user ? (
+            
             <div className="relative inline-block">
               <img
                 src={user.image}
