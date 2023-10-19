@@ -68,6 +68,10 @@ export interface CardProps {
   }) => void;
 }
 
+export interface CompanionCardProps {
+  application?: ApplicationProps;
+}
+
 export interface LocationFeature {
   geometry: {
     coordinates: [number, number];

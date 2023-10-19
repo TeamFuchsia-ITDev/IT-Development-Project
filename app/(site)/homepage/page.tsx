@@ -23,7 +23,6 @@ export default function homepage() {
   /** Search Related useStates */
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [amount, setAmount] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
   const [cities, setCities] = useState<string[]>([]);
   const [disabled, setDisabled] = useState(false);

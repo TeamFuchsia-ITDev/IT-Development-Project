@@ -1,14 +1,12 @@
 "use client";
 
-import { ApplicationProps } from "@/app/libs/interfaces";
+import { CompanionCardProps } from "@/app/libs/interfaces";
 import { useState, useEffect } from "react";
 import { limitText } from "@/app/libs/actions";
 
 export const CompanionCard = ({
   application,
-}: {
-  application: ApplicationProps;
-}) => {
+}: CompanionCardProps) => {
   const [showWhy, setShowWhy] = useState(false);
 
   const [truncatedEthnicity, setTruncatedEthnicity] = useState<string>(
@@ -25,6 +23,11 @@ export const CompanionCard = ({
     const age = currentYear - birthYear;
     return age;
   }
+
+  const handleAcceptClick = () => {
+
+  };
+
   return (
     <>
       <div
@@ -33,32 +36,32 @@ export const CompanionCard = ({
       >
         <div className="flex flex-col">
           <img
-            src={application.compImage}
+            src={application?.compImage}
             className="rounded-t-lg h-[150px] w-auto object-cover"
           />
           <div className="flex flex-row pl-4 pr-4">
             <div className="w-[70%] mt-4">
               <h1 className="font-bold">
-                {application.compName}{" "}
+                {application?.compName}{" "}
                 <a className="text-gray-500 font-normal">
-                  {calculateAge(application.compBirthday).toString()}
+                  {calculateAge(application?.compBirthday!).toString()}
                 </a>
               </h1>{" "}
-              <h1 className="text-gray-400">{application.compCity}</h1>
+              <h1 className="text-gray-400">{application?.compCity}</h1>
             </div>
             <div className="w-[50%] mt-4">
               {" "}
               <h1>
-                RATE: <a className="text-rose-500">${application.amount}</a>
+                RATE: <a className="text-rose-500">${application?.amount}</a>
               </h1>{" "}
               <h1 className="">
-                {showWhy ? application.compEthnicity : truncatedEthnicity}
+                {showWhy ? application?.compEthnicity : truncatedEthnicity}
               </h1>
             </div>
           </div>
           <div>
             <h1 className="ml-4 mr-4 mt-2 mb-2">
-              {showWhy ? application.description : ""}
+              {showWhy ? application?.description : ""}
             </h1>
           </div>
           <div className="flex flex-col pl-4 pr-4 gap-2 mt-2 mb-4">
@@ -68,7 +71,10 @@ export const CompanionCard = ({
             >
               {showWhy ? "Hide" : "Why Hire Me?"}
             </button>
-            <button className="text-center bg-lime-500 text-white text-[15px] rounded-full h-[35px]  w-auto hover:bg-white hover:text-green-500 hover:border-[2px] hover:border-green-500 hover:ease-in-out duration-300">
+            <button
+              className="text-center bg-lime-500 text-white text-[15px] rounded-full h-[35px]  w-auto hover:bg-white hover:text-green-500 hover:border-[2px] hover:border-green-500 hover:ease-in-out duration-300"
+              onClick={handleAcceptClick}
+            >
               Accept
             </button>
           </div>

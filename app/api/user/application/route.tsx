@@ -64,8 +64,8 @@ export async function POST(request: Request) {
           description,
           userEmail: userProfile?.userEmail!,
           compName: userProfile?.name!,
-		  compImage: userProfile?.image!,
-		  compCity: userProfile?.location?.address?.city!,
+          compImage: userProfile?.image!,
+          compCity: userProfile?.location?.address?.city!,
           compEthnicity: userProfile?.ethnicity!,
           compBirthday: userProfile?.birthday!,
           compGender: userProfile?.gender!,
@@ -99,5 +99,63 @@ export async function GET(request: Request) {
       status: code,
       error: message,
     });
+  }
+}
+
+export async function PATCH(request: Request) {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    return NextResponse.json({
+      message: "Unauthorized access",
+      status: 401,
+    });
+  } else {
+    try {
+      const body = await request.json();
+      const { applicationId, requestId } = body;
+
+      const updatedApplication = await prisma.application.update({
+        where: { id: applicationId },
+        data: { status: "Accepted" },
+      });
+
+      const appliedRequest = await prisma.request.findUnique({
+        where: {
+          id: requestId,
+        },
+      });
+
+	  console.log("applied request", appliedRequest)
+
+      const acceptedApplications = await prisma.application.findMany({
+        where: {
+          requestId: requestId,
+          status: "Accepted",
+        },
+      });
+
+	  console.log("accepted applications", acceptedApplications)
+
+
+      if (appliedRequest?.compNeeded === acceptedApplications.length) {
+        await prisma.request.update({
+          where: {
+            id: requestId,
+          },
+          data: {
+            status: "OnGoing",
+          },
+        });
+      }
+
+      return NextResponse.json({ updatedApplication, status: 200 });
+    } catch (error) {
+      const { code = 500, message = "internal server error" } = error as APIErr;
+      return NextResponse.json({
+        status: code,
+        error: message,
+      });
+    }
   }
 }
