@@ -125,6 +125,18 @@ export const RequestCard = ({ request }: { request: RequestProps }) => {
               >
                 Cancel Request
               </button>
+              
+            ) : null}
+
+             { request?.status === "OnGoing" ? (
+              <button
+                className={`mt-4 text-center bg-blue-500 text-white rounded-full h-[35px]  w-[350px] hover:bg-white hover:text-blue-500 hover:border-[2px] hover:border-blue-500 hover:ease-in-out duration-300 ${
+                  disabled ? "pointer-events-none opacity-25" : ""
+                }`}
+              >
+                Request Completed
+              </button>
+              
             ) : null}
 
             {request?.status === "Pending" ? (
