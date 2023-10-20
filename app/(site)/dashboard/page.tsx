@@ -14,6 +14,7 @@ export default function Dashboard() {
   const router = useRouter();
   const [user, setUser] = useState<UserProps | undefined>(undefined);
   const [myRequests, setMyRequests] = useState<RequestProps[]>([]);
+  const [page, setPage] = useState("Pending");
 
   useEffect(() => {
     // Redirect to login page if there is no session
@@ -61,74 +62,99 @@ export default function Dashboard() {
             </a>
           </p>
         </div>
-        <div className="mt-12">
-          <h1 className="underline underline-offset-4 decoration-rose-500 decoration-2 mt-12 decoration-drop-shadow-lg">
-            Pending Requests
-          </h1>
-          <div className="mt-4 overflow-auto">
-            {myRequests.filter(
-              (request: RequestProps) => request.status === "Pending"
-            ).length <= 0 ? (
-              <p>
-                You have not created a request yet,<a>Create one now</a>
-              </p>
-            ) : (
-              <Carousel
-                loop={false}
-                slidesPerView={3}
-                cards={myRequests
-                  .filter(
-                    (request: RequestProps) => request.status === "Pending"
-                  )
-                  .map((request: RequestProps, index: number) => (
-                    <div key={index}>
-                      <RequestCard request={request} />
-                    </div>
-                  ))}
-              />
-            )}
+        <div className="flex items-center justify-center mt-8 mb-4">
+          <div className="flex flex-row w-[100%] h-[40px]">
+            <button
+              className={`${
+                page === "Pending"
+                  ? "rounded-t-2xl bg-orange-300 w-[25%] text-white font-bold border-b-4 border-orange-500"
+                  : "rounded-t-2xl bg-orange-300 w-[25%] text-gray-200"
+              }`}
+              onClick={() => setPage("Pending")}
+            >
+              Pending Request
+            </button>
+            <button
+              className={`${
+                page === "Active"
+                  ? "rounded-t-2xl bg-green-400 w-[25%] text-white border-b-4 border-green-600 font-bold"
+                  : " rounded-t-2xl bg-green-400 w-[25%] text-gray-200"
+              }`}
+              onClick={() => setPage("Active")}
+            >
+              Active Request
+            </button>
+            <button
+              className={`${
+                page === "Completed"
+                  ? "rounded-t-2xl bg-blue-400 w-[25%] text-white font-bold border-b-4 border-blue-600"
+                  : " rounded-t-2xl bg-blue-400 w-[25%] text-gray-200"
+              }`}
+              onClick={() => setPage("Completed")}
+            >
+              Completed Request
+            </button>
+            <button
+              className={`${
+                page === "Cancelled"
+                  ? "rounded-t-2xl bg-red-400 w-[25%] text-white font-bold border-b-4 border-red-600"
+                  : " rounded-t-2xl bg-red-400 w-[25%] text-gray-200"
+              }`}
+              onClick={() => setPage("Cancelled")}
+            >
+              Cancelled Request
+            </button>
           </div>
         </div>
-
-        <div className="mt-12">
-          <h1 className="underline underline-offset-8 decoration-rose-500 decoration-2 mt-12 decoration-drop-shadow-lg">
-            Ongoing Requests
-          </h1>
-          <div className="mt-4">
+        {page === "Pending" ? (
+          myRequests.filter(
+            (request: RequestProps) => request.status === "Pending"
+          ).length <= 0 ? (
+            <p>
+              You have not created a request yet, <a>Create one now</a>
+            </p>
+          ) : (
             <Carousel
               loop={false}
-              slidesPerView={4}
+              slidesPerView={3}
               cards={myRequests
-                .filter((request: RequestProps) => request.status === "OnGoing")
+                .filter((request: RequestProps) => request.status === "Pending")
                 .map((request: RequestProps, index: number) => (
                   <div key={index}>
                     <RequestCard request={request} />
                   </div>
                 ))}
             />
-          </div>
-        </div>
+          )
+        ) : null}
 
-        <div className="mt-12">
-          <h1 className="underline underline-offset-8 decoration-rose-500 decoration-2 mt-12 decoration-drop-shadow-lg">
-            Completed Requests
-          </h1>
-          <div className="mt-4">
-            <Carousel
-              loop={false}
-              slidesPerView={4}
-              cards={myRequests
-                .filter(
-                  (request: RequestProps) => request.status === "Completed"
-                )
-                .map((request: RequestProps, index: number) => (
-                  <div key={index}>
-                    <RequestCard request={request} />
-                  </div>
-                ))}
-            />
-          </div>
-        </div>
+        {page === "Active" ? (
+          <Carousel
+            loop={false}
+            slidesPerView={3}
+            cards={myRequests
+              .filter((request: RequestProps) => request.status === "OnGoing")
+              .map((request: RequestProps, index: number) => (
+                <div key={index}>
+                  <RequestCard request={request} />
+                </div>
+              ))}
+          />
+        ) : null}
+
+        {page === "Completed" ? (
+          <Carousel
+            loop={false}
+            slidesPerView={3}
+            cards={myRequests
+              .filter((request: RequestProps) => request.status === "Completed")
+              .map((request: RequestProps, index: number) => (
+                <div key={index}>
+                  <RequestCard request={request} />
+                </div>
+              ))}
+          />
+        ) : null}
       </div>
     </main>
   );
