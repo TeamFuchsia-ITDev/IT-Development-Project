@@ -53,9 +53,9 @@ export const Navbar = ({ mode, toggleMode }: NavBarProps) => {
             <div className="absolute left-0 w-0 h-[2px] bg-rose-500 group-hover:w-full transition-transform transform origin-left transform scale-x-0 group-hover:scale-x-100"></div>
           </a>
           <a
-            href="/post "
+            href="/analytics "
             className={`relative group ${
-              pathname === "/post" ? isLinkActive : ""
+              pathname === "/analytics" ? isLinkActive : ""
             }`}
           >
             Analytics

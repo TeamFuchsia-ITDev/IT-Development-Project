@@ -179,13 +179,20 @@ export default function Dashboard() {
       {mode ? (
         <div className="mt-24">
           <div className=" text-center">
-            <p className="text-[40px]">Welcome to your Dashboard</p>
-
+          {user ? (
+                <>
+                  <p className="text-[40px]">
+                    Welcome to your Dashboard {user.name.split(" ")[0]}
+                  </p>
+                </>
+              ) : (
+                <p className="text-[40px]">Welcome to your Dashboard</p>
+              )}
             <p className="text-[16px] ">
-              In here you will be able to see all requests you have created need
+              You are now Signed in as a Requester In here you will be able to see all 
             </p>
             <p className=" ">
-              further explanation?{" "}
+             requests you have created. need further explanation?{" "}
               <a href="#" className="text-rose-500">
                 click here
               </a>
@@ -196,8 +203,8 @@ export default function Dashboard() {
               <button
                 className={`${
                   page === "Pending"
-                    ? "rounded-t-2xl bg-orange-300 w-[25%] text-white font-bold border-b-4 border-orange-500"
-                    : "rounded-t-2xl bg-orange-300 w-[25%] text-gray-200"
+                  ? " bg-white w-[25%] text-orange-500 font-bold border-t-4 border-orange-500 rounded-t-2xl"
+                  : "  w-[25%] text-gray-400 bg-gray-100  rounded-t-2xl "
                 }`}
                 onClick={() => setPage("Pending")}
               >
@@ -206,8 +213,8 @@ export default function Dashboard() {
               <button
                 className={`${
                   page === "Active"
-                    ? "rounded-t-2xl bg-green-400 w-[25%] text-white border-b-4 border-green-600 font-bold"
-                    : " rounded-t-2xl bg-green-400 w-[25%] text-gray-200"
+                  ? " bg-white w-[25%] text-green-500 font-bold border-t-4 border-green-500 rounded-t-2xl"
+                  : "  w-[25%] text-gray-400 bg-gray-100 rounded-t-2xl "
                 }`}
                 onClick={() => setPage("Active")}
               >
@@ -216,8 +223,8 @@ export default function Dashboard() {
               <button
                 className={`${
                   page === "Completed"
-                    ? "rounded-t-2xl bg-blue-400 w-[25%] text-white font-bold border-b-4 border-blue-600"
-                    : " rounded-t-2xl bg-blue-400 w-[25%] text-gray-200"
+                  ? " bg-white w-[25%] text-blue-500 font-bold border-t-4 border-blue-500 rounded-t-2xl"
+                  : "  w-[25%] text-gray-400 bg-gray-100  rounded-t-2xl "
                 }`}
                 onClick={() => setPage("Completed")}
               >
@@ -226,8 +233,8 @@ export default function Dashboard() {
               <button
                 className={`${
                   page === "Cancelled"
-                    ? "rounded-t-2xl bg-red-400 w-[25%] text-white font-bold border-b-4 border-red-600"
-                    : " rounded-t-2xl bg-red-400 w-[25%] text-gray-200"
+                  ? " bg-white w-[25%] text-red-500 font-bold border-t-4 border-red-500 rounded-t-2xl"
+                  : "  w-[25%] text-gray-400 bg-gray-100  rounded-t-2xl "
                 }`}
                 onClick={() => setPage("Cancelled")}
               >
@@ -296,26 +303,25 @@ export default function Dashboard() {
               isFormVisible ? "pointer-events-none blur-sm" : ""
             }`}
           >
-            <div className="mr-4">
+            <div className=" text-center">
               {user ? (
                 <>
                   <p className="text-[40px]">
-                    Welcome to your Homepage {user.name.split(" ")[0]}
+                    Welcome to your Dashboard {user.name.split(" ")[0]}
                   </p>
                 </>
               ) : (
-                <p className="text-[40px]">Welcome to your Homepage</p>
+                <p className="text-[40px]">Welcome to your Dashboard</p>
               )}
               <p className="text-[16px] ">
-                In here you will be able to see latest requests and also allows
-                you
+                You are now signed in as a Companion In here you will be able to see latest requests 
               </p>
               <p className="text-[16px]">
-                to search certain requests you want to help someone with
+                want to be a <a className="text-rose-500">Requester?</a> simply <a>click here</a>
               </p>
             </div>
 
-            <div className=" flex flex-row  mr-4 mt-12">
+            <div className=" flex flex-row  mr-4 mt-12 items-center justify-center">
               <input
                 type="text"
                 placeholder="Search for a request"
@@ -360,13 +366,50 @@ export default function Dashboard() {
             </div>
 
             <div className="mt-12 mb-12">
-              <div className="flex flex-row mt-2 ml-2">
-                <h1 className="text-2xl ">
-                  Most Recent <a className="text-rose-500">Requests</a>
-                </h1>
 
-                <div className="flex gap-4 mr-4  mt-4 "></div>
-              </div>
+            <div className="flex flex-row w-[100%] h-[40px] rounded-t-2xl">
+              <button
+                className={`${
+                  page === "Pending"
+                    ? " bg-white w-[25%] text-orange-500 font-bold border-t-4 border-orange-500 rounded-t-2xl"
+                    : "  w-[25%] text-gray-400 bg-gray-100  rounded-t-2xl "
+                }`}
+                onClick={() => setPage("Pending")}
+              >
+                All Requests
+              </button>
+              <button
+                className={`${
+                  page === "Active"
+                  ? " bg-white w-[25%] text-green-500 font-bold border-t-4 border-green-500 rounded-t-2xl"
+                  : "  w-[25%] text-gray-400 bg-gray-100 rounded-t-2xl "
+                }`}
+                onClick={() => setPage("Active")}
+              >
+                Pending Application
+              </button>
+              <button
+                className={`${
+                  page === "Completed"
+                  ? " bg-white w-[25%] text-blue-500 font-bold border-t-4 border-blue-500 rounded-t-2xl"
+                  : "  w-[25%] text-gray-400 bg-gray-100  rounded-t-2xl "
+                }`}
+                onClick={() => setPage("Completed")}
+              >
+                Completed Application
+              </button>
+              <button
+                className={`${
+                  page === "Cancelled"
+                  ? " bg-white w-[25%] text-red-500 font-bold border-t-4 border-red-500 rounded-t-2xl"
+                  : "  w-[25%] text-gray-400 bg-gray-100  rounded-t-2xl "
+                }`}
+                onClick={() => setPage("Cancelled")}
+              >
+                Cancelled Application
+              </button>
+            </div>
+
             </div>
             <div className="mb-24">
               <Carousel

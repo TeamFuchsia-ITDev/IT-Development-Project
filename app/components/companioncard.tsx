@@ -97,7 +97,7 @@ export const CompanionCard = ({ application }: CompanionCardProps) => {
               {showWhy ? "Hide" : "Why Hire Me?"}
             </button>
             <button
-              className="text-center bg-lime-500 text-white text-[15px] rounded-full h-[35px]  w-auto hover:bg-white hover:text-green-500 hover:border-[2px] hover:border-green-500 hover:ease-in-out duration-300"
+              className="text-center bg-green-500 text-white text-[15px] rounded-full h-[35px]  w-auto hover:bg-white hover:text-green-500 hover:border-[2px] hover:border-green-500 hover:ease-in-out duration-300"
               onClick={(e) => handleAcceptClick(e, application!)}
             >
               Accept

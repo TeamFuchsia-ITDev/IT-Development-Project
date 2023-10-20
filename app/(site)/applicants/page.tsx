@@ -67,7 +67,13 @@ export default function MyJobs() {
         </div>
 
         <div>
-          <h1 className="font-bold mt-4 mb-4">Applicants</h1>
+
+          <div className="flex flex-row items-center"><h1 className="font-bold mt-8 mb-4">Your Accepted Applicants </h1> 
+          <img src="" className="w-[40px] h-[40px] rounded-full ml-4 " /> 
+          <img src="" className="w-[40px] h-[40px] rounded-full ml-4 " /> 
+          </div>
+          
+          <h1 className="font-bold mt-2 mb-4">Applicants</h1>
           <Carousel
             loop={false}
             slidesPerView={4}
