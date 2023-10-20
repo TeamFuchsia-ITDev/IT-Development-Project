@@ -20,6 +20,9 @@ export async function POST(request: Request) {
       const userRequests = await prisma.request.count({
         where: {
           userEmail: session.user.email,
+          status: {
+            in: ["Pending", "OnGoing"],
+          },
         },
       });
 
