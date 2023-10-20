@@ -154,7 +154,7 @@ export const RequestCard = ({ request }: { request: RequestProps }) => {
                   } text-white mt-4 rounded-full h-[35px] w-[350px] hover:bg-white hover:text-blue-500 hover:border-[2px] hover:border-blue-500 hover:ease-in-out duration-300`}
                 >
                   {applicationsLength > 0
-                    ? `View Applications (${applications.length})`
+                    ? `View Applications (${applicationsLength})`
                     : "No Applications Yet"}
                 </button>
               </Link>
