@@ -19,6 +19,11 @@ export default function homepage() {
   const [user, setUser] = useState<UserProps | undefined>(undefined);
   const [requests, setRequests] = useState<RequestProps[]>([]);
   const [isFormVisible, setIsFormVisible] = useState(false);
+  const [mode, setMode] = useState(true);
+
+  const toggleMode = (newMode: boolean) => {
+    setMode(newMode);
+  };
 
   /** Search Related useStates */
   const [searchTerm, setSearchTerm] = useState("");
@@ -57,8 +62,9 @@ export default function homepage() {
       const response = await axios.get(`/api/user/request`);
       const data = await response.data;
       const filteredRequests: RequestProps[] = data.requests.filter(
-        (request: { userEmail: string, status: string }) =>
-          request.userEmail !== session?.user.email && request.status === "Pending"
+        (request: { userEmail: string; status: string }) =>
+          request.userEmail !== session?.user.email &&
+          request.status === "Pending"
       );
       setRequests(filteredRequests);
 
@@ -127,7 +133,7 @@ export default function homepage() {
 
   return (
     <main className={`pl-24 pr-24 relative`}>
-      <Navbar />
+      <Navbar mode={mode} toggleMode={toggleMode} />
       <div
         className={`mt-24 w-[100%] ${
           isFormVisible ? "pointer-events-none blur-sm" : ""
@@ -147,7 +153,8 @@ export default function homepage() {
             In here you will be able to see latest requests and also allows you
           </p>
           <p className="text-[16px]">
-            to search certain requests you want to help someone with</p>
+            to search certain requests you want to help someone with
+          </p>
         </div>
 
         <div className=" flex flex-row  mr-4 mt-12">
@@ -192,8 +199,6 @@ export default function homepage() {
               </option>
             ))}
           </select>
-
-         
         </div>
 
         <div className="mt-12 mb-12">
@@ -203,12 +208,12 @@ export default function homepage() {
             </h1>
 
             <div className="flex gap-4 mr-4  mt-4 "></div>
-          </div>        
+          </div>
         </div>
         <div className="mb-24">
           <Carousel
-          loop={false}
-          slidesPerView={4}
+            loop={false}
+            slidesPerView={4}
             cards={searchFilteredRequests.map(
               (request: RequestProps, index: number) => (
                 <div key={index}>
@@ -241,29 +246,28 @@ export default function homepage() {
           <p className="text-center underline underline-offset-8 decoration-rose-500 decoration-2 mt-6">
             Application Form
           </p>
-          <div className="ml-4 mr-4 text-center "> 
-          <p className="text-[13px] mt-4">
+          <div className="ml-4 mr-4 text-center ">
+            <p className="text-[13px] mt-4">
               to let the requester know more about you fill up the form below
             </p>
             <h1 className="text-[13px] ">
               You are now applying for {applicationData.requesterName}'s{" "}
               {applicationData.taskname} at {applicationData.dateime}.{" "}
             </h1>
-           
           </div>
 
           <div className="">
             <p className="text-[13px] mt-8 mb-4">
               <a className="text-green-500">Amount</a> ( the amount you want for
               your service, input 0 if free)
-            </p>           
+            </p>
             <input
               type="number"
               id="amount"
               name="amount"
               placeholder="$ CAD"
-			  step="0.01"
-			  min="0"
+              step="0.01"
+              min="0"
               className="border-2 border-gray-300 h-[45px] w-[400px]"
               value={data.amount}
               onChange={(e) => setData({ ...data, amount: e.target.value })}

@@ -1,18 +1,15 @@
 "use client";
 
-import logo from "../images/logov2.svg";
 import { useSession, signOut } from "next-auth/react";
 import { useEffect, useState } from "react";
-import { UserProps } from "@/app/libs/interfaces";
+import { UserProps, NavBarProps } from "@/app/libs/interfaces";
 import { usePathname } from "next/navigation";
 
-export const Navbar = () => {
+export const Navbar = ({ mode, toggleMode }: NavBarProps) => {
   const { data: session, status } = useSession();
   const [user, setUser] = useState<UserProps | undefined>(undefined);
   const [isDropdownOpen, setDropdownOpen] = useState(false);
-  const [mode, setMode] = useState(false);
   const pathname = usePathname();
-  
 
   const toggleDropdown = () => {
     setDropdownOpen(!isDropdownOpen);
@@ -36,7 +33,7 @@ export const Navbar = () => {
         {/* <img src={logo.src} alt="Logo" width={60} className="m-2 " /> */}
         <h1>Serve-Ease</h1>
         <div className=" relative flex gap-5 mr-4 text-sm  items-center">
-        <a
+          <a
             href="/homepage"
             className={`relative group ${
               pathname === "/homepage" ? isLinkActive : ""
@@ -70,11 +67,10 @@ export const Navbar = () => {
               pathname === "/dashboard" ? isLinkActive : ""
             }`}
           >
-           Dashboard
+            Dashboard
             <div className="absolute left-0 w-0 h-[2px] bg-rose-500 group-hover:w-full transition-transform transform origin-left transform scale-x-0 group-hover:scale-x-100"></div>
           </a>
           {user ? (
-            
             <div className="relative inline-block">
               <img
                 src={user.image}
@@ -100,19 +96,18 @@ export const Navbar = () => {
                     htmlFor="Toggle1"
                     className="inline-flex items-center space-x-4 cursor-pointer  block px-4 py-2"
                   >
-                    <span>{mode ? "Companion" : "Requester"}</span>
+                    <span>{mode ? "Requester" : "Companion"}</span>
                     <span className="relative">
                       <input
                         id="Toggle1"
                         type="checkbox"
                         className="hidden peer"
                         value={mode.toString()}
-                        onChange={() => setMode(!mode)}
+                        onChange={() => toggleMode(!mode)}
                       />
                       <div className="w-12 h-6 rounded-full shadow-inner dark:bg-black peer-checked:dark:bg-rose-500"></div>
                       <div className="absolute inset-y-0 left-0 w-4 h-4 m-1 rounded-full shadow peer-checked:right-0 peer-checked:left-auto dark:bg-white"></div>
                     </span>
-                  
                   </label>
                 </li>
 
