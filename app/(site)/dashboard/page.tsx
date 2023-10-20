@@ -176,19 +176,22 @@ export default function Dashboard() {
   return (
     <main className="pl-24 pr-24">
       <Navbar mode={mode} toggleMode={toggleMode} />
-      <div className="mt-24">
-        <div className="text-center">
-          <p className="text-[40px]">Welcome to your Dashboard</p>
-          <p className="text-[16px]">
-            In here, you will be able to see all requests you have created. Need
-            further explanation?{" "}
-            <a href="#" className="text-rose-500">
-              click here
-            </a>
-          </p>
-        </div>
-        <div className="flex items-center justify-center mt-8 mb-4">
-          {mode ? (
+      {mode ? (
+        <div className="mt-24">
+          <div className=" text-center">
+            <p className="text-[40px]">Welcome to your Dashboard</p>
+
+            <p className="text-[16px] ">
+              In here you will be able to see all requests you have created need
+            </p>
+            <p className=" ">
+              further explanation?{" "}
+              <a href="#" className="text-rose-500">
+                click here
+              </a>
+            </p>
+          </div>
+          <div className="flex items-center justify-center mt-8 mb-4">
             <div className="flex flex-row w-[100%] h-[40px]">
               <button
                 className={`${
@@ -204,7 +207,7 @@ export default function Dashboard() {
                 className={`${
                   page === "Active"
                     ? "rounded-t-2xl bg-green-400 w-[25%] text-white border-b-4 border-green-600 font-bold"
-                    : "rounded-t-2xl bg-green-400 w-[25%] text-gray-200"
+                    : " rounded-t-2xl bg-green-400 w-[25%] text-gray-200"
                 }`}
                 onClick={() => setPage("Active")}
               >
@@ -214,7 +217,7 @@ export default function Dashboard() {
                 className={`${
                   page === "Completed"
                     ? "rounded-t-2xl bg-blue-400 w-[25%] text-white font-bold border-b-4 border-blue-600"
-                    : "rounded-t-2xl bg-blue-400 w-[25%] text-gray-200"
+                    : " rounded-t-2xl bg-blue-400 w-[25%] text-gray-200"
                 }`}
                 onClick={() => setPage("Completed")}
               >
@@ -224,92 +227,167 @@ export default function Dashboard() {
                 className={`${
                   page === "Cancelled"
                     ? "rounded-t-2xl bg-red-400 w-[25%] text-white font-bold border-b-4 border-red-600"
-                    : "rounded-t-2xl bg-red-400 w-[25%] text-gray-200"
+                    : " rounded-t-2xl bg-red-400 w-[25%] text-gray-200"
                 }`}
                 onClick={() => setPage("Cancelled")}
               >
                 Cancelled Request
               </button>
             </div>
-          ) : (
-            <div
-              className={`mt-24 w-[100%] ${
-                isFormVisible ? "pointer-events-none blur-sm" : ""
-              }`}
-            >
-              <div className=" flex flex-row  mr-4 mt-12">
-                <input
-                  type="text"
-                  placeholder="Search for a request"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="border-2 border-gray-300  h-[45px] w-[520px] "
-                />
-
-                <select
-                  className="border-2 border-gray-300  h-[45px] w-[250px] ml-4"
-                  value={selectedCategory}
-                  onChange={(e) => setSelectedCategory(e.target.value)}
-                >
-                  <option value="" disabled>
-                    Select Category
-                  </option>
-                  <option value="">All Categories</option>
-                  {/* Map through the array to generate options */}
-                  {CategoryOptions.map((option) => (
-                    <option key={option} value={option}>
-                      {option}
-                    </option>
+          </div>
+          {page === "Pending" ? (
+            myRequests.filter(
+              (request: RequestProps) => request.status === "Pending"
+            ).length <= 0 ? (
+              <p>
+                You have not created a request yet, <a>Create one now</a>
+              </p>
+            ) : (
+              <Carousel
+                loop={false}
+                slidesPerView={3}
+                cards={myRequests
+                  .filter(
+                    (request: RequestProps) => request.status === "Pending"
+                  )
+                  .map((request: RequestProps, index: number) => (
+                    <div key={index}>
+                      <RequestCard request={request} />
+                    </div>
                   ))}
-                </select>
+              />
+            )
+          ) : null}
 
-                <select
-                  className="border-2 border-gray-300  h-[45px] w-[250px] ml-4"
-                  value={selectedCity}
-                  onChange={(e) => setSelectedCity(e.target.value)}
-                >
-                  <option value="" disabled>
-                    Select City
+          {page === "Active" ? (
+            <Carousel
+              loop={false}
+              slidesPerView={3}
+              cards={myRequests
+                .filter((request: RequestProps) => request.status === "OnGoing")
+                .map((request: RequestProps, index: number) => (
+                  <div key={index}>
+                    <RequestCard request={request} />
+                  </div>
+                ))}
+            />
+          ) : null}
+
+          {page === "Completed" ? (
+            <Carousel
+              loop={false}
+              slidesPerView={3}
+              cards={myRequests
+                .filter(
+                  (request: RequestProps) => request.status === "Completed"
+                )
+                .map((request: RequestProps, index: number) => (
+                  <div key={index}>
+                    <RequestCard request={request} />
+                  </div>
+                ))}
+            />
+          ) : null}
+        </div>
+      ) : (
+        <>
+          <div
+            className={`mt-24 w-[100%] ${
+              isFormVisible ? "pointer-events-none blur-sm" : ""
+            }`}
+          >
+            <div className="mr-4">
+              {user ? (
+                <>
+                  <p className="text-[40px]">
+                    Welcome to your Homepage {user.name.split(" ")[0]}
+                  </p>
+                </>
+              ) : (
+                <p className="text-[40px]">Welcome to your Homepage</p>
+              )}
+              <p className="text-[16px] ">
+                In here you will be able to see latest requests and also allows
+                you
+              </p>
+              <p className="text-[16px]">
+                to search certain requests you want to help someone with
+              </p>
+            </div>
+
+            <div className=" flex flex-row  mr-4 mt-12">
+              <input
+                type="text"
+                placeholder="Search for a request"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="border-2 border-gray-300  h-[45px] w-[520px] "
+              />
+
+              <select
+                className="border-2 border-gray-300  h-[45px] w-[250px] ml-4"
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+              >
+                <option value="" disabled>
+                  Select Category
+                </option>
+                <option value="">All Categories</option>
+                {/* Map through the array to generate options */}
+                {CategoryOptions.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
                   </option>
-                  <option value="">All Cities</option>
-                  {/* Map through the array to generate options */}
-                  {cities.map((option) => (
-                    <option key={option} value={option}>
-                      {option}
-                    </option>
-                  ))}
-                </select>
-              </div>
+                ))}
+              </select>
 
-              <div className="mt-12 mb-12">
-                <div className="flex flex-row mt-2 ml-2">
-                  <h1 className="text-2xl ">
-                    Most Recent <a className="text-rose-500">Requests</a>
-                  </h1>
+              <select
+                className="border-2 border-gray-300  h-[45px] w-[250px] ml-4"
+                value={selectedCity}
+                onChange={(e) => setSelectedCity(e.target.value)}
+              >
+                <option value="" disabled>
+                  Select City
+                </option>
+                <option value="">All Cities</option>
+                {/* Map through the array to generate options */}
+                {cities.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-                  <div className="flex gap-4 mr-4  mt-4 "></div>
-                </div>
-              </div>
-              <div className="mb-24">
-                <Carousel
-                  loop={false}
-                  slidesPerView={4}
-                  cards={searchFilteredRequests.map(
-                    (request: RequestProps, index: number) => (
-                      <div key={index}>
-                        <Card
-                          request={request}
-                          smallCard={true}
-                          toggleFormVisibility={setIsFormVisible}
-                          onApplyClick={handleApplyRequest}
-                        />
-                      </div>
-                    )
-                  )}
-                />
+            <div className="mt-12 mb-12">
+              <div className="flex flex-row mt-2 ml-2">
+                <h1 className="text-2xl ">
+                  Most Recent <a className="text-rose-500">Requests</a>
+                </h1>
+
+                <div className="flex gap-4 mr-4  mt-4 "></div>
               </div>
             </div>
-          )}
+            <div className="mb-24">
+              <Carousel
+                loop={false}
+                slidesPerView={4}
+                cards={searchFilteredRequests.map(
+                  (request: RequestProps, index: number) => (
+                    <div key={index}>
+                      <Card
+                        request={request}
+                        smallCard={true}
+                        toggleFormVisibility={setIsFormVisible}
+                        onApplyClick={handleApplyRequest}
+                      />
+                    </div>
+                  )
+                )}
+              />
+            </div>
+          </div>
+
           {isFormVisible && (
             <div
               className="flex flex-col w-[500px] border-2 mt-4 items-center mb-12 bg-white fixed left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 "
@@ -377,59 +455,8 @@ export default function Dashboard() {
               </button>
             </div>
           )}
-        </div>
-        {mode ? (
-          <>
-            {" "}
-            {page === "Pending" ? (
-              myRequests.filter((request) => request.status === "Pending")
-                .length <= 0 ? (
-                <p>
-                  You have not created a request yet, <a>Create one now</a>
-                </p>
-              ) : (
-                <Carousel
-                  loop={false}
-                  slidesPerView={3}
-                  cards={myRequests
-                    .filter((request) => request.status === "Pending")
-                    .map((request, index) => (
-                      <div key={index}>
-                        <RequestCard request={request} />
-                      </div>
-                    ))}
-                />
-              )
-            ) : null}
-            {page === "Active" ? (
-              <Carousel
-                loop={false}
-                slidesPerView={3}
-                cards={myRequests
-                  .filter((request) => request.status === "OnGoing")
-                  .map((request, index) => (
-                    <div key={index}>
-                      <RequestCard request={request} />
-                    </div>
-                  ))}
-              />
-            ) : null}
-            {page === "Completed" ? (
-              <Carousel
-                loop={false}
-                slidesPerView={3}
-                cards={myRequests
-                  .filter((request) => request.status === "Completed")
-                  .map((request, index) => (
-                    <div key={index}>
-                      <RequestCard request={request} />
-                    </div>
-                  ))}
-              />
-            ) : null}
-          </>
-        ) : null}
-      </div>
+        </>
+      )}
     </main>
   );
 }
