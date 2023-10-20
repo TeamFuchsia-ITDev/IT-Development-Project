@@ -4,9 +4,15 @@ import { Navbar } from "../../components/navbar";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ApplicationProps, RequestProps } from "@/app/libs/interfaces";
+import {
+  ApplicationProps,
+  RequestProps,
+  DropdownStates,
+} from "@/app/libs/interfaces";
 import { CompanionCard } from "@/app/components/companioncard";
 import Carousel from "@/app/components/carousel";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 export default function MyJobs() {
   const { data: session, status } = useSession();
@@ -16,9 +22,46 @@ export default function MyJobs() {
   const [applications, setApplications] = useState([]);
   const [request, setRequest] = useState<RequestProps | undefined>(undefined);
   const [mode, setMode] = useState(true);
+  //   const [dropdownStates, setDropdownStates] = useState<DropdownStates>({});
+  const [activeDropdown, setActiveDropdown] = useState(-1);
 
   const toggleMode = (newMode: boolean) => {
     setMode(newMode);
+  };
+
+  //   const toggleDropdown = (index: number) => {
+  //     setDropdownStates({
+  //       ...dropdownStates,
+  //       [index]: !dropdownStates[index],
+  //     });
+  //   };
+
+  const toggleDropdown = (index: number) => {
+    if (activeDropdown === index) {
+      setActiveDropdown(-1);
+    } else {
+      setActiveDropdown(index);
+    }
+  };
+
+  const revertApplicantStatus = async (applicantId: string) => {
+    try {
+      const response = await axios.patch(
+        `/api/user/applications/${applicantId}`
+      );
+      if (response.status !== 200) {
+        const errorMessage = response.data?.error || "An error occurred";
+        toast.error(errorMessage);
+      } else {
+        toast.success("Application status reverted");
+        setTimeout(() => {
+          toast.dismiss();
+          window.location.reload();
+        }, 2000);
+      }
+    } catch (error) {
+      console.error("Unable to remove applicant", error);
+    }
   };
 
   useEffect(() => {
@@ -79,13 +122,34 @@ export default function MyJobs() {
             {applications
               .filter((app: ApplicationProps) => app.status === "Accepted")
               .map((app: ApplicationProps, index) => (
-                <div key={index}>
+                <div className="relative inline-block" key={index}>
                   <img
                     src={app.compImage}
                     alt={`Image-${index}`}
                     className="w-[40px] h-[40px] rounded-full ml-4"
                     title={app.compName}
+                    onClick={() => toggleDropdown(index)}
                   />
+
+                  <ul
+                    className={`absolute w-[200px] right-0 mt-2 bg-white border border-gray-300 rounded-md shadow-md z-10 ${
+                      activeDropdown === index ? "block" : "hidden"
+                    }`}
+                  >
+                    <li>
+                      <p className="block px-4 py-2 cursor-pointer hover:bg-gray-100 hover:text-gray-800">
+                        View Profile
+                      </p>
+                    </li>
+                    <li>
+                      <p
+                        className="block px-4 py-2 hover:bg-gray-100 hover:text-gray-800"
+                        onClick={() => revertApplicantStatus(app.id)}
+                      >
+                        Remove
+                      </p>
+                    </li>
+                  </ul>
                 </div>
               ))}
           </div>

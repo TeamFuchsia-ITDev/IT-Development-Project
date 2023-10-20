@@ -189,10 +189,10 @@ export default function Dashboard() {
                 <p className="text-[40px]">Welcome to your Dashboard</p>
               )}
             <p className="text-[16px] ">
-              You are now Signed in as a Requester In here you will be able to see all 
+              You are now signed in as a Requester. In here you will be able to see all 
             </p>
             <p className=" ">
-             requests you have created. need further explanation?{" "}
+             requests you have created. Need further explanation?{" "}
               <a href="#" className="text-rose-500">
                 click here
               </a>
@@ -314,10 +314,10 @@ export default function Dashboard() {
                 <p className="text-[40px]">Welcome to your Dashboard</p>
               )}
               <p className="text-[16px] ">
-                You are now signed in as a Companion In here you will be able to see latest requests 
+                You are now signed in as a Companion. In here you will be able to see latest requests 
               </p>
               <p className="text-[16px]">
-                want to be a <a className="text-rose-500">Requester?</a> simply <a>click here</a>
+                want to be a <a className="text-rose-500">Requester?</a> simply <a className="text-blue-500">click here</a>
               </p>
             </div>
 
@@ -449,7 +449,7 @@ export default function Dashboard() {
               </p>
               <div className="ml-4 mr-4 text-center ">
                 <p className="text-[13px] mt-4">
-                  to let the requester know more about you fill up the form
+                  To let the requester know more about you fill up the form
                   below
                 </p>
                 <h1 className="text-[13px] ">

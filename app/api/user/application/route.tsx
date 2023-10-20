@@ -142,6 +142,16 @@ export async function PATCH(request: Request) {
             status: "OnGoing",
           },
         });
+
+        await prisma.application.updateMany({
+          where: {
+            requestId: requestId,
+            status: "Pending",
+          },
+          data: {
+            status: "NotChosen",
+          },
+        });
       }
 
       return NextResponse.json({ updatedApplication, status: 200 });
