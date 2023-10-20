@@ -67,6 +67,7 @@ export const Card = ({
                   <p className="text-gray-500 text-[12px]">
                     {request?.requesterCity}
                   </p>
+                  
                 </div>
                 <div className="ml-auto  mt-4 text-rose-500">
                   <p className="font-bold text-[10px]">{request?.category}</p>

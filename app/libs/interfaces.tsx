@@ -30,6 +30,7 @@ export interface RequestProps {
   requesterImage: string;
   requesterCity: string;
   status: string;
+  compNeeded: string;
 }
 
 export interface ApplicationProps {

@@ -54,21 +54,28 @@ export default function Dashboard() {
           <p className="text-[16px] ">
             In here you will be able to see all requests you have created need
           </p>
-          <p className=" ">further explanation? <a href="#" className="text-rose-500">click here</a></p>
+          <p className=" ">
+            further explanation?{" "}
+            <a href="#" className="text-rose-500">
+              click here
+            </a>
+          </p>
         </div>
         <div className="mt-12">
           <h1 className="underline underline-offset-4 decoration-rose-500 decoration-2 mt-12 decoration-drop-shadow-lg">
             Pending Requests
           </h1>
           <div className="mt-4 overflow-auto">
-            {!myRequests ? (
+            {myRequests.filter(
+              (request: RequestProps) => request.status === "Pending"
+            ).length <= 0 ? (
               <p>
                 You have not created a request yet,<a>Create one now</a>
               </p>
             ) : (
               <Carousel
                 loop={false}
-                slidesPerView={4}
+                slidesPerView={3}
                 cards={myRequests
                   .filter(
                     (request: RequestProps) => request.status === "Pending"
@@ -90,7 +97,7 @@ export default function Dashboard() {
           <div className="mt-4">
             <Carousel
               loop={false}
-              slidesPerView={3}
+              slidesPerView={4}
               cards={myRequests
                 .filter((request: RequestProps) => request.status === "OnGoing")
                 .map((request: RequestProps, index: number) => (
@@ -106,18 +113,21 @@ export default function Dashboard() {
           <h1 className="underline underline-offset-8 decoration-rose-500 decoration-2 mt-12 decoration-drop-shadow-lg">
             Completed Requests
           </h1>
-          <div className="mt-4"><Carousel
-          loop={false}
-          slidesPerView={3}
-          cards={myRequests
-            .filter((request: RequestProps) => request.status === "Completed")
-            .map((request: RequestProps, index: number) => (
-              <div key={index}>
-                <RequestCard request={request} />
-              </div>
-            ))}
-        />
-        </div>
+          <div className="mt-4">
+            <Carousel
+              loop={false}
+              slidesPerView={4}
+              cards={myRequests
+                .filter(
+                  (request: RequestProps) => request.status === "Completed"
+                )
+                .map((request: RequestProps, index: number) => (
+                  <div key={index}>
+                    <RequestCard request={request} />
+                  </div>
+                ))}
+            />
+          </div>
         </div>
       </div>
     </main>

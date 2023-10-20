@@ -85,7 +85,7 @@ export const CompanionCard = ({ application }: CompanionCardProps) => {
             </div>
           </div>
           <div>
-            <h1 className="ml-4 mr-4 mt-2 mb-2">
+            <h1 className="ml-4 mr-4 mt-2 mb-2 overflow-hidden">
               {showWhy ? application?.description : ""}
             </h1>
           </div>
