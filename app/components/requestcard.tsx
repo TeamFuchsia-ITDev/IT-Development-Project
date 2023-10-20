@@ -59,7 +59,7 @@ export const RequestCard = ({ request }: { request: RequestProps }) => {
   return (
     <>
       <div
-        className="shadow-xl border-2  h-auto w-[395px] mb-4 rounded-[10px] hover:transform  transition-transform duration-300 ease-in-out "
+        className="shadow-xl border-2  h-auto w-[400px] mb-4 rounded-[10px] hover:transform  transition-transform duration-300 ease-in-out "
         style={{ boxShadow: "2px 2px 9px rgba(153, 153, 153, 100%)" }}
       >
         <img src={imageMapping[request?.category!]} className="rounded-t-lg" />
