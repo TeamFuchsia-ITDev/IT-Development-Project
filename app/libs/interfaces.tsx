@@ -70,6 +70,11 @@ export interface CardProps {
   }) => void;
 }
 
+export interface NavBarProps {
+  mode: boolean;
+  toggleMode: (mode: boolean) => void;
+}
+
 export interface CompanionCardProps {
   application?: ApplicationProps;
 }

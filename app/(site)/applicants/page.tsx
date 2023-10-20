@@ -14,6 +14,11 @@ export default function MyJobs() {
   const requestIDParams = searchParams.get("id");
   const [applications, setApplications] = useState([]);
   const [request, setRequest] = useState<RequestProps | undefined>(undefined);
+  const [mode, setMode] = useState(true);
+
+  const toggleMode = (newMode: boolean) => {
+    setMode(newMode);
+  };
 
   useEffect(() => {
     const getApplications = async () => {
@@ -34,7 +39,7 @@ export default function MyJobs() {
 
   return (
     <main className="pl-24 pr-24">
-      <Navbar />
+      <Navbar mode={mode} toggleMode={toggleMode} />
       <div>
         <div className="mt-6 text-center">
           <p className="text-[40px] mt-12">
@@ -66,13 +71,16 @@ export default function MyJobs() {
           <Carousel
             loop={false}
             slidesPerView={4}
-            cards={applications.filter((application: ApplicationProps) => application.status === "Pending").map(
-              (application: ApplicationProps, index: number) => (
+            cards={applications
+              .filter(
+                (application: ApplicationProps) =>
+                  application.status === "Pending"
+              )
+              .map((application: ApplicationProps, index: number) => (
                 <div key={index}>
                   <CompanionCard application={application} />
                 </div>
-              )
-            )}
+              ))}
           />
         </div>
       </div>

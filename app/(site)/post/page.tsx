@@ -14,6 +14,12 @@ export default function PostRequest() {
   const router = useRouter();
   const [user, setUser] = useState<UserProps | undefined>(undefined);
   const [disabled, setDisabled] = useState(false);
+  const [isFormVisible, setIsFormVisible] = useState(false);
+  const [mode, setMode] = useState(true);
+
+  const toggleMode = (newMode: boolean) => {
+    setMode(newMode);
+  };
 
   const [data, setData] = useState({
     taskname: "",
@@ -62,7 +68,7 @@ export default function PostRequest() {
 
   return (
     <main className="pl-24 pr-24">
-      <Navbar />
+      <Navbar mode={mode} toggleMode={toggleMode} />
       <div className="ml-4 mr-4 mt-24">
         <div className="ml-4 mr-4 text-center">
           <p className="text-[40px]">Welcome to your Post page</p>

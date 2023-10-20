@@ -13,6 +13,11 @@ export default function MyRequest() {
   const router = useRouter();
   const [user, setUser] = useState<UserProps | undefined>(undefined);
   const [myRequests, setMyRequests] = useState<RequestProps[]>([]);
+  const [mode, setMode] = useState(true);
+
+  const toggleMode = (newMode: boolean) => {
+    setMode(newMode); 
+  };
 
   useEffect(() => {
     // Redirect to login page if there is no session
@@ -46,7 +51,7 @@ export default function MyRequest() {
 
   return (
     <main className="pl-24 pr-24">
-      <Navbar />
+      <Navbar mode={mode} toggleMode={toggleMode} />
       <div className="ml-4 mr-4 mt-24">
         <div className="ml-4 mr-4">
           <p className="text-[40px] text-center">
