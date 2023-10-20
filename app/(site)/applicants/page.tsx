@@ -10,6 +10,7 @@ import Carousel from "@/app/components/carousel";
 
 export default function MyJobs() {
   const { data: session, status } = useSession();
+  const router = useRouter();
   const searchParams = useSearchParams();
   const requestIDParams = searchParams.get("id");
   const [applications, setApplications] = useState([]);
@@ -19,6 +20,12 @@ export default function MyJobs() {
   const toggleMode = (newMode: boolean) => {
     setMode(newMode);
   };
+
+  useEffect(() => {
+    if (status !== "loading" && !session) {
+      router.push("/login");
+    }
+  }, [session, status, router]);
 
   useEffect(() => {
     const getApplications = async () => {
@@ -67,12 +74,22 @@ export default function MyJobs() {
         </div>
 
         <div>
-
-          <div className="flex flex-row items-center"><h1 className="font-bold mt-8 mb-4">Your Accepted Applicants </h1> 
-          <img src="" className="w-[40px] h-[40px] rounded-full ml-4 " /> 
-          <img src="" className="w-[40px] h-[40px] rounded-full ml-4 " /> 
+          <div className="flex flex-row items-center">
+            <h1 className="font-bold mt-8 mb-4">Your Accepted Applicants </h1>
+            {applications
+              .filter((app: ApplicationProps) => app.status === "Accepted")
+              .map((app: ApplicationProps, index) => (
+                <div key={index}>
+                  <img
+                    src={app.compImage}
+                    alt={`Image-${index}`}
+                    className="w-[40px] h-[40px] rounded-full ml-4"
+                    title={app.compName}
+                  />
+                </div>
+              ))}
           </div>
-          
+
           <h1 className="font-bold mt-2 mb-4">Applicants</h1>
           <Carousel
             loop={false}
