@@ -120,3 +120,7 @@ export interface MapProps {
   startLocation: [number, number];
   endLocation: [number, number];
 }
+
+export interface DropdownStates {
+  [index: number]: boolean;
+}
