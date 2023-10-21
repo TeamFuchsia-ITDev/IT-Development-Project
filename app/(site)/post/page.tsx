@@ -60,7 +60,7 @@ export default function PostRequest() {
       );
       setTimeout(() => {
         toast.dismiss();
-        router.push("/myrequest");
+        router.push("/dashboard");
       }, 2000);
     }
     setTimeout(() => setDisabled(false), 4000);
