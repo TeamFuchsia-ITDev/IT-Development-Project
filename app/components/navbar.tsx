@@ -105,8 +105,8 @@ export const Navbar = ({ mode, toggleMode }: NavBarProps) => {
                         value={mode.toString()}
                         onChange={() => toggleMode(!mode)}
                       />
-                      <div className="w-12 h-6 rounded-full shadow-inner dark:bg-black peer-checked:dark:bg-rose-500"></div>
-                      <div className="absolute inset-y-0 left-0 w-4 h-4 m-1 rounded-full shadow peer-checked:right-0 peer-checked:left-auto dark:bg-white"></div>
+                      <div className="w-12 h-6 rounded-full shadow-inner bg-black peer-checked:bg-rose-500"></div>
+                      <div className="absolute inset-y-0 left-0 w-4 h-4 m-1 rounded-full shadow peer-checked:right-0 peer-checked:left-auto bg-white"></div>
                     </span>
                   </label>
                 </li>

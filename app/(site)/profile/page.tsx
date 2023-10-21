@@ -8,6 +8,7 @@ import getGeolocation from "@/app/libs/geolocation";
 import { toast } from "react-hot-toast";
 import { UserProps } from "@/app/libs/interfaces";
 import Map from "@/app/components/map";
+import ChatComponent from "@/app/components/chat";
 
 const Profile = () => {
   const router = useRouter();
@@ -88,6 +89,8 @@ const Profile = () => {
         startLocation={[-122.830069, 49.112609]}
         endLocation={[-122.950891, 49.215401]}
       /> */}
+
+	  <ChatComponent />
     </div>
   );
 };
