@@ -34,16 +34,6 @@ export const Navbar = ({ mode, toggleMode }: NavBarProps) => {
         <h1>Serve-Ease</h1>
         <div className=" relative flex gap-5 mr-4 text-sm  items-center">
           <a
-            href="/homepage"
-            className={`relative group ${
-              pathname === "/homepage" ? isLinkActive : ""
-            }`}
-          >
-            Home
-            <div className="absolute left-0 w-0 h-[2px] bg-rose-500 group-hover:w-full transition-transform transform origin-left transform scale-x-0 group-hover:scale-x-100"></div>
-          </a>
-
-          <a
             href="/post "
             className={`relative group ${
               pathname === "/post" ? isLinkActive : ""
@@ -84,7 +74,7 @@ export const Navbar = ({ mode, toggleMode }: NavBarProps) => {
                   isDropdownOpen ? "block" : "hidden"
                 }`}
               >
-                <li>
+                <li className="border-b-2 ">
                   <a className="block px-4 py-2 cursor-pointer hover:bg-gray-100 hover:text-gray-800">
                     Signed in as <br />{" "}
                     <span className="font-bold">{user.name}</span>
@@ -105,8 +95,8 @@ export const Navbar = ({ mode, toggleMode }: NavBarProps) => {
                         value={mode.toString()}
                         onChange={() => toggleMode(!mode)}
                       />
-                      <div className="w-12 h-6 rounded-full shadow-inner dark:bg-black peer-checked:dark:bg-rose-500"></div>
-                      <div className="absolute inset-y-0 left-0 w-4 h-4 m-1 rounded-full shadow peer-checked:right-0 peer-checked:left-auto dark:bg-white"></div>
+                      <div className="w-12 h-6 rounded-full shadow-inner bg-green-500 peer-checked:bg-rose-500"></div>
+                      <div className="absolute inset-y-0 left-0 w-4 h-4 m-1 rounded-full shadow peer-checked:right-0 peer-checked:left-auto bg-white"></div>
                     </span>
                   </label>
                 </li>
@@ -127,7 +117,7 @@ export const Navbar = ({ mode, toggleMode }: NavBarProps) => {
                     Edit Profile
                   </a>
                 </li>
-                <li>
+                <li className="border-t-2 ">
                   <a
                     className="block px-4 py-2 cursor-pointer hover:bg-gray-100 hover:text-red-500"
                     onClick={() => signOut()}

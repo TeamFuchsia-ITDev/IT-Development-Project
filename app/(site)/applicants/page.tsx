@@ -92,27 +92,28 @@ export default function MyJobs() {
       <Navbar mode={mode} toggleMode={toggleMode} />
       <div>
         <div className="mt-6 text-center">
-          <p className="text-[40px] mt-12">
+          <p className="text-[40px] mt-24">
             These are the applicants for {request?.taskname}
           </p>
-          <p className="text-[20px]  ">
+          <p className="text-[16px]  ">
             In here you will be able to see al the companions that have applied
             to your request
           </p>
           <div className="flex flex-row gap-4  justify-center mt-4">
-            <select className="">
+           
+            <input type="text" placeholder="Input age" className="w-[200px] rounded-lg"/> 
+            <select className="rounded-lg">
               {" "}
               <option value="" disabled>
                 Select Ethnicity
               </option>
             </select>
-            <select className="">
+            <select className="rounded-lg">
               {" "}
               <option value="" disabled>
                 Select Gender
               </option>
             </select>
-            <input type="text" placeholder="Input age" />
           </div>
         </div>
 

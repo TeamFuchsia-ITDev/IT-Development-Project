@@ -20,6 +20,7 @@ export default function Dashboard() {
   const [myRequests, setMyRequests] = useState<RequestProps[]>([]);
   const [page, setPage] = useState("Pending");
   const [mode, setMode] = useState(true);
+  const [compPage , setCompPage] = useState("Requests");
 
   const toggleMode = (newMode: boolean) => {
     setMode(newMode);
@@ -189,10 +190,10 @@ export default function Dashboard() {
                 <p className="text-[40px]">Welcome to your Dashboard</p>
               )}
             <p className="text-[16px] ">
-              You are now signed in as a Requester. In here you will be able to see all 
+              You are now signed in as a Requester. In here you will be able to see all the requests you
             </p>
             <p className=" ">
-             requests you have created. Need further explanation?{" "}
+              have created. Need further explanation?{" "}
               <a href="#" className="text-rose-500">
                 click here
               </a>
@@ -246,9 +247,12 @@ export default function Dashboard() {
             myRequests.filter(
               (request: RequestProps) => request.status === "Pending"
             ).length <= 0 ? (
-              <p>
-                You have not created a request yet, <a>Create one now</a>
+              <div className=" text-center justify-center mt-48">
+                
+              <p className="text-2xl">
+                You have not created a request yet <a href="/post" className="text-rose-500">Create one now</a>
               </p>
+              </div>
             ) : (
               <Carousel
                 loop={false}
@@ -317,7 +321,7 @@ export default function Dashboard() {
                 You are now signed in as a Companion. In here you will be able to see latest requests 
               </p>
               <p className="text-[16px]">
-                want to be a <a className="text-rose-500">Requester?</a> simply <a className="text-blue-500">click here</a>
+                need further explantion? <a className="text-blue-500">click here</a>
               </p>
             </div>
 
@@ -370,48 +374,61 @@ export default function Dashboard() {
             <div className="flex flex-row w-[100%] h-[40px] rounded-t-2xl">
               <button
                 className={`${
-                  page === "Pending"
+                  compPage === "Requests"
                     ? " bg-white w-[25%] text-orange-500 font-bold border-t-4 border-orange-500 rounded-t-2xl"
-                    : "  w-[25%] text-gray-400 bg-gray-100  rounded-t-2xl "
+                    : "  w-[20%] text-gray-400 bg-gray-100  rounded-t-2xl "
                 }`}
-                onClick={() => setPage("Pending")}
+                onClick={() => setCompPage("Requests")}
               >
                 All Requests
               </button>
               <button
                 className={`${
-                  page === "Active"
-                  ? " bg-white w-[25%] text-green-500 font-bold border-t-4 border-green-500 rounded-t-2xl"
-                  : "  w-[25%] text-gray-400 bg-gray-100 rounded-t-2xl "
+                  compPage === "Pending"
+                  ? " bg-white w-[25%] text-yellow-400 font-bold border-t-4 border-yellow-400 rounded-t-2xl"
+                  : "  w-[20%] text-gray-400 bg-gray-100 rounded-t-2xl "
                 }`}
-                onClick={() => setPage("Active")}
+                onClick={() => setCompPage("Pending")}
               >
                 Pending Application
               </button>
               <button
                 className={`${
-                  page === "Completed"
-                  ? " bg-white w-[25%] text-blue-500 font-bold border-t-4 border-blue-500 rounded-t-2xl"
-                  : "  w-[25%] text-gray-400 bg-gray-100  rounded-t-2xl "
+                  compPage === "Active"
+                  ? " bg-white w-[25%] text-green-500 font-bold border-t-4 border-green-500 rounded-t-2xl"
+                  : "  w-[20%] text-gray-400 bg-gray-100 rounded-t-2xl "
                 }`}
-                onClick={() => setPage("Completed")}
+                onClick={() => setCompPage("Active")}
+              >
+                Active Application
+              </button>
+              <button
+                className={`${
+                  compPage === "Completed"
+                  ? " bg-white w-[25%] text-blue-500 font-bold border-t-4 border-blue-500 rounded-t-2xl"
+                  : "  w-[20%] text-gray-400 bg-gray-100  rounded-t-2xl "
+                }`}
+                onClick={() => setCompPage("Completed")}
               >
                 Completed Application
               </button>
               <button
                 className={`${
-                  page === "Cancelled"
+                  compPage === "Cancelled"
                   ? " bg-white w-[25%] text-red-500 font-bold border-t-4 border-red-500 rounded-t-2xl"
-                  : "  w-[25%] text-gray-400 bg-gray-100  rounded-t-2xl "
+                  : "  w-[20%] text-gray-400 bg-gray-100  rounded-t-2xl "
                 }`}
-                onClick={() => setPage("Cancelled")}
+                onClick={() => setCompPage("Cancelled")}
               >
                 Cancelled Application
               </button>
             </div>
 
             </div>
-            <div className="mb-24">
+           
+          </div>
+
+          {compPage === "Requests" ? ( <div className="mb-24">
               <Carousel
                 loop={false}
                 slidesPerView={4}
@@ -428,8 +445,26 @@ export default function Dashboard() {
                   )
                 )}
               />
-            </div>
-          </div>
+            </div>) : null }
+
+            {compPage === "Pending" ? ( <div className="mb-24">
+              
+            </div>) : null }
+
+
+            {compPage === "Active" ? ( <div className="mb-24">
+             
+            </div>) : null }
+
+
+            {compPage === "Completed" ? ( <div className="mb-24">
+              
+            </div>) : null }
+
+
+            {compPage === "Cancelled" ? ( <div className="mb-24">
+              
+            </div>) : null }
 
           {isFormVisible && (
             <div
