@@ -50,7 +50,7 @@ export const Card = ({
   return (
     <>
       {smallCard ? (
-        <main className=" border-2 w-[300px] h-auto rounded-[10px]">
+        <main className=" border-2 w-[300px] h-auto rounded-[10px] hover:translate-y-[-20px] mt-5">
           <div className="">
             <img src={imageMapping[request?.category!]} className="rounded-t-lg" />				
             <div className="ml-2 mr-2" >
