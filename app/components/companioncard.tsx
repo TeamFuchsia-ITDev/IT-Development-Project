@@ -56,7 +56,7 @@ export const CompanionCard = ({ application }: CompanionCardProps) => {
   return (
     <>
       <div
-        className=" border-2  h-auto w-auto mb-4 rounded-[10px] "
+        className=" border-2  h-auto w-auto mb-4 rounded-[10px] hover:translate-y-[-20px] mt-5"
         style={{ boxShadow: "4px 4px 10px rgba(153, 153, 153, 100%)" }}
       >
         <div className="flex flex-col">

@@ -100,8 +100,11 @@ export default function MyJobs() {
             to your request
           </p>
           <div className="flex flex-row gap-4  justify-center mt-4">
-           
-            <input type="text" placeholder="Input age" className="w-[200px] rounded-lg"/> 
+            <input
+              type="text"
+              placeholder="Input age"
+              className="w-[200px] rounded-lg"
+            />
             <select className="rounded-lg">
               {" "}
               <option value="" disabled>
@@ -127,24 +130,27 @@ export default function MyJobs() {
                   <img
                     src={app.compImage}
                     alt={`Image-${index}`}
-                    className="w-[40px] h-[40px] rounded-full ml-4"
+                    className="w-[40px] h-[40px] rounded-full ml-4 border-2 border-gray-400 hover:scale-125"
+                    style={{
+                      boxShadow: "4px 4px 10px rgba(153, 153, 153, 100%)",
+                    }}
                     title={app.compName}
                     onClick={() => toggleDropdown(index)}
                   />
 
                   <ul
-                    className={`absolute w-[200px] right-0 mt-2 bg-white border border-gray-300 rounded-md shadow-md z-10 ${
+                    className={`absolute w-[200px] left-5 mt-2 bg-white border border-gray-300 rounded-md shadow-md z-10 ${
                       activeDropdown === index ? "block" : "hidden"
                     }`}
                   >
                     <li>
-                      <p className="block px-4 py-2 cursor-pointer hover:bg-gray-100 hover:text-gray-800">
+                      <p className="block px-4 py-2 cursor-pointer hover:bg-gray-100 hover:text-blue-500">
                         View Profile
                       </p>
                     </li>
                     <li>
                       <p
-                        className="block px-4 py-2 hover:bg-gray-100 hover:text-gray-800"
+                        className="block px-4 py-2 cursor-pointer hover:text-rose-500 hover:bg-gray-100"
                         onClick={() => revertApplicantStatus(app.id)}
                       >
                         Remove

@@ -31,7 +31,7 @@ const Profile = () => {
         toast.success("Facebook successful login");
       }
     }
-  }, [session, providerParams]);
+  }, [isMounted]);
 
   useEffect(() => {
     setisMounted(true);
