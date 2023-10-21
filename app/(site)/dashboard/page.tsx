@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useState, Suspense } from "react";
 import { useSession } from "next-auth/react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -180,20 +180,21 @@ export default function Dashboard() {
       {mode ? (
         <div className="mt-24">
           <div className=" text-center">
-          {user ? (
-                <>
-                  <p className="text-[40px]">
-                    Welcome to your Dashboard {user.name.split(" ")[0]}
-                  </p>
-                </>
-              ) : (
-                <p className="text-[40px]">Welcome to your Dashboard</p>
-              )}
+            {user ? (
+              <>
+                <p className="text-[40px]">
+                  Welcome to your Dashboard {user.name.split(" ")[0]}
+                </p>
+              </>
+            ) : (
+              <p className="text-[40px]">Welcome to your Dashboard</p>
+            )}
             <p className="text-[16px] ">
               You are now signed in as a Requester. In here you will be able to see all the requests you
             </p>
             <p className=" ">
               have created. Need further explanation?{" "}
+
               <a href="#" className="text-rose-500">
                 click here
               </a>
@@ -204,8 +205,8 @@ export default function Dashboard() {
               <button
                 className={`${
                   page === "Pending"
-                  ? " bg-white w-[25%] text-orange-500 font-bold border-t-4 border-orange-500 rounded-t-2xl"
-                  : "  w-[25%] text-gray-400 bg-gray-100  rounded-t-2xl "
+                    ? " bg-white w-[25%] text-orange-500 font-bold border-t-4 border-orange-500 rounded-t-2xl"
+                    : "  w-[25%] text-gray-400 bg-gray-100  rounded-t-2xl "
                 }`}
                 onClick={() => setPage("Pending")}
               >
@@ -214,8 +215,8 @@ export default function Dashboard() {
               <button
                 className={`${
                   page === "Active"
-                  ? " bg-white w-[25%] text-green-500 font-bold border-t-4 border-green-500 rounded-t-2xl"
-                  : "  w-[25%] text-gray-400 bg-gray-100 rounded-t-2xl "
+                    ? " bg-white w-[25%] text-green-500 font-bold border-t-4 border-green-500 rounded-t-2xl"
+                    : "  w-[25%] text-gray-400 bg-gray-100 rounded-t-2xl "
                 }`}
                 onClick={() => setPage("Active")}
               >
@@ -224,8 +225,8 @@ export default function Dashboard() {
               <button
                 className={`${
                   page === "Completed"
-                  ? " bg-white w-[25%] text-blue-500 font-bold border-t-4 border-blue-500 rounded-t-2xl"
-                  : "  w-[25%] text-gray-400 bg-gray-100  rounded-t-2xl "
+                    ? " bg-white w-[25%] text-blue-500 font-bold border-t-4 border-blue-500 rounded-t-2xl"
+                    : "  w-[25%] text-gray-400 bg-gray-100  rounded-t-2xl "
                 }`}
                 onClick={() => setPage("Completed")}
               >
@@ -234,8 +235,8 @@ export default function Dashboard() {
               <button
                 className={`${
                   page === "Cancelled"
-                  ? " bg-white w-[25%] text-red-500 font-bold border-t-4 border-red-500 rounded-t-2xl"
-                  : "  w-[25%] text-gray-400 bg-gray-100  rounded-t-2xl "
+                    ? " bg-white w-[25%] text-red-500 font-bold border-t-4 border-red-500 rounded-t-2xl"
+                    : "  w-[25%] text-gray-400 bg-gray-100  rounded-t-2xl "
                 }`}
                 onClick={() => setPage("Cancelled")}
               >
@@ -268,6 +269,7 @@ export default function Dashboard() {
                   ))}
               />
             )
+
           ) : null}
 
           {page === "Active" ? (
@@ -318,10 +320,12 @@ export default function Dashboard() {
                 <p className="text-[40px]">Welcome to your Dashboard</p>
               )}
               <p className="text-[16px] ">
-                You are now signed in as a Companion. In here you will be able to see latest requests 
+                You are now signed in as a Companion. In here you will be able
+                to see latest requests
               </p>
               <p className="text-[16px]">
                 need further explantion? <a className="text-blue-500">click here</a>
+
               </p>
             </div>
 
@@ -370,7 +374,6 @@ export default function Dashboard() {
             </div>
 
             <div className="mt-12 mb-12">
-
             <div className="flex flex-row w-[100%] h-[40px] rounded-t-2xl">
               <button
                 className={`${
@@ -423,6 +426,7 @@ export default function Dashboard() {
                 Cancelled Application
               </button>
             </div>
+
 
             </div>
            
