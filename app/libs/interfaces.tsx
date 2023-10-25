@@ -124,3 +124,7 @@ export interface MapProps {
 export interface DropdownStates {
   [index: number]: boolean;
 }
+
+export interface CompPageData {
+  [key: string]: RequestProps[];
+}

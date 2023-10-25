@@ -91,8 +91,8 @@ export async function POST(request: Request) {
 
 export async function GET(request: Request) {
   try {
-    const requests = await prisma.request.findMany();
-    return NextResponse.json({ requests, status: 200 });
+    const applications = await prisma.application.findMany();
+    return NextResponse.json({ applications, status: 200 });
   } catch (error) {
     const { code = 500, message = "internal server error" } = error as APIErr;
     return NextResponse.json({

@@ -4,7 +4,13 @@ import { FormEvent, useEffect, useState, Suspense } from "react";
 import { useSession } from "next-auth/react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { UserProps, RequestProps, RequestData } from "@/app/libs/interfaces";
+import {
+  UserProps,
+  RequestProps,
+  RequestData,
+  ApplicationProps,
+  CompPageData,
+} from "@/app/libs/interfaces";
 import { Navbar } from "@/app/components/navbar";
 import { RequestCard } from "@/app/components/requestcard";
 import Carousel from "@/app/components/carousel";
@@ -72,8 +78,17 @@ export default function Dashboard() {
   const [selectedCity, setSelectedCity] = useState("");
   const [cities, setCities] = useState<string[]>([]);
   const [disabled, setDisabled] = useState(false);
-  const [requests, setRequests] = useState<RequestProps[]>([]);
+  const [pendingRequests, setPendingRequests] = useState<RequestProps[]>([]);
+  const [activeRequests, setActiveRequests] = useState<RequestProps[]>([]);
+  const [cancelledRequests, setCancelledRequests] = useState<RequestProps[]>(
+    []
+  );
+  const [completedRequests, setCompletedRequests] = useState<RequestProps[]>(
+    []
+  );
+  const [allRequests, setAllRequests] = useState<RequestProps[]>([]);
   const [isFormVisible, setIsFormVisible] = useState(false);
+  const [myApplications, setmyApplications] = useState<ApplicationProps[]>([]);
 
   const [data, setData] = useState({
     requestid: "",
@@ -104,16 +119,35 @@ export default function Dashboard() {
     const getRequests = async () => {
       const response = await axios.get(`/api/user/request`);
       const data = await response.data;
-      const filteredRequests: RequestProps[] = data.requests.filter(
+      const allPendingRequests: RequestProps[] = data.requests.filter(
         (request: { userEmail: string; status: string }) =>
           request.userEmail !== session?.user.email &&
           request.status === "Pending"
       );
-      setRequests(filteredRequests);
+      const allActiveRequests: RequestProps[] = data.requests.filter(
+        (request: { userEmail: string; status: string }) =>
+          request.userEmail !== session?.user.email &&
+          request.status === "OnGoing"
+      );
+      const allCancelledRequests: RequestProps[] = data.requests.filter(
+        (request: { userEmail: string; status: string }) =>
+          request.userEmail !== session?.user.email &&
+          request.status === "Cancelled"
+      );
+      const allCompletedRequests: RequestProps[] = data.requests.filter(
+        (request: { userEmail: string; status: string }) =>
+          request.userEmail !== session?.user.email &&
+          request.status === "Cancelled"
+      );
+      setAllRequests(data.requests);
+      setPendingRequests(allPendingRequests);
+      setActiveRequests(allActiveRequests);
+      setCancelledRequests(allCancelledRequests);
+      setCompletedRequests(allCompletedRequests);
 
       const uniqueCities = new Set<string>();
 
-      filteredRequests.forEach((item: RequestProps) => {
+      allRequests.forEach((item: RequestProps) => {
         if (item.requesterCity) {
           uniqueCities.add(item.requesterCity);
         }
@@ -122,13 +156,35 @@ export default function Dashboard() {
       setCities(Array.from(uniqueCities));
     };
 
+    const getApplications = async () => {
+      const response = await axios.get(`/api/user/application`);
+      const data = await response.data;
+      const filtereredApplicationsByUser: ApplicationProps[] =
+        data.applications.filter(
+          (request: { userEmail: string; status: string }) =>
+            request.userEmail === session?.user.email
+        );
+      setmyApplications(filtereredApplicationsByUser);
+    };
+
     if (status !== "loading" && session?.user.email) {
       getUser();
       getRequests();
+      getApplications();
     }
   }, [session?.user.email, status]);
 
-  const searchFilteredRequests = requests.filter((request) => {
+  const compPageData: CompPageData = {
+	Requests: pendingRequests,
+    Pending: pendingRequests,
+    Active: activeRequests,
+    Completed: completedRequests,
+    Cancelled: cancelledRequests,
+  };
+
+  const sourceArray = compPageData[compPage] || [];
+
+  const searchFilteredRequests = sourceArray.filter((request: RequestProps) => {
     return (
       (request.taskname.includes(searchTerm) ||
         request.description.includes(searchTerm)) &&
@@ -456,8 +512,11 @@ export default function Dashboard() {
               <Carousel
                 loop={false}
                 slidesPerView={4}
-                cards={searchFilteredRequests.map(
-                  (request: RequestProps, index: number) => (
+                cards={searchFilteredRequests
+                  .filter((request: RequestProps) =>
+                    myApplications.some((app) => app.requestId === request.id && app.status === "Pending")
+                  )
+                  .map((request: RequestProps, index: number) => (
                     <div key={index}>
                       <Card
                         request={request}
@@ -466,8 +525,7 @@ export default function Dashboard() {
                         onApplyClick={handleApplyRequest}
                       />
                     </div>
-                  )
-                )}
+                  ))}
               />
             </div>
           ) : null}
@@ -546,11 +604,7 @@ export default function Dashboard() {
             </div>
           )}
 
-
-
-
-
-          {(isFormVisible && compPage === "Pending" ) &&  (
+          {isFormVisible && compPage === "Pending" && (
             <div
               className="flex flex-col w-[500px] border-2 mt-4 items-center mb-12 bg-white fixed left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 "
               style={{ boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.5)" }}
@@ -564,7 +618,7 @@ export default function Dashboard() {
               />
 
               <p className="text-center underline underline-offset-8 decoration-rose-500 decoration-2 mt-6">
-                Application Form 
+                Application Form
               </p>
               <div className="ml-4 mr-4 text-center ">
                 <p className="text-[13px] mt-4">
@@ -610,14 +664,12 @@ export default function Dashboard() {
               </div>
               <button
                 className="text-center bg-orange-500 text-white font-bold mb-2 rounded h-[45px] w-[400px] hover:bg-white hover:text-orange-500 hover:border-[2px] hover:border-orange-500 hover:ease-in-out duration-300"
-                
                 disabled={disabled}
               >
                 Edit Application
               </button>
               <button
                 className="text-center bg-rose-500 text-white font-bold mb-2 rounded h-[45px] w-[400px] hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300"
-               
                 disabled={disabled}
               >
                 Cancel Application
@@ -625,7 +677,6 @@ export default function Dashboard() {
 
               <button
                 className="text-center bg-blue-500 text-white font-bold mb-8 rounded h-[45px] w-[400px] hover:bg-white hover:text-blue-500 hover:border-[2px] hover:border-blue-500 hover:ease-in-out duration-300"
-               
                 disabled={disabled}
               >
                 Save Changes
