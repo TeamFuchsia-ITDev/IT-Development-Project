@@ -219,7 +219,7 @@ export default function homepage() {
                 <div key={index}>
                   <Card
                     request={request}
-                    smallCard={true}
+                    cardType={"allRequests"}
                     toggleFormVisibility={setIsFormVisible}
                     onApplyClick={handleApplyRequest}
                   />
