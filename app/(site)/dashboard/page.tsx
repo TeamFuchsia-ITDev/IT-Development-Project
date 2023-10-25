@@ -78,15 +78,12 @@ export default function Dashboard() {
   const [selectedCity, setSelectedCity] = useState("");
   const [cities, setCities] = useState<string[]>([]);
   const [disabled, setDisabled] = useState(false);
-  const [pendingRequests, setPendingRequests] = useState<RequestProps[]>([]);
-  const [activeRequests, setActiveRequests] = useState<RequestProps[]>([]);
-  const [cancelledRequests, setCancelledRequests] = useState<RequestProps[]>(
-    []
-  );
-  const [completedRequests, setCompletedRequests] = useState<RequestProps[]>(
-    []
-  );
-  const [allRequests, setAllRequests] = useState<RequestProps[]>([]);
+  const [requestsData, setRequestsData] = useState({
+    pendingRequests: [],
+    activeRequests: [],
+    cancelledRequests: [],
+    completedRequests: [],
+  });
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [myApplications, setmyApplications] = useState<ApplicationProps[]>([]);
 
@@ -119,35 +116,34 @@ export default function Dashboard() {
     const getRequests = async () => {
       const response = await axios.get(`/api/user/request`);
       const data = await response.data;
-      const allPendingRequests: RequestProps[] = data.requests.filter(
-        (request: { userEmail: string; status: string }) =>
-          request.userEmail !== session?.user.email &&
-          request.status === "Pending"
-      );
-      const allActiveRequests: RequestProps[] = data.requests.filter(
-        (request: { userEmail: string; status: string }) =>
-          request.userEmail !== session?.user.email &&
-          request.status === "OnGoing"
-      );
-      const allCancelledRequests: RequestProps[] = data.requests.filter(
-        (request: { userEmail: string; status: string }) =>
-          request.userEmail !== session?.user.email &&
-          request.status === "Cancelled"
-      );
-      const allCompletedRequests: RequestProps[] = data.requests.filter(
-        (request: { userEmail: string; status: string }) =>
-          request.userEmail !== session?.user.email &&
-          request.status === "Cancelled"
-      );
-      setAllRequests(data.requests);
-      setPendingRequests(allPendingRequests);
-      setActiveRequests(allActiveRequests);
-      setCancelledRequests(allCancelledRequests);
-      setCompletedRequests(allCompletedRequests);
+
+      const filterRequests = (status: string) => {
+        return data.requests.filter(
+          (request: RequestProps) =>
+            request.userEmail !== session?.user.email &&
+            request.status === status
+        );
+      };
+      setRequestsData({
+        pendingRequests: filterRequests("Pending"),
+        activeRequests: filterRequests("OnGoing"),
+        cancelledRequests: filterRequests("Cancelled"),
+        completedRequests: filterRequests("Completed"),
+      });
+
+      const compPageData: CompPageData = {
+        Requests: filterRequests("Pending"),
+        Pending: filterRequests("Pending"),
+        Active: filterRequests("OnGoing"),
+        Completed: filterRequests("Completed"),
+        Cancelled: filterRequests("Cancelled"),
+      };
 
       const uniqueCities = new Set<string>();
 
-      allRequests.forEach((item: RequestProps) => {
+      const sourceArray = compPageData[compPage] || [];
+
+      sourceArray.forEach((item: RequestProps) => {
         if (item.requesterCity) {
           uniqueCities.add(item.requesterCity);
         }
@@ -175,11 +171,11 @@ export default function Dashboard() {
   }, [session?.user.email, status]);
 
   const compPageData: CompPageData = {
-	Requests: pendingRequests,
-    Pending: pendingRequests,
-    Active: activeRequests,
-    Completed: completedRequests,
-    Cancelled: cancelledRequests,
+    Requests: requestsData.pendingRequests,
+    Pending: requestsData.pendingRequests,
+    Active: requestsData.activeRequests,
+    Completed: requestsData.completedRequests,
+    Cancelled: requestsData.cancelledRequests,
   };
 
   const sourceArray = compPageData[compPage] || [];
@@ -514,7 +510,10 @@ export default function Dashboard() {
                 slidesPerView={4}
                 cards={searchFilteredRequests
                   .filter((request: RequestProps) =>
-                    myApplications.some((app) => app.requestId === request.id && app.status === "Pending")
+                    myApplications.some(
+                      (app) =>
+                        app.requestId === request.id && app.status === "Pending"
+                    )
                   )
                   .map((request: RequestProps, index: number) => (
                     <div key={index}>
