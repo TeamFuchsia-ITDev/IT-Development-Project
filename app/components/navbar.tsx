@@ -32,7 +32,7 @@ export const Navbar = ({ mode, toggleMode }: NavBarProps) => {
       <div className="flex flex-row justify-between items-center">
         {/* <img src={logo.src} alt="Logo" width={60} className="m-2 " /> */}
         <h1>Serve-Ease</h1>
-        <div className=" relative flex gap-5 mr-4 text-sm  items-center">
+        <div className=" relative flex gap-5  text-sm  items-center">
           <a
             href="/post "
             className={`relative group ${
@@ -43,12 +43,12 @@ export const Navbar = ({ mode, toggleMode }: NavBarProps) => {
             <div className="absolute left-0 w-0 h-[2px] bg-rose-500 group-hover:w-full transition-transform transform origin-left transform scale-x-0 group-hover:scale-x-100"></div>
           </a>
           <a
-            href="/analytics "
+            href="/profilepage"
             className={`relative group ${
-              pathname === "/analytics" ? isLinkActive : ""
+              pathname === "/profilepage" ? isLinkActive : ""
             }`}
           >
-            Analytics
+            Profile
             <div className="absolute left-0 w-0 h-[2px] bg-rose-500 group-hover:w-full transition-transform transform origin-left transform scale-x-0 group-hover:scale-x-100"></div>
           </a>
           <a
@@ -111,10 +111,10 @@ export const Navbar = ({ mode, toggleMode }: NavBarProps) => {
                 </li>
                 <li>
                   <a
-                    href="/edit-profile"
+                    href="/profilepage?tab=analytics"
                     className="block px-4 py-2 hover:bg-gray-100 hover:text-gray-800"
                   >
-                    Edit Profile
+                    Analytics
                   </a>
                 </li>
                 <li className="border-t-2 ">

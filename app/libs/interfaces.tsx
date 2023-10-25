@@ -59,7 +59,7 @@ export interface APIErr {
 }
 
 export interface CardProps {
-  smallCard?: boolean;
+  cardType?: string;
   request?: RequestProps;
   toggleFormVisibility: (isVisible: boolean) => void;
   onApplyClick: (requestData: {
