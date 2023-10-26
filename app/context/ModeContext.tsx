@@ -1,17 +1,20 @@
 "use client";
 
 // ModeContext.js
-import React, { createContext, useContext, useState } from "react";
-
-interface ModeContextType {
-  mode: boolean;
-  setMode: React.Dispatch<React.SetStateAction<boolean>>;
-}
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { ModeContextType } from "@/app/libs/interfaces";
 
 const ModeContext = createContext<ModeContextType | undefined>(undefined);
 
 export const ModeProvider = ({ children }: { children: React.ReactNode }) => {
-  const [mode, setMode] = useState(true);
+  const [mode, setMode] = useState(() => {
+    const storedMode = localStorage.getItem("mode");
+    return storedMode === "true";
+  });
+
+  useEffect(() => {
+    localStorage.setItem("mode", mode.toString());
+  }, [mode]);
 
   return (
     <ModeContext.Provider value={{ mode, setMode }}>

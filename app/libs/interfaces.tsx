@@ -128,3 +128,8 @@ export interface DropdownStates {
 export interface CompPageData {
   [key: string]: RequestProps[];
 }
+
+export interface ModeContextType {
+  mode: boolean;
+  setMode: React.Dispatch<React.SetStateAction<boolean>>;
+}
