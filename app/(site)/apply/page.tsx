@@ -25,7 +25,7 @@ export default function MyJobs() {
 
   return (
     <main className="ml-12 mr-12">
-      <Navbar mode={mode} toggleMode={toggleMode} />
+      <Navbar />
       <div className="ml-4 mr-4 mt-24">
         <div className="flex flex-col items-center mt-4">
           <div className="flex flex-col w-[500px] border-2 mt-4 items-center mb-12 shadow-lg ">

@@ -8,12 +8,9 @@ const Profilepage = () => {
   const [mode, setMode] = useState(true);
 
   const searchParams = useSearchParams();
-  console.log(searchParams);
 
   let tab = searchParams.get("tab") ?? "Reviews";
   const [profilepage, setprofilepage] = useState(tab);
-
-  console.log(tab);
   
 
   const toggleMode = (newMode: boolean) => {
@@ -22,7 +19,7 @@ const Profilepage = () => {
 
   return (
     <main className="pl-24 pr-24">
-      <Navbar mode={mode} toggleMode={toggleMode} />
+      <Navbar />
       <div className="flex flex-row mt-12 gap-4">
         <div className="border-2 border-gray w-[600px] h-[400px] rounded-[5px]"></div>
         <div className="border-2 w-[100%] h-[600px] rounded-t-md">

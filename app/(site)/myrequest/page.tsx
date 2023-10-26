@@ -51,7 +51,7 @@ export default function MyRequest() {
 
   return (
     <main className="pl-24 pr-24">
-      <Navbar mode={mode} toggleMode={toggleMode} />
+      <Navbar />
       <div className="ml-4 mr-4 mt-24">
         <div className="ml-4 mr-4">
           <p className="text-[40px] text-center">

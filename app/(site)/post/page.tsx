@@ -68,7 +68,7 @@ export default function PostRequest() {
 
   return (
     <main className="pl-24 pr-24">
-      <Navbar mode={mode} toggleMode={toggleMode} />
+      <Navbar />
       <div className="ml-4 mr-4 mt-24">
         <div className="ml-4 mr-4 text-center">
           <p className="text-[40px]">Welcome to your Post page</p>
