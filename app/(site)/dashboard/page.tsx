@@ -18,6 +18,7 @@ import toast from "react-hot-toast";
 import { CategoryOptions } from "@/app/libs/reusables";
 import { Card } from "@/app/components/card";
 import x from "@/app/images/x.svg";
+import { useMode } from "@/app/context/ModeContext";
 
 export default function Dashboard() {
   const { data: session, status } = useSession();
@@ -25,12 +26,8 @@ export default function Dashboard() {
   const [user, setUser] = useState<UserProps | undefined>(undefined);
   const [myRequests, setMyRequests] = useState<RequestProps[]>([]);
   const [page, setPage] = useState("Pending");
-  const [mode, setMode] = useState(true);
+  const { mode } = useMode();
   const [compPage, setCompPage] = useState("Requests");
-
-  const toggleMode = (newMode: boolean) => {
-    setMode(newMode);
-  };
 
   useEffect(() => {
     if (status !== "loading" && !session) {
@@ -228,7 +225,7 @@ export default function Dashboard() {
 
   return (
     <main className="pl-24 pr-24">
-      <Navbar mode={mode} toggleMode={toggleMode} />
+      <Navbar />
       {mode ? (
         <div className="mt-24">
           <div className=" text-center">
@@ -601,7 +598,7 @@ export default function Dashboard() {
                 Apply
               </button>
             </div>
-          )}
+          )}          
 
           {isFormVisible && compPage === "Pending" && (
             <div
