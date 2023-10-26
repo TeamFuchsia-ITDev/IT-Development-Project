@@ -31,7 +31,7 @@ const ApplicationFormPopUp: React.FC<ApplicationFormProps> = ({
         </p>
         <div className="ml-4 mr-4 text-center ">
           <p className="text-[13px] mt-4">
-            To let the requester know more about you fill up the form below
+            To let the requester know more about you, fill up the form below
           </p>
           <h1 className="text-[13px] ">
             You are now applying for {applicationData.requesterName}'s{" "}
@@ -41,14 +41,13 @@ const ApplicationFormPopUp: React.FC<ApplicationFormProps> = ({
 
         <div className="">
           <p className="text-[13px] mt-8 mb-4">
-            <a className="text-green-500">Amount</a> ( the amount you want for
+            <a className="text-green-500">Amount</a> ( The amount you want for
             your service, input 0 if free)
           </p>
           <input
             type="number"
             id="amount"
             name="amount"
-            placeholder="$ CAD"
             step="0.01"
             min="0"
             className="border-2 border-gray-300 h-[45px] w-[400px]"
@@ -56,13 +55,12 @@ const ApplicationFormPopUp: React.FC<ApplicationFormProps> = ({
             onChange={(e) => setData({ ...data, amount: e.target.value })}
           />
           <p className="text-[13px] mt-4 mb-4">
-            <a className="text-rose-500">Explain</a> Why are you a good fit to
-            apply?
+            <a className="text-rose-500">Explain</a> ( Why are you a good fit to
+            apply? )
           </p>
           <textarea
             id="description"
             name="description"
-            placeholder="Experience, skills, passion, etc."
             className="border-2 border-gray-300 h-[150px] resize-none w-[400px] mb-4"
             value={data.description}
             onChange={(e) => setData({ ...data, description: e.target.value })}
