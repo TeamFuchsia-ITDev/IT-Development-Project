@@ -1,33 +1,143 @@
 "use client";
 
 import { Navbar } from "@/app/components/navbar";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { UserProps } from "@/app/libs/interfaces";
+import x from "@/app/images/x.svg";
+import email from "@/app/images/email.svg";
+import phone from "@/app/images/phone.svg";
+import gender from "@/app/images/gender.svg";
+import bday from "@/app/images/bday.svg";
+import loc from "@/app/images/location.svg";
 
 const Profilepage = () => {
   const [mode, setMode] = useState(true);
+  const [user, setUser] = useState<UserProps | undefined>(undefined);
+  const { data: session, status } = useSession();
 
   const searchParams = useSearchParams();
 
   let tab = searchParams.get("tab") ?? "Reviews";
   const [profilepage, setprofilepage] = useState(tab);
-  
 
   const toggleMode = (newMode: boolean) => {
     setMode(newMode);
   };
 
+  useEffect(() => {
+    const getUser = async () => {
+      const response = await fetch(`/api/user/profile/${session?.user.email}`);
+      const data = await response.json();
+      setUser(data);
+    };
+    if (session?.user.email) getUser();
+  }, [session?.user.email]);
+
   return (
     <main className="pl-24 pr-24">
       <Navbar />
       <div className="flex flex-row mt-12 gap-4">
-        <div className="border-2 border-gray w-[600px] h-[400px] rounded-[5px]"></div>
-        <div className="border-2 w-[100%] h-[600px] rounded-t-md">
+        <div>
+          {user ? (
+            <div className="border-2  h-auto  rounded-[5px] mt-12">
+              <div className="flex flex-col items-center">
+                <>
+                  <img
+                    src={user?.image}
+                    alt=""
+                    className="rounded-full  item-center w-[100px] border-2 border-gray mt-[-50px]"
+                  />
+                  <div className="text-center">
+                    <p className="text-xl font-bold mt-2">{user.name}</p>
+                    <p className="">{user.ethnicity}</p>
+                  </div>
+                  <div className="flex flex-col pl-12 pr-12 text-xl mt-4 gap-2">
+                    <p className=" text-lg">
+                      <img
+                        src={email.src}
+                        alt="x"
+                        className="inline-block w-6"
+                      />{" "}
+                      {user.userEmail}
+                    </p>
+                    <p className=" text-lg">
+                      <img
+                        src={gender.src}
+                        alt="x"
+                        className="inline-block w-6"
+                      />{" "}
+                      {user.gender}
+                    </p>
+                    <p className=" text-lg">
+                      <img
+                        src={bday.src}
+                        alt="x"
+                        className="inline-block w-6"
+                      />{" "}
+                      {user.birthday}
+                    </p>
+                    <p className=" text-lg">
+                      <img
+                        src={phone.src}
+                        alt="x"
+                        className="inline-block w-6"
+                      />{" "}
+                      {user.phonenumber}
+                    </p>
+                    <p className=" text-lg mb-4 ">
+                      <img src={loc.src} alt="x" className="inline-block w-6" />{" "}
+                      {user.location.address.fullAddress}
+                    </p>
+                  </div>
+                  <button className="text-center bg-rose-500 text-white font-bold mb-4 ml-4 mr-4 w-[82%] rounded h-[45px] hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300">
+                    Edit Profile
+                  </button>
+                </>
+              </div>
+            </div>
+          ) : (
+            <>
+              <div className="border-2  w-[500px] h-[420px]  rounded-[5px] mt-12  animate-puls">
+                <div className="flex flex-col ">
+                  <>
+                  <div className="flex  justify-center">
+                    <div className="rounded-full  h-[100px] item-center w-[100px] border-2 border-gray mt-[-50px] bg-gray-300 animate-pulse">
+            
+                    </div>
+                    </div>
+
+                    <div className="flex flex-col items-center">
+                      <div className="bg-gray-300 animate-pulse w-[150px] h-[20px] mt-2"></div>
+                      <div className="bg-gray-300 animate-pulse w-[100px] h-[20px] mt-2"></div>
+                    </div>
+
+                    <div className="flex flex-col pl-12 pr-12 text-xl mt-4 gap-2">
+                      <div className="bg-gray-300 animate-pulse w-[200px] h-[20px] mt-2"></div>
+                     <div className="bg-gray-300 animate-pulse w-[200px] h-[20px] mt-2"></div>
+                     <div className="bg-gray-300 animate-pulse w-[200px] h-[20px] mt-2"></div>
+                     <div className="bg-gray-300 animate-pulse w-[200px] h-[20px] mt-2"></div>
+                     <div className="bg-gray-300 animate-pulse w-[400px] h-[20px] mt-2"></div>
+                     <div className="bg-gray-300 animate-pulse w-[400px] h-[20px] mt-2"></div>
+                     
+                    </div>
+                    <div className="flex justify-center">
+                    <div className="bg-gray-300 animate-pulse w-[400px] h-[45px] mt-2 items-center mt-4 "></div>
+                    </div>
+                  </>
+                </div>
+              </div>
+            </>
+          )}
+        </div>
+
+        <div className="border-2 w-[100%] h-[600px] ">
           <div className="w-[100%]"></div>
           <button
             className={`${
               profilepage === "Reviews"
-                ? " bg-white w-[50%] h-12 text-orange-500 font-bold border-t-4 border-orange-500 rounded-t-md"
+                ? " bg-white w-[50%] h-12 text-orange-500 font-bold border-t-4 border-orange-500 "
                 : "  w-[50%] text-gray-400  h-12 border-b-2 "
             }`}
             onClick={() => setprofilepage("Reviews")}
@@ -37,7 +147,7 @@ const Profilepage = () => {
           <button
             className={`${
               profilepage === "analytics"
-                ? " bg-white w-[50%] h-12 text-blue-500 font-bold border-t-4 border-blue-500 rounded-t-md"
+                ? " bg-white w-[50%] h-12 text-blue-500 font-bold border-t-4 border-blue-500 "
                 : "  w-[50%] text-gray-400  h-12 border-b-2 "
             }`}
             onClick={() => setprofilepage("analytics")}
@@ -46,8 +156,8 @@ const Profilepage = () => {
             Analytics
           </button>
 
-          {profilepage === "Reviews" ? <></> : null}
-          {profilepage === "analytics" ? <></> : null}
+          {profilepage === "Reviews" ? <>This is reviews</> : null}
+          {profilepage === "analytics" ? <>This is analytics</> : null}
         </div>
       </div>
     </main>

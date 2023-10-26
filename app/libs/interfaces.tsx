@@ -160,4 +160,31 @@ export interface ApplicationFormProps {
 	disabled: boolean;
 	postApplication: (e: FormEvent) => void;
   }
+
   
+  export interface UpdateApplicationFormProps {
+    isFormVisible: boolean;
+    setIsFormVisible: React.Dispatch<React.SetStateAction<boolean>>;
+    applicationData: {
+      requesterName: string;
+      taskname: string;
+      dateime: string;
+    };
+    data: {
+      requestid: string;
+      amount: string;
+      description: string;
+    };
+    setData: React.Dispatch<
+      React.SetStateAction<{
+      requestid: string;
+      amount: string;
+      description: string;
+      }>
+    >;
+    disabled: boolean;
+    updateApplication: (e: FormEvent) => void;
+    compPage: string;
+    editable: boolean;
+    setEditable: React.Dispatch<React.SetStateAction<boolean>>;
+    }
