@@ -133,7 +133,7 @@ export default function homepage() {
 
   return (
     <main className={`pl-24 pr-24 relative`}>
-      <Navbar mode={mode} toggleMode={toggleMode} />
+      <Navbar />
       <div
         className={`mt-24 w-[100%] ${
           isFormVisible ? "pointer-events-none blur-sm" : ""

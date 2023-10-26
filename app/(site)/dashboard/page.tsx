@@ -85,6 +85,7 @@ export default function Dashboard() {
   });
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [myApplications, setmyApplications] = useState<ApplicationProps[]>([]);
+  const [myApplication, setMyApplication] = useState<ApplicationProps>();
 
   const [data, setData] = useState({
     requestid: "",
@@ -194,6 +195,24 @@ export default function Dashboard() {
       taskname: requestData.taskname!,
       requesterName: requestData.requesterName!,
       dateime: requestData.datetime!,
+    });
+  };
+
+  const handleViewApplication = (requestData: RequestData) => {
+    setData({ ...data, requestid: requestData.id });
+    setapplicationData({
+      taskname: requestData.taskname!,
+      requesterName: requestData.requesterName!,
+      dateime: requestData.datetime!,
+    });
+    const applicationData = myApplications.find(
+      (app) => app.requestId === requestData.id
+    );
+    setMyApplication(applicationData);
+    setData({
+      ...data,
+      amount: applicationData?.amount.toString()!,
+      description: applicationData?.description!,
     });
   };
 
@@ -520,7 +539,7 @@ export default function Dashboard() {
                         request={request}
                         cardType="pendingApplication"
                         toggleFormVisibility={setIsFormVisible}
-                        onApplyClick={handleApplyRequest}
+                        onApplyClick={handleViewApplication}
                       />
                     </div>
                   ))}
@@ -542,7 +561,7 @@ export default function Dashboard() {
             setData={setData}
             disabled={disabled}
             postApplication={postApplication}
-          />          
+          />
 
           {isFormVisible && compPage === "Pending" && (
             <div
@@ -578,8 +597,6 @@ export default function Dashboard() {
                 </p>
                 <input
                   type="number"
-                  id="amount"
-                  name="amount"
                   step="0.01"
                   min="0"
                   className={`border-2 border-gray-300 h-[45px] w-[400px] ${
@@ -593,8 +610,6 @@ export default function Dashboard() {
                   fit to apply?
                 </p>
                 <textarea
-                  id="description"
-                  name="description"
                   className={`border-2 border-gray-300 h-[150px] resize-none w-[400px] mb-4 ${
                     editable ? "" : "pointer-events-none"
                   }`}

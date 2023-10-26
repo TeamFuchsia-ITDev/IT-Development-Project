@@ -89,7 +89,7 @@ export default function MyJobs() {
 
   return (
     <main className="pl-24 pr-24">
-      <Navbar mode={mode} toggleMode={toggleMode} />
+      <Navbar />
       <div>
         <div className="mt-6 text-center">
           <p className="text-[40px] mt-24">
