@@ -17,6 +17,7 @@ import Carousel from "@/app/components/carousel";
 import toast from "react-hot-toast";
 import { CategoryOptions } from "@/app/libs/reusables";
 import { Card } from "@/app/components/card";
+import ApplicationFormPopUp from "@/app/components/applicationform";
 import x from "@/app/images/x.svg";
 import { useMode } from "@/app/context/ModeContext";
 
@@ -532,7 +533,17 @@ export default function Dashboard() {
 
           {compPage === "Cancelled" ? <div className="mb-24"></div> : null}
 
-          {isFormVisible && (
+          <ApplicationFormPopUp
+            isFormVisible={isFormVisible}
+            setIsFormVisible={setIsFormVisible}
+            applicationData={applicationData}
+            data={data}
+            setData={setData}
+            disabled={disabled}
+            postApplication={postApplication}
+          />
+
+          {/* {isFormVisible && (
             <div
               className="flex flex-col w-[500px] border-2 mt-4 items-center mb-12 bg-white fixed left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 "
               style={{ boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.5)" }}
@@ -598,7 +609,7 @@ export default function Dashboard() {
                 Apply
               </button>
             </div>
-          )}          
+          )}           */}
 
           {isFormVisible && compPage === "Pending" && (
             <div
