@@ -8,8 +8,12 @@ const ModeContext = createContext<ModeContextType | undefined>(undefined);
 
 export const ModeProvider = ({ children }: { children: React.ReactNode }) => {
   const [mode, setMode] = useState(() => {
-    const storedMode = localStorage.getItem("mode");
-    return storedMode === "true";
+    if (typeof localStorage !== "undefined") {
+      const storedMode = localStorage.getItem("mode");
+      return storedMode === "true";
+    } else {
+      return false;
+    }
   });
 
   useEffect(() => {

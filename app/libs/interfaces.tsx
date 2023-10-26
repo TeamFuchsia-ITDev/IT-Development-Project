@@ -1,3 +1,5 @@
+import { FormEvent } from "react";
+
 export interface UserProps {
   id: string;
   name: string;
@@ -133,3 +135,29 @@ export interface ModeContextType {
   mode: boolean;
   setMode: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
+
+export interface ApplicationFormProps {
+	isFormVisible: boolean;
+	setIsFormVisible: React.Dispatch<React.SetStateAction<boolean>>;
+	applicationData: {
+	  requesterName: string;
+	  taskname: string;
+	  dateime: string;
+	};
+	data: {
+	  requestid: string;
+	  amount: string;
+	  description: string;
+	};
+	setData: React.Dispatch<
+	  React.SetStateAction<{
+		requestid: string;
+		amount: string;
+		description: string;
+	  }>
+	>;
+	disabled: boolean;
+	postApplication: (e: FormEvent) => void;
+  }
+  
