@@ -244,6 +244,35 @@ export default function Dashboard() {
     setTimeout(() => setDisabled(false), 4000);
   };
 
+  const updateApplication = async (
+    e: FormEvent
+  ) => {
+    setDisabled(true);
+    toast.loading("Update application...", {
+      duration: 4000,
+    });
+
+    const response = await axios.patch(`api/user/applications`, {
+      data: {
+        requestId: myApplication?.requestId,
+        applicationId: myApplication?.id,
+		amount: data.amount,
+		description: data.description
+      },
+    });
+    if (response.data.status !== 200) {
+      const errorMessage = response.data?.error || "An error occurred";
+      toast.error(errorMessage);
+      setTimeout(() => setDisabled(false), 2000);
+    } else {
+      toast.success("Application successfully updated");
+      setTimeout(() => {
+        toast.dismiss();
+        window.location.reload();
+      }, 2000);
+    }
+  };
+
   return (
     <main className="pl-24 pr-24">
       <Navbar />
@@ -636,6 +665,7 @@ export default function Dashboard() {
                 className={`text-center bg-blue-500 text-white font-bold mb-8 rounded h-[45px] w-[400px] hover:bg-white hover:text-blue-500 hover:border-[2px] hover:border-blue-500 hover:ease-in-out duration-300 ${
                   !editable ? "collapse" : ""
                 }`}
+				onClick={updateApplication}
               >
                 Save Changes
               </button>
