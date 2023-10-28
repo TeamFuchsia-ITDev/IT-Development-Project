@@ -13,26 +13,26 @@ import bday from "@/app/images/bday.svg";
 import loc from "@/app/images/location.svg";
 
 const Profilepage = () => {
-  const [mode, setMode] = useState(true);
-  const [user, setUser] = useState<UserProps | undefined>(undefined);
   const { data: session, status } = useSession();
-
   const searchParams = useSearchParams();
+  const userParams = searchParams.get("user");
 
   let tab = searchParams.get("tab") ?? "Reviews";
   const [profilepage, setprofilepage] = useState(tab);
-
-  const toggleMode = (newMode: boolean) => {
-    setMode(newMode);
-  };
+  const [user, setUser] = useState<UserProps | undefined>(undefined);
 
   useEffect(() => {
-    const getUser = async () => {
-      const response = await fetch(`/api/user/profile/${session?.user.email}`);
+    const getUser = async (params: string | null) => {
+      const response = await fetch(`/api/user/profile/${params}`);
       const data = await response.json();
       setUser(data);
     };
-    if (session?.user.email) getUser();
+
+    if (session?.user.email && userParams === null) {
+      getUser(session?.user.email);
+    } else if (session?.user.email && userParams !== null) {
+      getUser(userParams);
+    }
   }, [session?.user.email]);
 
   return (
@@ -102,10 +102,8 @@ const Profilepage = () => {
               <div className="border-2  w-[500px] h-[420px]  rounded-[5px] mt-12  animate-puls">
                 <div className="flex flex-col ">
                   <>
-                  <div className="flex  justify-center">
-                    <div className="rounded-full  h-[100px] item-center w-[100px] border-2 border-gray mt-[-50px] bg-gray-300 animate-pulse">
-            
-                    </div>
+                    <div className="flex  justify-center">
+                      <div className="rounded-full  h-[100px] item-center w-[100px] border-2 border-gray mt-[-50px] bg-gray-300 animate-pulse"></div>
                     </div>
 
                     <div className="flex flex-col items-center">
@@ -115,15 +113,14 @@ const Profilepage = () => {
 
                     <div className="flex flex-col pl-12 pr-12 text-xl mt-4 gap-2">
                       <div className="bg-gray-300 animate-pulse w-[200px] h-[20px] mt-2"></div>
-                     <div className="bg-gray-300 animate-pulse w-[200px] h-[20px] mt-2"></div>
-                     <div className="bg-gray-300 animate-pulse w-[200px] h-[20px] mt-2"></div>
-                     <div className="bg-gray-300 animate-pulse w-[200px] h-[20px] mt-2"></div>
-                     <div className="bg-gray-300 animate-pulse w-[400px] h-[20px] mt-2"></div>
-                     <div className="bg-gray-300 animate-pulse w-[400px] h-[20px] mt-2"></div>
-                     
+                      <div className="bg-gray-300 animate-pulse w-[200px] h-[20px] mt-2"></div>
+                      <div className="bg-gray-300 animate-pulse w-[200px] h-[20px] mt-2"></div>
+                      <div className="bg-gray-300 animate-pulse w-[200px] h-[20px] mt-2"></div>
+                      <div className="bg-gray-300 animate-pulse w-[400px] h-[20px] mt-2"></div>
+                      <div className="bg-gray-300 animate-pulse w-[400px] h-[20px] mt-2"></div>
                     </div>
                     <div className="flex justify-center">
-                    <div className="bg-gray-300 animate-pulse w-[400px] h-[45px] mt-2 items-center mt-4 "></div>
+                      <div className="bg-gray-300 animate-pulse w-[400px] h-[45px] mt-2 items-center mt-4 "></div>
                     </div>
                   </>
                 </div>

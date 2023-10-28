@@ -4,6 +4,7 @@ import { CardProps } from "@/app/libs/interfaces";
 import { useEffect, useState } from "react";
 import { imageMapping } from "@/app/libs/reusables";
 import { limitText } from "@/app/libs/actions";
+import Link from "next/link";
 
 export const Card = ({
   cardType,
@@ -52,22 +53,27 @@ export const Card = ({
       {cardType === "allRequests" ? (
         <main className=" border-2 w-[300px] h-auto rounded-[10px] hover:translate-y-[-20px] mt-5">
           <div className="">
-            <img src={imageMapping[request?.category!]} className="rounded-t-lg" />				
-            <div className="ml-2 mr-2" >
+            <img
+              src={imageMapping[request?.category!]}
+              className="rounded-t-lg"
+            />
+            <div className="ml-2 mr-2">
               <div className="flex flex-row">
-                <img
-                  src={request?.requesterImage}
-                  className="w-[50px] h-[50px] rounded-full border-2 object-cover border-white mt-[-20px]"
-                  style={{
-                    boxShadow: "4px 4px 10px rgba(153, 153, 153, 100%)",
-                  }}
-                />
+                <Link href={`/profilepage/?user=${request?.userEmail}`}>
+                  <img
+                    src={request?.requesterImage}
+                    className="w-[50px] h-[50px] rounded-full border-2 object-cover border-white mt-[-20px]"
+                    style={{
+                      boxShadow: "4px 4px 10px rgba(153, 153, 153, 100%)",
+                    }}
+					title={"Click to view profile"}	
+                  />
+                </Link>
                 <div className="flex flex-col justify-center ml-2">
                   <p className="text-[12px]">{request?.requesterName}</p>
                   <p className="text-gray-500 text-[12px]">
                     {request?.requesterCity}
                   </p>
-                  
                 </div>
                 <div className="ml-auto  mt-4 text-rose-500">
                   <p className="font-bold text-[10px]">{request?.category}</p>
@@ -110,28 +116,32 @@ export const Card = ({
             </div>
           </div>
         </main>
-      ) : null }
-
+      ) : null}
 
       {cardType === "pendingApplication" ? (
         <main className=" border-2 w-[300px] h-auto rounded-[10px] hover:translate-y-[-20px] mt-5">
           <div className="">
-            <img src={imageMapping[request?.category!]} className="rounded-t-lg" />				
-            <div className="ml-2 mr-2" >
+            <img
+              src={imageMapping[request?.category!]}
+              className="rounded-t-lg"
+            />
+            <div className="ml-2 mr-2">
               <div className="flex flex-row">
-                <img
-                  src={request?.requesterImage}
-                  className="w-[50px] h-[50px] rounded-full border-2 object-cover border-white mt-[-20px]"
-                  style={{
-                    boxShadow: "4px 4px 10px rgba(153, 153, 153, 100%)",
-                  }}
-                />
+                <Link href={`/profilepage/?user=${request?.userEmail}`}>
+                  <img
+                    src={request?.requesterImage}
+                    className="w-[50px] h-[50px] rounded-full border-2 object-cover border-white mt-[-20px]"
+                    style={{
+                      boxShadow: "4px 4px 10px rgba(153, 153, 153, 100%)",
+                    }}
+					title={"Click to view profile"}	
+                  />
+                </Link>
                 <div className="flex flex-col justify-center ml-2">
                   <p className="text-[12px]">{request?.requesterName}</p>
                   <p className="text-gray-500 text-[12px]">
                     {request?.requesterCity}
                   </p>
-                  
                 </div>
                 <div className="ml-auto  mt-4 text-rose-500">
                   <p className="font-bold text-[10px]">{request?.category}</p>
@@ -174,9 +184,7 @@ export const Card = ({
             </div>
           </div>
         </main>
-      ) : null }
-
-     
+      ) : null}
     </>
   );
 };

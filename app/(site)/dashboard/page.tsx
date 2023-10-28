@@ -531,7 +531,7 @@ export default function Dashboard() {
           </div>
 
           {compPage === "Requests" ? (
-            <div className="mb-24">
+            <div className={`mb-24 ${isFormVisible ? "pointer-events-none blur-sm" : ""}`}> 
               <Carousel
                 loop={false}
                 slidesPerView={4}
@@ -552,7 +552,7 @@ export default function Dashboard() {
           ) : null}
 
           {compPage === "Pending" ? (
-            <div className="mb-24">
+            <div className={`mb-24 ${isFormVisible ? "pointer-events-none blur-sm" : ""}`}>
               <Carousel
                 loop={false}
                 slidesPerView={4}
