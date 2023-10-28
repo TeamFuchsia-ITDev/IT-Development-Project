@@ -11,6 +11,7 @@ const UpdateApplicationForm: React.FC<UpdateApplicationFormProps> = ({
   data,
   setData,
   updateApplication,
+  cancelApplication,
   compPage,
   editable,
   setEditable,
@@ -81,6 +82,8 @@ const UpdateApplicationForm: React.FC<UpdateApplicationFormProps> = ({
           <button
             className={`text-center bg-rose-500 text-white font-bold mb-2 rounded h-[45px] w-[400px] hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300 
             }`}
+			onClick={cancelApplication}
+			disabled={disabled}
           >
             Cancel Application
           </button>

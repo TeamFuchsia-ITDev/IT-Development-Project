@@ -21,6 +21,7 @@ export async function POST(request: Request) {
         where: {
           requestId: requestid,
           userEmail: session.user.email,
+		  status: "Pending" || "Accepted"
         },
       });
 

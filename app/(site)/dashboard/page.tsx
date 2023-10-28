@@ -238,7 +238,7 @@ export default function Dashboard() {
       dateime: requestData.datetime!,
     });
     const applicationData = myApplications.find(
-      (app) => app.requestId === requestData.id
+      (app) => app.requestId === requestData.id && app.status === "Pending"
     );
     setMyApplication(applicationData);
     setData({
@@ -278,7 +278,7 @@ export default function Dashboard() {
 
   const updateApplication = async (e: FormEvent) => {
     setDisabled(true);
-    toast.loading("Update application...", {
+    toast.loading("Updating application...", {
       duration: 4000,
     });
 
@@ -296,6 +296,31 @@ export default function Dashboard() {
       setTimeout(() => setDisabled(false), 2000);
     } else {
       toast.success("Application successfully updated");
+      setTimeout(() => {
+        toast.dismiss();
+        window.location.reload();
+      }, 2000);
+    }
+  };
+
+  const cancelApplication = async (e: FormEvent) => {
+    setDisabled(true);
+    toast.loading("Cancelling application...", {
+      duration: 4000,
+    });
+
+    const response = await axios.patch(`api/user/application/cancel`, {
+      data: {
+        requestId: myApplication?.requestId,
+        applicationId: myApplication?.id,
+      },
+    });
+    if (response.data.status !== 200) {
+      const errorMessage = response.data?.error || "An error occurred";
+      toast.error(errorMessage);
+      setTimeout(() => setDisabled(false), 2000);
+    } else {
+      toast.success("Application successfully cancelled");
       setTimeout(() => {
         toast.dismiss();
         window.location.reload();
@@ -568,8 +593,17 @@ export default function Dashboard() {
               <Carousel
                 loop={false}
                 slidesPerView={4}
-                cards={searchFilteredRequests.map(
-                  (request: RequestProps, index: number) => (
+                cards={searchFilteredRequests
+                  .filter(
+                    (request: RequestProps) =>
+                      !myApplications.some(
+                        (app) =>
+                          app.requestId === request.id &&
+                          (app.status === "Pending" ||
+                            app.status === "Accepted")
+                      )
+                  )
+                  .map((request: RequestProps, index: number) => (
                     <div key={index}>
                       <Card
                         request={request}
@@ -578,8 +612,7 @@ export default function Dashboard() {
                         onApplyClick={handleApplyRequest}
                       />
                     </div>
-                  )
-                )}
+                  ))}
               />
             </div>
           ) : null}
@@ -638,6 +671,7 @@ export default function Dashboard() {
             setData={setData}
             disabled={disabled}
             updateApplication={updateApplication}
+            cancelApplication={cancelApplication}
             compPage={compPage}
             editable={editable}
             setEditable={setEditable}
