@@ -3,11 +3,12 @@
 import { useSession, signOut } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { UserProps } from "@/app/libs/interfaces";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useMode } from "@/app/context/ModeContext"; // Import the useMode hook from your context
 
 export const Navbar = () => {
   const { data: session, status } = useSession();
+  const router = useRouter();
   const [user, setUser] = useState<UserProps | undefined>(undefined);
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const pathname = usePathname();
@@ -94,7 +95,7 @@ export const Navbar = () => {
                         id="Toggle1"
                         type="checkbox"
                         className="hidden peer"
-						checked={!mode}
+                        checked={!mode}
                         value={mode.toString()}
                         onChange={() => setMode(!mode)}
                       />
@@ -123,7 +124,13 @@ export const Navbar = () => {
                 <li className="border-t-2 ">
                   <a
                     className="block px-4 py-2 cursor-pointer hover:bg-gray-100 hover:text-red-500"
-                    onClick={() => signOut()}
+                    onClick={() => {
+                    //   router.push("/login");
+                    //   setTimeout(() => {
+                    //     signOut();
+                    //   }, 500);
+					signOut()
+                    }}
                   >
                     Sign Out
                   </a>

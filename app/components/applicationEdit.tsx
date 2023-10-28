@@ -90,6 +90,7 @@ const UpdateApplicationForm: React.FC<UpdateApplicationFormProps> = ({
               !editable ? "collapse" : ""
             }`}
             onClick={updateApplication}
+			disabled={disabled}
           >
             Save Changes
           </button>

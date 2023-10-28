@@ -1,9 +1,9 @@
 "use client";
 
-import { FormEvent, useEffect, useState, Suspense } from "react";
+import { FormEvent, useEffect, useState, Suspense, useRef } from "react";
 import { useSession } from "next-auth/react";
 import axios from "axios";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   UserProps,
   RequestProps,
@@ -31,10 +31,41 @@ export default function Dashboard() {
   const { mode } = useMode();
   const [compPage, setCompPage] = useState("Requests");
 
+  const [isMounted, setisMounted] = useState(false);
+  const searchParams = useSearchParams();
+  const providerParams = searchParams.get("provider");
+  const toastShownRef = useRef(false);
+
+  useEffect(() => {
+    if (session) {
+      if (session?.user.isNewUser) {
+        router.replace("/create-profile");
+      }
+    }
+  }, [session]);
+
+  useEffect(() => {
+    if (isMounted && session) {
+      if (providerParams === "google" && !toastShownRef.current) {
+        toast.success("Google successful login");
+        toastShownRef.current = true;
+      }
+      if (providerParams === "facebook" && !toastShownRef.current) {
+        toast.success("Facebook successful login");
+        toastShownRef.current = true;
+      }
+      if (providerParams === "credentials" && !toastShownRef.current) {
+        toast.success("Credentials successful login");
+        toastShownRef.current = true;
+      }
+    }
+  }, [isMounted, providerParams, session]);
+
   useEffect(() => {
     if (status !== "loading" && !session) {
       router.push("/login");
     }
+    setisMounted(true);
   }, [session, status, router]);
 
   useEffect(() => {
@@ -245,9 +276,7 @@ export default function Dashboard() {
     setTimeout(() => setDisabled(false), 4000);
   };
 
-  const updateApplication = async (
-    e: FormEvent
-  ) => {
+  const updateApplication = async (e: FormEvent) => {
     setDisabled(true);
     toast.loading("Update application...", {
       duration: 4000,
@@ -257,8 +286,8 @@ export default function Dashboard() {
       data: {
         requestId: myApplication?.requestId,
         applicationId: myApplication?.id,
-		amount: data.amount,
-		description: data.description
+        amount: data.amount,
+        description: data.description,
       },
     });
     if (response.data.status !== 200) {
@@ -531,7 +560,11 @@ export default function Dashboard() {
           </div>
 
           {compPage === "Requests" ? (
-            <div className={`mb-24 ${isFormVisible ? "pointer-events-none blur-sm" : ""}`}> 
+            <div
+              className={`mb-24 ${
+                isFormVisible ? "pointer-events-none blur-sm" : ""
+              }`}
+            >
               <Carousel
                 loop={false}
                 slidesPerView={4}
@@ -552,7 +585,11 @@ export default function Dashboard() {
           ) : null}
 
           {compPage === "Pending" ? (
-            <div className={`mb-24 ${isFormVisible ? "pointer-events-none blur-sm" : ""}`}>
+            <div
+              className={`mb-24 ${
+                isFormVisible ? "pointer-events-none blur-sm" : ""
+              }`}
+            >
               <Carousel
                 loop={false}
                 slidesPerView={4}
@@ -593,21 +630,18 @@ export default function Dashboard() {
             postApplication={postApplication}
           />
 
-
-          <UpdateApplicationForm 
-          isFormVisible={isFormVisible}
-          setIsFormVisible={setIsFormVisible}
-          applicationData={applicationData}
-          data={data}
-          setData={setData}
-          disabled={disabled}
-          updateApplication={updateApplication}
-          compPage={compPage}
-          editable={editable}
-          setEditable={setEditable}
+          <UpdateApplicationForm
+            isFormVisible={isFormVisible}
+            setIsFormVisible={setIsFormVisible}
+            applicationData={applicationData}
+            data={data}
+            setData={setData}
+            disabled={disabled}
+            updateApplication={updateApplication}
+            compPage={compPage}
+            editable={editable}
+            setEditable={setEditable}
           />
-
-          
         </>
       )}
     </main>
