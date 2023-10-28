@@ -5,7 +5,6 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { UserProps } from "@/app/libs/interfaces";
-import x from "@/app/images/x.svg";
 import email from "@/app/images/email.svg";
 import phone from "@/app/images/phone.svg";
 import gender from "@/app/images/gender.svg";
@@ -41,19 +40,23 @@ const Profilepage = () => {
       <div className="flex flex-row mt-12 gap-4">
         <div>
           {user ? (
-            <div className="border-2  h-auto  rounded-[5px] mt-12">
+            <div
+              className="border-2  h-auto  rounded-[5px] mt-12"
+              style={{ boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.5)" }}
+            >
               <div className="flex flex-col items-center">
                 <>
                   <img
                     src={user?.image}
                     alt=""
-                    className="rounded-full  item-center w-[100px] border-2 border-gray mt-[-50px]"
+                    className="rounded-full  item-center w-[100px] mt-[-50px]"
+                    style={{ boxShadow: "3px 3px 8px rgba(0, 0, 0, 0.5)" }}
                   />
                   <div className="text-center">
                     <p className="text-xl font-bold mt-2">{user.name}</p>
                     <p className="">{user.ethnicity}</p>
                   </div>
-                  <div className="flex flex-col pl-12 pr-12 text-xl mt-4 gap-2">
+                  <div className="flex flex-col pl-12 pr-12 text-xl mt-4 gap-4">
                     <p className=" text-lg">
                       <img
                         src={email.src}
@@ -91,9 +94,11 @@ const Profilepage = () => {
                       {user.location.address.fullAddress}
                     </p>
                   </div>
-                  <button className="text-center bg-rose-500 text-white font-bold mb-4 ml-4 mr-4 w-[82%] rounded h-[45px] hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300">
-                    Edit Profile
-                  </button>
+                  {userParams ? null : (
+                    <button className="text-center bg-rose-500 text-white font-bold mb-4 ml-4 mr-4 w-[82%] rounded h-[45px] hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300">
+                      Edit Profile
+                    </button>
+                  )}
                 </>
               </div>
             </div>

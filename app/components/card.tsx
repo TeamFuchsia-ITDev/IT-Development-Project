@@ -59,7 +59,7 @@ export const Card = ({
             />
             <div className="ml-2 mr-2">
               <div className="flex flex-row">
-                <Link href={`/profilepage/?user=${request?.userEmail}`}>
+                <Link href={{ pathname: '/profilepage', query: `user=${request?.userEmail}`}}>
                   <img
                     src={request?.requesterImage}
                     className="w-[50px] h-[50px] rounded-full border-2 object-cover border-white mt-[-20px]"
@@ -127,7 +127,7 @@ export const Card = ({
             />
             <div className="ml-2 mr-2">
               <div className="flex flex-row">
-                <Link href={`/profilepage/?user=${request?.userEmail}`}>
+			  <Link href={{ pathname: '/profilepage', query: `user=${request?.userEmail}`}}>
                   <img
                     src={request?.requesterImage}
                     className="w-[50px] h-[50px] rounded-full border-2 object-cover border-white mt-[-20px]"

@@ -28,7 +28,7 @@ export default function Login() {
 
     // If there is a session, redirect to the login page
     if (session) {
-      router.replace("/");
+      router.replace("/dashboard");
       return;
     }
 
@@ -43,7 +43,7 @@ export default function Login() {
 
   const loginWithFacebook = async () => {
     const response = signIn("facebook", {
-      callbackUrl: "http://localhost:3000/profile?provider=facebook",
+      callbackUrl: "http://localhost:3000/dashboard?provider=facebook",
     });
 
     response
@@ -70,7 +70,7 @@ export default function Login() {
 
     setTimeout(() => {
       signIn("google", {
-        callbackUrl: "http://localhost:3000/profile?provider=google",
+        callbackUrl: "http://localhost:3000/dashboard?provider=google",
       });
     }, 4000);
   };
@@ -83,7 +83,7 @@ export default function Login() {
     });
 
     setTimeout(() => {
-      signIn("credentials", { ...data, redirect: false }).then((callback) => {
+      signIn("credentials", { ...data, callbackUrl: "http://localhost:3000/dashboard?provider=credentials" }).then((callback) => {
         if (callback?.error) {
           toast.error(callback.error);
         }

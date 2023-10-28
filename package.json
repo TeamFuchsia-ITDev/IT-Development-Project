@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-	"io": "node server.mjs",
-	"dev": "concurrently \"node server.mjs\" \"next dev\"",
+    "io": "node server.mjs",
+    "dev": "concurrently \"node server.mjs\" \"next dev\"",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
