@@ -182,6 +182,7 @@ export interface UpdateApplicationFormProps {
   >;
   disabled: boolean;
   updateApplication: (e: FormEvent) => void;
+  cancelApplication: (e: FormEvent) => void;
   compPage: string;
   editable: boolean;
   setEditable: React.Dispatch<React.SetStateAction<boolean>>;
