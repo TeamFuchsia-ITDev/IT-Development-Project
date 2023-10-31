@@ -59,11 +59,11 @@ export const CompanionCard = ({ application }: CompanionCardProps) => {
         className=" border-2  h-auto w-auto mb-4 rounded-[10px] hover:translate-y-[-20px] mt-5"
         style={{ boxShadow: "4px 4px 10px rgba(153, 153, 153, 100%)" }}
       >
-        <div className="flex flex-col">
-          <img
-            src={application?.compImage}
-            className="rounded-t-lg h-[150px] w-auto object-cover"
-          />
+        <div className="flex flex-col">        
+            <img
+              src={application?.compImage}
+              className="rounded-t-lg h-[150px] w-auto object-cover"
+            />
           <div className="flex flex-row pl-4 pr-4">
             <div className="w-[70%] mt-4">
               <h1 className="font-bold">
@@ -85,7 +85,7 @@ export const CompanionCard = ({ application }: CompanionCardProps) => {
             </div>
           </div>
           <div>
-            <h1 className="ml-4 mr-4 mt-2 mb-2 overflow-hidden">
+            <h1 className="ml-4 mr-4 mt-2 mb-2 break-words">
               {showWhy ? application?.description : ""}
             </h1>
           </div>

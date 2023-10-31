@@ -77,6 +77,7 @@ export const Card = ({
                 </div>
                 <div className="ml-auto  mt-4 text-rose-500">
                   <p className="font-bold text-[10px]">{request?.category}</p>
+				  <p className=" text-[10px] text-blue-500">Status: </p>
                 </div>
               </div>
               <div className="flex flex-col pl-2">

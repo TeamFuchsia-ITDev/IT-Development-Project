@@ -487,7 +487,7 @@ export default function Dashboard() {
             <div className=" flex flex-row  mr-4 mt-12 items-center justify-center">
               <input
                 type="text"
-                placeholder="Search for a request"
+                placeholder="Search by task name or description"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="border-2 border-gray-300  h-[45px] w-[520px] "
@@ -538,7 +538,7 @@ export default function Dashboard() {
                   }`}
                   onClick={() => setCompPage("Requests")}
                 >
-                  All Requests
+                  View Requests
                 </button>
                 <button
                   className={`${
@@ -548,7 +548,7 @@ export default function Dashboard() {
                   }`}
                   onClick={() => setCompPage("Pending")}
                 >
-                  Pending Application
+                  Pending Applications
                 </button>
                 <button
                   className={`${
@@ -558,7 +558,7 @@ export default function Dashboard() {
                   }`}
                   onClick={() => setCompPage("Active")}
                 >
-                  Active Application
+                  Ongoing Tasks
                 </button>
                 <button
                   className={`${
@@ -568,7 +568,7 @@ export default function Dashboard() {
                   }`}
                   onClick={() => setCompPage("Completed")}
                 >
-                  Completed Application
+                  Completed Tasks
                 </button>
                 <button
                   className={`${
@@ -578,7 +578,7 @@ export default function Dashboard() {
                   }`}
                   onClick={() => setCompPage("Cancelled")}
                 >
-                  Cancelled Application
+                  Cancelled Applications
                 </button>
               </div>
             </div>
