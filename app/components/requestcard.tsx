@@ -103,7 +103,7 @@ export const RequestCard = ({ request }: { request: RequestProps }) => {
             })}
           </p>
 
-          <p className=" md:text-[14px] 2xl:text-[18px] overflow-hidden">
+          <p className=" md:text-[14px] 2xl:text-[18px] break-words">
             {showOptions ? request?.description : truncatedDescription}
           </p>
         </div>

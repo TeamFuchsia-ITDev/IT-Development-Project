@@ -21,8 +21,8 @@ const Profilepage = () => {
   const [user, setUser] = useState<UserProps | undefined>(undefined);
 
   useEffect(() => {
-    const getUser = async (params: string | null) => {
-      const response = await fetch(`/api/user/profile/${params}`);
+    const getUser = async (userEmail: string | null) => {
+      const response = await fetch(`/api/user/profile/${userEmail}`);
       const data = await response.json();
       setUser(data);
     };

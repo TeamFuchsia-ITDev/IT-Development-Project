@@ -4,15 +4,12 @@ import { Navbar } from "../../components/navbar";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import {
-  ApplicationProps,
-  RequestProps,
-  DropdownStates,
-} from "@/app/libs/interfaces";
+import { ApplicationProps, RequestProps } from "@/app/libs/interfaces";
 import { CompanionCard } from "@/app/components/companioncard";
 import Carousel from "@/app/components/carousel";
 import axios from "axios";
 import toast from "react-hot-toast";
+import Link from "next/link";
 
 export default function MyJobs() {
   const { data: session, status } = useSession();
@@ -21,20 +18,7 @@ export default function MyJobs() {
   const requestIDParams = searchParams.get("id");
   const [applications, setApplications] = useState([]);
   const [request, setRequest] = useState<RequestProps | undefined>(undefined);
-  const [mode, setMode] = useState(true);
-  //   const [dropdownStates, setDropdownStates] = useState<DropdownStates>({});
   const [activeDropdown, setActiveDropdown] = useState(-1);
-
-  const toggleMode = (newMode: boolean) => {
-    setMode(newMode);
-  };
-
-  //   const toggleDropdown = (index: number) => {
-  //     setDropdownStates({
-  //       ...dropdownStates,
-  //       [index]: !dropdownStates[index],
-  //     });
-  //   };
 
   const toggleDropdown = (index: number) => {
     if (activeDropdown === index) {
@@ -144,9 +128,16 @@ export default function MyJobs() {
                     }`}
                   >
                     <li>
-                      <p className="block px-4 py-2 cursor-pointer hover:bg-gray-100 hover:text-blue-500">
-                        View Profile
-                      </p>
+                      <Link
+                        href={{
+                          pathname: "/profilepage",
+                          query: `user=${app?.userEmail}`,
+                        }}
+                      >
+                        <p className="block px-4 py-2 cursor-pointer hover:bg-gray-100 hover:text-blue-500">
+                          View Profile
+                        </p>
+                      </Link>
                     </li>
                     <li>
                       <p
