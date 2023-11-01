@@ -15,12 +15,6 @@ export const Card = ({
   onApplyClick,
 }: CardProps) => {
   const { data: session, status } = useSession();
-  const [truncatedTaskName, setTruncatedTaskName] = useState<string>(
-    request?.taskname ?? ""
-  );
-  const [truncatedTNsmall, setTruncatedTNsmall] = useState<string>(
-    request?.taskname ?? ""
-  );
   const [showDetails, setShowDetails] = useState(false);
   const [applications, setApplications] = useState([]);
   const [applicationStatus, setApplicationStatus] = useState<
@@ -52,13 +46,6 @@ export const Card = ({
     );
   }, [applications, request, session]);
 
-  useEffect(() => {
-    setTruncatedTNsmall(limitText(request?.taskname ?? "", 25));
-  }, [request]);
-
-  useEffect(() => {
-    setTruncatedTaskName(limitText(request?.taskname ?? "", 20));
-  }, [request]);
 
   const handleApplyClick = () => {
     const requestData = {
@@ -98,7 +85,7 @@ export const Card = ({
                     src={request?.requesterImage}
                     className="w-[50px] h-[50px] rounded-full border-2 object-cover border-white mt-[-20px]"
                     style={{
-                      boxShadow: "4px 4px 10px rgba(153, 153, 153, 100%)",
+                      boxShadow: "2px 2px 6px rgba(153, 153, 153, 100%)",
                     }}
                     title={"Click to view profile"}
                   />
@@ -114,7 +101,7 @@ export const Card = ({
                 </div>
               </div>
               <div className="flex flex-col pl-2">
-                <p className="text-[20px] font-bold mt-4">{truncatedTNsmall}</p>
+                <p className={`text-[20px] font-bold mt-4 ${showDetails ? "break-words" : "truncate"}` }>{request?.taskname}</p>
                 <p className="  text-gray-500 text-[12px]">
                   {new Date(request?.datetime!).toLocaleDateString("en-US", {
                     year: "numeric",
@@ -169,23 +156,23 @@ export const Card = ({
                 >
                   <img
                     src={request?.requesterImage}
-                    className="w-[50px] h-[50px] rounded-full border-2 object-cover border-white mt-[-20px]"
+                    className="w-[50px] h-[50px] rounded-full border-2 object-cover border-white mt-[-15px]"
                     style={{
-                      boxShadow: "4px 4px 10px rgba(153, 153, 153, 100%)",
+                      boxShadow: "2px 2px 6px rgba(153, 153, 153, 100%)",
                     }}
                     title={"Click to view profile"}
                   />
                 </Link>
-                <div className="flex flex-col justify-center ml-2">
+                <div className="flex flex-col justify-center ml-2 pt-1">
                   <p className="text-[12px]">{request?.requesterName}</p>
                   <p className="text-gray-500 text-[12px]">
                     {request?.requesterCity}
                   </p>
                 </div>
-                <div className="ml-auto  mt-4 text-rose-500">
+                <div className="ml-auto mt-2 text-rose-500">
                   <p className="font-bold text-[10px]">{request?.category}</p>
                   <div className=" text-[10px] text-blue-500">
-                    Status:{" "}
+                    {" "}
                     <p
                       className={
                         applicationStatus === "Accepted"
@@ -199,7 +186,7 @@ export const Card = ({
                 </div>
               </div>
               <div className="flex flex-col pl-2">
-                <p className="text-[20px] font-bold mt-4">{truncatedTNsmall}</p>
+             <p className={`text-[20px] font-bold mt-4 ${showDetails ? "break-words" : "truncate"}` }>{request?.taskname}</p>
                 <p className="  text-gray-500 text-[12px]">
                   {new Date(request?.datetime!).toLocaleDateString("en-US", {
                     year: "numeric",

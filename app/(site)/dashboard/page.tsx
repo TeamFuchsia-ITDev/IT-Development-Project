@@ -272,7 +272,7 @@ export default function Dashboard() {
       );
       setTimeout(() => {
         toast.dismiss();
-        router.push("/myjobs");
+        window.location.reload();
       }, 2000);
     }
     setTimeout(() => setDisabled(false), 4000);
@@ -482,7 +482,7 @@ export default function Dashboard() {
               </p>
               <p className="text-[16px]">
                 need further explantion?{" "}
-                <a className="text-blue-500">click here</a>
+                <a className="text-rose-500">click here</a>
               </p>
             </div>
 
