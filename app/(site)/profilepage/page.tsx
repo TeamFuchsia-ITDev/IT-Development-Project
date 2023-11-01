@@ -49,7 +49,7 @@ const Profilepage = () => {
                   <img
                     src={user?.image}
                     alt=""
-                    className="rounded-full  item-center w-[100px] mt-[-50px]"
+                    className="rounded-full item-center w-[100px] h-[100px] mt-[-50px] object-cover"
                     style={{ boxShadow: "3px 3px 8px rgba(0, 0, 0, 0.5)" }}
                   />
                   <div className="text-center">

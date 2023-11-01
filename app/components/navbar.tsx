@@ -36,7 +36,8 @@ export const Navbar = () => {
         {/* <img src={logo.src} alt="Logo" width={60} className="m-2 " /> */}
         <h1>Serve-Ease</h1>
         <div className=" relative flex gap-5  text-sm  items-center">
-          <a
+          
+          {mode === true ? (  <a
             href="/post "
             className={`relative group ${
               pathname === "/post" ? isLinkActive : ""
@@ -44,7 +45,8 @@ export const Navbar = () => {
           >
             Post Request
             <div className="absolute left-0 w-0 h-[2px] bg-rose-500 group-hover:w-full transition-transform transform origin-left transform scale-x-0 group-hover:scale-x-100"></div>
-          </a>
+          </a>): null }
+        
           <a
             href="/profilepage"
             className={`relative group ${
