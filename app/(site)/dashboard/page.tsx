@@ -630,7 +630,8 @@ export default function Dashboard() {
                   .filter((request: RequestProps) =>
                     myApplications.some(
                       (app) =>
-                        app.requestId === request.id && app.status === "Pending"
+                        app.requestId === request.id &&
+                        (app.status === "Pending" || app.status === "Accepted")
                     )
                   )
                   .map((request: RequestProps, index: number) => (

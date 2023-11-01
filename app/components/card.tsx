@@ -1,10 +1,12 @@
 "use client";
 
-import { CardProps } from "@/app/libs/interfaces";
+import { ApplicationProps, CardProps } from "@/app/libs/interfaces";
 import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 import { imageMapping } from "@/app/libs/reusables";
 import { limitText } from "@/app/libs/actions";
 import Link from "next/link";
+import axios from "axios";
 
 export const Card = ({
   cardType,
@@ -12,21 +14,48 @@ export const Card = ({
   toggleFormVisibility,
   onApplyClick,
 }: CardProps) => {
+  const { data: session, status } = useSession();
   const [truncatedTaskName, setTruncatedTaskName] = useState<string>(
     request?.taskname ?? ""
   );
-
   const [truncatedTNsmall, setTruncatedTNsmall] = useState<string>(
     request?.taskname ?? ""
   );
-
   const [showDetails, setShowDetails] = useState(false);
+  const [applications, setApplications] = useState([]);
+  const [applicationStatus, setApplicationStatus] = useState<
+    string | undefined
+  >(undefined);
+
+  useEffect(() => {
+    const getApplications = async () => {
+      const response = await axios.get(`/api/user/application`);
+      const data = await response.data.applications;
+      setApplications(data);
+    };
+
+    if (status !== "loading" && session?.user.email) {
+      getApplications();
+    }
+  }, []);
+
+  useEffect(() => {
+    const appStatus: ApplicationProps[] = applications.filter(
+      (app: ApplicationProps) =>
+        app.requestId === request?.id &&
+        app.userEmail === session?.user.email &&
+        (app.status === "Pending" || app.status === "Accepted")
+    );
+
+    setApplicationStatus(
+      appStatus.length > 0 ? appStatus[0].status : "No Status Found"
+    );
+  }, [applications, request, session]);
 
   useEffect(() => {
     setTruncatedTNsmall(limitText(request?.taskname ?? "", 25));
   }, [request]);
 
-  // Use useEffect to update truncatedTaskName when request changes
   useEffect(() => {
     setTruncatedTaskName(limitText(request?.taskname ?? "", 20));
   }, [request]);
@@ -59,14 +88,19 @@ export const Card = ({
             />
             <div className="ml-2 mr-2">
               <div className="flex flex-row">
-                <Link href={{ pathname: '/profilepage', query: `user=${request?.userEmail}`}}>
+                <Link
+                  href={{
+                    pathname: "/profilepage",
+                    query: `user=${request?.userEmail}`,
+                  }}
+                >
                   <img
                     src={request?.requesterImage}
                     className="w-[50px] h-[50px] rounded-full border-2 object-cover border-white mt-[-20px]"
                     style={{
                       boxShadow: "4px 4px 10px rgba(153, 153, 153, 100%)",
                     }}
-					title={"Click to view profile"}	
+                    title={"Click to view profile"}
                   />
                 </Link>
                 <div className="flex flex-col justify-center ml-2">
@@ -77,7 +111,6 @@ export const Card = ({
                 </div>
                 <div className="ml-auto  mt-4 text-rose-500">
                   <p className="font-bold text-[10px]">{request?.category}</p>
-				  <p className=" text-[10px] text-blue-500">Status: </p>
                 </div>
               </div>
               <div className="flex flex-col pl-2">
@@ -128,14 +161,19 @@ export const Card = ({
             />
             <div className="ml-2 mr-2">
               <div className="flex flex-row">
-			  <Link href={{ pathname: '/profilepage', query: `user=${request?.userEmail}`}}>
+                <Link
+                  href={{
+                    pathname: "/profilepage",
+                    query: `user=${request?.userEmail}`,
+                  }}
+                >
                   <img
                     src={request?.requesterImage}
                     className="w-[50px] h-[50px] rounded-full border-2 object-cover border-white mt-[-20px]"
                     style={{
                       boxShadow: "4px 4px 10px rgba(153, 153, 153, 100%)",
                     }}
-					title={"Click to view profile"}	
+                    title={"Click to view profile"}
                   />
                 </Link>
                 <div className="flex flex-col justify-center ml-2">
@@ -146,6 +184,18 @@ export const Card = ({
                 </div>
                 <div className="ml-auto  mt-4 text-rose-500">
                   <p className="font-bold text-[10px]">{request?.category}</p>
+                  <div className=" text-[10px] text-blue-500">
+                    Status:{" "}
+                    <p
+                      className={
+                        applicationStatus === "Accepted"
+                          ? "text-green-500"
+                          : "text-yellow-500"
+                      }
+                    >
+                      {applicationStatus}
+                    </p>
+                  </div>
                 </div>
               </div>
               <div className="flex flex-col pl-2">
