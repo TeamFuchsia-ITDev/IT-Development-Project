@@ -20,7 +20,7 @@ const UpdateApplicationForm: React.FC<UpdateApplicationFormProps> = ({
     isFormVisible &&
     compPage === "Pending" && (
       <div
-        className="flex flex-col w-[500px]  border-2 mt-4 items-center mb-12 bg-white fixed left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 "
+        className="flex flex-col w-[500px] border-2 mt-4 items-center mb-12 bg-white fixed left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 "
         style={{ boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.5)" }}
       >
         <img

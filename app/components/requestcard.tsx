@@ -48,12 +48,12 @@ export const RequestCard = ({ request }: { request: RequestProps }) => {
     if (request?.id) getApplications();
   }, []);
 
-  useEffect(() => {
-    setTruncatedDescription(limitText(request?.description ?? "", 45));
-  }, [request]);
-
   const applicationsLength = applications.filter(
     (app: ApplicationProps) => app.status === "Pending"
+  ).length;
+
+  const acceptedApplicationsLength = applications.filter(
+    (app: ApplicationProps) => app.status === "Accepted"
   ).length;
 
   return (
@@ -92,7 +92,13 @@ export const RequestCard = ({ request }: { request: RequestProps }) => {
           </div>
         </div>
         <div className="ml-6 mr-6">
-          <p className="text-[20px] font-bold mt-6">{request?.taskname}</p>
+          <p
+            className={`text-[20px] font-bold mt-6 ${
+              showOptions ? "break-words" : "truncate"
+            }`}
+          >
+            {request?.taskname}
+          </p>
           <p className="text-[12px] text-gray-500">
             {new Date(request?.datetime!).toLocaleDateString("en-US", {
               year: "numeric",
@@ -103,8 +109,8 @@ export const RequestCard = ({ request }: { request: RequestProps }) => {
             })}
           </p>
 
-          <p className=" md:text-[14px] 2xl:text-[18px] break-words">
-            {showOptions ? request?.description : truncatedDescription}
+          <p className={` md:text-[14px] 2xl:text-[18px] ${showOptions ? "break-words" : "truncate"}`}>
+            {request?.description}
           </p>
         </div>
         {showOptions && (
@@ -141,19 +147,27 @@ export const RequestCard = ({ request }: { request: RequestProps }) => {
               <Link
                 href={`/applicants?id=${request?.id}`}
                 className={`${
-                  applicationsLength > 0 ? "" : "pointer-events-none"
+                  applicationsLength > 0
+                    ? ""
+                    : acceptedApplicationsLength > 0
+                    ? ""
+                    : "pointer-events-none"
                 }`}
               >
                 <button
                   className={`text-center ${
                     applicationsLength > 0
-                      ? "bg-blue-600"
-                      : "bg-blue-600 opacity-50 pointer-events-none"
+                      ? "bg-blue-500"
+                      : acceptedApplicationsLength > 0
+                      ? "bg-blue-500"
+                      : "bg-blue-300 opacity-50 pointer-events-none"
                   } text-white mt-4 rounded-full h-[35px] w-[350px] hover:bg-white hover:text-blue-500 hover:border-[2px] hover:border-blue-500 hover:ease-in-out duration-300`}
                 >
                   {applicationsLength > 0
                     ? `View Applications (${applicationsLength})`
-                    : "No Applications Yet"}
+                    : acceptedApplicationsLength > 0
+                    ? `View Applicants`
+                    : "No Applications yet"}
                 </button>
               </Link>
             ) : null}

@@ -114,7 +114,7 @@ export default function MyJobs() {
                   <img
                     src={app.compImage}
                     alt={`Image-${index}`}
-                    className="w-[40px] h-[40px] rounded-full ml-4 border-2 border-gray-400 hover:scale-125"
+                    className="w-[40px] h-[40px] rounded-full ml-4 border-gray-400 hover:scale-125 object-cover"
                     style={{
                       boxShadow: "4px 4px 10px rgba(153, 153, 153, 100%)",
                     }}
