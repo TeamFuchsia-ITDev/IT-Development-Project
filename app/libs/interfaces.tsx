@@ -148,12 +148,14 @@ export interface ApplicationFormProps {
     requestid: string;
     amount: string;
     description: string;
+	status: string;
   };
   setData: React.Dispatch<
     React.SetStateAction<{
       requestid: string;
       amount: string;
       description: string;
+	  status: string;
     }>
   >;
   disabled: boolean;
@@ -172,12 +174,14 @@ export interface UpdateApplicationFormProps {
     requestid: string;
     amount: string;
     description: string;
+	status: string;
   };
   setData: React.Dispatch<
     React.SetStateAction<{
       requestid: string;
       amount: string;
       description: string;
+	  status: string;
     }>
   >;
   disabled: boolean;
