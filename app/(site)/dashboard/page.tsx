@@ -123,6 +123,7 @@ export default function Dashboard() {
     requestid: "",
     amount: "",
     description: "",
+	status: "",
   });
 
   const [applicationData, setapplicationData] = useState({
@@ -231,7 +232,7 @@ export default function Dashboard() {
   };
 
   const handleViewApplication = (requestData: RequestData) => {
-    setData({ ...data, requestid: requestData.id });
+    setData({ ...data, requestid: requestData.id});
     setapplicationData({
       taskname: requestData.taskname!,
       requesterName: requestData.requesterName!,
@@ -245,6 +246,7 @@ export default function Dashboard() {
       ...data,
       amount: applicationData?.amount.toString()!,
       description: applicationData?.description!,
+	  status: applicationData?.status!
     });
   };
 
