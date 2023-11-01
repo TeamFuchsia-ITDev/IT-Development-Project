@@ -272,7 +272,7 @@ export default function Dashboard() {
       );
       setTimeout(() => {
         toast.dismiss();
-        window.location.reload();
+        router.push("/myjobs");
       }, 2000);
     }
     setTimeout(() => setDisabled(false), 4000);
@@ -650,7 +650,34 @@ export default function Dashboard() {
             </div>
           ) : null}
 
-          {compPage === "Active" ? <div className="mb-24"></div> : null}
+          {compPage === "Active" ? <div
+              className={`mb-24 ${
+                isFormVisible ? "pointer-events-none blur-sm" : ""
+              }`}
+            >
+              <Carousel
+                loop={false}
+                slidesPerView={4}
+                cards={searchFilteredRequests
+                  .filter((request: RequestProps) =>
+                    myApplications.some(
+                      (app) =>
+                        app.requestId === request.id &&
+                        (app.status === "Pending" || app.status === "Accepted")
+                    )
+                  )
+                  .map((request: RequestProps, index: number) => (
+                    <div key={index}>
+                      <Card
+                        request={request}
+                        cardType="ongoingtasks"
+                        toggleFormVisibility={setIsFormVisible}
+                        onApplyClick={handleViewApplication}
+                      />
+                    </div>
+                  ))}
+              />
+            </div> : null}
 
           {compPage === "Completed" ? <div className="mb-24"></div> : null}
 
