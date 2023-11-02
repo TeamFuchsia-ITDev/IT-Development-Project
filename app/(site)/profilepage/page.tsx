@@ -10,6 +10,7 @@ import phone from "@/app/images/phone.svg";
 import gender from "@/app/images/gender.svg";
 import bday from "@/app/images/bday.svg";
 import loc from "@/app/images/location.svg";
+import EditRequest from "@/app/components/editRequest";
 
 const Profilepage = () => {
   const { data: session, status } = useSession();
@@ -162,6 +163,8 @@ const Profilepage = () => {
           {profilepage === "analytics" ? <>This is analytics</> : null}
         </div>
       </div>
+
+      <EditRequest />
     </main>
   );
 };
