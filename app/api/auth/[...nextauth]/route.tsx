@@ -129,8 +129,11 @@ export const authOptions: NextAuthOptions = {
       return true;
     },
     async jwt({ token, user, session, account, profile }) {
-      console.log("jwt callback", { token, user, session, account, profile });
+      console.log("JWT CALLBACK", { token, user, session, account, profile });
 
+      if (account) {
+        token.provider = account.provider;
+      }
       return token;
     },
     async session({ session, user, token }) {
@@ -146,7 +149,11 @@ export const authOptions: NextAuthOptions = {
         session!.user!.isNewUser = false;
       }
 
-      console.log("session callback", { session, user, token });
+      if (token) {
+        session.user.provider = token.provider;
+      }
+
+      console.log("SESSION CALLBACK", { session, user, token });
       return session;
     },
   },

@@ -56,6 +56,10 @@ export default function Dashboard() {
   useEffect(() => {
     if (status !== "loading" && !session) {
       router.push("/login");
+    } else {
+      if (session?.user.isNewUser) {
+        router.push("/create-profile");
+      }
     }
     setisMounted(true);
   }, [session, status, router]);

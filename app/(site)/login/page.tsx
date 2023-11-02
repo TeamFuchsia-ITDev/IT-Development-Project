@@ -31,8 +31,16 @@ export default function Login() {
     if (session) {
       if (session?.user.isNewUser) {
         router.replace("/create-profile");
-      } else if (!session?.user.isNewUser) {
-        router.replace("/dashboard?provider=credentials");
+      } else {
+        // if (session?.user.provider === "facebook") {
+        //   router.push("/dashboard?provider=facebook");
+        // }
+        // if (session?.user.provider === "google") {
+        //   router.push("/dashboard?provider=google");
+        // }
+        if (session?.user.provider === "credentials") {
+          router.push("/dashboard?provider=credentials");
+        }
       }
     }
 
