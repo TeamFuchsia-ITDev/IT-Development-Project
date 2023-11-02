@@ -3,7 +3,7 @@
 import { useState, FormEvent, useEffect } from "react";
 import { signIn, useSession } from "next-auth/react";
 import { toast } from "react-hot-toast";
-import { useRouter, useSearchParams } from "next/navigation";
+import { redirect, useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import lsimage from "../../images/lsimage.png";
 import SElogo from "../../images/logov3.svg";
@@ -29,8 +29,11 @@ export default function Login() {
 
     // If there is a session, redirect to the login page
     if (session) {
-      router.replace("/dashboard");
-      return;
+      if (session?.user.isNewUser) {
+        router.replace("/create-profile");
+      } else if (!session?.user.isNewUser) {
+        router.replace("/dashboard?provider=credentials");
+      }
     }
 
     // Handle errorParams
@@ -40,7 +43,7 @@ export default function Login() {
       );
       router.replace("/login");
     }
-  }, [errorParams, session, status, router]);
+  }, [session, status, router]);
 
   const loginWithFacebook = async () => {
     const response = signIn("facebook", {
@@ -79,19 +82,18 @@ export default function Login() {
   const loginUser = async (e: FormEvent) => {
     setDisabled(true);
     e.preventDefault();
-   
+
     toast.loading("Logging in...", {
       duration: 2000,
     });
     setTimeout(() => setDisabled(false), 5000);
     setTimeout(() => {
-      signIn("credentials", { ...data, callbackUrl: "http://localhost:3000/dashboard?provider=credentials" }).then((callback) => {
+      signIn("credentials", {
+        ...data,
+        redirect: false,
+      }).then((callback) => {
         if (callback?.error) {
           toast.error(callback.error);
-        }
-       
-        if (callback?.ok && !callback?.error) {
-          toast.success("Logged in successfully!");
         }
       });
     }, 2000);
@@ -188,7 +190,11 @@ export default function Login() {
                   Forgot Password?
                 </a>
                 <button
-                  className={`${disabled ? "text-center bg-rose-500 opacity-50 text-white font-bold w-[385px] rounded h-[45px] cursor-not-allowed" : "text-center bg-rose-500 text-white font-bold w-[385px] rounded h-[45px] hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300"}`}
+                  className={`${
+                    disabled
+                      ? "text-center bg-rose-500 opacity-50 text-white font-bold w-[385px] rounded h-[45px] cursor-not-allowed"
+                      : "text-center bg-rose-500 text-white font-bold w-[385px] rounded h-[45px] hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300"
+                  }`}
                   onClick={loginUser}
                   disabled={disabled}
                 >

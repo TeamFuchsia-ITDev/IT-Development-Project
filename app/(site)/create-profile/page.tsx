@@ -12,7 +12,6 @@ import { LocationData, LocationFeature, FormData } from "@/app/libs/interfaces";
 
 export default function CreateProfile() {
   const { data: session, status } = useSession();
-  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const [imageBase64, setImageBase64] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -142,7 +141,7 @@ export default function CreateProfile() {
 
         setTimeout(() => {
           toast.remove();
-          router.push("/");
+          router.push("/dashboard");
         }, 5000);
       }
     } catch (err) {
@@ -344,7 +343,6 @@ export default function CreateProfile() {
                     const formattedDate = new Date(date)
                       .toISOString()
                       .split("T")[0];
-                    console.log(formattedDate);
                     setData({ ...data, birthday: formattedDate });
                   }}
                   className="block w-full h-[45px] rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"

@@ -3,7 +3,7 @@
 import { FormEvent, useEffect, useState, Suspense, useRef } from "react";
 import { useSession } from "next-auth/react";
 import axios from "axios";
-import { useRouter, useSearchParams } from "next/navigation";
+import { redirect, useRouter, useSearchParams } from "next/navigation";
 import {
   UserProps,
   RequestProps,
@@ -35,14 +35,6 @@ export default function Dashboard() {
   const searchParams = useSearchParams();
   const providerParams = searchParams.get("provider");
   const toastShownRef = useRef(false);
-
-  useEffect(() => {
-    if (session) {
-      if (session?.user.isNewUser) {
-        router.replace("/create-profile");
-      }
-    }
-  }, [session]);
 
   useEffect(() => {
     if (isMounted && session) {
@@ -131,13 +123,6 @@ export default function Dashboard() {
     requesterName: "",
     dateime: "",
   });
-
-  useEffect(() => {
-    // Redirect to login page if there is no session
-    if (status !== "loading" && !session) {
-      router.push("/login");
-    }
-  }, [session, status, router]);
 
   useEffect(() => {
     const getUser = async () => {
@@ -239,7 +224,9 @@ export default function Dashboard() {
       dateime: requestData.datetime!,
     });
     const applicationData = myApplications.find(
-      (app) => app.requestId === requestData.id && app.status === "Pending"
+      (app) =>
+        app.requestId === requestData.id &&
+        (app.status === "Pending" || app.status === "Accepted")
     );
     setMyApplication(applicationData);
     setData({
@@ -272,7 +259,7 @@ export default function Dashboard() {
       );
       setTimeout(() => {
         toast.dismiss();
-        router.push("/myjobs");
+        window.location.reload();
       }, 2000);
     }
     setTimeout(() => setDisabled(false), 4000);
@@ -512,7 +499,10 @@ export default function Dashboard() {
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="border-2 border-gray-300  h-[45px] w-[520px] pl-10 "
                 />
-                <img src={search.src} className="w-[35px] h-[35px] absolute pl-2 pt-3" />
+                <img
+                  src={search.src}
+                  className="w-[35px] h-[35px] absolute pl-2 pt-3"
+                />
               </div>
 
               <select

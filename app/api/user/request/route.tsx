@@ -107,7 +107,7 @@ export async function POST(request: Request) {
 
 export async function GET(request: Request) {
   try {   
-	lapseChecker();
+	await lapseChecker();
     const requests = await prisma.request.findMany();
     return NextResponse.json({ requests, status: 200 });
   } catch (error) {
