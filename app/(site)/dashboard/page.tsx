@@ -416,8 +416,9 @@ export default function Dashboard() {
                       <RequestCard request={request} />
                     </div>
                   ))}
-              />
+              />  
             )
+          
           ) : null}
 
           {page === "Active" ? (
