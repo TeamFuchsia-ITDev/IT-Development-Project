@@ -123,7 +123,7 @@ export default function Dashboard() {
     requestid: "",
     amount: "",
     description: "",
-	status: "",
+    status: "",
   });
 
   const [applicationData, setapplicationData] = useState({
@@ -232,7 +232,7 @@ export default function Dashboard() {
   };
 
   const handleViewApplication = (requestData: RequestData) => {
-    setData({ ...data, requestid: requestData.id});
+    setData({ ...data, requestid: requestData.id });
     setapplicationData({
       taskname: requestData.taskname!,
       requesterName: requestData.requesterName!,
@@ -246,7 +246,7 @@ export default function Dashboard() {
       ...data,
       amount: applicationData?.amount.toString()!,
       description: applicationData?.description!,
-	  status: applicationData?.status!
+      status: applicationData?.status!,
     });
   };
 
@@ -458,6 +458,22 @@ export default function Dashboard() {
                 ))}
             />
           ) : null}
+
+          {page === "Cancelled" ? (
+            <Carousel
+              loop={false}
+              slidesPerView={3}
+              cards={myRequests
+                .filter(
+                  (request: RequestProps) => request.status === "Cancelled"
+                )
+                .map((request: RequestProps, index: number) => (
+                  <div key={index}>
+                    <RequestCard request={request} />
+                  </div>
+                ))}
+            />
+          ) : null}
         </div>
       ) : (
         <>
@@ -650,7 +666,8 @@ export default function Dashboard() {
             </div>
           ) : null}
 
-          {compPage === "Active" ? <div
+          {compPage === "Active" ? (
+            <div
               className={`mb-24 ${
                 isFormVisible ? "pointer-events-none blur-sm" : ""
               }`}
@@ -677,7 +694,8 @@ export default function Dashboard() {
                     </div>
                   ))}
               />
-            </div> : null}
+            </div>
+          ) : null}
 
           {compPage === "Completed" ? <div className="mb-24"></div> : null}
 

@@ -32,3 +32,26 @@ export const limitText = (text: string, maxLength: number) => {
   return text;
 };
 
+export async function lapseChecker() {
+  const currentDate = new Date();
+
+  // Find requests where the request date has passed and status is not "Lapsed"
+  const expiredRequests = await prisma.request.findMany({
+    where: {
+      datetime: {
+        lt: currentDate,
+      },
+      status: {
+        not: "Lapsed",
+      },
+    },
+  });
+
+  // Update the status of expired requests to "Lapsed"
+  for (const request of expiredRequests) {
+    await prisma.request.update({
+      where: { id: request.id },
+      data: { status: "Lapsed" },
+    });
+  }
+}
