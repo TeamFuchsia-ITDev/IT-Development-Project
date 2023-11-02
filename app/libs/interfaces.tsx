@@ -192,4 +192,14 @@ export interface UpdateApplicationFormProps {
   setEditable: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+export interface UpdateRequestFormProps {
+	isFormVisible: boolean;
+	setIsFormVisible: React.Dispatch<React.SetStateAction<boolean>>;
+	disabled: boolean;
+	updateRequest: (e: FormEvent) => void;
+	cancelApplication: (e: FormEvent) => void;
+	editable: boolean;
+	setEditable: React.Dispatch<React.SetStateAction<boolean>>;
+  }
+
 
