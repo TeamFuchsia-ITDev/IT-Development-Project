@@ -18,9 +18,9 @@ import toast from "react-hot-toast";
 import { CategoryOptions } from "@/app/libs/reusables";
 import { Card } from "@/app/components/card";
 import ApplicationFormPopUp from "@/app/components/applicationform";
-import x from "@/app/images/x.svg";
 import { useMode } from "@/app/context/ModeContext";
 import UpdateApplicationForm from "@/app/components/applicationEdit";
+import search from "@/app/images/Search.svg";
 
 export default function Dashboard() {
   const { data: session, status } = useSession();
@@ -123,7 +123,7 @@ export default function Dashboard() {
     requestid: "",
     amount: "",
     description: "",
-	status: "",
+    status: "",
   });
 
   const [applicationData, setapplicationData] = useState({
@@ -232,7 +232,7 @@ export default function Dashboard() {
   };
 
   const handleViewApplication = (requestData: RequestData) => {
-    setData({ ...data, requestid: requestData.id});
+    setData({ ...data, requestid: requestData.id });
     setapplicationData({
       taskname: requestData.taskname!,
       requesterName: requestData.requesterName!,
@@ -246,7 +246,7 @@ export default function Dashboard() {
       ...data,
       amount: applicationData?.amount.toString()!,
       description: applicationData?.description!,
-	  status: applicationData?.status!
+      status: applicationData?.status!,
     });
   };
 
@@ -470,7 +470,8 @@ export default function Dashboard() {
               {user ? (
                 <>
                   <p className="text-[40px]">
-                    Welcome to your Dashboard {user.name.split(" ")[0]}
+                    {/* Welcome to your Dashboard {user.name.split(" ")[0]} */}
+                    Welcome to your Dashboard
                   </p>
                 </>
               ) : (
@@ -487,13 +488,16 @@ export default function Dashboard() {
             </div>
 
             <div className=" flex flex-row  mr-4 mt-12 items-center justify-center">
-              <input
-                type="text"
-                placeholder="Search by task name or description"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="border-2 border-gray-300  h-[45px] w-[520px] "
-              />
+              <div className="flex flex-row">
+                <input
+                  type="text"
+                  placeholder="Search by task name or description"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="border-2 border-gray-300  h-[45px] w-[520px] pl-10 "
+                />
+                <img src={search.src} className="w-[35px] h-[35px] absolute pl-2 pt-3" />
+              </div>
 
               <select
                 className="border-2 border-gray-300  h-[45px] w-[250px] ml-4"
@@ -650,7 +654,8 @@ export default function Dashboard() {
             </div>
           ) : null}
 
-          {compPage === "Active" ? <div
+          {compPage === "Active" ? (
+            <div
               className={`mb-24 ${
                 isFormVisible ? "pointer-events-none blur-sm" : ""
               }`}
@@ -677,7 +682,8 @@ export default function Dashboard() {
                     </div>
                   ))}
               />
-            </div> : null}
+            </div>
+          ) : null}
 
           {compPage === "Completed" ? <div className="mb-24"></div> : null}
 

@@ -59,7 +59,7 @@ export const RequestCard = ({ request }: { request: RequestProps }) => {
   return (
     <>
       <div
-        className="shadow-xl border-2  h-auto w-[400px] mb-4 rounded-[10px] hover:translate-y-[-20px] mt-5"
+        className=" h-auto w-[400px] mb-4 rounded-[10px] hover:translate-y-[-20px] mt-5"
         style={{ boxShadow: "2px 2px 6px rgba(153, 153, 153, 100%)" }}
       >
         <img src={imageMapping[request?.category!]} className="rounded-t-lg" />
@@ -160,7 +160,7 @@ export const RequestCard = ({ request }: { request: RequestProps }) => {
                       ? "bg-blue-500"
                       : acceptedApplicationsLength > 0
                       ? "bg-blue-500"
-                      : "bg-blue-300 opacity-50 pointer-events-none"
+                      : "bg-blue-500 opacity-50 pointer-events-none"
                   } text-white mt-4 rounded-full h-[35px] w-[350px] hover:bg-white hover:text-blue-500 hover:border-[2px] hover:border-blue-500 hover:ease-in-out duration-300`}
                 >
                   {applicationsLength > 0
@@ -175,7 +175,7 @@ export const RequestCard = ({ request }: { request: RequestProps }) => {
         )}
         <div className="flex flex-col justify-center items-center mt-4 mb-4">
           <button
-            className="text-center bg-green-500 text-white  mb-0 rounded-full h-[35px]  w-[350px]  hover:bg-white hover:text-green-500 hover:border-[2px] hover:border-green-500 hover:ease-in-out duration-300"
+            className="text-center bg-green-500 text-white  mb-4 rounded-full h-[35px]  w-[350px]  hover:bg-white hover:text-green-500 hover:border-[2px] hover:border-green-500 hover:ease-in-out duration-300"
             onClick={() => setShowOptions(!showOptions)}
           >
             {showOptions ? "Hide Options" : "Show Options"}

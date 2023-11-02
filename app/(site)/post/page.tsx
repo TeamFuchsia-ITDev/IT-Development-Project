@@ -14,7 +14,6 @@ export default function PostRequest() {
   const router = useRouter();
   const [user, setUser] = useState<UserProps | undefined>(undefined);
   const [disabled, setDisabled] = useState(false);
-  const [isFormVisible, setIsFormVisible] = useState(false);
   const [mode, setMode] = useState(true);
 
   const toggleMode = (newMode: boolean) => {
@@ -163,7 +162,7 @@ export default function PostRequest() {
                 viewed the request.
               </p>
               <button
-                className="text-center bg-rose-500 text-white font-bold mb-12 rounded h-[45px] hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300"
+                className={`${disabled ? " text-center bg-rose-500 opacity-50 text-white font-bold mb-12 rounded h-[45px]" : "text-center bg-rose-500 text-white font-bold mb-12 rounded h-[45px] hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300"} ${disabled && "cursor-not-allowed"}`}
                 onClick={postRequest}
                 disabled={disabled}
               >

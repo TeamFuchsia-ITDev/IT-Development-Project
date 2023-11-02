@@ -297,7 +297,7 @@ export const Card = ({
                 </div>
                 <div className="flex justify-center">
                   <button
-                    className="text-center h-[35px] w-[270px] bg-red-600 text-white text-[11px] font-bold rounded-full hover:bg-white hover:text-red-500 hover:border-[2px] hover:border-red-500 hover:ease-in-out duration-300 "
+                    className="text-center h-[35px] w-[270px] bg-red-500 text-white text-[11px] font-bold rounded-full hover:bg-white hover:text-red-500 hover:border-[2px] hover:border-red-500 hover:ease-in-out duration-300 "
                   >
                     Cancel Task
                   </button>

@@ -15,6 +15,7 @@ export default function Login() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const errorParams = searchParams.get("error");
+  const [disabled, setDisabled] = useState(false);
   const [data, setData] = useState({
     email: "",
     password: "",
@@ -76,18 +77,19 @@ export default function Login() {
   };
 
   const loginUser = async (e: FormEvent) => {
+    setDisabled(true);
     e.preventDefault();
-
+   
     toast.loading("Logging in...", {
       duration: 2000,
     });
-
+    setTimeout(() => setDisabled(false), 5000);
     setTimeout(() => {
       signIn("credentials", { ...data, callbackUrl: "http://localhost:3000/dashboard?provider=credentials" }).then((callback) => {
         if (callback?.error) {
           toast.error(callback.error);
         }
-
+       
         if (callback?.ok && !callback?.error) {
           toast.success("Logged in successfully!");
         }
@@ -174,20 +176,21 @@ export default function Login() {
               <div className="flex flex-col  items-center">
                 <p className="text-center mt-4 text-[12px]">
                   Don't have an account?{" "}
-                  <a href="/register" className="text-purple-700">
+                  <a href="/register" className="text-blue-500">
                     Sign up
                   </a>{" "}
                   now its free!
                 </p>
                 <a
                   href="/forgotpassword"
-                  className="text-purple-700 text-center  mb-6 text-[12px]"
+                  className="text-blue-500 text-center mt-2 mb-6 text-[12px]"
                 >
                   Forgot Password?
                 </a>
                 <button
-                  className="text-center bg-rose-500 text-white font-bold w-[385px] rounded h-[45px] hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300"
+                  className={`${disabled ? "text-center bg-rose-500 opacity-50 text-white font-bold w-[385px] rounded h-[45px] cursor-not-allowed" : "text-center bg-rose-500 text-white font-bold w-[385px] rounded h-[45px] hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300"}`}
                   onClick={loginUser}
+                  disabled={disabled}
                 >
                   Sign in
                 </button>

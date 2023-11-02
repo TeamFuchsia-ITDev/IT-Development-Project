@@ -67,7 +67,7 @@ const ApplicationFormPopUp: React.FC<ApplicationFormProps> = ({
           />
         </div>
         <button
-          className="text-center bg-green-500 text-white font-bold mb-8 rounded h-[45px] w-[400px] hover:bg-white hover:text-green-500 hover:border-[2px] hover:border-green-500 hover:ease-in-out duration-300"
+          className={`${disabled ? "text-center bg-green-500 opacity-50 text-white font-bold mb-8 rounded h-[45px] w-[400px] cursor-not-allowed" : "text-center bg-green-500 text-white font-bold mb-8 rounded h-[45px] w-[400px] hover:bg-white hover:text-green-500 hover:border-[2px] hover:border-green-500 hover:ease-in-out duration-300"}`}
           onClick={postApplication}
           disabled={disabled}
         >
