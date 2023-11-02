@@ -72,6 +72,11 @@ export interface CardProps {
   }) => void;
 }
 
+export interface RequestCardProps {
+  request?: RequestProps;
+  toggleFormVisibility: (isVisible: boolean) => void;
+}
+
 export interface NavBarProps {
   mode: boolean;
   toggleMode: (mode: boolean) => void;
@@ -148,14 +153,14 @@ export interface ApplicationFormProps {
     requestid: string;
     amount: string;
     description: string;
-	status: string;
+    status: string;
   };
   setData: React.Dispatch<
     React.SetStateAction<{
       requestid: string;
       amount: string;
       description: string;
-	  status: string;
+      status: string;
     }>
   >;
   disabled: boolean;
@@ -174,14 +179,14 @@ export interface UpdateApplicationFormProps {
     requestid: string;
     amount: string;
     description: string;
-	status: string;
+    status: string;
   };
   setData: React.Dispatch<
     React.SetStateAction<{
       requestid: string;
       amount: string;
       description: string;
-	  status: string;
+      status: string;
     }>
   >;
   disabled: boolean;
@@ -193,13 +198,7 @@ export interface UpdateApplicationFormProps {
 }
 
 export interface UpdateRequestFormProps {
-	isFormVisible: boolean;
-	setIsFormVisible: React.Dispatch<React.SetStateAction<boolean>>;
-	disabled: boolean;
-	updateRequest: (e: FormEvent) => void;
-	cancelApplication: (e: FormEvent) => void;
-	editable: boolean;
-	setEditable: React.Dispatch<React.SetStateAction<boolean>>;
-  }
-
-
+  isFormVisible: boolean;
+  setIsFormVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  disabled: boolean;
+}

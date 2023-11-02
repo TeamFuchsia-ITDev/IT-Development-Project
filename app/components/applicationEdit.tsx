@@ -29,9 +29,9 @@ const UpdateApplicationForm: React.FC<UpdateApplicationFormProps> = ({
           width={20}
           className="m-2 absolute right-0 top-0 cursor-pointer "
           onClick={() => {
-			setData({...data, amount: "", description: "",})
-			setIsFormVisible(!isFormVisible)
-		  }}
+            setData({ ...data, amount: "", description: "" });
+            setIsFormVisible(!isFormVisible);
+          }}
         />
 
         <p className="text-center underline underline-offset-8 decoration-rose-500 decoration-2 mt-6">

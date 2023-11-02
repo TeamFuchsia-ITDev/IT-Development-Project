@@ -3,7 +3,7 @@
 import { FormEvent, useEffect, useState, Suspense, useRef } from "react";
 import { useSession } from "next-auth/react";
 import axios from "axios";
-import { redirect, useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   UserProps,
   RequestProps,
@@ -20,6 +20,7 @@ import { Card } from "@/app/components/card";
 import ApplicationFormPopUp from "@/app/components/applicationform";
 import { useMode } from "@/app/context/ModeContext";
 import UpdateApplicationForm from "@/app/components/applicationEdit";
+import EditRequest from "@/app/components/editRequest";
 import search from "@/app/images/Search.svg";
 
 export default function Dashboard() {
@@ -325,8 +326,12 @@ export default function Dashboard() {
     <main className="pl-24 pr-24">
       <Navbar />
       {mode ? (
-        <div className="mt-24">
-          <div className=" text-center">
+        <div className={`mt-24`}>
+          <div
+            className={`text-center ${
+              isFormVisible ? "pointer-events-none blur-sm" : ""
+            }`}
+          >
             {user ? (
               <>
                 <p className="text-[40px]">
@@ -347,7 +352,11 @@ export default function Dashboard() {
               </a>
             </p>
           </div>
-          <div className="flex items-center justify-center mt-8 mb-4">
+          <div
+            className={`flex items-center justify-center mt-8 mb-4 ${
+              isFormVisible ? "pointer-events-none blur-sm" : ""
+            }`}
+          >
             <div className="flex flex-row w-[100%] h-[40px]">
               <button
                 className={`${
@@ -393,7 +402,8 @@ export default function Dashboard() {
           </div>
           {page === "Pending" ? (
             myRequests.filter(
-              (request: RequestProps) => request.status === "Pending" || request.status === "Lapsed"
+              (request: RequestProps) =>
+                request.status === "Pending" || request.status === "Lapsed"
             ).length <= 0 ? (
               <div className=" text-center justify-center mt-48">
                 <p className="text-2xl">
@@ -404,68 +414,113 @@ export default function Dashboard() {
                 </p>
               </div>
             ) : (
+              <div
+                className={`mb-24 ${
+                  isFormVisible ? "pointer-events-none blur-sm" : ""
+                }`}
+              >
+                <Carousel
+                  loop={false}
+                  slidesPerView={3}
+                  cards={myRequests
+                    .filter(
+                      (request: RequestProps) =>
+                        request.status === "Pending" ||
+                        request.status === "Lapsed"
+                    )
+                    .map((request: RequestProps, index: number) => (
+                      <div key={index}>
+                        <RequestCard
+                          request={request}
+                          toggleFormVisibility={setIsFormVisible}
+                        />
+                      </div>
+                    ))}
+                />
+              </div>
+            )
+          ) : null}
+
+          {page === "Active" ? (
+            <div
+              className={`mb-24 ${
+                isFormVisible ? "pointer-events-none blur-sm" : ""
+              }`}
+            >
               <Carousel
                 loop={false}
                 slidesPerView={3}
                 cards={myRequests
                   .filter(
-                    (request: RequestProps) => request.status === "Pending" || request.status === "Lapsed"
+                    (request: RequestProps) => request.status === "OnGoing"
                   )
                   .map((request: RequestProps, index: number) => (
                     <div key={index}>
-                      <RequestCard request={request} />
+                      <RequestCard
+                        request={request}
+                        toggleFormVisibility={setIsFormVisible}
+                      />
                     </div>
                   ))}
-              />  
-            )
-          
-          ) : null}
-
-          {page === "Active" ? (
-            <Carousel
-              loop={false}
-              slidesPerView={3}
-              cards={myRequests
-                .filter((request: RequestProps) => request.status === "OnGoing")
-                .map((request: RequestProps, index: number) => (
-                  <div key={index}>
-                    <RequestCard request={request} />
-                  </div>
-                ))}
-            />
+              />
+            </div>
           ) : null}
 
           {page === "Completed" ? (
-            <Carousel
-              loop={false}
-              slidesPerView={3}
-              cards={myRequests
-                .filter(
-                  (request: RequestProps) => request.status === "Completed"
-                )
-                .map((request: RequestProps, index: number) => (
-                  <div key={index}>
-                    <RequestCard request={request} />
-                  </div>
-                ))}
-            />
+            <div
+              className={`mb-24 ${
+                isFormVisible ? "pointer-events-none blur-sm" : ""
+              }`}
+            >
+              <Carousel
+                loop={false}
+                slidesPerView={3}
+                cards={myRequests
+                  .filter(
+                    (request: RequestProps) => request.status === "Completed"
+                  )
+                  .map((request: RequestProps, index: number) => (
+                    <div key={index}>
+                      <RequestCard
+                        request={request}
+                        toggleFormVisibility={setIsFormVisible}
+                      />
+                    </div>
+                  ))}
+              />
+            </div>
           ) : null}
 
           {page === "Cancelled" ? (
-            <Carousel
-              loop={false}
-              slidesPerView={3}
-              cards={myRequests
-                .filter(
-                  (request: RequestProps) => request.status === "Cancelled"
-                )
-                .map((request: RequestProps, index: number) => (
-                  <div key={index}>
-                    <RequestCard request={request} />
-                  </div>
-                ))}
-            />
+            <div
+              className={`mb-24 ${
+                isFormVisible ? "pointer-events-none blur-sm" : ""
+              }`}
+            >
+              <Carousel
+                loop={false}
+                slidesPerView={3}
+                cards={myRequests
+                  .filter(
+                    (request: RequestProps) => request.status === "Cancelled"
+                  )
+                  .map((request: RequestProps, index: number) => (
+                    <div key={index}>
+                      <RequestCard
+                        request={request}
+                        toggleFormVisibility={setIsFormVisible}
+                      />
+                    </div>
+                  ))}
+              />
+            </div>
           ) : null}
+
+          <EditRequest
+            isFormVisible={isFormVisible}
+            setIsFormVisible={setIsFormVisible}
+            disabled={disabled}
+          />
         </div>
       ) : (
         <>

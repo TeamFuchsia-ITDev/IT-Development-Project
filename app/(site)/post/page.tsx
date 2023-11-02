@@ -7,35 +7,24 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { UserProps } from "@/app/libs/interfaces";
-import { imageMapping, CategoryOptions, numberofCompanion  } from "@/app/libs/reusables";
+import {
+  imageMapping,
+  CategoryOptions,
+  numberofCompanion,
+} from "@/app/libs/reusables";
 
 export default function PostRequest() {
   const { data: session, status } = useSession();
   const router = useRouter();
-  const [user, setUser] = useState<UserProps | undefined>(undefined);
   const [disabled, setDisabled] = useState(false);
-  const [mode, setMode] = useState(true);
-
-  const toggleMode = (newMode: boolean) => {
-    setMode(newMode);
-  };
 
   const [data, setData] = useState({
     taskname: "",
     category: "",
-	compNeeded: "",
+    compNeeded: "",
     datetime: "",
     description: "",
   });
-
-  useEffect(() => {
-    const getUser = async () => {
-      const response = await fetch(`/api/user/profile/${session?.user.email}`);
-      const data = await response.json();
-      setUser(data);
-    };
-    if (session?.user?.email) getUser();
-  }, [session?.user?.emai]); 
 
   const postRequest = async (e: FormEvent) => {
     setDisabled(true);
@@ -86,7 +75,6 @@ export default function PostRequest() {
               <p className="text-center underline underline-offset-8 decoration-rose-500 decoration-2 mt-12">
                 Request Form
               </p>
-              
               <p className="text-[13px] mt-4">Category</p>
               <select
                 className="border-2 border-gray-300  h-[45px] "
@@ -104,15 +92,15 @@ export default function PostRequest() {
                   </option>
                 ))}
               </select>
-
-
               <p className="text-[13px] ">Companion Needed</p>
               <select
                 className="border-2 border-gray-300  h-[45px] "
                 id="companionCount"
                 name="companionCount"
-				value={data.compNeeded}
-				onChange={(e) => setData({ ...data, compNeeded: e.target.value })}
+                value={data.compNeeded}
+                onChange={(e) =>
+                  setData({ ...data, compNeeded: e.target.value })
+                }
               >
                 <option value="" disabled>
                   Select Number of Companion Needed
@@ -123,8 +111,6 @@ export default function PostRequest() {
                   </option>
                 ))}
               </select>
-
-
               <p className="text-[13px] ">Task Name</p>
               <input
                 type="text"
@@ -134,7 +120,7 @@ export default function PostRequest() {
                 name="taskname"
                 value={data.taskname}
                 onChange={(e) => setData({ ...data, taskname: e.target.value })}
-              />              
+              />
               <p className="text-[13px]">Date</p>
               <input
                 type="Datetime-local"
@@ -157,12 +143,16 @@ export default function PostRequest() {
                 }
               />
               <p className="text-[10px] text-[13px]">
-                <a className="text-rose-600 text-[13px]">Note:</a> Once request is posted,
-                your profile details will be shown to the companions once they
-                viewed the request.
+                <a className="text-rose-600 text-[13px]">Note:</a> Once request
+                is posted, your profile details will be shown to the companions
+                once they viewed the request.
               </p>
               <button
-                className={`${disabled ? " text-center bg-rose-500 opacity-50 text-white font-bold mb-12 rounded h-[45px]" : "text-center bg-rose-500 text-white font-bold mb-12 rounded h-[45px] hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300"} ${disabled && "cursor-not-allowed"}`}
+                className={`${
+                  disabled
+                    ? " text-center bg-rose-500 opacity-50 text-white font-bold mb-12 rounded h-[45px]"
+                    : "text-center bg-rose-500 text-white font-bold mb-12 rounded h-[45px] hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300"
+                } ${disabled && "cursor-not-allowed"}`}
                 onClick={postRequest}
                 disabled={disabled}
               >
