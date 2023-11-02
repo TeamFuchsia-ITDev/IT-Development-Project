@@ -62,7 +62,18 @@ export const RequestCard = ({ request }: { request: RequestProps }) => {
         className=" h-auto w-[400px] mb-4 rounded-[10px] hover:translate-y-[-20px] mt-5"
         style={{ boxShadow: "2px 2px 6px rgba(153, 153, 153, 100%)" }}
       >
-        <img src={imageMapping[request?.category!]} className="rounded-t-lg" />
+        <div className="flex justify-center items-center">
+          {request?.status === "Lapsed" ? (
+            <p className="absolute text-red-500 bg-red-500 text-white p-2 rounded-lg ">
+              THIS REQUEST HAS LAPSED
+            </p>
+          ) : null}
+          <img
+            src={imageMapping[request?.category!]}
+            className="rounded-t-lg"
+          />
+        </div>
+
         <div className="flex flex-row">
           <img
             src={request?.requesterImage}
@@ -109,19 +120,23 @@ export const RequestCard = ({ request }: { request: RequestProps }) => {
             })}
           </p>
 
-          <p className={` md:text-[14px] 2xl:text-[18px] ${showOptions ? "break-words" : "truncate"}`}>
+          <p
+            className={` md:text-[14px] 2xl:text-[18px] ${
+              showOptions ? "break-words" : "truncate"
+            }`}
+          >
             {request?.description}
           </p>
         </div>
         {showOptions && (
           <div className="flex flex-col justify-center items-center mt-4">
-            {request?.status === "Pending" ? (
+            {request?.status === "Pending" || request?.status === "Lapsed" ? (
               <button className="text-center bg-orange-500 text-white mb-4 rounded-full h-[35px]  w-[350px] hover:bg-white hover:text-yellow-500 hover:border-[2px] hover:border-yellow-500 hover:ease-in-out duration-300">
-                Edit Request
+                {request?.status === "Pending" ? "Edit Request" : "Update Request"}
               </button>
             ) : null}
 
-            {request?.status === "Pending" || request?.status === "OnGoing" ? (
+            {request?.status === "Pending" || request?.status === "OnGoing" || request?.status === "Lapsed"? (
               <button
                 className={`text-center bg-rose-500 text-white rounded-full h-[35px]  w-[350px] hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300 ${
                   disabled ? "pointer-events-none opacity-25" : ""
@@ -171,6 +186,10 @@ export const RequestCard = ({ request }: { request: RequestProps }) => {
                 </button>
               </Link>
             ) : null}
+
+
+
+
           </div>
         )}
         <div className="flex flex-col justify-center items-center mt-4 mb-4">

@@ -393,7 +393,7 @@ export default function Dashboard() {
           </div>
           {page === "Pending" ? (
             myRequests.filter(
-              (request: RequestProps) => request.status === "Pending"
+              (request: RequestProps) => request.status === "Pending" || request.status === "Lapsed"
             ).length <= 0 ? (
               <div className=" text-center justify-center mt-48">
                 <p className="text-2xl">
@@ -409,7 +409,7 @@ export default function Dashboard() {
                 slidesPerView={3}
                 cards={myRequests
                   .filter(
-                    (request: RequestProps) => request.status === "Pending"
+                    (request: RequestProps) => request.status === "Pending" || request.status === "Lapsed"
                   )
                   .map((request: RequestProps, index: number) => (
                     <div key={index}>
