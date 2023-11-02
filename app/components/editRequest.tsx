@@ -11,20 +11,20 @@ const EditRequest: React.FC<UpdateRequestFormProps> = ({
 }) => {
   return (
     isFormVisible && (
-      <main
-        className="flex flex-col w-[500px] border-2 mt-4 items-center mb-12 bg-white fixed left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 "
-        style={{ boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.5)" }}
-      >
-        <img
-          src={x.src}
-          alt="X"
-          width={20}
-          className="m-2 absolute right-0 top-0 cursor-pointer "
-          onClick={() => setIsFormVisible(!isFormVisible)}
-        />
-        <div className="ml-4 mr-4 mt-24">
-          <div className="flex flex-col items-center mt-4">
-            <div className="flex flex-col w-[500px] border-2 mt-4 items-center mb-12 shadow-lg ">
+
+          <div
+            className="flex flex-col w-[500px] border-2 items-center bg-white fixed left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 "
+            style={{ boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.5)" }}
+          >
+            {" "}
+            <img
+              src={x.src}
+              alt="X"
+              width={20}
+              className="absolute right-0 top-0 cursor-pointer mt-2 mr-2"
+              onClick={() => setIsFormVisible(!isFormVisible)}
+            />
+            <div className="flex flex-col w-[500px] mt-4 items-center ">
               <div className="flex flex-col w-[400px] gap-4 ">
                 <p className="text-[13px] mt-4">Category</p>
                 <select
@@ -95,8 +95,6 @@ const EditRequest: React.FC<UpdateRequestFormProps> = ({
               </div>
             </div>
           </div>
-        </div>
-      </main>
     )
   );
 };
