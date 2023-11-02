@@ -1,20 +1,19 @@
 "use client";
 
-import { ApplicationProps, RequestProps } from "@/app/libs/interfaces";
+import { ApplicationProps, RequestCardProps } from "@/app/libs/interfaces";
 import { useState, useEffect } from "react";
 import { imageMapping } from "@/app/libs/reusables";
 import axios from "axios";
 import toast from "react-hot-toast";
 import Link from "next/link";
-import { limitText } from "@/app/libs/actions";
 
-export const RequestCard = ({ request }: { request: RequestProps }) => {
+export const RequestCard: React.FC<RequestCardProps> = ({
+  request,
+  toggleFormVisibility,
+}) => {
   const [showOptions, setShowOptions] = useState(false);
   const [disabled, setDisabled] = useState(false);
   const [applications, setApplications] = useState([]);
-  const [truncatedDescription, setTruncatedDescription] = useState<string>(
-    request?.description ?? ""
-  );
 
   const canceledRequest = async (requestid: string) => {
     setDisabled(true);
@@ -55,6 +54,10 @@ export const RequestCard = ({ request }: { request: RequestProps }) => {
   const acceptedApplicationsLength = applications.filter(
     (app: ApplicationProps) => app.status === "Accepted"
   ).length;
+
+  const handleEditRequestClick = () => {
+    toggleFormVisibility(true);
+  };
 
   return (
     <>
@@ -131,12 +134,19 @@ export const RequestCard = ({ request }: { request: RequestProps }) => {
         {showOptions && (
           <div className="flex flex-col justify-center items-center mt-4">
             {request?.status === "Pending" || request?.status === "Lapsed" ? (
-              <button className="text-center bg-orange-500 text-white mb-4 rounded-full h-[35px]  w-[350px] hover:bg-white hover:text-yellow-500 hover:border-[2px] hover:border-yellow-500 hover:ease-in-out duration-300">
-                {request?.status === "Pending" ? "Edit Request" : "Update Request"}
+              <button
+                className="text-center bg-orange-500 text-white mb-4 rounded-full h-[35px]  w-[350px] hover:bg-white hover:text-yellow-500 hover:border-[2px] hover:border-yellow-500 hover:ease-in-out duration-300"
+                onClick={handleEditRequestClick}
+              >
+                {request?.status === "Pending"
+                  ? "Edit Request"
+                  : "Update Request"}
               </button>
             ) : null}
 
-            {request?.status === "Pending" || request?.status === "OnGoing" || request?.status === "Lapsed"? (
+            {request?.status === "Pending" ||
+            request?.status === "OnGoing" ||
+            request?.status === "Lapsed" ? (
               <button
                 className={`text-center bg-rose-500 text-white rounded-full h-[35px]  w-[350px] hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300 ${
                   disabled ? "pointer-events-none opacity-25" : ""
@@ -186,10 +196,6 @@ export const RequestCard = ({ request }: { request: RequestProps }) => {
                 </button>
               </Link>
             ) : null}
-
-
-
-
           </div>
         )}
         <div className="flex flex-col justify-center items-center mt-4 mb-4">

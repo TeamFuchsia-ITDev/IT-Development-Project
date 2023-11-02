@@ -1,8 +1,5 @@
 "use client";
 
-import { useSession } from "next-auth/react";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { CategoryOptions, numberofCompanion } from "@/app/libs/reusables";
 import { UpdateRequestFormProps } from "../libs/interfaces";
 import x from "@/app/images/x.svg";
