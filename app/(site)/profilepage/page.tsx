@@ -156,15 +156,13 @@ const Profilepage = () => {
             onClick={() => setprofilepage("analytics")}
             id="analytics"
           >
-            Analytics
+            History
           </button>
 
           {profilepage === "Reviews" ? <>This is reviews</> : null}
-          {profilepage === "analytics" ? <>This is analytics</> : null}
+          {profilepage === "analytics" ? <>This is History</> : null}
         </div>
       </div>
-
-      <EditRequest />
     </main>
   );
 };
