@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { APIErr } from "@/app/libs/interfaces";
+import { lapseChecker } from "@/app/libs/actions";
 
 export async function POST(request: Request) {
   const session = await getServerSession(authOptions);
@@ -105,7 +106,8 @@ export async function POST(request: Request) {
 }
 
 export async function GET(request: Request) {
-  try {
+  try {   
+	lapseChecker();
     const requests = await prisma.request.findMany();
     return NextResponse.json({ requests, status: 200 });
   } catch (error) {

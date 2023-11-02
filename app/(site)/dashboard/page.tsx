@@ -458,6 +458,22 @@ export default function Dashboard() {
                 ))}
             />
           ) : null}
+
+          {page === "Cancelled" ? (
+            <Carousel
+              loop={false}
+              slidesPerView={3}
+              cards={myRequests
+                .filter(
+                  (request: RequestProps) => request.status === "Cancelled"
+                )
+                .map((request: RequestProps, index: number) => (
+                  <div key={index}>
+                    <RequestCard request={request} />
+                  </div>
+                ))}
+            />
+          ) : null}
         </div>
       ) : (
         <>
