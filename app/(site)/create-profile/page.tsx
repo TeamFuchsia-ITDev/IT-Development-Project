@@ -13,12 +13,10 @@ import { LocationData, LocationFeature, FormData } from "@/app/libs/interfaces";
 export default function CreateProfile() {
   const { data: session, status } = useSession();
   const [isLoading, setIsLoading] = useState(false);
-
   const router = useRouter();
-
   const [imageBase64, setImageBase64] = useState<string | null>(null);
-
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [disabled, setDisabled] = useState(false);
 
   const [data, setData] = useState<FormData>({
     name: "",
@@ -102,7 +100,7 @@ export default function CreateProfile() {
 
   const submitProfile = async (e: FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
+    setDisabled(true);
     try {
       toast.loading("Creating your profile...", {
         duration: 4000,
@@ -132,7 +130,7 @@ export default function CreateProfile() {
       if (response.data.status !== 200) {
         const errorMessage = response.data?.error || "An error occurred";
         toast.error(errorMessage);
-		setIsLoading(false)
+        setTimeout(() => setDisabled(false), 4000);
       } else {
         toast.success("Profile successfully created!");
 
@@ -212,7 +210,7 @@ export default function CreateProfile() {
                     <img
                       src={imageBase64}
                       alt="Selected File"
-                      className="w-[200px] h-auto m-auto rounded-[10px] border-2 border-grey-500 "
+                      className="w-[200px] h-[200px] m-auto rounded-[10px] border-2 border-grey-500 object-cover "
                     />
                   ) : (
                     <div className="flex flex-col items-center">
@@ -417,8 +415,8 @@ export default function CreateProfile() {
             <div>
               <button
                 type="submit"
-                className="text-center bg-rose-500 text-white font-bold w-[385px] rounded h-[45px] hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300"
-                disabled={isLoading}
+                className={`${disabled ? "text-center bg-rose-500 text-white font-bold w-[385px] rounded h-[45px] opacity-50 cursor-not-allowed" : "text-center bg-rose-500 text-white font-bold w-[385px] rounded h-[45px] hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300"}`}
+                disabled={disabled}
               >
                 Create your profile
               </button>

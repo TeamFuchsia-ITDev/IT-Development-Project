@@ -41,7 +41,7 @@ const Profilepage = () => {
         <div>
           {user ? (
             <div
-              className="border-2  h-auto  rounded-[5px] mt-12"
+              className="h-auto  rounded-[5px] mt-12"
               style={{ boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.5)" }}
             >
               <div className="flex flex-col items-center">
