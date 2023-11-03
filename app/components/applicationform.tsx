@@ -23,7 +23,14 @@ const ApplicationFormPopUp: React.FC<ApplicationFormProps> = ({
           alt="X"
           width={20}
           className="m-2 absolute right-0 top-0 cursor-pointer "
-          onClick={() => setIsFormVisible(!isFormVisible)}
+          onClick={() => {
+            setIsFormVisible(!isFormVisible);
+            setData({
+              ...data,
+              amount: "",
+              description: "",
+            });
+          }}
         />
 
         <p className="text-center underline underline-offset-8 decoration-rose-500 decoration-2 mt-6">

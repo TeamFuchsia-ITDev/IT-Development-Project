@@ -174,6 +174,7 @@ export default function Dashboard() {
         Active: filterRequests("OnGoing"),
         Completed: filterRequests("Completed"),
         Cancelled: filterRequests("Cancelled"),
+        CancelledRequests: filterRequests("Cancelled"),
       };
 
       const uniqueCities = new Set<string>();
@@ -213,6 +214,7 @@ export default function Dashboard() {
     Active: requestsData.activeRequests,
     Completed: requestsData.completedRequests,
     Cancelled: requestsData.cancelledRequests,
+    CancelledRequests: requestsData.cancelledRequests,
   };
 
   const sourceArray = compPageData[compPage] || [];
@@ -607,8 +609,7 @@ export default function Dashboard() {
               {user ? (
                 <>
                   <p className="text-[40px]">
-                    {/* Welcome to your Dashboard {user.name.split(" ")[0]} */}
-                    Welcome to your Dashboard
+                  Welcome to your Dashboard {user.name.split(" ")[0]}
                   </p>
                 </>
               ) : (
@@ -726,6 +727,17 @@ export default function Dashboard() {
                 >
                   Cancelled Applications
                 </button>
+
+                <button
+                  className={`${
+                    compPage === "CancelledRequests"
+                      ? " bg-white w-[25%] text-red-500 font-bold border-t-4 border-red-500 rounded-t-2xl"
+                      : "  w-[20%] text-gray-400 bg-gray-100  rounded-t-2xl "
+                  }`}
+                  onClick={() => setCompPage("CancelledRequests")}
+                >
+                  Cancelled Requests
+                </button>
               </div>
             </div>
           </div>
@@ -828,6 +840,35 @@ export default function Dashboard() {
           {compPage === "Completed" ? <div className="mb-24"></div> : null}
 
           {compPage === "Cancelled" ? <div className="mb-24"></div> : null}
+
+          {compPage === "CancelledRequests" ? <div
+              className={`mb-24 ${
+                isFormVisible ? "pointer-events-none blur-sm" : ""
+              }`}
+            >
+              <Carousel
+                loop={false}
+                slidesPerView={4}
+                cards={searchFilteredRequests
+                  .filter((request: RequestProps) =>
+                    myApplications.some(
+                      (app) =>
+                        app.requestId === request.id && app.status === "Requester-Cancelled"
+                    )
+                  )
+                  .map((request: RequestProps, index: number) => (
+                    <div key={index}>
+                      <Card
+                        request={request}
+                        cardType="cancelledRequest"
+                        toggleFormVisibility={setIsFormVisible}
+                        onApplyClick={handleViewApplication}
+                      />
+                    </div>
+                  ))}
+              />
+            </div> : null}
+
 
           <ApplicationFormPopUp
             isFormVisible={isFormVisible}

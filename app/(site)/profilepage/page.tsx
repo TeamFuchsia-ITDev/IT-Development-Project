@@ -1,7 +1,7 @@
 "use client";
 
 import { Navbar } from "@/app/components/navbar";
-import { useState, useEffect } from "react";
+import { useState, useEffect, SetStateAction } from "react";
 import { useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { UserProps } from "@/app/libs/interfaces";
@@ -11,10 +11,15 @@ import gender from "@/app/images/gender.svg";
 import bday from "@/app/images/bday.svg";
 import loc from "@/app/images/location.svg";
 
+import EditProfile from "@/app/components/editProfile";
+
 const Profilepage = () => {
   const { data: session, status } = useSession();
   const searchParams = useSearchParams();
   const userParams = searchParams.get("user");
+  const [isFormVisible, setIsFormVisible] = useState(false);
+  const [disabled, setDisabled] = useState(false);
+  
 
   let tab = searchParams.get("tab") ?? "Reviews";
   const [profilepage, setprofilepage] = useState(tab);
@@ -33,6 +38,10 @@ const Profilepage = () => {
       getUser(userParams);
     }
   }, [session?.user.email]);
+
+  const HandleEditProfileClick = () => {
+    setIsFormVisible(!isFormVisible);
+  };
 
   return (
     <main className="pl-24 pr-24">
@@ -95,7 +104,8 @@ const Profilepage = () => {
                     </p>
                   </div>
                   {userParams ? null : (
-                    <button className="text-center bg-rose-500 text-white font-bold mb-4 ml-4 mr-4 w-[82%] rounded h-[45px] hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300">
+                    <button className="text-center bg-blue-500 text-white font-bold mb-6 ml-4 mr-4 w-[400px] rounded h-[45px] hover:bg-white hover:text-blue-500 hover:border-[2px] hover:border-blue-500 hover:ease-in-out duration-300"
+                    onClick={HandleEditProfileClick}>
                       Edit Profile
                     </button>
                   )}
@@ -104,7 +114,10 @@ const Profilepage = () => {
             </div>
           ) : (
             <>
-              <div className="border-2  w-[500px] h-[420px]  rounded-[5px] mt-12  animate-puls">
+              <div
+                className="border-2  w-[500px] h-[420px]  rounded-[5px] mt-12  animate-puls"
+                style={{ boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.5)" }}
+              >
                 <div className="flex flex-col ">
                   <>
                     <div className="flex  justify-center">
@@ -155,13 +168,19 @@ const Profilepage = () => {
             onClick={() => setprofilepage("analytics")}
             id="analytics"
           >
-            Analytics
+            History
           </button>
 
           {profilepage === "Reviews" ? <>This is reviews</> : null}
-          {profilepage === "analytics" ? <>This is analytics</> : null}
+          {profilepage === "analytics" ? <>This is History</> : null}
         </div>
       </div>
+      
+      <EditProfile
+        isFormVisible={isFormVisible}
+        setIsFormVisible={setIsFormVisible}
+        disabled={disabled}
+      />
     </main>
   );
 };
