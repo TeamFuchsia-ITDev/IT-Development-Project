@@ -23,6 +23,7 @@ const UpdateApplicationForm: React.FC<UpdateApplicationFormProps> = ({
         className="flex flex-col w-[500px] border-2 mt-4 items-center mb-12 bg-white fixed left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 "
         style={{ boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.5)" }}
       >
+        <div className="flex flex-col  items-center mb-2">
         <img
           src={x.src}
           alt="X"
@@ -90,16 +91,16 @@ const UpdateApplicationForm: React.FC<UpdateApplicationFormProps> = ({
         >
           Cancel Application
         </button>
-
-        <button
-          className={`text-center bg-blue-500 text-white font-bold mb-4 rounded h-[45px] w-[400px] hover:bg-white hover:text-blue-500 hover:border-[2px] hover:border-blue-500 hover:ease-in-out duration-300 ${
-            !editable ? "collapse" : ""
-          }`}
-          onClick={updateApplication}
-          disabled={disabled}
-        >
-          Save Changes
-        </button>
+        {editable && (
+          <button
+            className={`text-center bg-blue-500 text-white font-bold mb-4 rounded h-[45px] w-[400px] hover:bg-white hover:text-blue-500 hover:border-[2px] hover:border-blue-500 hover:ease-in-out duration-300`}
+            onClick={updateApplication}
+            disabled={disabled}
+          >
+            Save Changes
+          </button>
+        )}
+        </div>
       </div>
     )
   );
