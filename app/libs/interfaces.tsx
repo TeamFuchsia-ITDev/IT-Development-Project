@@ -202,3 +202,11 @@ export interface UpdateRequestFormProps {
   setIsFormVisible: React.Dispatch<React.SetStateAction<boolean>>;
   disabled: boolean;
 }
+
+
+export interface EditProfileFormProps { 
+  isFormVisible: boolean;
+  setIsFormVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  disabled: boolean;
+}
+
