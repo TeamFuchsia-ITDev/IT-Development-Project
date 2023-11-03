@@ -75,6 +75,7 @@ export interface CardProps {
 export interface RequestCardProps {
   request?: RequestProps;
   toggleFormVisibility: (isVisible: boolean) => void;
+  onEditRequestClick: (requestData: RequestProps) => void;
 }
 
 export interface NavBarProps {
@@ -201,4 +202,9 @@ export interface UpdateRequestFormProps {
   isFormVisible: boolean;
   setIsFormVisible: React.Dispatch<React.SetStateAction<boolean>>;
   disabled: boolean;
+  editRequestData: RequestProps;
+  setEditRequestData: React.Dispatch<React.SetStateAction<RequestProps>>;
+  editable: boolean;
+  setEditable: React.Dispatch<React.SetStateAction<boolean>>;
+  updateRequest: (e: FormEvent) => void;
 }

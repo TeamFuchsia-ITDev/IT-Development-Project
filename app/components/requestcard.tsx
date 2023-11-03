@@ -1,6 +1,10 @@
 "use client";
 
-import { ApplicationProps, RequestCardProps } from "@/app/libs/interfaces";
+import {
+  ApplicationProps,
+  RequestCardProps,
+  RequestProps,
+} from "@/app/libs/interfaces";
 import { useState, useEffect } from "react";
 import { imageMapping } from "@/app/libs/reusables";
 import axios from "axios";
@@ -10,6 +14,7 @@ import Link from "next/link";
 export const RequestCard: React.FC<RequestCardProps> = ({
   request,
   toggleFormVisibility,
+  onEditRequestClick,
 }) => {
   const [showOptions, setShowOptions] = useState(false);
   const [disabled, setDisabled] = useState(false);
@@ -56,6 +61,20 @@ export const RequestCard: React.FC<RequestCardProps> = ({
   ).length;
 
   const handleEditRequestClick = () => {
+    const requestData: RequestProps = {
+      id: request?.id!,
+      taskname: request?.taskname!,
+      category: request?.category!,
+      datetime: request?.datetime!,
+      description: request?.description!,
+      userEmail: request?.userEmail!,
+      requesterName: request?.requesterName!,
+      requesterImage: request?.requesterImage!,
+      requesterCity: request?.requesterCity!,
+      status: request?.status!,
+      compNeeded: request?.compNeeded!,
+    };
+    onEditRequestClick(requestData);
     toggleFormVisibility(true);
   };
 
@@ -93,7 +112,8 @@ export const RequestCard: React.FC<RequestCardProps> = ({
           </div>
           <div className="ml-auto mr-2 text-rose-500">
             <p className="font-bold text-[15px]">{request?.category}</p>
-            {request?.status !== "Pending" ? null : (
+            {request?.status !== "Pending" &&
+            request?.status !== "Lapsed" ? null : (
               <p className=" text-[12px]">
                 Companion needed{" "}
                 {`${
