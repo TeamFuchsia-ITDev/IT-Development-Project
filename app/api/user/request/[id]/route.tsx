@@ -57,8 +57,11 @@ export async function PATCH(
   } else {
     try {
       const { id } = params;
-      const body = await request.json();
-      const { taskname, category, compNeeded, datetime, description } = body;
+      const body = await request.json(); 
+
+      const { taskname, category, compNeeded, datetime, description } = body.data;
+
+	  console.log("TASKNAME", taskname)	  
 
       const userRequests = await prisma.request.count({
         where: {

@@ -10,8 +10,8 @@ import phone from "@/app/images/phone.svg";
 import gender from "@/app/images/gender.svg";
 import bday from "@/app/images/bday.svg";
 import loc from "@/app/images/location.svg";
-import EditProfile from "@/app/components/editProfile";
 
+import EditProfile from "@/app/components/editProfile";
 
 const Profilepage = () => {
   const { data: session, status } = useSession();
@@ -175,7 +175,7 @@ const Profilepage = () => {
           {profilepage === "analytics" ? <>This is History</> : null}
         </div>
       </div>
-
+      
       <EditProfile
         isFormVisible={isFormVisible}
         setIsFormVisible={setIsFormVisible}

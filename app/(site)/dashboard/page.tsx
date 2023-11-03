@@ -129,6 +129,20 @@ export default function Dashboard() {
     dateime: "",
   });
 
+  const [editRequestData, setEditRequestData] = useState<RequestProps>({
+    id: "",
+    taskname: "",
+    category: "",
+    datetime: "",
+    description: "",
+    userEmail: "",
+    requesterName: "",
+    requesterImage: "",
+    requesterCity: "",
+    status: "",
+    compNeeded: "",
+  });
+
   useEffect(() => {
     const getUser = async () => {
       const response = await fetch(`/api/user/profile/${session?.user.email}`);
@@ -244,6 +258,22 @@ export default function Dashboard() {
     });
   };
 
+  const handleEditRequest = (requestData: RequestProps) => {
+    setEditRequestData({
+      id: requestData?.id!,
+      taskname: requestData?.taskname!,
+      category: requestData?.category!,
+      datetime: requestData?.datetime!,
+      description: requestData?.description!,
+      userEmail: requestData?.userEmail!,
+      requesterName: requestData?.requesterName!,
+      requesterImage: requestData?.requesterImage!,
+      requesterCity: requestData?.requesterCity!,
+      status: requestData?.status!,
+      compNeeded: requestData?.compNeeded!,
+    });
+  };
+
   const postApplication = async (e: FormEvent) => {
     setDisabled(true);
     e.preventDefault();
@@ -321,6 +351,41 @@ export default function Dashboard() {
         toast.dismiss();
         window.location.reload();
       }, 2000);
+    }
+  };
+
+  const updateRequest = async () => {
+    setDisabled(true);
+    toast.loading("Updating request...", {
+      duration: 4000,
+    });
+
+    try {
+      const response = await axios.patch(
+        `/api/user/request/${editRequestData.id}`,
+        {
+          data: {
+            taskname: editRequestData.taskname,
+            category: editRequestData.category,
+            compNeeded: editRequestData.compNeeded,
+            datetime: editRequestData.datetime,
+            description: editRequestData.description,
+          },
+        }
+      );
+      if (response.status !== 200) {
+        const errorMessage = response.data?.error || "An error occurred";
+        toast.error(errorMessage);
+        setTimeout(() => setDisabled(false), 2000);
+      } else {
+        toast.success("Request successfully updated");
+        setTimeout(() => {
+          toast.dismiss();
+          window.location.reload();
+        }, 2000);
+      }
+    } catch (error) {
+      toast.error("Something went wrong while updating your request");
     }
   };
 
@@ -435,6 +500,7 @@ export default function Dashboard() {
                         <RequestCard
                           request={request}
                           toggleFormVisibility={setIsFormVisible}
+                          onEditRequestClick={handleEditRequest}
                         />
                       </div>
                     ))}
@@ -461,6 +527,7 @@ export default function Dashboard() {
                       <RequestCard
                         request={request}
                         toggleFormVisibility={setIsFormVisible}
+                        onEditRequestClick={handleEditRequest}
                       />
                     </div>
                   ))}
@@ -486,6 +553,7 @@ export default function Dashboard() {
                       <RequestCard
                         request={request}
                         toggleFormVisibility={setIsFormVisible}
+                        onEditRequestClick={handleEditRequest}
                       />
                     </div>
                   ))}
@@ -511,6 +579,7 @@ export default function Dashboard() {
                       <RequestCard
                         request={request}
                         toggleFormVisibility={setIsFormVisible}
+                        onEditRequestClick={handleEditRequest}
                       />
                     </div>
                   ))}
@@ -522,6 +591,11 @@ export default function Dashboard() {
             isFormVisible={isFormVisible}
             setIsFormVisible={setIsFormVisible}
             disabled={disabled}
+            editRequestData={editRequestData}
+            setEditRequestData={setEditRequestData}
+            editable={editable}
+            setEditable={setEditable}
+            updateRequest={updateRequest}
           />
         </div>
       ) : (
