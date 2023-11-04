@@ -3,7 +3,7 @@
 import { FormEvent, useEffect, useState, Suspense, useRef } from "react";
 import { useSession } from "next-auth/react";
 import axios from "axios";
-import { useRouter, useSearchParams } from "next/navigation";
+import { redirect, useRouter, useSearchParams } from "next/navigation";
 import {
   UserProps,
   RequestProps,
@@ -57,10 +57,9 @@ export default function Dashboard() {
   useEffect(() => {
     if (status !== "loading" && !session) {
       router.push("/login");
-    } else {
-      if (session?.user.isNewUser) {
-        router.push("/create-profile");
-      }
+    }
+    if (session?.user.isNewUser) {
+      router.push("/create-profile");
     }
     setisMounted(true);
   }, [session, status, router]);
@@ -609,7 +608,7 @@ export default function Dashboard() {
               {user ? (
                 <>
                   <p className="text-[40px]">
-                  Welcome to your Dashboard {user.name.split(" ")[0]}
+                    Welcome to your Dashboard {user.name.split(" ")[0]}
                   </p>
                 </>
               ) : (
@@ -841,7 +840,8 @@ export default function Dashboard() {
 
           {compPage === "Cancelled" ? <div className="mb-24"></div> : null}
 
-          {compPage === "CancelledRequests" ? <div
+          {compPage === "CancelledRequests" ? (
+            <div
               className={`mb-24 ${
                 isFormVisible ? "pointer-events-none blur-sm" : ""
               }`}
@@ -853,7 +853,8 @@ export default function Dashboard() {
                   .filter((request: RequestProps) =>
                     myApplications.some(
                       (app) =>
-                        app.requestId === request.id && app.status === "Requester-Cancelled"
+                        app.requestId === request.id &&
+                        app.status === "Requester-Cancelled"
                     )
                   )
                   .map((request: RequestProps, index: number) => (
@@ -867,8 +868,8 @@ export default function Dashboard() {
                     </div>
                   ))}
               />
-            </div> : null}
-
+            </div>
+          ) : null}
 
           <ApplicationFormPopUp
             isFormVisible={isFormVisible}
