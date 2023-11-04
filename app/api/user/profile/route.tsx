@@ -9,7 +9,7 @@ import {
   validatePhoneNumber,
   validateImage,
 } from "@/app/libs/validations";
-import { createProfile } from "@/app/libs/actions";
+import { createProfile, updateProfile } from "@/app/libs/actions";
 
 cloudinary.config({
   cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
@@ -178,4 +178,146 @@ export async function GET(request: Request) {
   const profiles = await prisma.profile.findMany();
 
   return NextResponse.json({ profiles, status: 200 });
+}
+
+export async function PATCH(request: Request) {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    return NextResponse.json({
+      message: "Unauthorized access",
+      status: 401,
+    });
+  } else {
+    try {
+      const body = await request.json();
+      const {
+        id,
+        name,
+        ethnicity,
+        gender,
+        birthday,
+        phonenumber,
+        location,
+        image,
+      } = body.data;
+
+      // Validate the image
+      if (!validateImage(image)) {
+        throw {
+          code: 400,
+          message: "Invalid image format or type",
+        };
+      }
+
+      // Validate the name field
+      if (!name) {
+        throw {
+          code: 400,
+          message: "Please enter a display name that you like",
+        };
+      } else if (!validateName(name)) {
+        throw {
+          code: 400,
+          message:
+            "Invalid name format. It should contain only letters and spaces, with no leading or trailing spaces.",
+        };
+      }
+
+      if (!ethnicity) {
+        throw { code: 400, message: "Please choose your ethnicity" };
+      }
+      if (!gender) {
+        throw { code: 400, message: "Please select your gender" };
+
+        // Validate the birthday field
+      }
+      if (!birthday) {
+        throw {
+          code: 400,
+          message: "Please select or enter your birthday using the calendar",
+        };
+      } else {
+        const today = new Date();
+        const selectedDate = new Date(birthday);
+
+        if (selectedDate.getFullYear() < 1900 || selectedDate >= today) {
+          throw {
+            code: 400,
+            message:
+              "Invalid birthday. It should be between 1900 and the current date.",
+          };
+        }
+      }
+
+      if (!phonenumber) {
+        throw {
+          code: 400,
+          message: "Please enter your phone number",
+        };
+      }
+
+      // Validate the phone number
+      if (!validatePhoneNumber(phonenumber)) {
+        throw {
+          code: 400,
+          message:
+            "Invalid phone number format. Please use the format: xxx-xxx-xxxx",
+        };
+      }
+
+      if (!location) {
+        throw {
+          code: 400,
+          message: "Please enter your address",
+        };
+      }
+
+      // Upload image to Cloudinary
+      const cloudinaryResponse = await cloudinary.uploader.upload(image, {
+        public_id: `${session.user.email}-profile-image`,
+        overwrite: true,
+      });
+      const imageUrl = cloudinaryResponse.secure_url;
+
+      const updateUserProfile = await updateProfile({
+        where: {
+          id: id,
+        },
+        data: {
+          name,
+          ethnicity,
+          gender,
+          birthday,
+          phonenumber,
+          image: imageUrl,
+          location: {
+            update: {
+              lng: location.lng,
+              lat: location.lat,
+              address: {
+                update: {
+                  fullAddress: location.address.fullAddress,
+                  pointOfInterest: location.address.pointOfInterest,
+                  city: location.address.city,
+                  country: location.address.country,
+                },
+              },
+            },
+          },
+        },
+      });
+
+      return NextResponse.json({
+        updateUserProfile,
+        status: 200,
+      });
+    } catch (error: any) {
+      const { code = 500, message = "Internal server error" } = error as APIErr;
+      return NextResponse.json({
+        status: code,
+        error: message,
+      });
+    }
+  }
 }
