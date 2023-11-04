@@ -43,7 +43,7 @@ export const Navbar = () => {
                 pathname === "/post" ? isLinkActive : ""
               }`}
             >
-              Post Request
+              New Request
               <div className="absolute left-0 w-0 h-[2px] bg-rose-500 group-hover:w-full transition-transform transform origin-left transform scale-x-0 group-hover:scale-x-100"></div>
             </a>
           ) : null}

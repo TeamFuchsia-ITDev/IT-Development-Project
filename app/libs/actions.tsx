@@ -25,6 +25,20 @@ export async function createProfile(data: {
   }
 }
 
+
+export async function updateProfile(data: {
+  where: Prisma.ProfileWhereUniqueInput;
+  data: Prisma.ProfileUpdateInput;
+  select?: Prisma.ProfileSelect<DefaultArgs> | null | undefined;
+}) {
+  try {
+    const userProfile = await prisma.profile.update(data);
+    return userProfile;
+  } catch (error) {
+    throw new Error("Failed to update the profile");
+  }
+}
+
 export const limitText = (text: string, maxLength: number) => {
   if (text.length > maxLength) {
     return text.slice(0, maxLength) + "...";

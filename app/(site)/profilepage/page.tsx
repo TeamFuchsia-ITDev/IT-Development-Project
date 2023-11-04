@@ -19,11 +19,29 @@ const Profilepage = () => {
   const userParams = searchParams.get("user");
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [disabled, setDisabled] = useState(false);
-  
-
+  const [editable, setEditable] = useState(false);
   let tab = searchParams.get("tab") ?? "Reviews";
   const [profilepage, setprofilepage] = useState(tab);
-  const [user, setUser] = useState<UserProps | undefined>(undefined);
+  const [user, setUser] = useState<UserProps>({
+    id: "",
+    name: "",
+    ethnicity: "",
+    gender: "",
+    birthday: "",
+    phonenumber: "",
+    image: "",
+    userEmail: "",
+    location: {
+      lng: 0,
+      lat: 0,
+      address: {
+        fullAddress: "",
+        pointOfInterest: "",
+        city: "",
+        country: "",
+      },
+    },
+  });
 
   useEffect(() => {
     const getUser = async (userEmail: string | null) => {
@@ -104,8 +122,10 @@ const Profilepage = () => {
                     </p>
                   </div>
                   {userParams ? null : (
-                    <button className="text-center bg-blue-500 text-white font-bold mb-6 ml-4 mr-4 w-[400px] rounded h-[45px] hover:bg-white hover:text-blue-500 hover:border-[2px] hover:border-blue-500 hover:ease-in-out duration-300"
-                    onClick={HandleEditProfileClick}>
+                    <button
+                      className="text-center bg-blue-500 text-white font-bold mb-6 ml-4 mr-4 w-[400px] rounded h-[45px] hover:bg-white hover:text-blue-500 hover:border-[2px] hover:border-blue-500 hover:ease-in-out duration-300"
+                      onClick={HandleEditProfileClick}
+                    >
                       Edit Profile
                     </button>
                   )}
@@ -115,7 +135,7 @@ const Profilepage = () => {
           ) : (
             <>
               <div
-                className="border-2  w-[500px] h-[420px]  rounded-[5px] mt-12  animate-puls"
+                className="  w-[500px] h-[420px]  rounded-[5px] mt-12  animate-puls"
                 style={{ boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.5)" }}
               >
                 <div className="flex flex-col ">
@@ -171,15 +191,20 @@ const Profilepage = () => {
             History
           </button>
 
-          {profilepage === "Reviews" ? <>This is reviews</> : null}
-          {profilepage === "analytics" ? <>This is History</> : null}
+          {profilepage === "Reviews" ? <div>This is reviews</div> : null}
+          {profilepage === "analytics" ? <div>This is History</div> : null}
         </div>
       </div>
-      
+
       <EditProfile
         isFormVisible={isFormVisible}
         setIsFormVisible={setIsFormVisible}
         disabled={disabled}
+        editProfileData={user!}
+        setEditProfileData={setUser}
+        editable={editable}
+        setEditable={setEditable}
+        updateProfile={HandleEditProfileClick}
       />
     </main>
   );
