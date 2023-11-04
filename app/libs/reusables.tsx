@@ -79,3 +79,16 @@ export const numberofCompanion = [
   "5",
 ]
 
+export  const ethnicityOptions = [
+  "Asian",
+  "Black",
+  "White",
+  "Hispanic/Latino",
+  "Native American",
+  "Pacific Islander",
+  "Middle Eastern",
+  "Mixed Race",
+  "Other",
+];
+
+export const genderOptions = ["Male", "Female", "Non-Binary", "Other"];

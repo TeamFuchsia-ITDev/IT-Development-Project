@@ -1,5 +1,6 @@
 "use client";
 
+import { ethnicityOptions, genderOptions } from "@/app/libs/reusables";
 import { EditProfileFormProps } from "../libs/interfaces";
 import blankProfile from "@/app/images/blank-profile.jpg";
 import x from "@/app/images/x.svg";
@@ -8,26 +9,18 @@ const EditProfile: React.FC<EditProfileFormProps> = ({
   isFormVisible,
   setIsFormVisible,
   disabled,
+  editProfileData,
+  setEditProfileData,
+  editable,
+  setEditable,
+  updateProfile,
 }) => {
-  const ethnicityOptions = [
-    "Asian",
-    "Black",
-    "White",
-    "Hispanic/Latino",
-    "Native American",
-    "Pacific Islander",
-    "Middle Eastern",
-    "Mixed Race",
-    "Other",
-  ];
-
-  const genderOptions = ["Male", "Female", "Non-Binary", "Other"];
-
-  
-
   return (
     isFormVisible && (
-      <main className="flex flex-col w-[500px] border-2  items-center mb-12 bg-white fixed left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 ">
+      <main
+        className="flex flex-col w-[500px] border-2  items-center mb-12 bg-white fixed left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 "
+        style={{ boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.5)" }}
+      >
         <img
           src={x.src}
           alt="X"
@@ -37,8 +30,6 @@ const EditProfile: React.FC<EditProfileFormProps> = ({
         />
 
         <div>
-            
-            
           <div className="flex flex-col justify-center items-center">
             <div className="flex flex-col ">
               <img
@@ -54,12 +45,23 @@ const EditProfile: React.FC<EditProfileFormProps> = ({
               <input
                 type="text"
                 placeholder=""
-                className="border-1 border-gray-300 h-[45px] w-[400px] mt-4 focus:ring-blue-400"
+                className={`border-1 border-gray-300 h-[45px] w-[400px] mt-4 focus:ring-blue-400 ${
+                  editable ? "" : "pointer-events-none"
+                }`}
+                // value={editProfileData.name}
+                // onChange={(e) =>
+                //   setEditProfileData({
+                //     ...editProfileData,
+                //     name: e.target.value,
+                //   })
+                // }
               />
               <input
                 type="text"
                 placeholder=""
-                className="border-1 border-gray-300 h-[45px] w-[400px] mt-4 mb-4  focus:ring-blue-400 "
+                className={`border-1 border-gray-300 h-[45px] w-[400px] mt-4 focus:ring-blue-400 ${
+                  editable ? "" : "pointer-events-none"
+                }`}
               />
               <select
                 id="ethnicity"
