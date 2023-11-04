@@ -64,7 +64,7 @@ const Profilepage = () => {
   return (
     <main className="pl-24 pr-24">
       <Navbar />
-      <div className="flex flex-row mt-12 gap-4">
+      <div className={`flex flex-row mt-12 gap-4 ${isFormVisible ? "pointer-events-none blur-md" : ""}`}>
         <div>
           {user ? (
             <div
