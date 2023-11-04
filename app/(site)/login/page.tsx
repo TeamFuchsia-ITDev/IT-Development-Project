@@ -3,7 +3,7 @@
 import { useState, FormEvent, useEffect } from "react";
 import { signIn, useSession } from "next-auth/react";
 import { toast } from "react-hot-toast";
-import { redirect, useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import lsimage from "../../images/lsimage.png";
 import SElogo from "../../images/logov3.svg";
@@ -81,9 +81,20 @@ export default function Login() {
     }, 4000);
 
     setTimeout(() => {
-      signIn("google", {
+      const response = signIn("google", {
         callbackUrl: "http://localhost:3000/dashboard?provider=google",
+		redirect: false,
       });
+
+      response
+        .then((callback) => {
+			if (callback && callback.ok) {
+				router.push("/")
+			}
+		})
+        .catch((error) => {
+          toast.error("Something went wrong", error);
+        });
     }, 4000);
   };
 

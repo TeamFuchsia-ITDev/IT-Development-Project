@@ -15,9 +15,28 @@ const io = new Server(httpServer, {
 io.on("connection", (socket) => {
   console.log(`User ${socket.id} connected`);
 
-  socket.on("message", (data) => {
-    console.log(data);
-    io.emit("message", `${socket.id.substring(0, 5)}: ${data}`);
+  socket.on("join", (room, username) => {
+    socket.join(room);
+    socket.username = username;
+    io.to(room).emit("message", `${socket.username} has joined the room.`);
+  });
+
+  socket.on("roomMessage", (room, message) => {
+    io.to(room).emit("message", `${socket.username}: ${message}`);
+  });
+
+  // Listen for typing events
+  socket.on("typing", (room, username) => {
+    socket.to(room).emit("typing", username);
+  });
+
+  // Listen for stop-typing events
+  socket.on("stopTyping", (room, username) => {
+    socket.to(room).emit("stopTyping", username);
+  });
+
+  socket.on("disconnect", () => {
+    io.emit("message", `User ${socket.username} has left the chat.`);
   });
 });
 

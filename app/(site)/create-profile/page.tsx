@@ -55,7 +55,8 @@ export default function CreateProfile() {
 
   //   // Check if the session is still loading
   if (status === "loading") {
-    return <p>Loading...</p>;
+    // return <p>Loading...</p>;
+	return null;
   }
 
   if (!session) {
