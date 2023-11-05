@@ -24,25 +24,7 @@ const Profilepage = () => {
   const [editable, setEditable] = useState(false);
   let tab = searchParams.get("tab") ?? "Reviews";
   const [profilepage, setprofilepage] = useState(tab);
-  const [user, setUser] = useState<UserProps>({
-    id: "",
-    name: "",
-    ethnicity: "",
-    gender: "",
-    birthday: "",
-    phonenumber: "",
-    image: "",
-    userEmail: "",
-    location: {
-      lng: 0,
-      lat: 0,
-      address: {
-        fullAddress: "",
-        pointOfInterest: "",
-        city: "",
-        country: "",
-      },
-    },
+  const [user, setUser] = useState<Partial<UserProps>>({  
   });
 
   useEffect(() => {
@@ -121,7 +103,7 @@ const Profilepage = () => {
                     </p>
                     <p className=" text-lg mb-4 ">
                       <img src={loc.src} alt="x" className="inline-block w-6" />{" "}
-                      {user.location.address.fullAddress}
+                      {user?.location?.address.fullAddress}
                     </p>
                   </div>
                   {userParams ? null : (

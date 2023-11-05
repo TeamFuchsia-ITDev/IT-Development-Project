@@ -215,8 +215,8 @@ export interface EditProfileFormProps {
   setIsFormVisible: React.Dispatch<React.SetStateAction<boolean>>;
   disabled: boolean;
   setDisabled: React.Dispatch<React.SetStateAction<boolean>>;
-  editProfileData: UserProps;
-  setEditProfileData: React.Dispatch<React.SetStateAction<UserProps>>;
+  editProfileData: Partial<UserProps>;
+  setEditProfileData: React.Dispatch<React.SetStateAction<Partial<UserProps>>>;
   editable: boolean;
   setEditable: React.Dispatch<React.SetStateAction<boolean>>;
   // updateProfile: (e: FormEvent) => void;

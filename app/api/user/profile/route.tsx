@@ -3,13 +3,14 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { v2 as cloudinary } from "cloudinary";
-import { APIErr } from "@/app/libs/interfaces";
+import { APIErr, LocationData, UserProps } from "@/app/libs/interfaces";
 import {
   validateName,
   validatePhoneNumber,
   validateImage,
 } from "@/app/libs/validations";
 import { createProfile, updateProfile } from "@/app/libs/actions";
+import { Prisma } from "@prisma/client";
 
 cloudinary.config({
   cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
@@ -202,12 +203,14 @@ export async function PATCH(request: Request) {
         image,
       } = body;
 
-      // Validate the image
-      if (!validateImage(image)) {
-        throw {
-          code: 400,
-          message: "Invalid image format or type",
-        };
+      if (image !== null) {
+        // Validate the image
+        if (!validateImage(image)) {
+          throw {
+            code: 400,
+            message: "Invalid image format or type",
+          };
+        }
       }
 
       // Validate the name field
@@ -273,39 +276,61 @@ export async function PATCH(request: Request) {
         };
       }
 
-      // Upload image to Cloudinary
-      const cloudinaryResponse = await cloudinary.uploader.upload(image, {
-        public_id: `${session.user.email}-profile-image`,
-        overwrite: true,
-      });
-      const imageUrl = cloudinaryResponse.secure_url;
+      const updateData: Partial<Prisma.ProfileUpdateInput> = {};
 
+      if (name !== undefined) {
+        updateData.name = name;
+      }
+
+      if (ethnicity !== undefined) {
+        updateData.ethnicity = ethnicity;
+      }
+
+      if (gender !== undefined) {
+        updateData.gender = gender;
+      }
+
+      if (birthday !== undefined) {
+        updateData.birthday = birthday;
+      }
+
+      if (phonenumber !== undefined) {
+        updateData.phonenumber = phonenumber;
+      }
+
+      if (location !== undefined) {
+        updateData.location = {
+          update: {
+            lng: location.lng,
+            lat: location.lat,
+            address: {
+              update: {
+                fullAddress: location.address.fullAddress,
+                pointOfInterest: location.address.pointOfInterest,
+                city: location.address.city,
+                country: location.address.country,
+              },
+            },
+          },
+        };
+      }
+
+      if (image !== null) {
+        // Upload and update the image
+        const cloudinaryResponse = await cloudinary.uploader.upload(image, {
+          public_id: `${session.user.email}-profile-image`,
+          overwrite: true,
+        });
+        const imageUrl = cloudinaryResponse.secure_url;
+        updateData.image = imageUrl;
+      }
+
+      // Update the user profile based on the updateData
       const updateUserProfile = await prisma.profile.update({
         where: {
           id: id,
         },
-        data: {
-          name,
-          ethnicity,
-          gender,
-          birthday,
-          phonenumber,
-          image: imageUrl,
-          location: {
-            update: {
-              lng: location.lng,
-              lat: location.lat,
-              address: {
-                update: {
-                  fullAddress: location.address.fullAddress,
-                  pointOfInterest: location.address.pointOfInterest,
-                  city: location.address.city,
-                  country: location.address.country,
-                },
-              },
-            },
-          },
-        },
+        data: updateData,
       });
 
       return NextResponse.json({

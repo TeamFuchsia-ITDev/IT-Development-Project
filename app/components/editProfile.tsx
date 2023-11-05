@@ -19,7 +19,7 @@ const EditProfile: React.FC<EditProfileFormProps> = ({
   setEditProfileData,
   editable,
   setEditable,
- setDisabled,
+  setDisabled,
 }) => {
   const [imageBase64, setImageBase64] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -27,7 +27,6 @@ const EditProfile: React.FC<EditProfileFormProps> = ({
   const [gender, setGender] = useState<string>("");
   const [address, setAddress] = useState("");
   const [suggestions, setSuggestions] = useState<LocationFeature[]>([]);
-
 
   useEffect(() => {
     setAddress(editProfileData?.location?.address?.fullAddress || "");
@@ -60,8 +59,15 @@ const EditProfile: React.FC<EditProfileFormProps> = ({
         setImageBase64(base64Data!);
       };
       reader.readAsDataURL(selectedFile);
-    }
+    } 
   };
+
+  const handleGenderChange = (e: ChangeEvent<HTMLInputElement>) => {
+	const selectedGender = e.target.value;
+	setGender(selectedGender);
+	setEditProfileData({ ...editProfileData, gender: selectedGender });
+  };
+  
 
   const handlePhoneNumberChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -87,13 +93,9 @@ const EditProfile: React.FC<EditProfileFormProps> = ({
     toast.loading("Updating your profile...", {
       duration: 4000,
     });
+
     const requestBody = {
-      id: editProfileData.id,
-      name: editProfileData.name,
-      birthday: editProfileData.birthday,
-      ethnicity: editProfileData.ethnicity,
-      gender: editProfileData.gender,
-      phonenumber: editProfileData.phonenumber,
+      ...editProfileData,
       location: {
         lng: location?.features[0]?.geometry.coordinates[0],
         lat: location?.features[0]?.geometry.coordinates[1],
@@ -223,7 +225,7 @@ const EditProfile: React.FC<EditProfileFormProps> = ({
                         editable ? "" : "pointer-events-none"
                       }`}
                       value={option}
-                      onChange={(e) => setGender(e.target.value)}
+                      onChange={handleGenderChange}
                     />
                     <label
                       htmlFor={option.toLowerCase()}
