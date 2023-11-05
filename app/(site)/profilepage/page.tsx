@@ -2,7 +2,7 @@
 
 import { Navbar } from "@/app/components/navbar";
 import { useState, useEffect, SetStateAction, FormEvent } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { UserProps } from "@/app/libs/interfaces";
 import email from "@/app/images/email.svg";
@@ -17,6 +17,7 @@ import axios from "axios";
 
 const Profilepage = () => {
   const { data: session, status } = useSession();
+  const router = useRouter();
   const searchParams = useSearchParams();
   const userParams = searchParams.get("user");
   const [isFormVisible, setIsFormVisible] = useState(false);
@@ -24,8 +25,16 @@ const Profilepage = () => {
   const [editable, setEditable] = useState(false);
   let tab = searchParams.get("tab") ?? "Reviews";
   const [profilepage, setprofilepage] = useState(tab);
-  const [user, setUser] = useState<Partial<UserProps>>({  
-  });
+  const [user, setUser] = useState<Partial<UserProps>>({});
+
+  useEffect(() => {
+    if (status !== "loading" && !session) {
+      router.push("/login");
+    }
+    if (session?.user.isNewUser) {
+      router.push("/create-profile");
+    }
+  }, [session, status, router]);
 
   useEffect(() => {
     const getUser = async (userEmail: string | null) => {
@@ -45,11 +54,14 @@ const Profilepage = () => {
     setIsFormVisible(!isFormVisible);
   };
 
-
   return (
     <main className="pl-24 pr-24">
       <Navbar />
-      <div className={`flex flex-row mt-12 gap-4 ${isFormVisible ? "pointer-events-none blur-md" : ""}`}>
+      <div
+        className={`flex flex-row mt-12 gap-4 ${
+          isFormVisible ? "pointer-events-none blur-md" : ""
+        }`}
+      >
         <div>
           {user ? (
             <div
@@ -190,7 +202,6 @@ const Profilepage = () => {
         editable={editable}
         setEditable={setEditable}
         setDisabled={setDisabled}
-       
       />
     </main>
   );

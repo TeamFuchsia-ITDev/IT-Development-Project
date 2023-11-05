@@ -32,12 +32,6 @@ export default function Login() {
       if (session?.user.isNewUser) {
         router.replace("/create-profile");
       } else {
-        // if (session?.user.provider === "facebook") {
-        //   router.push("/dashboard?provider=facebook");
-        // }
-        // if (session?.user.provider === "google") {
-        //   router.push("/dashboard?provider=google");
-        // }
         if (session?.user.provider === "credentials") {
           router.push("/dashboard?provider=credentials");
         }
@@ -83,15 +77,10 @@ export default function Login() {
     setTimeout(() => {
       const response = signIn("google", {
         callbackUrl: "http://localhost:3000/dashboard?provider=google",
-		redirect: false,
       });
 
       response
-        .then((callback) => {
-			if (callback && callback.ok) {
-				router.push("/")
-			}
-		})
+        .then(() => {})
         .catch((error) => {
           toast.error("Something went wrong", error);
         });

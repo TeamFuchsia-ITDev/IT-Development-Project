@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { v2 as cloudinary } from "cloudinary";
-import { APIErr, LocationData, UserProps } from "@/app/libs/interfaces";
+import { APIErr } from "@/app/libs/interfaces";
 import {
   validateName,
   validatePhoneNumber,
@@ -325,13 +325,7 @@ export async function PATCH(request: Request) {
         updateData.image = imageUrl;
       }
 
-      // Update the user profile based on the updateData
-      const updateUserProfile = await prisma.profile.update({
-        where: {
-          id: id,
-        },
-        data: updateData,
-      });
+      const updateUserProfile = await updateProfile(id, updateData);
 
       return NextResponse.json({
         updateUserProfile,

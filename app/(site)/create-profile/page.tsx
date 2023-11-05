@@ -65,7 +65,7 @@ export default function CreateProfile() {
   }
 
   if (session.user?.isNewUser === false) {
-    router.replace("/");
+    router.replace("/dashboard");
     return null;
   }
 

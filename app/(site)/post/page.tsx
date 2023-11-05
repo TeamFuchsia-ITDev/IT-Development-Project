@@ -6,7 +6,6 @@ import { FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { UserProps } from "@/app/libs/interfaces";
 import {
   imageMapping,
   CategoryOptions,
@@ -25,6 +24,15 @@ export default function PostRequest() {
     datetime: "",
     description: "",
   });
+
+  useEffect(() => {
+    if (status !== "loading" && !session) {
+      router.push("/login");
+    }
+    if (session?.user.isNewUser) {
+      router.push("/create-profile");
+    }
+  }, [session, status, router]);
 
   const postRequest = async (e: FormEvent) => {
     setDisabled(true);
