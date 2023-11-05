@@ -85,10 +85,7 @@ const Profile = () => {
           </button>
         </Link>
       </div>
-      <Map
-        startLocation={[-122.830069, 49.112609]}
-        endLocation={[-122.950891, 49.215401]}
-      />
+      <Map       />
 
 	  <ChatComponent />
     </div>
