@@ -25,7 +25,6 @@ export async function createProfile(data: {
   }
 }
 
-
 export async function updateProfile(data: {
   where: Prisma.ProfileWhereUniqueInput;
   data: Prisma.ProfileUpdateInput;
