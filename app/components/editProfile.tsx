@@ -7,7 +7,7 @@ import {
   LocationFeature,
 } from "@/app/libs/interfaces";
 import x from "@/app/images/x.svg";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 
@@ -19,7 +19,7 @@ const EditProfile: React.FC<EditProfileFormProps> = ({
   setEditProfileData,
   editable,
   setEditable,
-  updateProfile,
+ setDisabled,
 }) => {
   const [imageBase64, setImageBase64] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -27,6 +27,7 @@ const EditProfile: React.FC<EditProfileFormProps> = ({
   const [gender, setGender] = useState<string>("");
   const [address, setAddress] = useState("");
   const [suggestions, setSuggestions] = useState<LocationFeature[]>([]);
+
 
   useEffect(() => {
     setAddress(editProfileData?.location?.address?.fullAddress || "");
@@ -79,6 +80,45 @@ const EditProfile: React.FC<EditProfileFormProps> = ({
         .join("-"); // join groups with dashes
     }
     setEditProfileData({ ...editProfileData, phonenumber: formattedValue });
+  };
+
+  const updateProfile = async (e: FormEvent) => {
+    setDisabled(true);
+    toast.loading("Updating your profile...", {
+      duration: 4000,
+    });
+    const requestBody = {
+      id: editProfileData.id,
+      name: editProfileData.name,
+      birthday: editProfileData.birthday,
+      ethnicity: editProfileData.ethnicity,
+      gender: editProfileData.gender,
+      phonenumber: editProfileData.phonenumber,
+      location: {
+        lng: location?.features[0]?.geometry.coordinates[0],
+        lat: location?.features[0]?.geometry.coordinates[1],
+        address: {
+          fullAddress: location?.features[0]?.place_name,
+          pointOfInterest: location?.features[0]?.context[0]?.text,
+          city: location?.features[0]?.context[2]?.text,
+          country: location?.features[0]?.context[5]?.text,
+        },
+      },
+      image: imageBase64,
+    };
+
+    const response = await axios.patch(`api/user/profile`, requestBody);
+    if (response.data.status !== 200) {
+      const errorMessage = response.data?.error || "An error occurred";
+      toast.error(errorMessage);
+      setTimeout(() => setDisabled(false), 2000);
+    } else {
+      toast.success("Profile successfully updated");
+      setTimeout(() => {
+        toast.dismiss();
+        window.location.reload();
+      }, 2000);
+    }
   };
 
   return (
@@ -260,7 +300,7 @@ const EditProfile: React.FC<EditProfileFormProps> = ({
             <button
               className={`${
                 disabled
-                  ? "text-center bg-orange-500 opacity-50 text-white font-bold  rounded h-[45px] w-[400px]"
+                  ? "text-center bg-orange-500 opacity-50 text-white font-bold  mb-3 rounded h-[45px] w-[400px]"
                   : "text-center bg-orange-500 text-white font-bold rounded mb-3 h-[45px] w-[400px] hover:bg-white hover:text-orange-500 hover:border-[2px] hover:border-orange-500 hover:ease-in-out duration-300"
               }`}
               onClick={() => setEditable(!editable)}
@@ -273,7 +313,7 @@ const EditProfile: React.FC<EditProfileFormProps> = ({
               <button
                 className={`${
                   disabled
-                    ? " text-center bg-blue-500 opacity-50 text-white font-bold mb-2 rounded "
+                    ? " text-center bg-blue-500 opacity-50 text-white font-bold w-[400px] rounded mb-2 h-[45px] cursor-not-allowed"
                     : "text-center bg-blue-500 text-white font-bold w-[400px] rounded mb-4 h-[45px] hover:bg-white hover:text-blue-500 hover:border-[2px] hover:border-blue-500 hover:ease-in-out duration-300"
                 } ${disabled && "cursor-not-allowed"}`}
                 onClick={updateProfile}

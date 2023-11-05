@@ -200,7 +200,7 @@ export async function PATCH(request: Request) {
         phonenumber,
         location,
         image,
-      } = body.data;
+      } = body;
 
       // Validate the image
       if (!validateImage(image)) {
@@ -280,7 +280,7 @@ export async function PATCH(request: Request) {
       });
       const imageUrl = cloudinaryResponse.secure_url;
 
-      const updateUserProfile = await updateProfile({
+      const updateUserProfile = await prisma.profile.update({
         where: {
           id: id,
         },

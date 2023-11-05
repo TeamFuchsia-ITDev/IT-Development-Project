@@ -1,7 +1,7 @@
 "use client";
 
 import { Navbar } from "@/app/components/navbar";
-import { useState, useEffect, SetStateAction } from "react";
+import { useState, useEffect, SetStateAction, FormEvent } from "react";
 import { useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { UserProps } from "@/app/libs/interfaces";
@@ -12,6 +12,8 @@ import bday from "@/app/images/bday.svg";
 import loc from "@/app/images/location.svg";
 
 import EditProfile from "@/app/components/editProfile";
+import toast from "react-hot-toast";
+import axios from "axios";
 
 const Profilepage = () => {
   const { data: session, status } = useSession();
@@ -60,6 +62,7 @@ const Profilepage = () => {
   const HandleEditProfileClick = () => {
     setIsFormVisible(!isFormVisible);
   };
+
 
   return (
     <main className="pl-24 pr-24">
@@ -204,7 +207,8 @@ const Profilepage = () => {
         setEditProfileData={setUser}
         editable={editable}
         setEditable={setEditable}
-        updateProfile={HandleEditProfileClick}
+        setDisabled={setDisabled}
+       
       />
     </main>
   );
