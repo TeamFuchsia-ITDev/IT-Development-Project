@@ -25,16 +25,20 @@ export async function createProfile(data: {
   }
 }
 
-export async function updateProfile(data: {
-  where: Prisma.ProfileWhereUniqueInput;
-  data: Prisma.ProfileUpdateInput;
-  select?: Prisma.ProfileSelect<DefaultArgs> | null | undefined;
-}) {
+export async function updateProfile(
+  id: string,
+  updateData: Prisma.ProfileUpdateInput
+) {
   try {
-    const userProfile = await prisma.profile.update(data);
-    return userProfile;
+    const updatedUserProfile = await prisma.profile.update({
+      where: {
+        id: id,
+      },
+      data: updateData,
+    });
+    return updatedUserProfile;
   } catch (error) {
-    throw new Error("Failed to update the profile");
+    throw new Error("Please enter your complete address");
   }
 }
 

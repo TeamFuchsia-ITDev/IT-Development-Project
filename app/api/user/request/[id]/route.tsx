@@ -61,8 +61,6 @@ export async function PATCH(
 
       const { taskname, category, compNeeded, datetime, description } = body.data;
 
-	  console.log("TASKNAME", taskname)	  
-
       const userRequests = await prisma.request.count({
         where: {
           userEmail: session.user.email,
