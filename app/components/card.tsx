@@ -1,83 +1,404 @@
-'use client'
+"use client";
 
-import gaming from "../images/gaming.png"
-import blankprofile from "../images/blank-profile.jpg"
-import { RequestProps } from "../libs/interfaces"
+import { ApplicationProps, CardProps } from "@/app/libs/interfaces";
+import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
+import { imageMapping } from "@/app/libs/reusables";
+import { limitText } from "@/app/libs/actions";
+import Link from "next/link";
+import axios from "axios";
 
-interface CardProps {
-    smallCard?: boolean
-    request?: RequestProps
+export const Card = ({
+  cardType,
+  request,
+  toggleFormVisibility,
+  onApplyClick,
+}: CardProps) => {
+  const { data: session, status } = useSession();
+  const [showDetails, setShowDetails] = useState(false);
+  const [applications, setApplications] = useState([]);
+  const [applicationStatus, setApplicationStatus] = useState<
+    string | undefined
+  >(undefined);
 
-}
+  useEffect(() => {
+    const getApplications = async () => {
+      const response = await axios.get(`/api/user/application`);
+      const data = await response.data.applications;
+      setApplications(data);
+    };
 
-export const Card = ({ smallCard, request }: CardProps) => {
+    if (status !== "loading" && session?.user.email) {
+      getApplications();
+    }
+  }, []);
 
-    return (
-        <>
-            {smallCard ?
-                <div className="border-2 w-[300px] h-[260px] rounded-[10px] bg-neutral-900 text-white hover:ease-in-out duration-300  hover:border-[2px]  ">
-                    <div className="flex items-center justify-center mt-2">
-                        <img
-                            src={gaming.src}
-                            className="rounded-[5px] w-[275px]"
-                        /></div>
-                    <div className="flex flex-col items-end ">
-                        <img
-                            src={request?.requesterImage}
-                            className=" object-cover w-[50px] h-[50px] rounded-full mt-[-28px] mr-4 border-4 border-neutral-900"
+  useEffect(() => {
+    const appStatus: ApplicationProps[] = applications.filter(
+      (app: ApplicationProps) =>
+        app.requestId === request?.id &&
+        app.userEmail === session?.user.email &&
+        (app.status === "Pending" || app.status === "Accepted")
+    );
 
-                        />
-                    </div>
-                    <div className="flex flex-col ml-2 mt-[-20px]">
-                        <p className="text-[20px]">{request?.taskname}</p>
-                        <p>{request?.requesterName}</p>
-                        <p className="text-[11px] mt-2"> {request?.category}</p>
-                        <p className="text-[11px] mt-2"> {new Date(request?.datetime!).toLocaleDateString("en-US", {
-                            year: "numeric",
-                            month: "long",
-                            day: "numeric",
-                            hour: "2-digit",
-                            minute: "2-digit",
-                        })}</p>
+    setApplicationStatus(
+      appStatus.length > 0 ? appStatus[0].status : "No Status Found"
+    );
+  }, [applications, request, session]);
 
 
-                    </div>
-                    <div className="flex justify-center mt-2">
-                        <button
-                            className="text-center bg-rose-500 text-white font-bold w-[280px] text-[11px] rounded h-[25px] hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300">
-                            Learn more
-                        </button>
-                    </div>
+  const handleApplyClick = () => {
+    const requestData = {
+      id: request?.id!,
+      taskname: request?.taskname!,
+      requesterName: request?.requesterName!,
+      datetime: new Date(request?.datetime!).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+    };
+    onApplyClick(requestData);
+    toggleFormVisibility(true);
+  };
+
+  return (
+    <>
+      {cardType === "allRequests" ? (
+        <main className=" border-2 w-[300px] h-auto rounded-[10px] hover:translate-y-[-20px] mt-5">
+          <div className="">
+            <img
+              src={imageMapping[request?.category!]}
+              className="rounded-t-lg"
+            />
+            <div className="ml-2 mr-2">
+              <div className="flex flex-row">
+                <Link
+                  href={{
+                    pathname: "/profilepage",
+                    query: `user=${request?.userEmail}`,
+                  }}
+                >
+                  <img
+                    src={request?.requesterImage}
+                    className="w-[50px] h-[50px] rounded-full border-2 object-cover border-white mt-[-20px]"
+                    style={{
+                      boxShadow: "2px 2px 6px rgba(153, 153, 153, 100%)",
+                    }}
+                    title={"Click to view profile"}
+                  />
+                </Link>
+                <div className="flex flex-col justify-center ml-2">
+                  <p className="text-[12px]">{request?.requesterName}</p>
+                  <p className="text-gray-500 text-[12px]">
+                    {request?.requesterCity}
+                  </p>
                 </div>
+                <div className="ml-auto  mt-4 text-rose-500">
+                  <p className="font-bold text-[10px]">{request?.category}</p>
+                </div>
+              </div>
+              <div className="flex flex-col pl-2">
+                <p className={`text-[20px] font-bold mt-4 ${showDetails ? "break-words" : "truncate"}` }>{request?.taskname}</p>
+                <p className="  text-gray-500 text-[12px]">
+                  {new Date(request?.datetime!).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </p>
+              </div>
+            </div>
+            {showDetails && (
+              <div className="flex flex-col gap-2 ">
+                <p className="pl-4">{request?.description}</p>
+
+                <div className="flex justify-center">
+                  <button
+                    className="text-center h-[35px] w-[270px] bg-green-500 text-white text-[11px] font-bold rounded-full hover:bg-white hover:text-green-500 hover:border-[2px] hover:border-green-500 hover:ease-in-out duration-300 "
+                    onClick={handleApplyClick}
+                  >
+                    Apply
+                  </button>
+                </div>
+              </div>
+            )}
+            <div className="flex justify-center mt-2">
+              <button
+                className="text-center bg-rose-500 text-white text-[11px] font-bold  w-[270px] h-[35px] rounded-full hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300  mb-4"
+                onClick={() => setShowDetails(!showDetails)}
+              >
+                {showDetails ? "Hide Description" : "Show Task Description"}
+              </button>
+            </div>
+          </div>
+        </main>
+      ) : null}
+
+      {cardType === "pendingApplication" ? (
+        <main className=" border-2 w-[300px] h-auto rounded-[10px] hover:translate-y-[-20px] mt-5">
+          <div className="">
+            <img
+              src={imageMapping[request?.category!]}
+              className="rounded-t-lg"
+            />
+            <div className="ml-2 mr-2">
+              <div className="flex flex-row">
+                <Link
+                  href={{
+                    pathname: "/profilepage",
+                    query: `user=${request?.userEmail}`,
+                  }}
+                >
+                  <img
+                    src={request?.requesterImage}
+                    className="w-[50px] h-[50px] rounded-full border-2 object-cover border-white mt-[-15px]"
+                    style={{
+                      boxShadow: "2px 2px 6px rgba(153, 153, 153, 100%)",
+                    }}
+                    title={"Click to view profile"}
+                  />
+                </Link>
+                <div className="flex flex-col justify-center ml-2 pt-1">
+                  <p className="text-[12px]">{request?.requesterName}</p>
+                  <p className="text-gray-500 text-[12px]">
+                    {request?.requesterCity}
+                  </p>
+                </div>
+                <div className="ml-auto mt-2 text-rose-500">
+                  <p className="font-bold text-[10px]">{request?.category}</p>
+                  <div className=" text-[10px] text-blue-500">
+                    {" "}
+                    <p
+                      className={
+                        applicationStatus === "Accepted"
+                          ? "text-green-500"
+                          : "text-yellow-500"
+                      }
+                    >
+                      {applicationStatus}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-col pl-2">
+             <p className={`text-[20px] font-bold mt-4 ${showDetails ? "break-words" : "truncate"}` }>{request?.taskname}</p>
+                <p className="  text-gray-500 text-[12px]">
+                  {new Date(request?.datetime!).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </p>
+              </div>
+            </div>
+            {showDetails && (
+              <div className="flex flex-col gap-2 ">
+                <p className="pl-4">{request?.description}</p>
+
+                <div className="flex justify-center">
+                  <button
+                    className="text-center h-[35px] w-[270px] bg-green-500 text-white text-[11px] font-bold rounded-full hover:bg-white hover:text-green-500 hover:border-[2px] hover:border-green-500 hover:ease-in-out duration-300 "
+                    onClick={handleApplyClick}
+                  >
+                    View Application
+                  </button>
+                </div>
+              </div>
+            )}
+            <div className="flex justify-center mt-2">
+              <button
+                className="text-center bg-rose-500 text-white text-[11px] font-bold  w-[270px] h-[35px] rounded-full hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300  mb-4"
+                onClick={() => setShowDetails(!showDetails)}
+              >
+                {showDetails ? "Hide Options" : "Show options"}
+              </button>
+            </div>
+          </div>
+        </main>
+      ) : null}
 
 
-                : <div className="border-2 w-[420px] h-[440px] bg-neutral-900 text-white rounded-[10px] shadow-lg hover:ease-in-out duration-300  hover:border-[2px] hover:border-rose-500 ">
-                    <div className="flex items-center justify-center mt-2">
-                        <img
-                            src={gaming.src}
-                            className="rounded-[5px] w-[400px]"
-                        /></div>
-                    <div className="flex flex-col items-center ">
-                        <img
-                            src={blankprofile.src}
-                            className=" object-cover w-[80px] h-[80px] rounded-full mt-[-40px] border-4 border-neutral-900"
+      {cardType === "ongoingtasks" ? (
+        <main className=" border-2 w-[300px] h-auto rounded-[10px] hover:translate-y-[-20px] mt-5">
+          <div className="">
+            <img
+              src={imageMapping[request?.category!]}
+              className="rounded-t-lg"
+            />
+            <div className="ml-2 mr-2">
+              <div className="flex flex-row">
+                <Link
+                  href={{
+                    pathname: "/profilepage",
+                    query: `user=${request?.userEmail}`,
+                  }}
+                >
+                  <img
+                    src={request?.requesterImage}
+                    className="w-[50px] h-[50px] rounded-full border-2 object-cover border-white mt-[-15px]"
+                    style={{
+                      boxShadow: "2px 2px 6px rgba(153, 153, 153, 100%)",
+                    }}
+                    title={"Click to view profile"}
+                  />
+                </Link>
+                <div className="flex flex-col justify-center ml-2 pt-1">
+                  <p className="text-[12px]">{request?.requesterName}</p>
+                  <p className="text-gray-500 text-[12px]">
+                    {request?.requesterCity}
+                  </p>
+                </div>
+                <div className="ml-auto mt-2 text-rose-500">
+                  <p className="font-bold text-[10px]">{request?.category}</p>
+                  <div className=" text-[10px] text-blue-500">
+                    {" "}
+                    <p
+                      className={
+                        applicationStatus === "Accepted"
+                          ? "text-green-500"
+                          : "text-yellow-500"
+                      }
+                    >
+                      {applicationStatus}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-col pl-2">
+             <p className={`text-[20px] font-bold mt-4 ${showDetails ? "break-words" : "truncate"}` }>{request?.taskname}</p>
+                <p className="  text-gray-500 text-[12px]">
+                  {new Date(request?.datetime!).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </p>
+              </div>
+            </div>
+            {showDetails && (
+              <div className="flex flex-col gap-2 ">
+                <p className="pl-4">{request?.description}</p>
 
-                        /><p>Michael Chua</p>
-                    </div>
-                    <div className="flex flex-col mt-4 gap-4 items-center">
-                        <p className="text-[30px]">Coding With me</p>
-                        <p>Technology</p>
-                        <p>October 20 2023 at 9:00 PM</p>
-                        <button
-                            className="text-center bg-rose-500 text-white font-bold w-[305px] rounded h-[35px] hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300">
-                            Learn more
-                        </button>
+                <div className="flex justify-center">
+                  <button
+                    className="text-center h-[35px] w-[270px] bg-blue-500 text-white text-[11px] font-bold rounded-full hover:bg-white hover:text-blue-500 hover:border-[2px] hover:border-blue-500 hover:ease-in-out duration-300 "
+                  >
+                    Get Directions
+                  </button>
+                </div>
+                <div className="flex justify-center">
+                  <button
+                    className="text-center h-[35px] w-[270px] bg-red-500 text-white text-[11px] font-bold rounded-full hover:bg-white hover:text-red-500 hover:border-[2px] hover:border-red-500 hover:ease-in-out duration-300 "
+                  >
+                    Cancel Task
+                  </button>
+                </div>
+              </div>
+            )}
+            <div className="flex justify-center mt-2">
+              <button
+                className="text-center bg-rose-500 text-white text-[11px] font-bold  w-[270px] h-[35px] rounded-full hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300  mb-4"
+                onClick={() => setShowDetails(!showDetails)}
+              >
+                {showDetails ? "Hide Options" : "Show options"}
+              </button>
+            </div>
+          </div>
+        </main>
+      ) : null}
 
-                    </div>
-                    <div>
 
-                    </div>
-                </div>}
-        </>
-    )
-}
+       {cardType === "cancelledRequest" ? (
+        <main className=" border-2 w-[300px] h-auto rounded-[10px] hover:translate-y-[-20px] mt-5">
+          <div className="">
+            <img
+              src={imageMapping[request?.category!]}
+              className="rounded-t-lg"
+            />
+            <div className="ml-2 mr-2">
+              <div className="flex flex-row">
+                <Link
+                  href={{
+                    pathname: "/profilepage",
+                    query: `user=${request?.userEmail}`,
+                  }}
+                >
+                  <img
+                    src={request?.requesterImage}
+                    className="w-[50px] h-[50px] rounded-full border-2 object-cover border-white mt-[-15px]"
+                    style={{
+                      boxShadow: "2px 2px 6px rgba(153, 153, 153, 100%)",
+                    }}
+                    title={"Click to view profile"}
+                  />
+                </Link>
+                <div className="flex flex-col justify-center ml-2 pt-1">
+                  <p className="text-[12px]">{request?.requesterName}</p>
+                  <p className="text-gray-500 text-[12px]">
+                    {request?.requesterCity}
+                  </p>
+                </div>
+                <div className="ml-auto mt-2 text-rose-500">
+                  <p className="font-bold text-[10px]">{request?.category}</p>
+                  <div className=" text-[10px] text-blue-500">
+                    {" "}
+                    <p
+                      className={
+                        applicationStatus === "Accepted"
+                          ? "text-green-500"
+                          : "text-yellow-500"
+                      }
+                    >
+                      {applicationStatus}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-col pl-2">
+             <p className={`text-[20px] font-bold mt-4 ${showDetails ? "break-words" : "truncate"}` }>{request?.taskname}</p>
+                <p className="  text-gray-500 text-[12px]">
+                  {new Date(request?.datetime!).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </p>
+              </div>
+            </div>
+            {showDetails && (
+              <div className="flex flex-col gap-2 ">
+                <p className="pl-4">{request?.description}</p>
+                <div className="flex justify-center">
+                  <button
+                    className="text-center h-[35px] w-[270px] bg-red-500 text-white text-[11px] font-bold rounded-full hover:bg-white hover:text-red-500 hover:border-[2px] hover:border-red-500 hover:ease-in-out duration-300 "
+                  >
+                    Remove to Dashboard
+                  </button>
+                </div>
+              </div>
+            )}
+            <div className="flex justify-center mt-2">
+              <button
+                className="text-center bg-rose-500 text-white text-[11px] font-bold  w-[270px] h-[35px] rounded-full hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300  mb-4"
+                onClick={() => setShowDetails(!showDetails)}
+              >
+                {showDetails ? "Hide Options" : "Show options"}
+              </button>
+            </div>
+          </div>
+        </main>
+      ) : null}
+    </>
+  );
+};

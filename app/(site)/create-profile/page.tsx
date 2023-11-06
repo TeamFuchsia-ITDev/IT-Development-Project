@@ -1,55 +1,21 @@
 "use client";
 
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
 import { useState, FormEvent, ChangeEvent, useRef, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
-import defaultProfileImage from "../../images/blank-profile.jpg";
-import logo1 from "../../images/logov1.svg";
-import photo from "../../images/photo.svg";
-
-// Define interfaces for location data
-interface LocationFeature {
-  geometry: {
-    coordinates: [number, number];
-  };
-  place_name: string;
-  context: Array<{ text: string }>;
-}
-
-interface LocationData {
-  features: LocationFeature[];
-}
-
-// Define an interface for your form data
-interface FormData {
-  name: string;
-  birthday: string;
-  ethnicity: string;
-  gender: string;
-  phonenumber: string;
-  location: {
-    lng: number;
-    lat: number;
-    address: {
-      fullAddress: string;
-      pointOfInterest: string;
-      city: string;
-      country: string;
-    };
-  };
-}
+import defaultProfileImage from "@/app/images/blank-profile.jpg";
+import logo1 from "@/app/images/logov1.svg";
+import photo from "@/app/images/photo.svg";
+import { LocationData, LocationFeature, FormData } from "@/app/libs/interfaces";
 
 export default function CreateProfile() {
   const { data: session, status } = useSession();
-  const [isLoading, setIsLoading] = useState(false);
-
   const router = useRouter();
-
   const [imageBase64, setImageBase64] = useState<string | null>(null);
-
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [disabled, setDisabled] = useState(false);
 
   const [data, setData] = useState<FormData>({
     name: "",
@@ -89,7 +55,8 @@ export default function CreateProfile() {
 
   //   // Check if the session is still loading
   if (status === "loading") {
-    return <p>Loading...</p>;
+    // return <p>Loading...</p>;
+	return null;
   }
 
   if (!session) {
@@ -98,7 +65,7 @@ export default function CreateProfile() {
   }
 
   if (session.user?.isNewUser === false) {
-    router.replace("/");
+    router.replace("/dashboard");
     return null;
   }
 
@@ -133,7 +100,7 @@ export default function CreateProfile() {
 
   const submitProfile = async (e: FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
+    setDisabled(true);
     try {
       toast.loading("Creating your profile...", {
         duration: 4000,
@@ -163,7 +130,7 @@ export default function CreateProfile() {
       if (response.data.status !== 200) {
         const errorMessage = response.data?.error || "An error occurred";
         toast.error(errorMessage);
-		setIsLoading(false)
+        setTimeout(() => setDisabled(false), 4000);
       } else {
         toast.success("Profile successfully created!");
 
@@ -175,7 +142,7 @@ export default function CreateProfile() {
 
         setTimeout(() => {
           toast.remove();
-          router.push("/");
+          router.push("/dashboard");
         }, 5000);
       }
     } catch (err) {
@@ -210,7 +177,6 @@ export default function CreateProfile() {
   };
 
   return (
-    <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
@@ -226,7 +192,6 @@ export default function CreateProfile() {
             need to know more about you
           </p>
         </div>
-
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
           <form className="space-y-6" onSubmit={submitProfile}>
             {/* Profile Image */}
@@ -243,7 +208,7 @@ export default function CreateProfile() {
                     <img
                       src={imageBase64}
                       alt="Selected File"
-                      className="w-[200px] h-auto m-auto rounded-[10px] border-2 border-grey-500 "
+                      className="w-[200px] h-[200px] m-auto rounded-[10px] border-2 border-grey-500 object-cover "
                     />
                   ) : (
                     <div className="flex flex-col items-center">
@@ -377,7 +342,6 @@ export default function CreateProfile() {
                     const formattedDate = new Date(date)
                       .toISOString()
                       .split("T")[0];
-                    console.log(formattedDate);
                     setData({ ...data, birthday: formattedDate });
                   }}
                   className="block w-full h-[45px] rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -448,8 +412,8 @@ export default function CreateProfile() {
             <div>
               <button
                 type="submit"
-                className="text-center bg-rose-500 text-white font-bold w-[385px] rounded h-[45px] hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300"
-                disabled={isLoading}
+                className={`${disabled ? "text-center bg-rose-500 text-white font-bold w-[385px] rounded h-[45px] opacity-50 cursor-not-allowed" : "text-center bg-rose-500 text-white font-bold w-[385px] rounded h-[45px] hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300"}`}
+                disabled={disabled}
               >
                 Create your profile
               </button>
@@ -457,6 +421,5 @@ export default function CreateProfile() {
           </form>
         </div>
       </div>
-    </>
   );
 }

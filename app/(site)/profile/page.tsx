@@ -1,33 +1,14 @@
 "use client";
 
 import { useSearchParams, useRouter } from "next/navigation";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import getGeolocation from "@/app/libs/geolocation";
 import { toast } from "react-hot-toast";
-
-
-interface UserProps {
-  id: string;
-  name: string;
-  ethnicity: string;
-  gender: string;
-  birthday: string;
-  phonenumber: string;
-  image: string;
-  userEmail: string;
-  location: {
-    lng: number;
-    lat: number;
-    address: {
-      fullAddress: string;
-      pointOfInterest: string;
-      city: string;
-      country: string;
-    };
-  };
-}
+import { UserProps } from "@/app/libs/interfaces";
+import Map from "@/app/components/map";
+import ChatComponent from "@/app/components/chat";
 
 const Profile = () => {
   const router = useRouter();
@@ -37,23 +18,20 @@ const Profile = () => {
   const searchParams = useSearchParams();
   const providerParams = searchParams.get("provider");
 
-  if(session?.user.isNewUser) {
-    router.replace("/create-profile")
+  if (session?.user.isNewUser) {
+    router.replace("/create-profile");
   }
-
-  //   const searchParams = useSearchParams();
-  //   const profileEmail = searchParams.get("id");
 
   useEffect(() => {
     if (isMounted) {
       if (providerParams === "google") {
         toast.success("Google successful login");
       }
-	  if (providerParams === "facebook") {
+      if (providerParams === "facebook") {
         toast.success("Facebook successful login");
       }
     }
-  }, [session, providerParams]);
+  }, [isMounted]);
 
   useEffect(() => {
     setisMounted(true);
@@ -107,6 +85,9 @@ const Profile = () => {
           </button>
         </Link>
       </div>
+      <Map       />
+
+	  <ChatComponent />
     </div>
   );
 };

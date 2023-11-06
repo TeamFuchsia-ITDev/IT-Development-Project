@@ -4,24 +4,14 @@ import { User } from "./components/user";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 
-// interface SessionUser extends DefaultSession {
-// 	user: {
-// 		name?: string ;
-// 		email?: string ;
-// 		image?: string ;
-// 		isNewUser?: string;
-// 	  };
-// 	  expires: string;
-// }
-
 export default async function Home() {
   const session = await getServerSession(authOptions);
 
-  if (session) {
-    if (session?.user?.isNewUser === true) {
-      redirect("/create-profile");
-    }
-  }
+  //   if (session) {
+  //     if (session?.user?.isNewUser === true) {
+  //       redirect("/create-profile");
+  //     }
+  //   }
 
   return (
     <section>
@@ -37,14 +27,14 @@ export default async function Home() {
           </button>
         </Link>
       </div>
-	  <div>
+      <div>
         <Link href={`/profile`}>
           <button className="text-gray-900 underline hover:text-gray-900/70">
             Go to profile
           </button>
         </Link>
       </div>
-	  <div>
+      <div>
         <Link href={`/register`}>
           <button className="text-gray-900 underline hover:text-gray-900/70">
             Go to register

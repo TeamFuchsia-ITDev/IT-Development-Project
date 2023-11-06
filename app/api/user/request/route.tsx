@@ -1,16 +1,9 @@
-import prisma from "../../../libs/prismadb";
+import prisma from "@/app/libs/prismadb";
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../../auth/[...nextauth]/route";
-import { RequestProps } from "../../../libs/interfaces"
-
-export interface APIErr {
-  code: number;
-  message: string;
-  cause: string | Error;
-}
-
-
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { APIErr } from "@/app/libs/interfaces";
+import { lapseChecker } from "@/app/libs/actions";
 
 export async function POST(request: Request) {
   const session = await getServerSession(authOptions);
@@ -23,11 +16,14 @@ export async function POST(request: Request) {
   } else {
     try {
       const body = await request.json();
-      const { taskname, category, amount, datetime, description } = body;
+      const { taskname, category, compNeeded, datetime, description } = body;
 
       const userRequests = await prisma.request.count({
         where: {
           userEmail: session.user.email,
+          status: {
+            in: ["Pending", "OnGoing"],
+          },
         },
       });
 
@@ -44,20 +40,21 @@ export async function POST(request: Request) {
         },
       });
 
-      if (!taskname)
-        throw {
-          code: 400,
-          message: "Please enter the taskname for your request",
-        };
       if (!category)
         throw {
           code: 400,
           message: "Please select a category for your request",
         };
-      if (!amount)
+      if (!compNeeded)
         throw {
           code: 400,
-          message: "Please indicate your offer for the requested service",
+          message:
+            "Please select the number of companions you need for your request",
+        };
+      if (!taskname)
+        throw {
+          code: 400,
+          message: "Please enter the taskname for your request",
         };
       if (!datetime)
         throw {
@@ -72,22 +69,23 @@ export async function POST(request: Request) {
             "Please enter a brief description or detail for your requested service",
         };
 
-      if (userRequests === 3)
+      if (userRequests === 5)
         throw {
           code: 400,
-          message: "You cannot have more than three requests",
+          message: "You cannot have more than five requests",
         };
 
       const userRequest = await prisma.request.create({
         data: {
           taskname,
           category,
-          amount: parseFloat(amount),
           datetime: new Date(datetime),
           description,
           requesterName: userProfile?.name!,
           requesterImage: userProfile?.image!,
           requesterCity: userProfile?.location?.address?.city!,
+          status: "Pending",
+          compNeeded: +compNeeded,
           user: {
             connect: {
               email: session.user.email,
@@ -108,7 +106,8 @@ export async function POST(request: Request) {
 }
 
 export async function GET(request: Request) {
-  try {
+  try {   
+	await lapseChecker();
     const requests = await prisma.request.findMany();
     return NextResponse.json({ requests, status: 200 });
   } catch (error) {
@@ -117,5 +116,55 @@ export async function GET(request: Request) {
       status: code,
       error: message,
     });
+  }
+}
+
+export async function PATCH(request: Request) {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    return NextResponse.json({
+      message: "Unauthorized access",
+      status: 401,
+    });
+  } else {
+    try {
+      const body = await request.json();
+      const { requestid } = body.data;
+
+      const canceledRequest = await prisma.request.update({
+        where: {
+          id: requestid,
+        },
+        data: {
+          status: "Cancelled",
+        },
+      });
+
+      const applications = await prisma.application.findMany({
+        where: {
+          requestId: requestid,
+        },
+      });
+
+      if (applications.length > 0) {
+        await prisma.application.updateMany({
+          where: {
+            requestId: requestid,
+          },
+          data: {
+            status: "Requester-Cancelled",
+          },
+        });
+      }
+
+      return NextResponse.json(canceledRequest, { status: 200 });
+    } catch (error) {
+      const { code = 500, message = "internal server error" } = error as APIErr;
+      return NextResponse.json({
+        status: code,
+        error: message,
+      });
+    }
   }
 }

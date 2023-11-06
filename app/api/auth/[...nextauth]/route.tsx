@@ -1,5 +1,5 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
-import prisma from "../../../libs/prismadb";
+import prisma from "@/app/libs/prismadb";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
@@ -98,40 +98,42 @@ export const authOptions: NextAuthOptions = {
   },
   callbacks: {
     async signIn({ account, profile }) {
-		if (account?.provider === "google" && profile) {
-			const existingUser = await prisma.user.findUnique({
-			  where: {
-				email: profile?.email!,
-				NOT: {
-				  provider: "google",
-				},
-			  },
-			});
-			if (existingUser) {
-			  return false;
-			}
-		  }
-	
-		  if (account?.provider === "facebook" && profile) {
-			const existingUser = await prisma.user.findUnique({
-			  where: {
-				email: profile?.email!,
-				NOT: {
-				  provider: "facebook",
-				},
-			  },
-			});
-			if (existingUser) {
-			  return false;
-			}
-		  }
-	
-		  return true;
-		
+      if (account?.provider === "google" && profile) {
+        const existingUser = await prisma.user.findUnique({
+          where: {
+            email: profile?.email!,
+            NOT: {
+              provider: "google",
+            },
+          },
+        });
+        if (existingUser) {
+          return false;
+        }
+      }
+
+      if (account?.provider === "facebook" && profile) {
+        const existingUser = await prisma.user.findUnique({
+          where: {
+            email: profile?.email!,
+            NOT: {
+              provider: "facebook",
+            },
+          },
+        });
+        if (existingUser) {
+          return false;
+        }
+      }
+
+      return true;
     },
     async jwt({ token, user, session, account, profile }) {
-      console.log("jwt callback", { token, user, session, account, profile });
+      console.log("JWT CALLBACK", { token, user, session, account, profile });
 
+      if (account) {
+        token.provider = account.provider;
+      }
       return token;
     },
     async session({ session, user, token }) {
@@ -147,7 +149,11 @@ export const authOptions: NextAuthOptions = {
         session!.user!.isNewUser = false;
       }
 
-      console.log("session callback", { session, user, token });
+      if (token) {
+        session.user.provider = token.provider;
+      }
+
+      console.log("SESSION CALLBACK", { session, user, token });
       return session;
     },
   },

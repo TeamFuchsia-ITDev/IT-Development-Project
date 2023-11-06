@@ -13,6 +13,7 @@ import { signIn } from "next-auth/react";
 
 export default function Register() {
   const router = useRouter();
+  const [disabled, setDisabled] = useState(false);
 
   // useStates
   const [data, setData] = useState({
@@ -23,6 +24,7 @@ export default function Register() {
   });
 
   const registerUser = async (e: FormEvent) => {
+    setDisabled(true);
     e.preventDefault();
     try {
       const response = await axios.post(`api/register`, data);
@@ -30,6 +32,7 @@ export default function Register() {
       if (response.data.status !== 200) {
         const errorMessage = response.data?.error || "An error occurred";
         toast.error(errorMessage);
+        setTimeout(() => setDisabled(false), 4000);
       } else {
         toast.success("Registration successful!");
         setTimeout(
@@ -91,7 +94,7 @@ export default function Register() {
           <Image
             src={SElogo}
             alt="Login"
-            className="w-[200px] h-[200px] m-none absolute mt-[-60px]"
+            className="w-[200px] h-[200px] m-none absolute mt-[-60px] ml-4"
           />
         </div>
 
@@ -201,19 +204,20 @@ export default function Register() {
                 />
                 <p className="text-center text-[13px] ">
                   By signing up, you agree with the
-                  <a href="rules" className="text-purple-700">
+                  <a href="rules" className="text-blue-500">
                     {" "}
                     terms and rules{" "}
                   </a>
                   of using this platform. If you already have an account{" "}
-                  <a href="/login" className="text-purple-700">
+                  <a href="/login" className="text-blue-500">
                     Sign in
                   </a>
                 </p>
               </div>
               <div className="flex flex-col  items-center">
                 <button
-                  className="text-center bg-rose-500 text-white font-bold w-[385px] rounded h-[45px] hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300"
+                  className={`${disabled ? "text-center bg-rose-500 opacity-50 text-white font-bold w-[385px] rounded h-[45px] cursor-not-allowed" : "text-center bg-rose-500 text-white font-bold w-[385px] rounded h-[45px] hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300"}`}
+                  disabled={disabled}
                   onClick={registerUser}
                 >
                   Sign up
