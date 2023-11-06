@@ -38,8 +38,14 @@ io.on("connection", (socket) => {
 });
 
 export default async (req, res) => {
-  await httpServer(req, res);
-};
+	if (req.method === 'GET') {
+	  // You can handle GET requests if needed
+	  res.status(200).send('WebSocket server is running.');
+	} else {
+	  // For WebSocket connections, delegate to httpServer
+	  await httpServer(req, res);
+	}
+  };
 
 
 // httpServer.listen(3001, () => console.log("listening on port 3001"));
