@@ -54,7 +54,7 @@ const ChatComponent = () => {
   };
 
   useEffect(() => {
-    socket.current = io("ws://localhost:3001");
+    socket.current = io("wss://serv-ease-app.vercel.app");
 
     const joinRoom = () => {
       if (room && username) {
