@@ -55,7 +55,7 @@ export default function Register() {
 
   const loginWithFacebook = async () => {
     const response = signIn("facebook", {
-      callbackUrl: "http://localhost:3000/profile?provider=facebook",
+      callbackUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard?provider=facebook`,
     });
 
     response
@@ -82,7 +82,7 @@ export default function Register() {
 
     setTimeout(() => {
       signIn("google", {
-        callbackUrl: "http://localhost:3000/profile?provider=google",
+        callbackUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard?provider=google`,
       });
     }, 4000);
   };
