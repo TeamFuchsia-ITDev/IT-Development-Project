@@ -7,7 +7,7 @@ const io = new Server(httpServer, {
   cors: {
     origin:
       process.env.NODE_ENV === "production"
-        ? false
+        ? ["https://serv-ease-app.vercel.app"]
         : ["http://localhost:3000", "http://127.0.0.1:3000"],
   },
 });
