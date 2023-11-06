@@ -51,7 +51,7 @@ export default function Login() {
 
   const loginWithFacebook = async () => {
     const response = signIn("facebook", {
-      callbackUrl: "http://localhost:3000/dashboard?provider=facebook",
+      callbackUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard?provider=facebook`,
     });
 
     response
@@ -78,7 +78,7 @@ export default function Login() {
 
     setTimeout(() => {
       const response = signIn("google", {
-        callbackUrl: "http://localhost:3000/dashboard?provider=google",
+        callbackUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard?provider=google`,
       });
 
       response
