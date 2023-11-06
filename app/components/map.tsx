@@ -62,7 +62,7 @@ const Map: React.FC = () => {
 	const endLocation = { lat: 49.215401, lng: -122.950891 };
   
 	const script = document.createElement('script');
-	script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyCLxhffLx-ehZF6e6RC4XNUXNat3dJAO7Y`;
+	script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAP_API}`;
 	script.async = true;
 	script.defer = true;
   
