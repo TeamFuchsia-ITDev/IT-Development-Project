@@ -5,7 +5,7 @@
   "scripts": {
     "io": "node server.mjs",
     "dev": "concurrently \"node server.mjs\" \"next dev\"",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint"
   },
