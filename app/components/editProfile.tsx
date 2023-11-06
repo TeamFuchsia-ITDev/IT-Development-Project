@@ -315,7 +315,7 @@ const EditProfile: React.FC<EditProfileFormProps> = ({
               <button
                 className={`${
                   disabled
-                    ? " text-center bg-blue-500 opacity-50 text-white font-bold w-[400px] rounded mb-2 h-[45px] cursor-not-allowed"
+                    ? " text-center bg-blue-500 opacity-50 text-white font-bold w-[400px] rounded mb-4 h-[45px] cursor-not-allowed"
                     : "text-center bg-blue-500 text-white font-bold w-[400px] rounded mb-4 h-[45px] hover:bg-white hover:text-blue-500 hover:border-[2px] hover:border-blue-500 hover:ease-in-out duration-300"
                 } ${disabled && "cursor-not-allowed"}`}
                 onClick={updateProfile}
