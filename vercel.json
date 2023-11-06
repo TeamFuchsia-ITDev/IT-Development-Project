@@ -1,0 +1,8 @@
+{
+	"functions": {
+	  "api/server": {
+		"handler": "server.mjs"
+	  }
+	}
+  }
+  
