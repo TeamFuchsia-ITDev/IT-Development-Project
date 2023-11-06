@@ -26,21 +26,49 @@ export async function createProfile(data: {
 }
 
 export async function updateProfile(
-  id: string,
-  updateData: Prisma.ProfileUpdateInput
-) {
-  try {
-    const updatedUserProfile = await prisma.profile.update({
-      where: {
-        id: id,
-      },
-      data: updateData,
-    });
-    return updatedUserProfile;
-  } catch (error) {
-    throw new Error("Please enter your complete address");
+	id: string,
+	updateData: Prisma.ProfileUncheckedUpdateInput,
+	image: string,
+	userEmail: string
+  ) {
+	try {
+	  await prisma.$transaction([
+		prisma.profile.update({
+		  where: {
+			id: id,
+		  },
+		  data: updateData,
+		}),
+		prisma.request.updateMany({
+		  where: {
+			userEmail: userEmail,
+		  },
+		  data: {
+			requesterImage: image,
+		  },
+		}),
+		prisma.application.updateMany({
+		  where: {
+			userEmail: userEmail,
+		  },
+		  data: {
+			compImage: image,
+		  },
+		}),
+	  ]);
+  
+	  const updatedUserProfile = await prisma.profile.findUnique({
+		where: {
+		  id: id,
+		},
+	  });
+  
+	  return updatedUserProfile;
+	} catch (error) {
+	  throw new Error("Please enter your complete address");
+	}
   }
-}
+  
 
 export const limitText = (text: string, maxLength: number) => {
   if (text.length > maxLength) {
