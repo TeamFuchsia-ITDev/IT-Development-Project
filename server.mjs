@@ -5,10 +5,7 @@ const httpServer = createServer();
 
 const io = new Server(httpServer, {
   cors: {
-    origin:
-      process.env.NODE_ENV === "production"
-        ? ["https://serv-ease-app.vercel.app"]
-        : ["http://localhost:3000", "http://127.0.0.1:3000"],
+    origin: process.env.NODE_ENV === "production" ? [process.env.PRODUCTION_ORIGIN] : ["http://localhost:3000", "http://127.0.0.1:3000"],
   },
 });
 
@@ -40,4 +37,9 @@ io.on("connection", (socket) => {
   });
 });
 
-httpServer.listen(3001, () => console.log("listening on port 3001"));
+export default async (req, res) => {
+  await httpServer(req, res);
+};
+
+
+// httpServer.listen(3001, () => console.log("listening on port 3001"));
