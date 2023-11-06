@@ -5,6 +5,7 @@ import Provider from "@/app/context/AuthContext";
 import ToasterContext from "@/app/context/ToasterConster";
 import { ModeProvider } from "@/app/context/ModeContext";
 
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -20,10 +21,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        
         <Provider>
           <ToasterContext />
           <ModeProvider>{children}</ModeProvider>
         </Provider>
+      
       </body>
     </html>
   );

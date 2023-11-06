@@ -10,10 +10,8 @@ import phone from "@/app/images/phone.svg";
 import gender from "@/app/images/gender.svg";
 import bday from "@/app/images/bday.svg";
 import loc from "@/app/images/location.svg";
-
 import EditProfile from "@/app/components/editProfile";
-import toast from "react-hot-toast";
-import axios from "axios";
+
 
 const Profilepage = () => {
   const { data: session, status } = useSession();
@@ -69,7 +67,7 @@ const Profilepage = () => {
               style={{ boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.5)" }}
             >
               <div className="flex flex-col items-center">
-                <>
+             
                   <img
                     src={user?.image}
                     alt=""
@@ -120,23 +118,21 @@ const Profilepage = () => {
                   </div>
                   {userParams ? null : (
                     <button
-                      className="text-center bg-blue-500 text-white font-bold mb-6 ml-4 mr-4 w-[400px] rounded h-[45px] hover:bg-white hover:text-blue-500 hover:border-[2px] hover:border-blue-500 hover:ease-in-out duration-300"
+                      className="text-center bg-blue-500 text-white font-bold mb-6 ml-4 mr-4 w-[80%] rounded h-[45px] hover:bg-white hover:text-blue-500 hover:border-[2px] hover:border-blue-500 hover:ease-in-out duration-300"
                       onClick={HandleEditProfileClick}
                     >
                       Edit Profile
                     </button>
                   )}
-                </>
+            
               </div>
             </div>
           ) : (
-            <>
               <div
                 className="  w-[500px] h-[420px]  rounded-[5px] mt-12  animate-puls"
                 style={{ boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.5)" }}
               >
                 <div className="flex flex-col ">
-                  <>
                     <div className="flex  justify-center">
                       <div className="rounded-full  h-[100px] item-center w-[100px] border-2 border-gray mt-[-50px] bg-gray-300 animate-pulse"></div>
                     </div>
@@ -157,10 +153,9 @@ const Profilepage = () => {
                     <div className="flex justify-center">
                       <div className="bg-gray-300 animate-pulse w-[400px] h-[45px] mt-2 items-center mt-4 "></div>
                     </div>
-                  </>
                 </div>
               </div>
-            </>
+         
           )}
         </div>
 

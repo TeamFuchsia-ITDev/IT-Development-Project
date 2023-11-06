@@ -10,6 +10,8 @@ import SElogo from "../../images/logov3.svg";
 import google from "../../images/googleIcon.svg";
 import facebook from "../../images/facebookIcon.svg";
 
+
+
 export default function Login() {
   const { data: session, status } = useSession();
   const router = useRouter();
@@ -108,7 +110,7 @@ export default function Login() {
   };
 
   return (
-    <>
+    
       <div className="flex flex-row ">
         <div>
           <Image
@@ -221,6 +223,6 @@ export default function Login() {
           />
         </div>
       </div>
-    </>
+ 
   );
 }
