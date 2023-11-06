@@ -54,7 +54,9 @@ const ChatComponent = () => {
   };
 
   useEffect(() => {
-    socket.current = io("wss://serv-ease-app.vercel.app");
+	// Define the WebSocket server URL with a default value
+    const wsServerUrl = process.env.NEXT_PUBLIC_WS_SERVER || 'wss://https://serv-ease-app.vercel.app';
+    socket.current = io(wsServerUrl);
 
     const joinRoom = () => {
       if (room && username) {
