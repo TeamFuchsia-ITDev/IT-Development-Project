@@ -325,10 +325,18 @@ export async function PATCH(request: Request) {
         updateData.image = imageUrl;
       }
 
-      const updateUserProfile = await updateProfile(id, updateData);
+      const imageToUpdate =
+        typeof updateData?.image === "string" ? updateData?.image : "";
+
+      const updatedUserProfile = await updateProfile(
+        id,
+        updateData,
+        imageToUpdate,
+        session.user.email
+      );
 
       return NextResponse.json({
-        updateUserProfile,
+        updatedUserProfile,
         status: 200,
       });
     } catch (error: any) {
