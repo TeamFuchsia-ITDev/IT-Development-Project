@@ -55,7 +55,7 @@ const ChatComponent = () => {
 
   useEffect(() => {
 	// Define the WebSocket server URL with a default value
-    const wsServerUrl = 'ws://serve-ease-websocket-server-1b42068c72f6.herokuapp.com';
+    const wsServerUrl = process.env.NEXT_PUBLIC_WS_SERVER || 'ws://serve-ease-websocket-server-1b42068c72f6.herokuapp.com';
     socket.current = io(wsServerUrl);
 
     const joinRoom = () => {

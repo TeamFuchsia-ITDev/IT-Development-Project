@@ -52,52 +52,52 @@
 
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
+import { Loader } from '@googlemaps/js-api-loader';
 
 const Map: React.FC = () => {
   const [selectedTravelMode, setSelectedTravelMode] = useState('DRIVING');
+  const [directionsRenderer, setDirectionsRenderer] = useState<google.maps.DirectionsRenderer | null>(null);
 
   useEffect(() => {
-	const startLocation = { lat: 49.112609, lng: -122.830069 };
-	const endLocation = { lat: 49.215401, lng: -122.950891 };
-  
-	const script = document.createElement('script');
-	script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAP_API}&libraries=places`;
-	script.async = true;
-	script.defer = true;
-  
-	script.addEventListener('load', () => {
-	  const map = new window.google.maps.Map(document.getElementById('map') as HTMLElement, {
-		center: startLocation,
-		zoom: 12,
-	  });
-  
-	  const directionsService = new window.google.maps.DirectionsService();
-	  const directionsRenderer = new window.google.maps.DirectionsRenderer({
-		map: map,
-		panel: document.getElementById('directions-panel') as HTMLElement,
-	  });
-  
-	  const request: google.maps.DirectionsRequest = {
-		origin: startLocation,
-		destination: endLocation,
-		travelMode: selectedTravelMode as google.maps.TravelMode,
-	  };
-  
-	  // Clear the directions panel before rendering new directions
-	  document.getElementById('directions-panel')!.innerHTML = '';
-  
-	  directionsService.route(request, function (result, status) {
-		if (status === window.google.maps.DirectionsStatus.OK) {
-		  directionsRenderer.setDirections(result);
-		}
-	  });
-	});
-  
-	document.head.appendChild(script);
-  }, [selectedTravelMode]);
-  
-  
+    const startLocation = { lat: 49.112609, lng: -122.830069 };
+    const endLocation = { lat: 49.215401, lng: -122.950891 };
+
+    const loader = new Loader({
+      apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAP_API!,
+      version: 'weekly',
+    });
+
+    loader.importLibrary('core').then(() => {
+      const map = new window.google.maps.Map(document.getElementById('map') as HTMLElement, {
+        center: startLocation,
+        zoom: 12,
+      });
+
+      if (!directionsRenderer) {
+        // Initialize directionsRenderer only once
+        const renderer = new window.google.maps.DirectionsRenderer({
+          map: map,
+          panel: document.getElementById('directions-panel') as HTMLElement,
+        });
+        setDirectionsRenderer(renderer);
+      }
+
+      const directionsService = new window.google.maps.DirectionsService();
+
+      const request: google.maps.DirectionsRequest = {
+        origin: startLocation,
+        destination: endLocation,
+        travelMode: selectedTravelMode as google.maps.TravelMode,
+      };
+
+      directionsService.route(request, function (result, status) {
+        if (status === window.google.maps.DirectionsStatus.OK && directionsRenderer) {
+          directionsRenderer.setDirections(result);
+        }
+      });
+    });
+  }, [selectedTravelMode, directionsRenderer]);  
 
   const handleTravelModeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedTravelMode(event.target.value);
@@ -120,3 +120,4 @@ const Map: React.FC = () => {
 };
 
 export default Map;
+
