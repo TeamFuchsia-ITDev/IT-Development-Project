@@ -6,6 +6,8 @@ import Link from "next/link";
 import { NavbarLanding } from "./components/navbar-landing";
 import ImageLandings from "@/app/images/ImageLanding.png";
 import blobimage from "@/app/images/blob.png";
+import blankprofile from "@/app/images/blank-profile.jpg";
+import { TestimonialCard } from "@/app/components/testimonialcard";
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
@@ -91,14 +93,54 @@ export default async function Home() {
           <div className="w-1/2 flex flex-col ">
             <h1 className="text-[60px]">Why use our App?</h1>
             <p className="text-xl ">
-            We create a platform that helps connects individuals who are seeking for help to complete specific task that they cant do alone. It also helps individuals whenever they’re just lonely and need someone just to be their companion. its free of use everyone could either be a companion or a requester. Our main goal for this platform is to ensure users will have someone to lean on in times of loneliness, someone to be with just to have fun or simple have someone to chat with
+              We create a platform that helps connects individuals who are
+              seeking for help to complete specific task that they cant do
+              alone. It also helps individuals whenever they’re just lonely and
+              need someone just to be their companion. its free of use everyone
+              could either be a companion or a requester. Our main goal for this
+              platform is to ensure users will have someone to lean on in times
+              of loneliness, someone to be with just to have fun or simple have
+              someone to chat with
             </p>
           </div>
           <div className="w-1/2 ">
             <img src={blobimage.src} alt="" className="w-[600px]" />
           </div>
         </div>
-        <div className="flex w-[100%]">
+        <div className="flex flex-col w-[100%] justify-center ">
+          <div>
+            <h1 className="text-[60px] text-center mt-12">Testimonials</h1>
+          </div>
+
+          {/* <div className="flex flex-row">
+            <img
+              src={blankprofile.src}
+              alt=""
+              className="w-[100px] object-cover"
+            />
+            <div className="flex flex-col justify-center ml-4">
+              <h1 className="font-bold">Safety of our users</h1>
+              <h1 className="w-[200px]">
+                We double check users who have registered
+              </h1>
+            </div>
+          </div> */}
+          <div className="flex flex-row justify-center gap-12 mt-24 mb-12">
+            {" "}
+            <TestimonialCard />
+            <TestimonialCard />
+            <TestimonialCard />
+          </div>
+
+          <div className="flex flex-row justify-center gap-12  mb-24">
+            {" "}
+            <TestimonialCard />
+            <TestimonialCard />
+            <TestimonialCard />
+          </div>
+        </div>
+        <div>
+          
 
         </div>
       </div>
