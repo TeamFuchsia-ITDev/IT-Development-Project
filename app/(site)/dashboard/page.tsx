@@ -90,7 +90,7 @@ export default function Dashboard() {
       }
     };
 
-    if (status !== "loading" && session?.user.email) {
+    if (status !== "loading" && session?.user.email && session.user.isNewUser === false) {
       fetchUserData();
       fetchUserRequests();
     }
@@ -401,7 +401,7 @@ export default function Dashboard() {
             {user ? (
               <>
                 <p className="text-[40px]">
-                  Welcome to your Dashboard {user.name.split(" ")[0]}
+                  Welcome to your Dashboard {user.name !== null ? user.name.split(" ")[0] : ""}
                 </p>
               </>
             ) : (
