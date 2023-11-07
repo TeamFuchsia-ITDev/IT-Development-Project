@@ -12,41 +12,15 @@ import { TestimonialCard } from "@/app/components/testimonialcard";
 export default async function Home() {
   const session = await getServerSession(authOptions);
 
-  //   if (session) {
-  //     if (session?.user?.isNewUser === true) {
-  //       redirect("/create-profile");
-  //     }
-  //   }
+  if (session) {
+    if (session?.user?.isNewUser === true) {
+      redirect("/create-profile");
+    } else {
+      redirect("/dashboard");
+    }
+  }
 
   return (
-    // <section>
-    //   <h1>Home</h1>
-    //   <h1>Server Side Rendered</h1>
-    //   <pre>{JSON.stringify(session)}</pre>
-    //   <h1>Client Side Rendered</h1>
-    //   <User />
-    //   <div>
-    //     <Link href="/login">
-    //       <button className="text-gray-900 underline hover:text-gray-900/70">
-    //         Go to login
-    //       </button>
-    //     </Link>
-    //   </div>
-    //   <div>
-    //     <Link href={`/profile`}>
-    //       <button className="text-gray-900 underline hover:text-gray-900/70">
-    //         Go to profile
-    //       </button>
-    //     </Link>
-    //   </div>
-    //   <div>
-    //     <Link href={`/register`}>
-    //       <button className="text-gray-900 underline hover:text-gray-900/70">
-    //         Go to register
-    //       </button>
-    //     </Link>
-    //   </div>
-    // </section>
     <div>
       <div className="">
         <NavbarLanding />
@@ -92,15 +66,27 @@ export default async function Home() {
         <div className="flex flex-row h-[650px] w-[100%] justify-center items-center gap-12 pl-24 mt-32">
           <div className="w-1/2 flex flex-col ">
             <h1 className="text-[60px]">Why use our App?</h1>
-            <p className="text-xl ">
-              We create a platform that helps connects individuals who are
-              seeking for help to complete specific task that they cant do
-              alone. It also helps individuals whenever they’re just lonely and
-              need someone just to be their companion. its free of use everyone
-              could either be a companion or a requester. Our main goal for this
-              platform is to ensure users will have someone to lean on in times
-              of loneliness, someone to be with just to have fun or simple have
-              someone to chat with
+            <p className="text-xl">
+              Welcome to our platform, where we've crafted a unique space for
+              connecting people who need a helping hand with tasks they can't
+              tackle on their own. But that's not all – it's also a place for
+              those times when you're feeling a bit lonely and just want some
+              friendly company.
+            </p>
+            <br />
+            <p className="text-xl">
+              What sets us apart is the flexibility we offer. Companions have
+              the choice to provide their services either for free, as a gesture
+              of kindness, or they can charge for their expertise. You can find
+              someone to assist you, whether you're looking for a helping hand
+              or a friendly chat.
+            </p>
+            <br />
+            <p className="text-xl">
+              Our main goal is simple: to ensure that our users always have
+              someone to rely on in moments of loneliness, someone to share fun
+              times with, or just someone to have a chat with. Join us today and
+              discover the perfect balance between assistance and companionship!
             </p>
           </div>
           <div className="w-1/2 ">
@@ -139,10 +125,7 @@ export default async function Home() {
             <TestimonialCard />
           </div>
         </div>
-        <div>
-          
-
-        </div>
+        <div></div>
       </div>
     </div>
   );
