@@ -10,7 +10,7 @@ import serveease from "@/app/images/Serve-ease.svg";
 
 export const NavbarLanding = () => {
   return (
-    <main className="mb-4 mt-4" >
+    <main className=" mt-4" >
       <div className="flex flex-row justify-between items-center pl-4 pr-4 pb-4">
         <div>
           <img src={serveease.src} alt="Serve-Ease" width={200} />
