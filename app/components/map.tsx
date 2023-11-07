@@ -97,9 +97,9 @@ const Map: React.FC = () => {
         }
       });
     });
-  }, [selectedTravelMode, directionsRenderer]);
+  }, [selectedTravelMode, directionsRenderer]);  
 
-  const handleTravelModeChange = (event: ChangeEvent<HTMLSelectElement>) => {
+  const handleTravelModeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedTravelMode(event.target.value);
   };
 
