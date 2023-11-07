@@ -1,11 +1,14 @@
-import { createServer } from "https";
+import { createServer } from "http";
 import { Server } from "socket.io";
 
 const httpServer = createServer();
 
 const io = new Server(httpServer, {
   cors: {
-    origin: process.env.NODE_ENV === 'production' ? [process.env.PRODUCTION_ORIGIN] : ['http://localhost:3000', 'http://127.0.0.1:3000'],
+    origin:
+      process.env.NODE_ENV === "production"
+        ? [process.env.PRODUCTION_ORIGIN]
+        : ["http://localhost:3000", "http://127.0.0.1:3000"],
   },
 });
 
@@ -37,16 +40,8 @@ io.on("connection", (socket) => {
   });
 });
 
-export default async (req, res) => {
-	if (req.method === 'GET') {
-	  // You can handle GET requests if needed
-	  res.status(200).send('WebSocket server is running.');
-	} else {
-	  // For WebSocket connections, delegate to httpServer
-	  await httpServer(req, res);
-	}
-  };
+httpServer.listen(process.env.PORT || 3001, () => {
+  console.log(`Server is running on port ${process.env.PORT || 3001}`);
+});
 
 // httpServer.listen(3001, () => console.log("listening on port 3001"));
-
-
