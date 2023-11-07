@@ -1,10 +1,5 @@
 "use client";
 
-import { useSession, signOut } from "next-auth/react";
-import { useEffect, useState } from "react";
-import { UserProps } from "@/app/libs/interfaces";
-import { usePathname, useRouter } from "next/navigation";
-import { useMode } from "@/app/context/ModeContext"; // Import the useMode hook from your context
 import Link from "next/link";
 import serveease from "@/app/images/Serve-ease.svg";
 
@@ -16,7 +11,7 @@ export const NavbarLanding = () => {
           <img src={serveease.src} alt="Serve-Ease" width={200} />
         </div>
         <div className="flex flex-row gap-4  items-center">
-          <h1>Why Join</h1>
+          <h1 >Why Join</h1>
           <h1>How it works</h1>
           <Link href="/login">
           <h1 >Sign in</h1>
