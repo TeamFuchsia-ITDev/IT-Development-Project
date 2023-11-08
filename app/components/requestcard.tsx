@@ -10,12 +10,14 @@ import { imageMapping } from "@/app/libs/reusables";
 import axios from "axios";
 import toast from "react-hot-toast";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export const RequestCard: React.FC<RequestCardProps> = ({
   request,
   toggleFormVisibility,
   onEditRequestClick,
 }) => {
+  const router = useRouter();
   const [showOptions, setShowOptions] = useState(false);
   const [disabled, setDisabled] = useState(false);
   const [applications, setApplications] = useState([]);
@@ -76,6 +78,12 @@ export const RequestCard: React.FC<RequestCardProps> = ({
     };
     onEditRequestClick(requestData);
     toggleFormVisibility(true);
+  };
+
+  const handleOpenChatMapPage = () => {
+    router.push(
+      `/mapchatpage?requestid=${request?.id}&username=${request?.requesterName}&usertype=Requester`
+    );
   };
 
   return (
@@ -161,6 +169,17 @@ export const RequestCard: React.FC<RequestCardProps> = ({
                 {request?.status === "Pending"
                   ? "Edit Request"
                   : "Update Request"}
+              </button>
+            ) : null}
+
+            {request?.status === "OnGoing" ? (
+              <button
+                className={`mb-4 text-center bg-purple-500 text-white rounded-full h-[35px]  w-[350px] hover:bg-white hover:text-purple-500 hover:border-[2px] hover:border-purple-500 hover:ease-in-out duration-300 ${
+                  disabled ? "pointer-events-none opacity-25" : ""
+                }`}
+                onClick={handleOpenChatMapPage}
+              >
+                Open Chat
               </button>
             ) : null}
 

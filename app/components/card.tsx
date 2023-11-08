@@ -4,7 +4,7 @@ import { ApplicationProps, CardProps } from "@/app/libs/interfaces";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { imageMapping } from "@/app/libs/reusables";
-import { limitText } from "@/app/libs/actions";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import axios from "axios";
 
@@ -15,11 +15,13 @@ export const Card = ({
   onApplyClick,
 }: CardProps) => {
   const { data: session, status } = useSession();
+  const router = useRouter();
   const [showDetails, setShowDetails] = useState(false);
   const [applications, setApplications] = useState([]);
   const [applicationStatus, setApplicationStatus] = useState<
     string | undefined
   >(undefined);
+  const [applicantName, setApplicantName] = useState<string>("");
 
   useEffect(() => {
     const getApplications = async () => {
@@ -44,8 +46,9 @@ export const Card = ({
     setApplicationStatus(
       appStatus.length > 0 ? appStatus[0].status : "No Status Found"
     );
-  }, [applications, request, session]);
 
+    setApplicantName(appStatus.length > 0 ? appStatus[0].compName || "" : "");
+  }, [applications, request, session]);
 
   const handleApplyClick = () => {
     const requestData = {
@@ -62,6 +65,12 @@ export const Card = ({
     };
     onApplyClick(requestData);
     toggleFormVisibility(true);
+  };
+
+  const handleOpenChatMapPage = () => {
+    router.push(
+      `/mapchatpage?requestid=${request?.id}&username=${applicantName}&usertype=Companion`
+    );
   };
 
   return (
@@ -101,7 +110,13 @@ export const Card = ({
                 </div>
               </div>
               <div className="flex flex-col pl-2">
-                <p className={`text-[20px] font-bold mt-4 ${showDetails ? "break-words" : "truncate"}` }>{request?.taskname}</p>
+                <p
+                  className={`text-[20px] font-bold mt-4 ${
+                    showDetails ? "break-words" : "truncate"
+                  }`}
+                >
+                  {request?.taskname}
+                </p>
                 <p className="  text-gray-500 text-[12px]">
                   {new Date(request?.datetime!).toLocaleDateString("en-US", {
                     year: "numeric",
@@ -186,7 +201,13 @@ export const Card = ({
                 </div>
               </div>
               <div className="flex flex-col pl-2">
-             <p className={`text-[20px] font-bold mt-4 ${showDetails ? "break-words" : "truncate"}` }>{request?.taskname}</p>
+                <p
+                  className={`text-[20px] font-bold mt-4 ${
+                    showDetails ? "break-words" : "truncate"
+                  }`}
+                >
+                  {request?.taskname}
+                </p>
                 <p className="  text-gray-500 text-[12px]">
                   {new Date(request?.datetime!).toLocaleDateString("en-US", {
                     year: "numeric",
@@ -223,7 +244,6 @@ export const Card = ({
           </div>
         </main>
       ) : null}
-
 
       {cardType === "ongoingtasks" ? (
         <main className=" border-2 w-[300px] h-auto rounded-[10px] hover:translate-y-[-20px] mt-5">
@@ -272,7 +292,13 @@ export const Card = ({
                 </div>
               </div>
               <div className="flex flex-col pl-2">
-             <p className={`text-[20px] font-bold mt-4 ${showDetails ? "break-words" : "truncate"}` }>{request?.taskname}</p>
+                <p
+                  className={`text-[20px] font-bold mt-4 ${
+                    showDetails ? "break-words" : "truncate"
+                  }`}
+                >
+                  {request?.taskname}
+                </p>
                 <p className="  text-gray-500 text-[12px]">
                   {new Date(request?.datetime!).toLocaleDateString("en-US", {
                     year: "numeric",
@@ -290,15 +316,14 @@ export const Card = ({
 
                 <div className="flex justify-center">
                   <button
-                    className="text-center h-[35px] w-[270px] bg-blue-500 text-white text-[11px] font-bold rounded-full hover:bg-white hover:text-blue-500 hover:border-[2px] hover:border-blue-500 hover:ease-in-out duration-300 "
+                    className="text-center h-[35px] w-[270px] bg-purple-500 text-white text-[11px] font-bold rounded-full hover:bg-white hover:text-purple-500 hover:border-[2px] hover:border-purple-500 hover:ease-in-out duration-300 "
+                    onClick={handleOpenChatMapPage}
                   >
-                    Get Directions
+                    Open Chat
                   </button>
                 </div>
                 <div className="flex justify-center">
-                  <button
-                    className="text-center h-[35px] w-[270px] bg-red-500 text-white text-[11px] font-bold rounded-full hover:bg-white hover:text-red-500 hover:border-[2px] hover:border-red-500 hover:ease-in-out duration-300 "
-                  >
+                  <button className="text-center h-[35px] w-[270px] bg-red-500 text-white text-[11px] font-bold rounded-full hover:bg-white hover:text-red-500 hover:border-[2px] hover:border-red-500 hover:ease-in-out duration-300 ">
                     Cancel Task
                   </button>
                 </div>
@@ -316,8 +341,7 @@ export const Card = ({
         </main>
       ) : null}
 
-
-       {cardType === "cancelledRequest" ? (
+      {cardType === "cancelledRequest" ? (
         <main className=" border-2 w-[300px] h-auto rounded-[10px] hover:translate-y-[-20px] mt-5">
           <div className="">
             <img
@@ -364,7 +388,13 @@ export const Card = ({
                 </div>
               </div>
               <div className="flex flex-col pl-2">
-             <p className={`text-[20px] font-bold mt-4 ${showDetails ? "break-words" : "truncate"}` }>{request?.taskname}</p>
+                <p
+                  className={`text-[20px] font-bold mt-4 ${
+                    showDetails ? "break-words" : "truncate"
+                  }`}
+                >
+                  {request?.taskname}
+                </p>
                 <p className="  text-gray-500 text-[12px]">
                   {new Date(request?.datetime!).toLocaleDateString("en-US", {
                     year: "numeric",
@@ -380,9 +410,7 @@ export const Card = ({
               <div className="flex flex-col gap-2 ">
                 <p className="pl-4">{request?.description}</p>
                 <div className="flex justify-center">
-                  <button
-                    className="text-center h-[35px] w-[270px] bg-red-500 text-white text-[11px] font-bold rounded-full hover:bg-white hover:text-red-500 hover:border-[2px] hover:border-red-500 hover:ease-in-out duration-300 "
-                  >
+                  <button className="text-center h-[35px] w-[270px] bg-red-500 text-white text-[11px] font-bold rounded-full hover:bg-white hover:text-red-500 hover:border-[2px] hover:border-red-500 hover:ease-in-out duration-300 ">
                     Remove to Dashboard
                   </button>
                 </div>

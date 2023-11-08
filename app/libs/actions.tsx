@@ -87,7 +87,9 @@ export async function lapseChecker() {
         lt: currentDate,
       },
       status: {
-        not: "Lapsed",
+        not: {
+			in: ["Lapsed", "OnGoing"]
+		},
       },
     },
   });

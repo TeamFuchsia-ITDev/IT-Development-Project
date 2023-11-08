@@ -221,4 +221,3 @@ export interface EditProfileFormProps {
   setEditable: React.Dispatch<React.SetStateAction<boolean>>;
   // updateProfile: (e: FormEvent) => void;
 }
-

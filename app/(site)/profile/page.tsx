@@ -84,10 +84,7 @@ const Profile = () => {
             Back to dashboard
           </button>
         </Link>
-      </div>
-      <Map       />
-
-	  <ChatComponent />
+      </div>      
     </div>
   );
 };

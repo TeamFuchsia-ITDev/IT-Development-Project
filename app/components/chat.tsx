@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useRef, useState } from "react";
 import io, { Socket } from "socket.io-client";
 
@@ -5,12 +7,23 @@ interface SocketReference {
   current: Socket | null;
 }
 
-const ChatComponent = () => {
+interface ChatProps {
+  requestid: string;
+  username: string;
+  userType: string;
+}
+
+const ChatComponent: React.FC<ChatProps> = ({
+  requestid,
+  username,
+  userType,
+}) => {
   const socket: SocketReference = useRef<Socket | null>(null);
   const [inputValue, setInputValue] = useState("");
   const [messages, setMessages] = useState<string[]>([]);
   const [room, setRoom] = useState("");
-  const [username, setUsername] = useState("");
+  const [displayName, setDisplayName] = useState("");
+  const [userRole, setUserRole] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [typingUsers, setTypingUsers] = useState<string[]>([]);
 
@@ -26,7 +39,7 @@ const ChatComponent = () => {
 
   const sendTypingNotification = () => {
     if (!isTyping) {
-      socket.current?.emit("typing", room, username);
+      socket.current?.emit("typing", room, (`[${userRole}]${displayName}`));
       setIsTyping(true);
     }
 
@@ -43,7 +56,11 @@ const ChatComponent = () => {
 
   const sendStopTypingNotification = () => {
     if (isTyping) {
-      socket.current?.emit("stopTyping", room, username);
+      socket.current?.emit(
+        "stopTyping",
+        room,
+        (`[${userRole}]${displayName}`)
+      );
       setIsTyping(false);
     }
   };
@@ -54,13 +71,21 @@ const ChatComponent = () => {
   };
 
   useEffect(() => {
-	// Define the WebSocket server URL with a default value
-    const wsServerUrl = process.env.NEXT_PUBLIC_WS_SERVER || 'ws://serve-ease-websocket-server-1b42068c72f6.herokuapp.com';
+    setDisplayName(username);
+    setRoom(requestid);
+    setUserRole(userType);
+  }, [requestid, username, userType]);
+
+  useEffect(() => {
+    // Define the WebSocket server URL with a default value
+    const wsServerUrl =
+      process.env.NEXT_PUBLIC_WS_SERVER ||
+      "ws://serve-ease-websocket-server-1b42068c72f6.herokuapp.com";
     socket.current = io(wsServerUrl);
 
     const joinRoom = () => {
-      if (room && username) {
-        socket.current?.emit("join", room, username);
+      if (room && displayName) {
+        socket.current?.emit("join", room, (`[${userRole}]${displayName}`));
       }
     };
 
@@ -69,47 +94,31 @@ const ChatComponent = () => {
     });
 
     socket.current?.on("typing", (user: string) => {
-		setTypingUsers((prevTypingUsers) => {
-		  if (!prevTypingUsers.includes(user)) {
-			return [...prevTypingUsers, user];
-		  }
-		  return prevTypingUsers;
-		});
-	  });
-	  
-	  socket.current?.on("stopTyping", (user: string) => {
-		setTypingUsers((prevTypingUsers) =>
-		  prevTypingUsers.filter((u) => u !== user)
-		);
-	  });
+      setTypingUsers((prevTypingUsers) => {
+        if (!prevTypingUsers.includes(user)) {
+          return [...prevTypingUsers, user];
+        }
+        return prevTypingUsers;
+      });
+    });
 
-    if (room && username) {
+    socket.current?.on("stopTyping", (user: string) => {
+      setTypingUsers((prevTypingUsers) =>
+        prevTypingUsers.filter((u) => u !== user)
+      );
+    });
+
+    if (room && (`[${userRole}]${displayName}`)) {
       joinRoom();
     }
 
     return () => {
       socket.current?.disconnect();
     };
-  }, [room, username]);
+  }, [room, displayName]);
 
   return (
     <div>
-      <label>
-        Room:{" "}
-        <input
-          type="text"
-          value={room}
-          onChange={(e) => setRoom(e.target.value)}
-        />
-      </label>
-      <label>
-        Username:{" "}
-        <input
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-      </label>
       <ul>
         {messages.map((message, index) => (
           <li key={index}>{message}</li>
