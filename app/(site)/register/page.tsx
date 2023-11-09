@@ -364,7 +364,7 @@ export default function Register() {
                   <p className="">Sign in with Facebook</p>
                 </button>
                 <a className="text-blue-600 text-[12px]" href="/login">
-                  Already have an account? Sign up
+                  Already have an account? Sign in
                 </a>
               </div>
             </div>
