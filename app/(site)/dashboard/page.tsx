@@ -392,7 +392,8 @@ export default function Dashboard() {
     }
   };
 
-  return (
+
+  return session?.user.isNewUser === false && (
     <main className="pl-24 pr-24">
       <Navbar />
       {mode ? (
