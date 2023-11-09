@@ -115,7 +115,7 @@ export default function Login() {
         <div className="w-1/2">
           <div className="">
             <Link href="/">
-              <Image src={SElogo} alt="Login" className="w-[200px] mt-4" />
+              <Image src={SElogo} alt="Login" className="w-[150px] mt-4" />
             </Link>
           </div>
           <div className="flex flex-col h-[660px] justify-center items-center">
@@ -166,16 +166,16 @@ export default function Login() {
                 </button>
               </div>
 
-              <div className="inline-flex items-center  w-full">
-                <hr className="w-[155px] h-px my-8 bg-gray-200 border-0 dark:bg-gray-700"></hr>
-                <span className=" font-medium text-gray-900  bg-white ml-4 mr-4">
+              <div className="inline-flex items-center w-full">
+                <hr className="w-[155px] h-px my-8 bg-gray-200 border-0 bg-gray-700"></hr>
+                <span className=" text-[12px] text-gray-900  bg-white ml-4 mr-4">
                   OR
                 </span>
-                <hr className="w-[155px] h-px my-8 bg-gray-200 border-0 dark:bg-gray-700"></hr>
+                <hr className="w-[155px] h-px my-8 bg-gray-200 border-0 bg-gray-700"></hr>
               </div>
 
               <button
-                className="bg-white hover:opacity-80 border-2 font-bold text-[12px] rounded w-[360px] h-[45px] flex flex-row mt-4 items-center justify-center"
+                className="bg-white hover:opacity-80 border-2 font-bold text-[12px] rounded w-[360px] h-[45px] flex flex-row items-center justify-center"
                 onClick={loginWithGoogle}
               >
                 <Image
