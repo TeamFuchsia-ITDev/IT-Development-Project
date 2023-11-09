@@ -286,7 +286,7 @@ export default function Login() {
                 <p className="">Sign in with google</p>
               </button>
 
-              <button className="bg-blue-500 hover:bg-blue-600 border-2 text-white font-bold text-[12px] rounded w-[360px] h-[45px] flex flex-row mt-4 items-center justify-center" onClick={loginWithGoogle}>
+              <button className="bg-blue-500 hover:bg-blue-600 border-2 text-white font-bold text-[12px] rounded w-[360px] h-[45px] flex flex-row mt-4 items-center justify-center" onClick={loginWithFacebook}>
                 <Image src={facebook} alt="google" className="w-[20px] h-[20px] mr-2" />
                 <p className="">Sign in with Facebook</p>
               </button>

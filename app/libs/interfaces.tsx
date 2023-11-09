@@ -1,4 +1,5 @@
 import { FormEvent } from "react";
+import { Socket } from "socket.io-client";
 
 export interface UserProps {
   id: string;
@@ -209,8 +210,7 @@ export interface UpdateRequestFormProps {
   updateRequest: (e: FormEvent) => void;
 }
 
-
-export interface EditProfileFormProps { 
+export interface EditProfileFormProps {
   isFormVisible: boolean;
   setIsFormVisible: React.Dispatch<React.SetStateAction<boolean>>;
   disabled: boolean;
@@ -221,3 +221,12 @@ export interface EditProfileFormProps {
   setEditable: React.Dispatch<React.SetStateAction<boolean>>;
   // updateProfile: (e: FormEvent) => void;
 }
+
+export interface ChatProps {
+  requestid: string;
+  username: string;
+  userType: string;
+}
+
+export interface SocketReference {
+	current: Socket | null;}

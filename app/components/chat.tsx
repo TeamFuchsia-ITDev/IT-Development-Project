@@ -2,16 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import io, { Socket } from "socket.io-client";
-
-interface SocketReference {
-  current: Socket | null;
-}
-
-interface ChatProps {
-  requestid: string;
-  username: string;
-  userType: string;
-}
+import { ChatProps, SocketReference } from "@/app/libs/interfaces";
 
 const ChatComponent: React.FC<ChatProps> = ({
   requestid,
@@ -39,7 +30,7 @@ const ChatComponent: React.FC<ChatProps> = ({
 
   const sendTypingNotification = () => {
     if (!isTyping) {
-      socket.current?.emit("typing", room, (`[${userRole}]${displayName}`));
+      socket.current?.emit("typing", room, `[${userRole}]${displayName}`);
       setIsTyping(true);
     }
 
@@ -56,11 +47,7 @@ const ChatComponent: React.FC<ChatProps> = ({
 
   const sendStopTypingNotification = () => {
     if (isTyping) {
-      socket.current?.emit(
-        "stopTyping",
-        room,
-        (`[${userRole}]${displayName}`)
-      );
+      socket.current?.emit("stopTyping", room, `[${userRole}]${displayName}`);
       setIsTyping(false);
     }
   };
@@ -85,7 +72,7 @@ const ChatComponent: React.FC<ChatProps> = ({
 
     const joinRoom = () => {
       if (room && displayName) {
-        socket.current?.emit("join", room, (`[${userRole}]${displayName}`));
+        socket.current?.emit("join", room, `[${userRole}]${displayName}`);
       }
     };
 
@@ -108,7 +95,7 @@ const ChatComponent: React.FC<ChatProps> = ({
       );
     });
 
-    if (room && (`[${userRole}]${displayName}`)) {
+    if (room && `[${userRole}]${displayName}`) {
       joinRoom();
     }
 
