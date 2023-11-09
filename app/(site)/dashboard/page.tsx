@@ -90,7 +90,11 @@ export default function Dashboard() {
       }
     };
 
-    if (status !== "loading" && session?.user.email && session.user.isNewUser === false) {
+    if (
+      status !== "loading" &&
+      session?.user.email &&
+      session.user.isNewUser === false
+    ) {
       fetchUserData();
       fetchUserRequests();
     }
@@ -398,15 +402,10 @@ export default function Dashboard() {
               isFormVisible ? "pointer-events-none blur-sm" : ""
             }`}
           >
-            {user ? (
-              <>
-                <p className="text-[40px]">
-                  Welcome to your Dashboard {user.name !== null ? user.name.split(" ")[0] : ""}
-                </p>
-              </>
-            ) : (
-              <p className="text-[40px]">Welcome to your Dashboard</p>
-            )}
+            <p className="text-[40px]">
+              Welcome to your Dashboard{" "}
+              {user?.name !== undefined ? user.name.split(" ")[0] : ""}
+            </p>
             <p className="text-[16px] ">
               You are now signed in as a Requester. In here you will be able to
               see all the requests you
