@@ -112,22 +112,22 @@ export default function Login() {
   return (
     <div className="flex flex-row ">
       <div className="flex flex-row w-[100%]">
-        <div className="w-1/2">
+        <div className="w-full md:w-1/2 lg:w-1/2 xl:w-1/2">
           <div className="">
             <Link href="/">
               <Image src={SElogo} alt="Login" className="w-[150px] mt-4" />
             </Link>
           </div>
-          <div className="flex flex-col h-[660px] justify-center items-center">
+          <div className="flex flex-col h-[680px] justify-center items-center pl-7 md:pl-0 lg:pl-0 xl:pl-0 ">
             <div className="flex flex-col">
-              <h1 className="text-4xl font-bold mb-2 mt-4 text-left">
+              <h1 className="text-4xl font-bold mb-2 mt-4">
                 Welcome back to{" "}
                 <span className="text-blue-500 block">Serve-Ease</span>
               </h1>
               <p className="text-sm">
                 Sign in now and start using and exploring our app
               </p>
-              <div className="flex flex-col w-[360px] mt-4">
+              <div className="flex flex-col mt-4">
                 <input
                   className="border-2 border-gray-300 h-[45px] rounded-md pl-4"
                   id="email"
