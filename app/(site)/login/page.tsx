@@ -6,11 +6,10 @@ import { toast } from "react-hot-toast";
 import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import lsimage from "../../images/lsimage.png";
-import SElogo from "../../images/logov3.svg";
+import SElogo from "../../images/Serve-ease.svg";
 import google from "../../images/googleIcon.svg";
 import facebook from "../../images/facebookIcon.svg";
-
-
+import { Input } from "@nextui-org/react";
 
 export default function Login() {
   const { data: session, status } = useSession();
@@ -110,17 +109,16 @@ export default function Login() {
   };
 
   return (
-    
-      <div className="flex flex-row ">
-        <div>
+    <div className="flex flex-row ">
+      {/* <div>
           <Image
             src={SElogo}
             alt="Login"
-            className="w-[200px] h-[200px] m-none absolute mt-[-60px] ml-4"
+            className="w-[200px] h-[200px] m-none absolute mt-[-60px]"
           />
-        </div>
+        </div> */}
 
-        <div className="flex flex-col justify-center m-auto w-[400px]">
+      {/* <div className="flex flex-col justify-center m-auto">
           <div className="">
             <h1 className="text-4xl font-bold text-center mb-2 mt-4">
               Sign in
@@ -202,8 +200,8 @@ export default function Login() {
                 <button
                   className={`${
                     disabled
-                      ? "text-center bg-rose-500 opacity-50 text-white font-bold w-[385px] rounded h-[45px] cursor-not-allowed"
-                      : "text-center bg-rose-500 text-white font-bold w-[385px] rounded h-[45px] hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300"
+                      ? "text-center bg-blue-500 opacity-50 text-white font-bold w-[385px] rounded h-[45px] cursor-not-allowed"
+                      : "text-center bg-blue-500 text-white font-bold w-[385px] rounded h-[45px] hover:bg-white hover:text-blue-500 hover:border-[2px] hover:border-blue-500 hover:ease-in-out duration-300"
                   }`}
                   onClick={loginUser}
                   disabled={disabled}
@@ -221,8 +219,84 @@ export default function Login() {
             alt="Login"
             className="w-[700px] h-screen top-0 left-0 object-cover"
           />
+        </div> */}
+
+      <div className="flex flex-row w-[100%]">
+        <div className="w-[50%]">
+          <div>
+            <Image src={SElogo} alt="Login" className="w-[200px] mt-4" />
+          </div>
+          <div className="flex flex-col h-[660px] justify-center items-center">
+            <div className="">
+              <h1 className="text-4xl font-bold  mb-2 mt-4 ">
+                Welcome back to <span className="text-blue-500">Serve-Ease</span>
+              </h1>
+              <p className="text-sm">
+                Sign in now and start using and exploring our app
+              </p>
+              <div className="flex flex-col w-[360px] mt-4">
+                <input
+                  className="border-2 border-gray-300 h-[45px] rounded-md"
+                  id="email"
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  placeholder="Email"
+                  value={data.email}
+                  onChange={(e) => setData({ ...data, email: e.target.value })}
+                />
+                <input
+                  className="border-2 border-gray-300 h-[45px] rounded-md mt-4"
+                  id="password"
+                  name="password"
+                  type="password"
+                  autoComplete="current-password"
+                  placeholder="Password"
+                  value={data.password}
+                  onChange={(e) =>
+                    setData({ ...data, password: e.target.value })
+                  }
+                />
+                <a className="text-blue-500 text-[12px] mt-4" href="#">Forgot-password?</a>
+              <button
+                className={`${
+                  disabled
+                    ? "text-center bg-blue-500 opacity-50 text-white font-bold w-[360px] rounded h-[45px] cursor-not-allowed mt-4"
+                    : "text-center bg-blue-500 text-white font-bold w-[360px] rounded h-[45px] hover:bg-white hover:text-blue-500 hover:border-[2px] hover:border-blue-500 hover:ease-in-out duration-300 mt-4"
+                }`}
+                onClick={loginUser}
+                disabled={disabled}
+              >
+                Sign in
+              </button>
+
+              </div>
+
+              
+              <div className="inline-flex items-center  w-full">
+                <hr className="w-[155px] h-px my-8 bg-gray-200 border-0 dark:bg-gray-700"></hr>
+                <span className=" font-medium text-gray-900  bg-white ml-4 mr-4">
+                  OR
+                </span>
+                <hr className="w-[155px] h-px my-8 bg-gray-200 border-0 dark:bg-gray-700"></hr>
+              </div>
+              
+             <button className="bg-white hover:opacity-80 border-2 font-bold text-[12px] rounded w-[360px] h-[45px] flex flex-row mt-4 items-center justify-center" onClick={loginWithGoogle}>
+                <Image src={google} alt="google" className="w-[20px] h-[20px] mr-2" />
+                <p className="">Sign in with google</p>
+              </button>
+
+              <button className="bg-blue-500 hover:bg-blue-600 border-2 text-white font-bold text-[12px] rounded w-[360px] h-[45px] flex flex-row mt-4 items-center justify-center" onClick={loginWithGoogle}>
+                <Image src={facebook} alt="google" className="w-[20px] h-[20px] mr-2" />
+                <p className="">Sign in with Facebook</p>
+              </button>
+             
+            </div>
+            
+          </div>
+          
         </div>
       </div>
- 
+    </div>
   );
 }
