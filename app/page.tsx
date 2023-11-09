@@ -95,34 +95,16 @@ export default async function Home() {
         </div>
         <div className="flex flex-col w-[100%] justify-center ">
           <div>
-            <h1 className="text-[60px] text-center mt-12">Testimonials</h1>
+            <h1 className="text-[60px] pl-20 mt-16">Testimonials</h1>
           </div>
-
-          {/* <div className="flex flex-row">
-            <img
-              src={blankprofile.src}
-              alt=""
-              className="w-[100px] object-cover"
-            />
-            <div className="flex flex-col justify-center ml-4">
-              <h1 className="font-bold">Safety of our users</h1>
-              <h1 className="w-[200px]">
-                We double check users who have registered
-              </h1>
+          <div className="">
+            <div className="grid grid-cols-3 gap-t-4 mt-4 mb-12 pl-24 pr-12">
+              {" "}
+              <TestimonialCard />
+              <TestimonialCard />
+              <TestimonialCard />     
             </div>
-          </div> */}
-          <div className="flex flex-row justify-center gap-12 mt-24 mb-12">
-            {" "}
-            <TestimonialCard />
-            <TestimonialCard />
-            <TestimonialCard />
-          </div>
 
-          <div className="flex flex-row justify-center gap-12  mb-24">
-            {" "}
-            <TestimonialCard />
-            <TestimonialCard />
-            <TestimonialCard />
           </div>
         </div>
         <div></div>

@@ -6,7 +6,7 @@ import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import lsimage from "../../images/lsimage.png";
-import SElogo from "../../images/logov3.svg";
+import SElogo from "../../images/Serve-ease.svg";
 import google from "../../images/googleIcon.svg";
 import facebook from "../../images/facebookIcon.svg";
 import { signIn } from "next-auth/react";
@@ -88,13 +88,13 @@ export default function Register() {
   };
 
   return (
-    <>
+ 
       <div className="flex flex-row ">
         <div>
           <Image
             src={SElogo}
             alt="Login"
-            className="w-[200px] h-[200px] m-none absolute mt-[-60px] ml-4"
+            className="w-[200px] h-[200px] m-none absolute mt-[-60px]"
           />
         </div>
 
@@ -216,7 +216,7 @@ export default function Register() {
               </div>
               <div className="flex flex-col  items-center">
                 <button
-                  className={`${disabled ? "text-center bg-rose-500 opacity-50 text-white font-bold w-[385px] rounded h-[45px] cursor-not-allowed" : "text-center bg-rose-500 text-white font-bold w-[385px] rounded h-[45px] hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300"}`}
+                  className={`${disabled ? "text-center bg-blue-500 opacity-50 text-white font-bold w-[385px] rounded h-[45px] cursor-not-allowed" : "text-center bg-blue-500 text-white font-bold w-[385px] rounded h-[45px] hover:bg-white hover:text-blue-500 hover:border-[2px] hover:border-blue-500 hover:ease-in-out duration-300"}`}
                   disabled={disabled}
                   onClick={registerUser}
                 >
@@ -240,6 +240,5 @@ export default function Register() {
           />
         </div>
       </div>
-    </>
   );
 }

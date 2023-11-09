@@ -5,9 +5,11 @@ import quote from "@/app/images/quote.svg";
 
 export const TestimonialCard = () => {
   return (
-    <div>
-     <div className="flex flex-col border-2 w-[300px] rounded-[10px]">
-      <div className="flex bg-blue-500 h-[80px] justify-center rounded-t-[10px]" >
+    <div className="mt-4">
+     <div className="flex flex-col w-[400px] rounded-[10px]"
+     style={{ boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.5)" }}>
+      
+      <div className="flex bg-blue-500 h-[80px] justify-center rounded-t-[10px]"  >
       <img src={blankprofile.src} alt="Serve-Ease"  className="rounded-full w-[70px] h-[70px] object-cover mt-[40px] border-white border-4"/>
       </div>
         <div className="flex flex-col ">
