@@ -6,7 +6,7 @@ import { useState, FormEvent, ChangeEvent, useRef, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import defaultProfileImage from "@/app/images/blank-profile.jpg";
-import logo1 from "@/app/images/logov1.svg";
+import logo1 from "@/app/images/Serve-ease.svg";
 import photo from "@/app/images/photo.svg";
 import { LocationData, LocationFeature, FormData } from "@/app/libs/interfaces";
 
@@ -56,7 +56,7 @@ export default function CreateProfile() {
   //   // Check if the session is still loading
   if (status === "loading") {
     // return <p>Loading...</p>;
-	return null;
+    return null;
   }
 
   if (!session) {
@@ -142,7 +142,7 @@ export default function CreateProfile() {
 
         setTimeout(() => {
           toast.remove();
-          router.push("/dashboard");
+          signOut();
         }, 5000);
       }
     } catch (err) {
@@ -177,249 +177,179 @@ export default function CreateProfile() {
   };
 
   return (
-      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <img
-            className="mx-auto h-[70px] w-auto"
-            src={logo1.src}
-            alt="Your Company"
-          />
-          <h2 className="mt-2 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-            Profile Creation Page
-          </h2>
-          <p className="text-center mt-4">
-            Almost there {session.user.name}, to be able to use our platform we
-            need to know more about you
+    <div className="flex justify-center h-[screen] items-center">
+      <div className=" w-[500px] ">
+        <div className="flex justify-center">
+          <img src={logo1.src} alt="logo" className="h-[90px] w-[200px]" />
+        </div>
+        <div className="flex flex-col mt-4 text-center">
+          <h1 className="bold text-4xl">
+            Profile <a className="text-blue-500">Creation</a> Page
+          </h1>
+          <p className="text-sm mb-4">
+            Almost there {session.user.name}, we need to know more 
+            <span className="block">about you. Want to continue later? <a className=" text-blue-500 hover:cursor-pointer" onClick={() => signOut()}> Sign Out</a></span>
           </p>
         </div>
-        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" onSubmit={submitProfile}>
-            {/* Profile Image */}
-            <div>
-              <label
-                htmlFor="profileImage"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Profile Image (note that this will be public to other users)
-              </label>
-              <div className="mt-2">
-                <div onClick={() => fileInputRef.current?.click()}>
-                  {imageBase64 ? (
-                    <img
-                      src={imageBase64}
-                      alt="Selected File"
-                      className="w-[200px] h-[200px] m-auto rounded-[10px] border-2 border-grey-500 object-cover "
-                    />
-                  ) : (
-                    <div className="flex flex-col items-center">
-
-                      <img
-                        src={defaultProfileImage.src}
-                        alt="Default Image"
-                        className="w-[100px] h-[80px] m-auto object-fit"
-                      />
-                      <img
-                        src={photo.src}
-                        alt="Default Image"
-                        className="w-[20px] absolute mt-6 object-fit"
-                      />
-                    </div>
-                  )}
-                </div>
-                <input
-                  type="file"
-                  id="profileImage"
-                  ref={(input) => {
-                    fileInputRef.current = input;
-                  }}
-                  style={{ display: "none" }}
-                  accept="image/*"
-                  onChange={handleFileChange}
+        <div className="flex flex-col justify-center items-center">
+          <label htmlFor="profileImage" className="">
+            Click to upload a profile image
+          </label>
+          <div className="mt-2">
+            <div onClick={() => fileInputRef.current?.click()}>
+              {imageBase64 ? (
+                <img
+                  src={imageBase64}
+                  alt="Selected File"
+                  className="w-[100px] h-[100px]  rounded-[10px] border-2 border-grey-500 object-cover "
                 />
-              </div>
-            </div>
-
-            {/* Name */}
-            <div>
-              <label
-                htmlFor="name"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Name
-              </label>
-              <div className="mt-2">
-                <input
-                  id="name"
-                  name="name"
-                  type="text"
-                  value={data.name}
-                  onChange={handleNameChange}
-                  className="block w-full h-[45px] rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
-
-            {/* Ethnicity dropdown */}
-            <div>
-              <label
-                htmlFor="ethnicity"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Ethnicity
-              </label>
-              <div className="mt-2">
-                <select
-                  id="ethnicity"
-                  name="ethnicity"
-                  value={data.ethnicity}
-                  onChange={(e) =>
-                    setData({ ...data, ethnicity: e.target.value })
-                  }
-                  className="block w-full h-[45px] rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                >
-                  <option value="" disabled>
-                    Select Ethnicity
-                  </option>
-                  {/* Map through the array to generate options */}
-                  {ethnicityOptions.map((option) => (
-                    <option key={option} value={option}>
-                      {option}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-
-            {/* Gender radio buttons */}
-            <div>
-              <label className="block text-sm font-medium leading-6 text-gray-900">
-                Gender
-              </label>
-              <div className="mt-2">
-                <div className="flex items-center space-x-4 gap-4">
-                  {genderOptions.map((option) => (
-                    <div key={option}>
-                      <input
-                        id={option.toLowerCase()}
-                        name="gender"
-                        type="radio"
-                        value={option}
-                        checked={data.gender === option}
-                        onChange={(e) =>
-                          setData({ ...data, gender: e.target.value })
-                        }
-                        className="form-radio h-4 w-4 text-rose-500 focus:ring-rose-500 "
-                      />
-                      <label
-                        htmlFor={option.toLowerCase()}
-                        className="text-sm text-gray-900 ml-2"
-                      >
-                        {option}
-                      </label>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Birthday date picker */}
-            <div>
-              <label
-                htmlFor="birthday"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Birthday
-              </label>
-              <div className="mt-2">
-                <input
-                  id="birthday"
-                  name="birthday"
-                  type="date"
-                  value={data.birthday}
-                  onChange={(e) => {
-                    const date = e.target.value;
-                    if (!date) return;
-                    const formattedDate = new Date(date)
-                      .toISOString()
-                      .split("T")[0];
-                    setData({ ...data, birthday: formattedDate });
-                  }}
-                  className="block w-full h-[45px] rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
-
-            {/* Phone Number input */}
-            <div>
-              <div className="flex items-center justify-between">
-                <label
-                  htmlFor="phonenumber"
-                  className="block text-sm font-medium leading-6 text-gray-900"
-                >
-                  Phone Number
-                </label>
-              </div>
-              <div className="mt-2">
-                <input
-                  id="phonenumber"
-                  name="phonenumber"
-                  type="text"
-                  value={data.phonenumber}
-                  onChange={handlePhoneNumberChange}
-                  className="block w-full h-[45px] rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
-
-            {/* Address */}
-            <div>
-              <div className="flex items-center justify-between">
-                <label
-                  htmlFor="address"
-                  className="block text-sm font-medium leading-6 text-gray-900"
-                >
-                  Address
-                </label>
-              </div>
-              <div className="mt-2">
-                <input
-                  id="address"
-                  name="address"
-                  type="text"
-                  value={address}
-                  onChange={handleLocationChange}
-                  className="block w-full h-[45px] rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-              {suggestions?.length > 0 && (
-                <div className="bg-white border border-gray-300 rounded-lg z-10 overflow-auto max-h-40">
-                  {suggestions.map((suggestion, index) => (
-                    <p
-                      className="p-4 cursor-pointer text-sm text-black transition duration-200 ease-in-out bg-gray-100 hover:bg-green-200"
-                      key={index}
-                      onClick={() => {
-                        setAddress(suggestion.place_name);
-                        setSuggestions([]);
-                      }}
-                    >
-                      {suggestion.place_name}
-                    </p>
-                  ))}
+              ) : (
+                <div className="flex flex-col">
+                  <img
+                    src={defaultProfileImage.src}
+                    alt="Default Image"
+                    className="w-[100px] h-[100px] object-cover"
+                  />
                 </div>
               )}
             </div>
-            <div className="flex text-center items-center justify-center">Want to continue later? <a className="ml-[4px] text-rose-500 hover:cursor-pointer" onClick={() => signOut()}> Sign Out</a></div>
-            <div>
-              <button
-                type="submit"
-                className={`${disabled ? "text-center bg-rose-500 text-white font-bold w-[385px] rounded h-[45px] opacity-50 cursor-not-allowed" : "text-center bg-rose-500 text-white font-bold w-[385px] rounded h-[45px] hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300"}`}
-                disabled={disabled}
-              >
-                Create your profile
-              </button>
+          </div>
+          <input
+            type="file"
+            id="profileImage"
+            ref={(input) => {
+              fileInputRef.current = input;
+            }}
+            style={{ display: "none" }}
+            accept="image/*"
+            onChange={handleFileChange}
+          />
+          <input
+            id="name"
+            name="name"
+            type="text"
+            placeholder="Name"
+            value={data.name}
+            onChange={handleNameChange}
+            className="border-2 border-gray-300 h-[45px] rounded-md pl-4 mt-8 w-[390px] "
+          />
+
+          <select
+            id="ethnicity"
+            name="ethnicity"
+            value={data.ethnicity}
+            onChange={(e) => setData({ ...data, ethnicity: e.target.value })}
+            className=" border-2 border-gray-300 h-[45px] rounded-md pl-4 mt-8 w-[390px] "
+          >
+            <option value="" disabled>
+              Select Ethnicity
+            </option>
+            {/* Map through the array to generate options */}
+            {ethnicityOptions.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
+
+          <div className="mt-8">
+            <div className="flex items-center space-x-4 gap-4">
+              {genderOptions.map((option) => (
+                <div key={option}>
+                  <input
+                    id={option.toLowerCase()}
+                    name="gender"
+                    type="radio"
+                    value={option}
+                    checked={data.gender === option}
+                    onChange={(e) =>
+                      setData({ ...data, gender: e.target.value })
+                    }
+                    className="form-radio h-4 w-4 text-blue-500 focus:ring-blue-500 "
+                  />
+                  <label
+                    htmlFor={option.toLowerCase()}
+                    className="text-sm text-gray-900 ml-2"
+                  >
+                    {option}
+                  </label>
+                </div>
+              ))}
             </div>
-          </form>
+          </div>
+
+          <div className="mt-8 flex gap-2">
+            <label className=" text-sm flex justify-center items-center">
+              Birth Date
+            </label>
+            <input
+              id="birthday"
+              name="birthday"
+              type="date"
+              value={data.birthday}
+              onChange={(e) => {
+                const date = e.target.value;
+                if (!date) return;
+                const formattedDate = new Date(date)
+                  .toISOString()
+                  .split("T")[0];
+                setData({ ...data, birthday: formattedDate });
+              }}
+              className="border-2 border-gray-300 h-[45px] rounded-md pl-4  w-[315px]"
+            />
+          </div> <div className="">
+            <input
+              id="address"
+              name="address"
+              type="text"
+              placeholder="Address"
+              value={address}
+              onChange={handleLocationChange}
+              className="border-2 border-gray-300 h-[45px] rounded-md pl-4 mt-8 w-[390px]"
+            />
+          </div>
+          {suggestions?.length > 0 && (
+            <div className="bg-white border border-gray-300 rounded-lg z-10 overflow-auto max-h-40 w-[390px]">
+              {suggestions.map((suggestion, index) => (
+                <p
+                  className="p-4 cursor-pointer text-sm text-black transition duration-200 ease-in-out bg-gray-100 hover:bg-green-200"
+                  key={index}
+                  onClick={() => {
+                    setAddress(suggestion.place_name);
+                    setSuggestions([]);
+                  }}
+                >
+                  {suggestion.place_name}
+                </p>
+              ))}
+            </div>
+          )} 
+          <input
+            id="phonenumber"
+            name="phonenumber"
+            placeholder="Phone Number"
+            type="text"
+            value={data.phonenumber}
+            onChange={handlePhoneNumberChange}
+            className="border-2 border-gray-300 h-[45px] rounded-md pl-4 mt-8 w-[390px]"
+          />
+
+         
+          <div className="mt-8">
+             <button 
+              onClick={submitProfile}
+              type="submit"
+              className={`${disabled ? "text-center bg-blue-500 text-white font-bold w-[385px] rounded h-[45px] opacity-50 cursor-not-allowed mb-12" : "text-center bg-blue-500 text-white font-bold w-[385px] rounded h-[45px] hover:bg-white hover:text-blue-500 hover:border-[2px] hover:border-blue-500 hover:ease-in-out duration-300 mb-12"}`}
+              disabled={disabled}
+            >
+              Create your profile
+            </button>
+          </div>
+          
         </div>
+
+       
       </div>
+    </div>
   );
 }

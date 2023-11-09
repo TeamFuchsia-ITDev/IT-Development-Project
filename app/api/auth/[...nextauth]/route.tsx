@@ -5,6 +5,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import FacebookProvider from "next-auth/providers/facebook";
 import bcrypt from "bcrypt";
+import { validateEmail } from "@/app/libs/validations";
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -48,6 +49,8 @@ export const authOptions: NextAuthOptions = {
       },
       authorize: async (credentials) => {
         if (!credentials?.email) throw new Error("Please enter your email");
+        if (!validateEmail(credentials.email))
+          throw new Error("Please enter a valid email");
         if (!credentials?.password)
           throw new Error("Please enter your password");
 
