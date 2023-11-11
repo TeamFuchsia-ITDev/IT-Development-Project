@@ -20,8 +20,6 @@ const Map: React.FC<MapProps> = ({ startLocation, endLocation }) => {
     useState<google.maps.DirectionsRenderer | null>(null);
 
   useEffect(() => {
-    // const startLocation = { lat: 49.112609, lng: -122.830069 }; // our house
-    // const endLocation = { lat: 49.215401, lng: -122.950891 }; // emil's house
 
     const loader = new Loader({
       apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAP_API!,

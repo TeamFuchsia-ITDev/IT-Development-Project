@@ -93,6 +93,7 @@ model Request {
     requesterCity  String
     compNeeded     Int
     status         String // "Waiting, Pending, OnGoing, Cancelled, Completed"
+    coordinates    Float[]  @default([])
 
     user      User   @relation(fields: [userEmail], references: [email])
     userEmail String
