@@ -17,7 +17,7 @@ export const NavbarLanding = () => {
           <h1 >Sign in</h1>
             </Link>
             <Link href="/register">
-          <button className="border-2 rounded-md w-32 h-8 bg-blue-500 text-white text-[12px]  hover:bg-white hover:text-blue-500 hover:border-[2px] hover:border-blue-500 hover:ease-in-out duration-300">
+          <button className="border-2 rounded-md w-32 h-8 bg-blue-500 text-white text-[12px] hover:font-bold  hover:bg-white hover:text-blue-500 hover:border-[2px] hover:border-blue-500 hover:ease-in-out duration-300">
             {" "}
             Join Now
           </button>

@@ -4,7 +4,9 @@ import { useSession, signOut } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { UserProps } from "@/app/libs/interfaces";
 import { usePathname, useRouter } from "next/navigation";
-import { useMode } from "@/app/context/ModeContext"; // Import the useMode hook from your context
+import { useMode } from "@/app/context/ModeContext"; // Import the useMode hook from your context'
+import serveease from "@/app/images/Serve-ease.svg";
+
 
 export const Navbar = () => {
   const { data: session, status } = useSession();
@@ -28,13 +30,12 @@ export const Navbar = () => {
   }, [session?.user.email]);
 
   const isLinkActive =
-    " text-rose-500 underline underline-offset-[5px] decoration-rose-500 decoration-2";
+    " text-blue-500 underline underline-offset-[5px] decoration-blue-500 decoration-2";
 
   return (
     <main className="pt-4">
       <div className="flex flex-row justify-between items-center">
-        {/* <img src={logo.src} alt="Logo" width={60} className="m-2 " /> */}
-        <h1>Serve-Ease</h1>
+        <img src={serveease.src} alt="Serve-Ease" width={150} />
         <div className=" relative flex gap-5  text-sm  items-center">
           {mode === true ? (
             <a
@@ -44,7 +45,7 @@ export const Navbar = () => {
               }`}
             >
               New Request
-              <div className="absolute left-0 w-0 h-[2px] bg-rose-500 group-hover:w-full transition-transform transform origin-left transform scale-x-0 group-hover:scale-x-100"></div>
+              <div className="absolute left-0 w-0 h-[2px] bg-blue-500 group-hover:w-full transition-transform transform origin-left transform scale-x-0 group-hover:scale-x-100"></div>
             </a>
           ) : null}
 
@@ -55,7 +56,7 @@ export const Navbar = () => {
             }`}
           >
             Profile
-            <div className="absolute left-0 w-0 h-[2px] bg-rose-500 group-hover:w-full transition-transform transform origin-left transform scale-x-0 group-hover:scale-x-100"></div>
+            <div className="absolute left-0 w-0 h-[2px] bg-blue-500 group-hover:w-full transition-transform transform origin-left transform scale-x-0 group-hover:scale-x-100"></div>
           </a>
           <a
             href="/dashboard"
@@ -64,7 +65,7 @@ export const Navbar = () => {
             }`}
           >
             Dashboard
-            <div className="absolute left-0 w-0 h-[2px] bg-rose-500 group-hover:w-full transition-transform transform origin-left transform scale-x-0 group-hover:scale-x-100"></div>
+            <div className="absolute left-0 w-0 h-[2px] bg-blue-500 group-hover:w-full transition-transform transform origin-left transform scale-x-0 group-hover:scale-x-100"></div>
           </a>
           {user ? (
             <div className="relative inline-block">
@@ -102,7 +103,7 @@ export const Navbar = () => {
                         value={mode.toString()}
                         onChange={() => setMode(!mode)}
                       />
-                      <div className="w-12 h-6 rounded-full shadow-inner bg-green-500 peer-checked:bg-rose-500"></div>
+                      <div className="w-12 h-6 rounded-full shadow-inner bg-green-500 peer-checked:bg-blue-500"></div>
                       <div className="absolute inset-y-0 left-0 w-4 h-4 m-1 rounded-full shadow peer-checked:right-0 peer-checked:left-auto bg-white"></div>
                     </span>
                   </label>
@@ -140,7 +141,7 @@ export const Navbar = () => {
             <div role="status">
               <svg
                 aria-hidden="true"
-                className="inline w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-400 fill-rose-600"
+                className="inline w-8 h-8 mr-2 text-gray-200 animate-spin :text-gray-400 fill-blue-600"
                 viewBox="0 0 100 101"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"

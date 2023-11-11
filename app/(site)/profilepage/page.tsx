@@ -56,11 +56,10 @@ const Profilepage = () => {
     <main className="pl-24 pr-24">
       <Navbar />
       <div
-        className={`flex flex-row mt-12 gap-4 ${
+        className={`flex flex-row mt-12 gap-4 w-[100%] ${
           isFormVisible ? "pointer-events-none blur-md" : ""
-        }`}
-      >
-        <div>
+        }`}>
+        <div className="w-[40%]">
           {user ? (
             <div
               className="h-auto  rounded-[5px] mt-12"
@@ -128,39 +127,12 @@ const Profilepage = () => {
               </div>
             </div>
           ) : (
-              <div
-                className="  w-[500px] h-[420px]  rounded-[5px] mt-12  animate-puls"
-                style={{ boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.5)" }}
-              >
-                <div className="flex flex-col ">
-                    <div className="flex  justify-center">
-                      <div className="rounded-full  h-[100px] item-center w-[100px] border-2 border-gray mt-[-50px] bg-gray-300 animate-pulse"></div>
-                    </div>
-
-                    <div className="flex flex-col items-center">
-                      <div className="bg-gray-300 animate-pulse w-[150px] h-[20px] mt-2"></div>
-                      <div className="bg-gray-300 animate-pulse w-[100px] h-[20px] mt-2"></div>
-                    </div>
-
-                    <div className="flex flex-col pl-12 pr-12 text-xl mt-4 gap-2">
-                      <div className="bg-gray-300 animate-pulse w-[200px] h-[20px] mt-2"></div>
-                      <div className="bg-gray-300 animate-pulse w-[200px] h-[20px] mt-2"></div>
-                      <div className="bg-gray-300 animate-pulse w-[200px] h-[20px] mt-2"></div>
-                      <div className="bg-gray-300 animate-pulse w-[200px] h-[20px] mt-2"></div>
-                      <div className="bg-gray-300 animate-pulse w-[400px] h-[20px] mt-2"></div>
-                      <div className="bg-gray-300 animate-pulse w-[400px] h-[20px] mt-2"></div>
-                    </div>
-                    <div className="flex justify-center">
-                      <div className="bg-gray-300 animate-pulse w-[400px] h-[45px] mt-2 items-center mt-4 "></div>
-                    </div>
-                </div>
-              </div>
-         
+            null
           )}
         </div>
 
-        <div className="border-2 w-[100%] h-[600px] ">
-          <div className="w-[100%]"></div>
+        <div className="border-2 w-[60%] h-auto">
+      
           <button
             className={`${
               profilepage === "Reviews"

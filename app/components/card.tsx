@@ -144,7 +144,7 @@ export const Card = ({
             )}
             <div className="flex justify-center mt-2">
               <button
-                className="text-center bg-rose-500 text-white text-[11px] font-bold  w-[270px] h-[35px] rounded-full hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300  mb-4"
+                className="text-center bg-blue-500 text-white text-[11px] font-bold  w-[270px] h-[35px] rounded-full hover:bg-white hover:text-blue-500 hover:border-[2px] hover:border-blue-500 hover:ease-in-out duration-300  mb-4"
                 onClick={() => setShowDetails(!showDetails)}
               >
                 {showDetails ? "Hide Description" : "Show Task Description"}
@@ -316,7 +316,7 @@ export const Card = ({
 
                 <div className="flex justify-center">
                   <button
-                    className="text-center h-[35px] w-[270px] bg-purple-500 text-white text-[11px] font-bold rounded-full hover:bg-white hover:text-purple-500 hover:border-[2px] hover:border-purple-500 hover:ease-in-out duration-300 "
+                    className="text-center h-[35px] w-[270px] bg-cyan-400 text-white text-[11px] font-bold rounded-full hover:bg-white hover:text-cyan-400 hover:border-[2px] hover:border-cyan-400 hover:ease-in-out duration-300 "
                     onClick={handleOpenChatMapPage}
                   >
                     Open Chat
@@ -331,7 +331,7 @@ export const Card = ({
             )}
             <div className="flex justify-center mt-2">
               <button
-                className="text-center bg-rose-500 text-white text-[11px] font-bold  w-[270px] h-[35px] rounded-full hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300  mb-4"
+                className="text-center bg-blue-500 text-white text-[11px] font-bold  w-[270px] h-[35px] rounded-full hover:bg-white hover:text-blue-500 hover:border-[2px] hover:border-blue-500 hover:ease-in-out duration-300  mb-4"
                 onClick={() => setShowDetails(!showDetails)}
               >
                 {showDetails ? "Hide Options" : "Show options"}
@@ -418,7 +418,7 @@ export const Card = ({
             )}
             <div className="flex justify-center mt-2">
               <button
-                className="text-center bg-rose-500 text-white text-[11px] font-bold  w-[270px] h-[35px] rounded-full hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300  mb-4"
+                className="text-center bg-blue-500 text-white text-[11px] font-bold  w-[270px] h-[35px] rounded-full hover:bg-white hover:text-blue-500 hover:border-[2px] hover:border-blue-500 hover:ease-in-out duration-300  mb-4"
                 onClick={() => setShowDetails(!showDetails)}
               >
                 {showDetails ? "Hide Options" : "Show options"}

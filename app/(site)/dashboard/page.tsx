@@ -413,7 +413,7 @@ export default function Dashboard() {
             </p>
             <p className=" ">
               have created. Need further explanation?{" "}
-              <a href="#" className="text-rose-500">
+              <a href="#" className="text-blue-500 font-bold">
                 click here
               </a>
             </p>
@@ -620,7 +620,7 @@ export default function Dashboard() {
               </p>
               <p className="text-[16px]">
                 need further explantion?{" "}
-                <a className="text-rose-500">click here</a>
+                <a className="text-blue-500 font-bold " href="#">click here</a>
               </p>
             </div>
 
