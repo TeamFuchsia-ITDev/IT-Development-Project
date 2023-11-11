@@ -67,7 +67,7 @@ export default function PostRequest() {
       <Navbar />
       <div className="ml-4 mr-4 mt-24">
         <div className="ml-4 mr-4 text-center">
-          <p className="text-[40px]">Welcome to your Post page</p>
+          <p className="text-[40px]">Welcome to your Create Request page</p>
           <p className="text-[20px]  ">
             In here you will be able to fill up and post requests you need help
             with
@@ -80,7 +80,7 @@ export default function PostRequest() {
 
             <div className="flex flex-col w-[400px] gap-4 ">
               {" "}
-              <p className="text-center underline underline-offset-8 decoration-rose-500 decoration-2 mt-12">
+              <p className="text-center underline underline-offset-8 decoration-blue-500 decoration-2 mt-12">
                 Request Form
               </p>
               <p className="text-[13px] mt-4">Category</p>
@@ -152,14 +152,14 @@ export default function PostRequest() {
               />
               <p className="text-[10px] text-[13px]">
                 <a className="text-rose-600 text-[13px]">Note:</a> Once request
-                is posted, your profile details will be shown to the companions
-                once they viewed the request.
+                is created, your profile details can be viewed by the companions
+                once they clicked on your profile picture.
               </p>
               <button
                 className={`${
                   disabled
-                    ? " text-center bg-rose-500 opacity-50 text-white font-bold mb-12 rounded h-[45px]"
-                    : "text-center bg-rose-500 text-white font-bold mb-12 rounded h-[45px] hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300"
+                    ? " text-center bg-blue-500 opacity-50 text-white font-bold mb-12 rounded h-[45px]"
+                    : "text-center bg-blue-500 text-white font-bold mb-12 rounded h-[45px] hover:bg-white hover:text-blue-500 hover:border-[2px] hover:border-blue-500 hover:ease-in-out duration-300"
                 } ${disabled && "cursor-not-allowed"}`}
                 onClick={postRequest}
                 disabled={disabled}

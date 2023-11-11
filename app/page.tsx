@@ -53,13 +53,13 @@ export default async function Home() {
                   Sign up free!
                 </button>
               </Link>
-              <p className="flex justify-center items-center gap-1 text-white">
+              {/* <p className="flex justify-center items-center gap-1 text-white">
                 Already have an account?{" "}
                 <a href="/login" className="text-blue-500 text-center">
                   {" "}
                   Sign In here{" "}
                 </a>
-              </p>
+              </p> */}
             </div>
           </div>
         </div>
@@ -75,10 +75,10 @@ export default async function Home() {
             </p>
             <br />
             <p className="text-xl">
-              What sets us apart is the flexibility we offer. Companions have
+              What sets us apart is the flexibility we offer. <span className="text-red-500">Companions</span> have
               the choice to provide their services either for free, as a gesture
-              of kindness, or they can charge for their expertise. You can find
-              someone to assist you, whether you're looking for a helping hand
+              of kindness, or they can charge for their expertise. <span className="text-blue-500">Requesters</span> on the other hand can find
+              someone to assist them, whether they're looking for a helping hand
               or a friendly chat.
             </p>
             <br />
@@ -89,16 +89,16 @@ export default async function Home() {
               discover the perfect balance between assistance and companionship!
             </p>
           </div>
-          <div className="w-1/2 ">
+          <div className="w-1/2 flex justify-center ">
             <img src={blobimage.src} alt="" className="w-[600px]" />
           </div>
         </div>
-        <div className="flex flex-col w-[100%] justify-center ">
+        <div className="flex flex-col w-[100%] justify-center items-center ">
           <div>
-            <h1 className="text-[60px] pl-20 mt-16">Testimonials</h1>
+            <h1 className="text-[60px] mt-16">Testimonials</h1>
           </div>
           <div className="">
-            <div className="grid grid-cols-3 gap-t-4 mt-4 mb-12 pl-24 pr-12">
+            <div className="grid grid-cols-3 gap-12 mt-4 mb-12 ">
               {" "}
               <TestimonialCard />
               <TestimonialCard />

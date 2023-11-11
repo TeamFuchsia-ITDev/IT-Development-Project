@@ -76,10 +76,9 @@ export default function MyJobs() {
       <Navbar />
       <div>
         <div className="mt-6 text-center">
-          <p className="text-[40px] mt-24">
-            These are the applicants for {request?.taskname}
+          <p className="text-[30px] mt-12"> {request?.taskname} Applicants
           </p>
-          <p className="text-[16px]  ">
+          <p className="text-md">
             In here you will be able to see al the companions that have applied
             to your request
           </p>

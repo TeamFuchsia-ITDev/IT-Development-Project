@@ -12,6 +12,7 @@ import facebook from "../../images/facebookIcon.svg";
 import { Input } from "@nextui-org/react";
 import Link from "next/link";
 
+
 export default function Login() {
   const { data: session, status } = useSession();
   const router = useRouter();
@@ -22,6 +23,7 @@ export default function Login() {
     email: "",
     password: "",
   });
+ 
 
   useEffect(() => {
     // Check if the session is still loading
