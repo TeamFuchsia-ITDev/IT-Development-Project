@@ -21,6 +21,8 @@ import axios from "axios";
 import toast from "react-hot-toast";
 
 const MapChatPage = () => {
+  const [refreshMap, setRefreshMap] = useState(0);
+
   const socket: SocketReference = useRef<Socket | null>(null);
   const [address, setAddress] = useState("");
   const [suggestions, setSuggestions] = useState<LocationFeature[]>([]);
@@ -122,6 +124,7 @@ const MapChatPage = () => {
         console.error("Error fetching user requests:", error);
       }
     };
+    setRefreshMap((prev) => prev + 1);
 
     // Check if queryParams is available before making the request
     if (queryParams?.requestid) {
@@ -136,7 +139,7 @@ const MapChatPage = () => {
         },
       }));
     }
-  }, [queryParams]);
+  }, [queryParams, selectedCompanionLocation]);
 
   // Loading useEffect to make sure map has values already before rendering
   useEffect(() => {
@@ -175,6 +178,9 @@ const MapChatPage = () => {
   }
 
   const setMeetingPoint = async (e: FormEvent) => {
+    if (isMeetingPointSet) {
+      socket.current?.emit("changeLocation", queryParams.requestid, queryParams.username);
+    }
     setDisabled(true);
     toast.loading("Setting the meeting point...", {
       duration: 4000,
@@ -276,11 +282,12 @@ const MapChatPage = () => {
           </>
         ) : (
           <Map
-            key={`${data.startLocation}`}
+            key={`${data.startLocation}-${data.endLocation}`}
             startLocation={data.startLocation}
             endLocation={data.endLocation}
           />
         ))}
+
       <ul>
         {whoSharedLocation.map((message, index) => (
           <li key={index}>{message}</li>
