@@ -58,9 +58,9 @@ const ChatComponent: React.FC<ChatProps> = ({
   };
 
   useEffect(() => {
-    setDisplayName(username);
-    setRoom(requestid);
-    setUserRole(userType);
+    setDisplayName(username!);
+    setRoom(requestid!);
+    setUserRole(userType!);
   }, [requestid, username, userType]);
 
   useEffect(() => {
