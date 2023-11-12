@@ -223,9 +223,9 @@ export interface EditProfileFormProps {
 }
 
 export interface ChatProps {
-  requestid: string;
-  username: string;
-  userType: string;
+  requestid: string | null;
+  username: string | null;
+  userType: string | null;
 }
 
 export interface SocketReference {

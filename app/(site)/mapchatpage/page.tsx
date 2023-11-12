@@ -8,6 +8,7 @@ import {
   ChangeEvent,
   FormEvent,
   useMemo,
+  useCallback,
 } from "react";
 import { useSession } from "next-auth/react";
 import getGeolocation from "@/app/libs/geolocation";
@@ -40,12 +41,8 @@ const MapChatPage = () => {
   const { data: session, status } = useSession();
   const [loading, setLoading] = useState(true);
   const [disabled, setDisabled] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
   const [isMeetingPointSet, setIsMeetingPointSet] = useState(false);
   const [data, setData] = useState({
-    requestid: "",
-    username: "",
-    userType: "",
     startLocation: {
       lat: 0,
       lng: 0,
@@ -56,6 +53,7 @@ const MapChatPage = () => {
     },
   });
 
+  // Used to store and get values from the params
   const queryParams = useMemo(() => {
     return {
       requestid: searchParams.get(`requestid`),
@@ -63,35 +61,6 @@ const MapChatPage = () => {
       userType: searchParams.get(`usertype`),
     };
   }, [searchParams]);
-
-  useEffect(() => {
-    const fetchUserRequests = async () => {
-      try {
-        const response = await axios.get(
-          `/api/user/request/${queryParams?.requestid}`
-        );
-        const res = response.data;
-        if (res.coordinates.length > 0) {
-          setIsMeetingPointSet(true);
-        }
-        setData((prevData) => ({
-          ...prevData,
-          endLocation: {
-            lat: res.coordinates[0],
-            lng: res.coordinates[1],
-          },
-        }));
-      } catch (error) {
-        console.error("Error fetching user requests:", error);
-      }
-    };
-
-    // Check if queryParams is available before making the request
-    if (queryParams?.requestid) {
-      fetchUserRequests();
-    }
-    setIsMounted(true);
-  }, [queryParams]); // Only run the effect when queryParams change
 
   // Connect to WebSocket Server
   const setupSocket = () => {
@@ -109,20 +78,69 @@ const MapChatPage = () => {
     });
   };
 
-  // Initializer useEffect
-  useEffect(() => {
-    setData((prevData) => ({
-      ...prevData,
-      requestid: queryParams.requestid!,
-      username: queryParams.username!,
-      userType: queryParams.userType!,
-    }));
+  const joinRoom = useCallback(() => {
+    if (queryParams.requestid && queryParams.username) {
+      socket.current?.emit(
+        "shareLocation",
+        queryParams.requestid,
+        queryParams.username
+      );
+    }
+  }, [queryParams]);
 
+  useEffect(() => {
     setupSocket();
-  }, [session, searchParams]);
+    if (queryParams.userType === "Requester") joinRoom();
+    return () => {
+      // Clean up the socket connection when the component unmounts
+      if (socket.current) {
+        socket.current.disconnect();
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    const fetchUserRequests = async () => {
+      try {
+        const response = await axios.get(
+          `/api/user/request/${queryParams?.requestid}`
+        );
+        const res = response.data;
+
+        // Applies to both companion and requester
+        if (res.coordinates.length > 0) {
+          setIsMeetingPointSet(true);
+          setData((prevData) => ({
+            ...prevData,
+            endLocation: {
+              lat: res.coordinates[0],
+              lng: res.coordinates[1],
+            },
+          }));
+        }
+      } catch (error) {
+        console.error("Error fetching user requests:", error);
+      }
+    };
+
+    // Check if queryParams is available before making the request
+    if (queryParams?.requestid) {
+      fetchUserRequests();
+    }
+    if (queryParams.userType === "Companion") {
+      setData((prevData) => ({
+        ...prevData,
+        startLocation: {
+          lat: data.startLocation.lat,
+          lng: data.startLocation.lng,
+        },
+      }));
+    }
+  }, [queryParams]);
 
   // Loading useEffect to make sure map has values already before rendering
   useEffect(() => {
+    console.log(data);
     if (
       data.startLocation.lat !== 0 &&
       data.startLocation.lng !== 0 &&
@@ -156,14 +174,14 @@ const MapChatPage = () => {
     }
   }
 
-  const updateProfile = async (e: FormEvent) => {
+  const setMeetingPoint = async (e: FormEvent) => {
     setDisabled(true);
     toast.loading("Setting the meeting point...", {
       duration: 4000,
     });
 
     const requestBody = {
-      requestid: data.requestid,
+      requestid: queryParams.requestid,
       coordinates: coordinates,
     };
 
@@ -184,158 +202,143 @@ const MapChatPage = () => {
     }
   };
 
+  const handleShareLocation = async () => {
+    setHasSharedLocation(true);
+    joinRoom();
+    const currentLocation = await getGeolocation();
+    if (queryParams.userType === "Companion") {
+      socket.current?.emit("sendLocation", queryParams.requestid, {
+        lat: currentLocation.lat,
+        lng: currentLocation.lng,
+      });
+    }
+    setData((prevData) => ({
+      ...prevData,
+      startLocation: {
+        lat: currentLocation.lat,
+        lng: currentLocation.lng,
+      },
+    }));
+  };
+
   return (
     <div className="w-full mx-auto max-w-4xl text-center">
-      {isMeetingPointSet && <div>HAS MEETING POINT SETUP</div>}
-
-      <div className="">
-        <input
-          id="address"
-          name="address"
-          type="text"
-          value={address}
-          onChange={handleLocationChange}
-          className={`border-1 border-gray-300 h-[45px] w-[400px]  mb-4  focus:ring-blue-400
+      {/* If UserType is Requester show this address input and save button */}
+      {queryParams.userType === "Requester" && (
+        <>
+          <div className="">
+            <input
+              id="address"
+              name="address"
+              type="text"
+              value={address}
+              onChange={handleLocationChange}
+              className={`border-1 border-gray-300 h-[45px] w-[400px]  mb-4  focus:ring-blue-400
           }`}
-        />
-      </div>
-      {suggestions?.length > 0 && (
-        <div className="bg-white border border-gray-300 rounded-lg z-10 overflow-auto max-h-20 w-[400px] mb-2 ">
-          {suggestions.map((suggestion, index) => (
-            <p
-              // className="p-4 cursor-pointer text-sm text-black transition duration-200 ease-in-out bg-gray-100 hover:bg-green-200"
-              className="p-4 cursor-pointer text-sm text-black transition duration-200 ease-in-out hover:bg-green-200"
-              key={index}
-              onClick={() => {
-                setAddress(suggestion.place_name);
-                setSuggestions([]);
-              }}
-            >
-              {suggestion.place_name}
-            </p>
-          ))}
+            />
+          </div>
+          {suggestions?.length > 0 && (
+            <div className="bg-white border border-gray-300 rounded-lg z-10 overflow-auto max-h-20 w-[400px] mb-2 ">
+              {suggestions.map((suggestion, index) => (
+                <p
+                  // className="p-4 cursor-pointer text-sm text-black transition duration-200 ease-in-out bg-gray-100 hover:bg-green-200"
+                  className="p-4 cursor-pointer text-sm text-black transition duration-200 ease-in-out hover:bg-green-200"
+                  key={index}
+                  onClick={() => {
+                    setAddress(suggestion.place_name);
+                    setSuggestions([]);
+                  }}
+                >
+                  {suggestion.place_name}
+                </p>
+              ))}
+            </div>
+          )}
+          <button
+            className={`${
+              disabled
+                ? " text-center bg-blue-500 opacity-50 text-white font-bold w-[400px] rounded mb-4 h-[45px] cursor-not-allowed"
+                : "text-center bg-blue-500 text-white font-bold w-[400px] rounded mb-4 h-[45px] hover:bg-white hover:text-blue-500 hover:border-[2px] hover:border-blue-500 hover:ease-in-out duration-300"
+            } ${disabled && "cursor-not-allowed"}`}
+            onClick={setMeetingPoint}
+            disabled={disabled}
+          >
+            Set Meeting Point
+          </button>
+        </>
+      )}
+
+      {isMeetingPointSet &&
+        sharedLocation.length > 0 &&
+        (loading ? (
+          <>
+            <p>Loading...</p>
+          </>
+        ) : (
+          <Map
+            key={`${data.startLocation}`}
+            startLocation={data.startLocation}
+            endLocation={data.endLocation}
+          />
+        ))}
+      <ul>
+        {whoSharedLocation.map((message, index) => (
+          <li key={index}>{message}</li>
+        ))}
+      </ul>
+
+      {queryParams.userType === "Requester" && (
+        <div>
+          <label>Select Companion:</label>
+          <select
+            onChange={(e) => {
+              setSelectedCompanionLocation(e.target.value);
+              const value = e.target.value;
+              setData((prevData) => ({
+                ...prevData,
+                startLocation: {
+                  lat: parseFloat(value.split("+")[1]),
+                  lng: parseFloat(value.split("+")[2]),
+                },
+              }));
+            }}
+          >
+            <option value="">Select a Companion</option>
+            {sharedLocation.map((companion, index) => {
+              const companionName = companion.split("+")[0];
+              if (companionName !== queryParams.username) {
+                return (
+                  <option key={index} value={sharedLocation[index]}>
+                    {companionName}
+                  </option>
+                );
+              }
+              return null;
+            })}
+          </select>
         </div>
       )}
-      <button
-        className={`${
-          disabled
-            ? " text-center bg-blue-500 opacity-50 text-white font-bold w-[400px] rounded mb-4 h-[45px] cursor-not-allowed"
-            : "text-center bg-blue-500 text-white font-bold w-[400px] rounded mb-4 h-[45px] hover:bg-white hover:text-blue-500 hover:border-[2px] hover:border-blue-500 hover:ease-in-out duration-300"
-        } ${disabled && "cursor-not-allowed"}`}
-        onClick={updateProfile}
-        disabled={disabled}
-      >
-        Save Changes
-      </button>
+
+      {queryParams.userType === "Companion" && (
+        <button onClick={handleShareLocation}>
+          {hasSharedLocation ? "Location Shared" : "SHARE LOCATION"}
+        </button>
+      )}
+      {selectedCompanionLocation && (
+        <div>
+          Selected Companion's Location:{" "}
+          {`lat:${selectedCompanionLocation.split("+")[1]} lng:${
+            selectedCompanionLocation.split("+")[2]
+          }`}
+        </div>
+      )}
+      <ChatComponent
+        requestid={queryParams.requestid}
+        username={queryParams.username}
+        userType={queryParams.userType}
+      />
     </div>
   );
 };
 
 export default MapChatPage;
-
-// useEffect(() => {
-//     if (data.userType === "Companion") {
-//       getGeolocation()
-//         .then((location) => {
-//           setData((prevData) => ({
-//             ...prevData,
-//             startLocation: {
-//               lat: location.lat,
-//               lng: location.lng,
-//             },
-//             endLocation: { lat: 49.215401, lng: -122.950891 },
-//           }));
-//         })
-//         .catch((error) => {
-//           console.error(error);
-//         });
-//     }
-//     if (data.userType === "Requester") {
-//       setData((prevData) => ({
-//         ...prevData,
-//         startLocation: {
-//           lat: 49.215401,
-//           lng: -122.950891,
-//         },
-//       }));
-
-//       getGeolocation()
-//         .then((location) => {
-//           setData((prevData) => ({
-//             ...prevData,
-//             endLocation: { lat: location.lat, lng: location.lng },
-//           }));
-//         })
-//         .catch((error) => {
-//           console.error(error);
-//         });
-//     }
-//   }, [hasSharedLocation]);
-
-//   const handleShareLocation = () => {
-//     setHasSharedLocation(true);
-//     const joinRoom = () => {
-//       if (data.requestid && data.username) {
-//         socket.current?.emit("shareLocation", data.requestid, data.username);
-//       }
-//     };
-//     joinRoom();
-//     if (data.userType === "Companion") {
-//       socket.current?.emit("sendLocation", data.requestid, {
-//         lat: data.startLocation.lat,
-//         lng: data.startLocation.lng,
-//       });
-//     }
-//     if (data.userType === "Requester") {
-//       socket.current?.emit("sendLocation", data.requestid, {
-//         lat: data.endLocation.lat,
-//         lng: data.endLocation.lng,
-//       });
-//     }
-//   };
-
-// {loading ? (
-// 	<p>Loading...</p>
-//   ) : (
-// 	<Map
-// 	  key={`${data}`}
-// 	  startLocation={data.startLocation}
-// 	  endLocation={data.endLocation}
-// 	/>
-//   )}
-//   <ul>
-// 	{whoSharedLocation.map((message, index) => (
-// 	  <li key={index}>{message}</li>
-// 	))}
-// 	{sharedLocation.map((message, index) => (
-// 	  <li key={index}>{message}</li>
-// 	))}
-//   </ul>
-
-//   {data.userType === "Requester" && (
-// 	<div>
-// 	  <label>Select Companion:</label>
-// 	  <select
-// 		onChange={(e) => setSelectedCompanionLocation(e.target.value)}
-// 	  >
-// 		<option value="">Select a Companion</option>
-// 		{whoSharedLocation.map((companion, index) => {
-// 		  const companionName = companion.split(" is sharing location")[0];
-// 		  if (companionName !== data.username) {
-// 			return (
-// 			  <option key={index} value={sharedLocation[index]}>
-// 				{companionName}
-// 			  </option>
-// 			);
-// 		  }
-// 		  return null;
-// 		})}
-// 	  </select>
-// 	</div>
-//   )}
-//   <button onClick={handleShareLocation}>
-// 	{hasSharedLocation ? "Location Shared" : "SHARE LOCATION"}
-//   </button>
-//   {selectedCompanionLocation && (
-// 	<div>Selected Companion's Location: {selectedCompanionLocation}</div>
-//   )}
