@@ -20,7 +20,6 @@ const Map: React.FC<MapProps> = ({ startLocation, endLocation }) => {
     useState<google.maps.DirectionsRenderer | null>(null);
 
   useEffect(() => {
-
     const loader = new Loader({
       apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAP_API!,
       version: "weekly",
@@ -44,6 +43,7 @@ const Map: React.FC<MapProps> = ({ startLocation, endLocation }) => {
         setDirectionsRenderer(renderer);
       }
       directionsRenderer?.setMap(map);
+
       const directionsService = new window.google.maps.DirectionsService();
 
       const request: google.maps.DirectionsRequest = {
@@ -84,3 +84,5 @@ const Map: React.FC<MapProps> = ({ startLocation, endLocation }) => {
 };
 
 export default Map;
+
+
