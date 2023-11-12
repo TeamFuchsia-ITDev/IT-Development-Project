@@ -282,7 +282,7 @@ const MapChatPage = () => {
           </>
         ) : (
           <Map
-            key={`${data.startLocation}-${data.endLocation}`}
+            key={`${selectedCompanionLocation}`}
             startLocation={data.startLocation}
             endLocation={data.endLocation}
           />
