@@ -316,7 +316,7 @@ export const Card = ({
 
                 <div className="flex justify-center">
                   <button
-                    className="text-center h-[35px] w-[270px] bg-cyan-400 text-white text-[11px] font-bold rounded-full hover:bg-white hover:text-cyan-400 hover:border-[2px] hover:border-cyan-400 hover:ease-in-out duration-300 "
+                    className="text-center h-[35px] w-[270px] bg-yellow-400 text-white text-[11px] font-bold rounded-full hover:bg-white hover:text-yellow-400 hover:border-[2px] hover:border-yellow-400 hover:ease-in-out duration-300 "
                     onClick={handleOpenChatMapPage}
                   >
                     Open Chat

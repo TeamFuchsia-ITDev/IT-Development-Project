@@ -19,6 +19,7 @@ import { LocationFeature, SocketReference } from "@/app/libs/interfaces";
 import io, { Socket } from "socket.io-client";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { Navbar } from "@/app/components/navbar";
 
 const MapChatPage = () => {
   const [refreshMap, setRefreshMap] = useState(0);
@@ -179,7 +180,11 @@ const MapChatPage = () => {
 
   const setMeetingPoint = async (e: FormEvent) => {
     if (isMeetingPointSet) {
-      socket.current?.emit("changeLocation", queryParams.requestid, queryParams.username);
+      socket.current?.emit(
+        "changeLocation",
+        queryParams.requestid,
+        queryParams.username
+      );
     }
     setDisabled(true);
     toast.loading("Setting the meeting point...", {
@@ -216,6 +221,7 @@ const MapChatPage = () => {
       socket.current?.emit("sendLocation", queryParams.requestid, {
         lat: currentLocation.lat,
         lng: currentLocation.lng,
+        email: session?.user?.email,
       });
     }
     setData((prevData) => ({
@@ -228,9 +234,11 @@ const MapChatPage = () => {
   };
 
   return (
-    <div className="w-full mx-auto max-w-4xl text-center">
+    <div className="flex flex-col pl-24 pr-24">
       {/* If UserType is Requester show this address input and save button */}
-      {queryParams.userType === "Requester" && (
+      <Navbar />
+
+      {/* {queryParams.userType === "Requester" && (
         <>
           <div className="">
             <input
@@ -343,7 +351,151 @@ const MapChatPage = () => {
         requestid={queryParams.requestid}
         username={queryParams.username}
         userType={queryParams.userType}
-      />
+      /> */}
+
+      {queryParams.userType === "Requester" && (
+        <div className="flex flex-row gap-4 pt-12">
+          <div className="flex flex-col">
+            <div className="">
+              <input
+                id="address"
+                name="address"
+                type="text"
+                value={address}
+                onChange={handleLocationChange}
+                placeholder="Enter meeting point"
+                className={`border-1 border-gray-300 h-[45px] w-[400px]  mb-4  focus:ring-blue-400
+          }`}
+              />
+            </div>
+            {suggestions?.length > 0 && (
+              <div className="bg-white border border-gray-300 rounded-lg z-10 overflow-auto max-h-20 w-[400px] mb-2 absolute mt-12">
+                {suggestions.map((suggestion, index) => (
+                  <p
+                    // className="p-4 cursor-pointer text-sm text-black transition duration-200 ease-in-out bg-gray-100 hover:bg-green-200"
+                    className="p-4 cursor-pointer text-sm text-black transition duration-200 ease-in-out hover:bg-green-200"
+                    key={index}
+                    onClick={() => {
+                      setAddress(suggestion.place_name);
+                      setSuggestions([]);
+                    }}
+                  >
+                    {suggestion.place_name}
+                  </p>
+                ))}
+              </div>
+            )}
+          </div>
+          <button
+            className={`${
+              disabled
+                ? " text-center bg-blue-500 opacity-50 text-white font-bold w-[400px] rounded mb-4 h-[45px] cursor-not-allowed"
+                : "text-center bg-blue-500 text-white font-bold w-[200px] rounded mb-4 h-[45px] hover:bg-white hover:text-blue-500 hover:border-[2px] hover:border-blue-500 hover:ease-in-out duration-300"
+            } ${disabled && "cursor-not-allowed"}`}
+            onClick={setMeetingPoint}
+            disabled={disabled}
+          >
+            Set Meeting Point
+          </button>
+        </div>
+      )}
+      <div className="flex flex-row w-[100%] gap-4">
+        <div className=" w-[70%] ">
+          <ChatComponent
+            requestid={queryParams.requestid}
+            username={queryParams.username}
+            userType={queryParams.userType}
+          />
+        </div>
+        <div className="flex flex-col w-[30%] gap-4">
+          <div className="flex flex-col border-2 h-[500px] pl-4 pr-4">
+            <div>
+              <p>Chat Members</p>
+              <p>Requester: {}</p>
+              <p>Companion: {}</p>             
+            </div>
+            <div>
+              <p>Chat logs</p>
+              {whoSharedLocation.map((message, index) => (
+                <p key={index}>{message}</p>
+              ))}
+            </div>
+
+            <div>
+            <p>Meeting point</p>
+  
+
+            </div>
+          </div>
+          <div className="flex justify-center  "></div>
+        </div>
+      </div>
+
+      {isMeetingPointSet &&
+        sharedLocation.length > 0 &&
+        (loading ? (
+          <>
+            <p>Loading...</p>
+          </>
+        ) : (
+          <Map
+            key={`${selectedCompanionLocation}`}
+            startLocation={data.startLocation}
+            endLocation={data.endLocation}
+          />
+        ))}
+
+      <ul>
+        {whoSharedLocation.map((message, index) => (
+          <li key={index}>{message}</li>
+        ))}
+      </ul>
+
+      {queryParams.userType === "Requester" && (
+        <div>
+          <label>Select Companion:</label>
+          <select
+            onChange={(e) => {
+              setSelectedCompanionLocation(e.target.value);
+              const value = e.target.value;
+              setData((prevData) => ({
+                ...prevData,
+                startLocation: {
+                  lat: parseFloat(value.split("+")[1]),
+                  lng: parseFloat(value.split("+")[2]),
+                },
+              }));
+            }}
+          >
+            <option value="">Select a Companion</option>
+            {sharedLocation.map((companion, index) => {
+              const companionName = companion.split("+")[0];
+              if (companionName !== queryParams.username) {
+                return (
+                  <option key={index} value={sharedLocation[index]}>
+                    {companionName}
+                  </option>
+                );
+              }
+              return null;
+            })}
+          </select>
+        </div>
+      )}
+
+      {queryParams.userType === "Companion" && (
+        <button onClick={handleShareLocation}>
+          {hasSharedLocation ? "Location Shared" : "SHARE LOCATION"}
+        </button>
+      )}
+      {selectedCompanionLocation && (
+        <div>
+          Selected Companion's Location:{" "}
+          {`lat:${selectedCompanionLocation.split("+")[1]} lng:${
+            selectedCompanionLocation.split("+")[2]
+          }`}
+        </div>
+      )}
     </div>
   );
 };
