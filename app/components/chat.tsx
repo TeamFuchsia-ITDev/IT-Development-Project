@@ -23,7 +23,6 @@ const ChatComponent: React.FC<ChatProps> = ({
   const [typingUsers, setTypingUsers] = useState<string[]>([]);
   const typingTimeout = useRef<NodeJS.Timeout | null>(null);
   const [profiles, setProfiles] = useState<ProfileData[]>([]);
-  console.log(typingUsers);
 
   useEffect(() => {
     const fetchProfiles = async () => {
@@ -53,8 +52,10 @@ const ChatComponent: React.FC<ChatProps> = ({
   };
 
   const sendTypingNotification = () => {
+    const userEmail = session?.user.email;
     if (!isTyping) {
-      socket.current?.emit("typing", room, `[${userRole}]${displayName}`);
+      const userInformation = `[${userRole}]${displayName}+${userEmail}`;
+      socket.current?.emit("typing", room, userInformation);
       setIsTyping(true);
     }
 
@@ -70,8 +71,13 @@ const ChatComponent: React.FC<ChatProps> = ({
   };
 
   const sendStopTypingNotification = () => {
+    const userEmail = session?.user.email;
     if (isTyping) {
-      socket.current?.emit("stopTyping", room, `[${userRole}]${displayName}`);
+      socket.current?.emit(
+        "stopTyping",
+        room,
+        `[${userRole}]${displayName}+${userEmail}`
+      );
       setIsTyping(false);
     }
   };
@@ -106,7 +112,8 @@ const ChatComponent: React.FC<ChatProps> = ({
 
     socket.current?.on("typing", (user: string) => {
       // Exclude the local user from the typingUsers list
-      if (`[${userRole}]${displayName}` !== user) {
+      const userInformation = `[${userRole}]${displayName}+${session?.user.email}`;
+      if (userInformation !== user) {
         setTypingUsers((prevTypingUsers) => {
           if (!prevTypingUsers.includes(user)) {
             return [...prevTypingUsers, user];
@@ -118,7 +125,8 @@ const ChatComponent: React.FC<ChatProps> = ({
 
     socket.current?.on("stopTyping", (user: string) => {
       // Exclude the local user from the typingUsers list
-      if (`[${userRole}]${displayName}` !== user) {
+      const userInformation = `[${userRole}]${displayName}+${session?.user.email}`;
+      if (userInformation !== user) {
         setTypingUsers((prevTypingUsers) =>
           prevTypingUsers.filter((u) => u !== user)
         );
@@ -132,7 +140,7 @@ const ChatComponent: React.FC<ChatProps> = ({
     return () => {
       socket.current?.disconnect();
     };
-  }, [room, displayName]);
+  }, [room, displayName, session]);
 
   return (
     <div className="flex flex-col">
@@ -152,7 +160,9 @@ const ChatComponent: React.FC<ChatProps> = ({
               <div
                 key={index}
                 className={`${
-                  session?.user.name === name ? "self-end mr-2 mt-2 right-10" : "ml-2 left-10"
+                  session?.user.name === name
+                    ? "self-end mr-2 mt-2 right-10"
+                    : "ml-2 left-10"
                 }  max-w-xs relative mb-4`}
               >
                 <span
@@ -189,9 +199,44 @@ const ChatComponent: React.FC<ChatProps> = ({
             return null;
           }
         })}
-        {typingUsers.map((user, index) => (
-          <p key={index}>{user} is typing...</p>
-        ))}
+        {typingUsers.map((user, index) => {
+          const name = user.split("]")[1].split("+")[0];
+          const email = user.split("+")[1];
+          return (
+            <div
+              key={index}
+              className={`${
+                session?.user.name === name
+                  ? "self-end mr-2 mt-2 right-10"
+                  : "self-start ml-2 left-10"
+              }  max-w-xs relative mb-4`}
+            >
+              <span
+                className={`relative text-xs text-zinc-400 whitespace-nowrap ${
+                  session?.user.name === name ? "" : ""
+                }`}
+              >
+                {user.split("+")[0]}
+              </span>
+              <img
+                src={
+                  profiles.find((profile) => profile.userEmail === email)?.image
+                }
+                className={`object-cover ml-3 w-[33px] h-[33px] rounded-full absolute ${
+                  session?.user.name === name ? "top-6 -right-10" : "-left-14"
+                } `}
+                style={{
+                  boxShadow: "4px 4px 10px rgba(153, 153, 153, 100%)",
+                }}
+              />
+              <div className="loader bg-main-color flex items-start justify-center z-50">
+                <span className="loader__element border-2 border-point-color rounded-full m-4 animate-preloader-1"></span>
+                <span className="loader__element border-2 border-point-color rounded-full m-4 animate-preloader-2"></span>
+                <span className="loader__element border-2 border-point-color rounded-full m-4 animate-preloader-3"></span>
+              </div>
+            </div>
+          );
+        })}
       </div>
       <div className="flex flex=row gap-2">
         <input

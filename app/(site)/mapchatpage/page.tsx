@@ -309,7 +309,7 @@ const MapChatPage = () => {
                 </>
               )}
             </div> */}
-            <div>
+            <div className="overflow-auto">
               <p>Event Logs:</p>
               {whoSharedLocation.map((message, index) => (
                 <p key={index}>{message}</p>
