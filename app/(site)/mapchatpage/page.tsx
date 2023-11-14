@@ -55,6 +55,15 @@ const MapChatPage = () => {
     },
   });
 
+  useEffect(() => {
+    if (status !== "loading" && !session) {
+      router.push("/login");
+    }
+    if (session?.user.isNewUser) {
+      router.push("/create-profile");
+    }
+  }, [session, status, router]);
+
   // Used to store and get values from the params
   const queryParams = useMemo(() => {
     return {
