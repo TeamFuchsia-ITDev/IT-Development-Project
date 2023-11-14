@@ -71,7 +71,7 @@ const Map: React.FC<MapProps> = ({ startLocation, endLocation }) => {
     <div>
       <div className="flex flex-row">
       <div id="map" className="w-full" />
-      {/* <div id="directions-panel" className=""></div> */}
+      <div id="directions-panel" className=""></div>
       </div>
       <label>
         Select Travel Mode:
