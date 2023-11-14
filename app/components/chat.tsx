@@ -2,9 +2,10 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import io, { Socket } from "socket.io-client";
-import { ChatProps, SocketReference } from "@/app/libs/interfaces";
+import { ChatProps, SocketReference, ProfileData } from "@/app/libs/interfaces";
 import send from "@/app/images/send.svg";
 import { useSession } from "next-auth/react";
+import axios from "axios";
 
 const ChatComponent: React.FC<ChatProps> = ({
   requestid,
@@ -20,13 +21,32 @@ const ChatComponent: React.FC<ChatProps> = ({
   const [userRole, setUserRole] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [typingUsers, setTypingUsers] = useState<string[]>([]);
-  const [whojoined, setWhoJoined] = useState<string[]>([]);
   const typingTimeout = useRef<NodeJS.Timeout | null>(null);
+  const [profiles, setProfiles] = useState<ProfileData[]>([]);
+  console.log(typingUsers);
 
+  useEffect(() => {
+    const fetchProfiles = async () => {
+      try {
+        const response = await axios.get("/api/user/profile");
+        setProfiles(response.data.profiles);
+      } catch (error) {
+        console.error("Error fetching profiles:", error);
+      }
+    };
+
+    if (status === "authenticated") {
+      fetchProfiles();
+    }
+  }, [session, status]);
 
   const sendMessage = () => {
     if (inputValue) {
-      socket.current?.emit("roomMessage", room, inputValue);
+      socket.current?.emit(
+        "roomMessage",
+        room,
+        inputValue + "+" + session?.user.email
+      );
       setInputValue("");
       sendStopTypingNotification();
     }
@@ -84,24 +104,26 @@ const ChatComponent: React.FC<ChatProps> = ({
       setMessages((prevMessages) => [...prevMessages, data]);
     });
 
-    socket.current?.on("joinroom", (data: string) => {
-      setWhoJoined((prevMessages) => [...prevMessages, data]);
-    });
-
     socket.current?.on("typing", (user: string) => {
-      setTypingUsers((prevTypingUsers) => {
-        if (!prevTypingUsers.includes(user)) {
-          return [...prevTypingUsers, user];
-        }
-        return prevTypingUsers;
-      });
-    });
-
-    socket.current?.on("stopTyping", (user: string) => {
-      setTypingUsers((prevTypingUsers) =>
-        prevTypingUsers.filter((u) => u !== user)
-      );
-    });
+		// Exclude the local user from the typingUsers list
+		if (`[${userRole}]${displayName}` !== user) {
+		  setTypingUsers((prevTypingUsers) => {
+			if (!prevTypingUsers.includes(user)) {
+			  return [...prevTypingUsers, user];
+			}
+			return prevTypingUsers;
+		  });
+		}
+	  });
+	  
+	  socket.current?.on("stopTyping", (user: string) => {
+		// Exclude the local user from the typingUsers list
+		if (`[${userRole}]${displayName}` !== user) {
+		  setTypingUsers((prevTypingUsers) =>
+			prevTypingUsers.filter((u) => u !== user)
+		  );
+		}
+	  });
 
     if (room && `[${userRole}]${displayName}`) {
       joinRoom();
@@ -114,12 +136,12 @@ const ChatComponent: React.FC<ChatProps> = ({
 
   return (
     <div className="flex flex-col">
-      <div className="flex flex-col border-2 h-[500px] mb-4">
-        {whojoined.map((message, index) => (
+      <div className="flex flex-col border-2 h-[500px] mb-4 overflow-auto">
+        {/* {whojoined.map((message, index) => (
           <p key={index} className="text-center mt-4">
             {message}
           </p>
-        ))}
+        ))} */}
 
         {messages.map((message, index) => {
           const messageParts = message.split("]");
@@ -127,24 +149,37 @@ const ChatComponent: React.FC<ChatProps> = ({
             const name = messageParts[1].split(":")[0].trim();
 
             return (
-              <p
+              <div
                 key={index}
                 className={`${
                   session?.user.name === name
-                    ? "self-end mt-4 mr-2"
-                    : "self-start"
-                }`}
+                    ? "self-end mt-4 mb-4 mr-2"
+                    : "ml-10 mt-4 mb-4"
+                } relative`} // Add 'relative' class for absolute positioning
               >
-                <span className={`p-2 rounded-full ${
-                  session?.user.name === name
-                    ? "bg-blue-400"
-                    : "bg-green-200"
-                }`}>{message}</span>
-              </p>
+                <img
+                  src={
+                    profiles.find(
+                      (profile) => profile.userEmail === message.split("+")[1]
+                    )?.image
+                  }
+                  className="object-cover ml-3 w-[33px] h-[33px] rounded-full border-4 border-white absolute -left-12 -top-1" // Use Tailwind classes for absolute positioning
+                  style={{
+                    boxShadow: "4px 4px 10px rgba(153, 153, 153, 100%)",
+                  }}
+                />
+                <span
+                  className={`p-2 rounded-full ${
+                    session?.user.name === name ? "bg-blue-400" : "bg-green-200"
+                  }`}
+                >
+                  {message.split("+")[0]}
+                </span>
+              </div>
             );
           } else {
             console.error(`Unexpected message format: ${message}`);
-            return null; 
+            return null;
           }
         })}
         {typingUsers.map((user, index) => (

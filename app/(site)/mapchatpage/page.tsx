@@ -146,7 +146,6 @@ const MapChatPage = () => {
 
   // Loading useEffect to make sure map has values already before rendering
   useEffect(() => {
-    console.log(data);
     if (
       data.startLocation.lat !== 0 &&
       data.startLocation.lng !== 0 &&
@@ -294,7 +293,7 @@ const MapChatPage = () => {
         </div>
         <div className="flex flex-col w-[30%] gap-4">
           <div className="flex flex-col border-2 h-[500px] pl-4 pr-4">
-            <div>
+            {/* <div>
               <p>Chat Members</p>
               {queryParams.userType === "Requester" && (
                 <>
@@ -303,24 +302,26 @@ const MapChatPage = () => {
                     Companion:{" "}
                     {whoJoinedRoom
                       .map(
-                        (message) => message.split(" has joined the room.")[0]
+                        (message) => message.split("[Companion]")[1]!.split(" has joined the room.")
                       )
-                      .filter((name) => name !== queryParams.username)
                       .join(",")}
                   </p>
                 </>
               )}
-            </div>
+            </div> */}
             <div>
-              <p>Chat logs</p>
+              <p>Event Logs:</p>
               {whoSharedLocation.map((message, index) => (
+                <p key={index}>{message}</p>
+              ))}
+			   {whoJoinedRoom.map((message, index) => (
                 <p key={index}>{message}</p>
               ))}
             </div>
 
-            <div>
+            {/* <div>
               <p>Meeting point</p>
-            </div>
+            </div> */}
           </div>
           <div className="flex justify-center  "></div>
         </div>

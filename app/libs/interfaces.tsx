@@ -22,6 +22,18 @@ export interface UserProps {
   };
 }
 
+export interface ProfileData {
+  id: string;
+  name: string;
+  ethnicity: string;
+  gender: string;
+  birthday: string;
+  phonenumber: string;
+  image: string;
+  address: string;
+  userEmail: string;
+}
+
 export interface RequestProps {
   id: string;
   taskname: string;
@@ -229,4 +241,5 @@ export interface ChatProps {
 }
 
 export interface SocketReference {
-	current: Socket | null;}
+  current: Socket | null;
+}
