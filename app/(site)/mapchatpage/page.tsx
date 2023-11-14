@@ -341,7 +341,7 @@ const MapChatPage = () => {
           />
         ))}
       {queryParams.userType === "Requester" && (
-        <div>
+        <div className="mt-4">
           <label>Select Companion:</label>
           <select
             onChange={(e) => {
