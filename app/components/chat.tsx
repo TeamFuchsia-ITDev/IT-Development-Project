@@ -23,6 +23,7 @@ const ChatComponent: React.FC<ChatProps> = ({
   const [whojoined, setWhoJoined] = useState<string[]>([]);
   const typingTimeout = useRef<NodeJS.Timeout | null>(null);
 
+
   const sendMessage = () => {
     if (inputValue) {
       socket.current?.emit("roomMessage", room, inputValue);
@@ -114,13 +115,38 @@ const ChatComponent: React.FC<ChatProps> = ({
   return (
     <div className="flex flex-col">
       <div className="flex flex-col border-2 h-[500px] mb-4">
-      {whojoined.map((message, index) => (
-          <p key={index} className="text-center mt-4">{message}</p>
+        {whojoined.map((message, index) => (
+          <p key={index} className="text-center mt-4">
+            {message}
+          </p>
         ))}
-        
-        {messages.map((message, index) => (
-          <p key={index} className={`${session?.user.name === displayName ? "self-end mt-4 mr-2": "self-start"}`}><span className="bg-green-200 p-2 rounded-full">{message}</span></p>
-        ))}
+
+        {messages.map((message, index) => {
+          const messageParts = message.split("]");
+          if (messageParts.length >= 2) {
+            const name = messageParts[1].split(":")[0].trim();
+
+            return (
+              <p
+                key={index}
+                className={`${
+                  session?.user.name === name
+                    ? "self-end mt-4 mr-2"
+                    : "self-start"
+                }`}
+              >
+                <span className={`p-2 rounded-full ${
+                  session?.user.name === name
+                    ? "bg-blue-400"
+                    : "bg-green-200"
+                }`}>{message}</span>
+              </p>
+            );
+          } else {
+            console.error(`Unexpected message format: ${message}`);
+            return null; 
+          }
+        })}
         {typingUsers.map((user, index) => (
           <p key={index}>{user} is typing...</p>
         ))}
@@ -133,7 +159,18 @@ const ChatComponent: React.FC<ChatProps> = ({
           value={inputValue}
           onChange={handleInputChange}
         />
-        <button onClick={sendMessage} className="flex items-center justify-center text-white font-bold bg-blue-500 w-[150px] gap-2 transition duration-300 ease-in-out hover:scale-105 rounded-md" style={{background: 'linear-gradient(150deg, #5fb7ff, #47a1ff, #2f88ff)'}}>Send <span className="inline-block w-[15px]"><img src={send.src} alt="send"/></span></button>
+        <button
+          onClick={sendMessage}
+          className="flex items-center justify-center text-white font-bold bg-blue-500 w-[150px] gap-2 transition duration-300 ease-in-out hover:scale-105 rounded-md"
+          style={{
+            background: "linear-gradient(150deg, #5fb7ff, #47a1ff, #2f88ff)",
+          }}
+        >
+          Send{" "}
+          <span className="inline-block w-[15px]">
+            <img src={send.src} alt="send" />
+          </span>
+        </button>
       </div>
     </div>
   );
