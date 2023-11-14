@@ -105,25 +105,25 @@ const ChatComponent: React.FC<ChatProps> = ({
     });
 
     socket.current?.on("typing", (user: string) => {
-		// Exclude the local user from the typingUsers list
-		if (`[${userRole}]${displayName}` !== user) {
-		  setTypingUsers((prevTypingUsers) => {
-			if (!prevTypingUsers.includes(user)) {
-			  return [...prevTypingUsers, user];
-			}
-			return prevTypingUsers;
-		  });
-		}
-	  });
-	  
-	  socket.current?.on("stopTyping", (user: string) => {
-		// Exclude the local user from the typingUsers list
-		if (`[${userRole}]${displayName}` !== user) {
-		  setTypingUsers((prevTypingUsers) =>
-			prevTypingUsers.filter((u) => u !== user)
-		  );
-		}
-	  });
+      // Exclude the local user from the typingUsers list
+      if (`[${userRole}]${displayName}` !== user) {
+        setTypingUsers((prevTypingUsers) => {
+          if (!prevTypingUsers.includes(user)) {
+            return [...prevTypingUsers, user];
+          }
+          return prevTypingUsers;
+        });
+      }
+    });
+
+    socket.current?.on("stopTyping", (user: string) => {
+      // Exclude the local user from the typingUsers list
+      if (`[${userRole}]${displayName}` !== user) {
+        setTypingUsers((prevTypingUsers) =>
+          prevTypingUsers.filter((u) => u !== user)
+        );
+      }
+    });
 
     if (room && `[${userRole}]${displayName}`) {
       joinRoom();
@@ -152,29 +152,36 @@ const ChatComponent: React.FC<ChatProps> = ({
               <div
                 key={index}
                 className={`${
-                  session?.user.name === name
-                    ? "self-end mt-4 mb-4 mr-2"
-                    : "ml-10 mt-4 mb-4"
-                } relative`} // Add 'relative' class for absolute positioning
+                  session?.user.name === name ? "self-end mr-2 mt-2 right-10" : "ml-2 left-10"
+                }  max-w-xs relative mb-4`}
               >
+                <span
+                  className={`relative text-xs text-zinc-400 whitespace-nowrap ${
+                    session?.user.name === name ? "" : ""
+                  }`}
+                >
+                  {message.split(":")[0]}
+                </span>
                 <img
                   src={
                     profiles.find(
                       (profile) => profile.userEmail === message.split("+")[1]
                     )?.image
                   }
-                  className="object-cover ml-3 w-[33px] h-[33px] rounded-full border-4 border-white absolute -left-12 -top-1" // Use Tailwind classes for absolute positioning
+                  className={`object-cover ml-3 w-[33px] h-[33px] rounded-full absolute ${
+                    session?.user.name === name ? "top-6 -right-10" : "-left-14"
+                  } `}
                   style={{
                     boxShadow: "4px 4px 10px rgba(153, 153, 153, 100%)",
                   }}
                 />
-                <span
-                  className={`p-2 rounded-full ${
+                <div
+                  className={`p-2 rounded-lg break-words ${
                     session?.user.name === name ? "bg-blue-400" : "bg-green-200"
                   }`}
                 >
-                  {message.split("+")[0]}
-                </span>
+                  {message.split("+")[0]!.split(": ")[1]}
+                </div>
               </div>
             );
           } else {
