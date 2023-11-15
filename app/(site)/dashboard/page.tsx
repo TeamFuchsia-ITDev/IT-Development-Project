@@ -474,7 +474,7 @@ export default function Dashboard() {
               <div className=" text-center justify-center mt-48">
                 <p className="text-2xl">
                   You have not created a request yet{" "}
-                  <a href="/post" className="text-rose-500">
+                  <a href="/post" className="text-blue-500">
                     Create one now
                   </a>
                 </p>

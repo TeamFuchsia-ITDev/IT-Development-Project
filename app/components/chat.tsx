@@ -24,6 +24,7 @@ const ChatComponent: React.FC<ChatProps> = ({
   const typingTimeout = useRef<NodeJS.Timeout | null>(null);
   const [profiles, setProfiles] = useState<ProfileData[]>([]);
 
+
   useEffect(() => {
     const fetchProfiles = async () => {
       try {
@@ -43,6 +44,7 @@ const ChatComponent: React.FC<ChatProps> = ({
     if (e.key === "Enter") {
       sendMessage();
     } 
+
   }
 
   const sendMessage = () => {
@@ -54,7 +56,7 @@ const ChatComponent: React.FC<ChatProps> = ({
       );
       setInputValue("");
       sendStopTypingNotification();
-    }
+    } 
   };
 
   const sendTypingNotification = () => {
@@ -148,6 +150,7 @@ const ChatComponent: React.FC<ChatProps> = ({
     };
   }, [room, displayName, session]);
 
+
   return (
     <div className="flex flex-col">
       <div className="flex flex-col border-2 h-[500px] mb-4 overflow-auto">
@@ -158,22 +161,23 @@ const ChatComponent: React.FC<ChatProps> = ({
         ))} */}
 
         {messages.map((message, index) => {
-          const messageParts = message.split("]");
+          const messageParts = message.split("+");
           if (messageParts.length >= 2) {
-            const name = messageParts[1].split(":")[0].trim();
+            const email = message.split("+")[1].trim().toLowerCase();
+            const lowerCasedSessionUserEmail = session?.user.email.trim().toLowerCase();
 
             return (
               <div
                 key={index}
                 className={`${
-                  session?.user.name === name
+                  lowerCasedSessionUserEmail === email
                     ? "self-end mr-2 right-10"
-                    : "ml-2 left-10"
-                }  max-w-xs relative mb-4 mt-2	`}
+                    : "self-start ml-2 left-10"
+                }  max-w-xs relative mb-4 mt-2	flex flex-col ` }
               >
                 <span
                   className={`relative text-xs text-zinc-400 whitespace-nowrap ${
-                    session?.user.name === name ? "" : ""
+                    lowerCasedSessionUserEmail === email ? "self-end" : "self-start"
                   }`}
                 >
                   {message.split(":")[0]}
@@ -185,18 +189,18 @@ const ChatComponent: React.FC<ChatProps> = ({
                     )?.image
                   }
                   className={`object-cover ml-3 w-[33px] h-[33px] rounded-full absolute ${
-                    session?.user.name === name ? "top-6 -right-10" : "-left-14"
+                    lowerCasedSessionUserEmail === email ? "top-6 -right-8" : "-left-14 top-7"
                   } `}
                   style={{
                     boxShadow: "4px 4px 10px rgba(153, 153, 153, 100%)",
                   }}
                 />
                 <div
-                  className={`p-2 rounded-lg break-words ${
-                    session?.user.name === name ? "bg-blue-400" : "bg-green-200"
-                  }`}
+                  className={`flex flex-col p-2 rounded-lg text-left ${lowerCasedSessionUserEmail === email ? "items-end" : "items-start"}` } 
                 >
-                  {message.split("+")[0]!.split(": ")[1]}
+                  <div className={`${
+                    lowerCasedSessionUserEmail === email ? "bg-green-200" : "bg-blue-200" 
+                  } p-2 rounded-lg inline-block whitespace-normal max-w-xs break-words `}>{message.split("+")[0]!.split(": ")[1]}</div>
                 </div>
               </div>
             );
@@ -206,20 +210,20 @@ const ChatComponent: React.FC<ChatProps> = ({
           }
         })}
         {typingUsers.map((user, index) => {
-          const name = user.split("]")[1].split("+")[0];
-          const email = user.split("+")[1];
+          const email = user.split("+")[1].trim().toLowerCase();
+          const lowerCasedSessionUserEmail = session?.user.email.trim().toLowerCase();
           return (
             <div
               key={index}
               className={`${
-                session?.user.name === name
+                lowerCasedSessionUserEmail === email
                   ? "self-end mr-2 mt-2 right-10"
                   : "self-start ml-2 left-10"
               }  max-w-xs relative mb-4`}
             >
               <span
                 className={`relative text-xs text-zinc-400 whitespace-nowrap ${
-                  session?.user.name === name ? "" : ""
+                  lowerCasedSessionUserEmail === email ? "" : ""
                 }`}
               >
                 {user.split("+")[0]}
@@ -229,7 +233,7 @@ const ChatComponent: React.FC<ChatProps> = ({
                   profiles.find((profile) => profile.userEmail === email)?.image
                 }
                 className={`object-cover ml-3 w-[33px] h-[33px] rounded-full absolute ${
-                  session?.user.name === name ? "top-6 -right-10" : "-left-14"
+                  lowerCasedSessionUserEmail === email ? "top-6 -right-10" : "-left-14"
                 } `}
                 style={{
                   boxShadow: "4px 4px 10px rgba(153, 153, 153, 100%)",
@@ -257,7 +261,7 @@ const ChatComponent: React.FC<ChatProps> = ({
           onClick={sendMessage}
           className="flex items-center justify-center text-white font-bold bg-blue-500 w-[150px] gap-2 transition duration-300 ease-in-out hover:scale-105 rounded-md"
           style={{
-            background: "linear-gradient(150deg, #5fb7ff, #47a1ff, #2f88ff)",
+            background: "linear-gradient(10deg, #5fb7ff, #47a1ff, #2f88ff)",
           }}
         >
           Send{" "}
