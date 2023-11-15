@@ -39,6 +39,12 @@ const ChatComponent: React.FC<ChatProps> = ({
     }
   }, [session, status]);
 
+  const handleEnterkey = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      sendMessage();
+    } 
+  }
+
   const sendMessage = () => {
     if (inputValue) {
       socket.current?.emit(
@@ -245,6 +251,7 @@ const ChatComponent: React.FC<ChatProps> = ({
           placeholder="Type a message..."
           value={inputValue}
           onChange={handleInputChange}
+          onKeyDown={handleEnterkey}
         />
         <button
           onClick={sendMessage}

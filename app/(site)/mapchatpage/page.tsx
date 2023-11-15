@@ -262,7 +262,7 @@ const MapChatPage = () => {
               />
             </div>
             {suggestions?.length > 0 && (
-              <div className="bg-white border border-gray-300 rounded-lg z-10 overflow-auto max-h-20 w-[400px] mb-2 absolute mt-12">
+              <div className="bg-white border border-gray-300 rounded-lg z-10 overflow-auto max-h-[200px] w-[400px] mb-2 absolute mt-12">
                 {suggestions.map((suggestion, index) => (
                   <p
                     // className="p-4 cursor-pointer text-sm text-black transition duration-200 ease-in-out bg-gray-100 hover:bg-green-200"
@@ -279,6 +279,7 @@ const MapChatPage = () => {
               </div>
             )}
           </div>
+
           <button
             className={`${
               disabled
@@ -290,6 +291,7 @@ const MapChatPage = () => {
           >
             Set Meeting Point
           </button>
+         
         </div>
       )}
       <div className="flex flex-row w-[100%] gap-4">
@@ -302,7 +304,7 @@ const MapChatPage = () => {
         </div>
         <div className="flex flex-col w-[30%] gap-4">
           <p>Chat Event Logs:</p>
-          <div className="flex flex-col border-2 h-[242px] pl-4 pr-4">
+          <div className="flex flex-col border-2 h-[220px] pl-4 ">
             <div className="overflow-auto">
               {whoJoinedRoom.map((message, index) => (
                 <p key={index}>{message.split("]")[1]}</p>
@@ -310,7 +312,7 @@ const MapChatPage = () => {
             </div>
           </div>
           <p>Map Event Logs:</p>
-          <div className="flex flex-col border-2 h-[242px] pl-4 pr-4">
+          <div className="flex flex-col border-2 h-[240px] pl-4 ">
             <div className="overflow-auto">
               {whoSharedLocation.map((message, index) => (
                 <p key={index}>{message}</p>
