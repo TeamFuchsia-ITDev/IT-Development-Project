@@ -161,9 +161,9 @@ const ChatComponent: React.FC<ChatProps> = ({
                 key={index}
                 className={`${
                   session?.user.name === name
-                    ? "self-end mr-2 mt-2 right-10"
+                    ? "self-end mr-2 right-10"
                     : "ml-2 left-10"
-                }  max-w-xs relative mb-4`}
+                }  max-w-xs relative mb-4 mt-2	`}
               >
                 <span
                   className={`relative text-xs text-zinc-400 whitespace-nowrap ${

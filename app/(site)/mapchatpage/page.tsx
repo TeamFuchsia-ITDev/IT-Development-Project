@@ -301,36 +301,21 @@ const MapChatPage = () => {
           />
         </div>
         <div className="flex flex-col w-[30%] gap-4">
-          <div className="flex flex-col border-2 h-[500px] pl-4 pr-4">
-            {/* <div>
-              <p>Chat Members</p>
-              {queryParams.userType === "Requester" && (
-                <>
-                  <p>Requester: {queryParams.username}</p>
-                  <p>
-                    Companion:{" "}
-                    {whoJoinedRoom
-                      .map(
-                        (message) => message.split("[Companion]")[1]!.split(" has joined the room.")
-                      )
-                      .join(",")}
-                  </p>
-                </>
-              )}
-            </div> */}
+          <p>Chat Event Logs:</p>
+          <div className="flex flex-col border-2 h-[242px] pl-4 pr-4">
             <div className="overflow-auto">
-              <p>Event Logs:</p>
+              {whoJoinedRoom.map((message, index) => (
+                <p key={index}>{message.split("]")[1]}</p>
+              ))}
+            </div>
+          </div>
+          <p>Map Event Logs:</p>
+          <div className="flex flex-col border-2 h-[242px] pl-4 pr-4">
+            <div className="overflow-auto">
               {whoSharedLocation.map((message, index) => (
                 <p key={index}>{message}</p>
               ))}
-			   {whoJoinedRoom.map((message, index) => (
-                <p key={index}>{message}</p>
-              ))}
             </div>
-
-            {/* <div>
-              <p>Meeting point</p>
-            </div> */}
           </div>
           <div className="flex justify-center  "></div>
         </div>
@@ -386,14 +371,6 @@ const MapChatPage = () => {
           {hasSharedLocation ? "Location Shared" : "SHARE LOCATION"}
         </button>
       )}
-      {/* {selectedCompanionLocation && (
-        <div>
-          Selected Companion's Location:{" "}
-          {`lat:${selectedCompanionLocation.split("+")[1]} lng:${
-            selectedCompanionLocation.split("+")[2]
-          }`}
-        </div>
-      )} */}
     </div>
   );
 };

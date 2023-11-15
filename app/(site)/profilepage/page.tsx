@@ -73,8 +73,8 @@ const Profilepage = () => {
                     className="rounded-full item-center w-[100px] h-[100px] mt-[-50px] object-cover"
                     style={{ boxShadow: "3px 3px 8px rgba(0, 0, 0, 0.5)" }}
                   />
-                  <div className="text-center">
-                    <p className="text-xl font-bold mt-2">{user.name}</p>
+                  <div className="text-center ">
+                    <div className="text-xl font-bold mt-2">{user.name}</div>
                     <p className="">{user.ethnicity}</p>
                   </div>
                   <div className="flex flex-col pl-12 pr-12 text-xl mt-4 gap-4">
