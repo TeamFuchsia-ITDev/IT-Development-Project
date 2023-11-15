@@ -332,7 +332,12 @@ export async function PATCH(request: Request) {
         id,
         updateData,
         imageToUpdate,
-        session.user.email
+        session.user.email,
+        name,
+        location.address.city,
+        ethnicity,
+        gender,
+        birthday
       );
 
       return NextResponse.json({
