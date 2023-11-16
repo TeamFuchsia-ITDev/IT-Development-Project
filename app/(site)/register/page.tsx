@@ -11,6 +11,7 @@ import google from "../../images/googleIcon.svg";
 import facebook from "../../images/facebookIcon.svg";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
+import { handleEnterKeyPress } from "@/app/libs/actions";
 
 
 export default function Register() {
@@ -107,7 +108,7 @@ export default function Register() {
               <p className="text-sm">
                 Sign up now and start using and exploring our app
               </p>
-              <div className="flex flex-col w-[360px] mt-4">
+              <div className="flex flex-col w-[360px] mt-4" onKeyDown={(e) => handleEnterKeyPress(e, registerUser, disabled, setDisabled)}>
                 <input
                   type="text"
                   placeholder="Name"

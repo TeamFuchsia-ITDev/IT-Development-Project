@@ -9,9 +9,8 @@ import lsimage from "../../images/lsimage.png";
 import SElogo from "../../images/Serve-ease.svg";
 import google from "../../images/googleIcon.svg";
 import facebook from "../../images/facebookIcon.svg";
-import { Input } from "@nextui-org/react";
+import { handleEnterKeyPress } from "@/app/libs/actions";
 import Link from "next/link";
-
 
 export default function Login() {
   const { data: session, status } = useSession();
@@ -23,7 +22,6 @@ export default function Login() {
     email: "",
     password: "",
   });
- 
 
   useEffect(() => {
     // Check if the session is still loading
@@ -109,7 +107,7 @@ export default function Login() {
         }
       });
     }, 2000);
-  };
+  }; 
 
   return (
     <div className="flex flex-row ">
@@ -129,7 +127,10 @@ export default function Login() {
               <p className="text-sm">
                 Sign in now and start using and exploring our app
               </p>
-              <div className="flex flex-col mt-4">
+              <div
+                className="flex flex-col mt-4"
+                onKeyDown={(e) => handleEnterKeyPress(e, loginUser, disabled, setDisabled)}
+              >
                 <input
                   className="border-2 border-gray-300 h-[45px] rounded-md pl-4"
                   id="email"

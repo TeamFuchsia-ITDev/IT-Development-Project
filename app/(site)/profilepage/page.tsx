@@ -12,7 +12,6 @@ import bday from "@/app/images/bday.svg";
 import loc from "@/app/images/location.svg";
 import EditProfile from "@/app/components/editProfile";
 
-
 const Profilepage = () => {
   const { data: session, status } = useSession();
   const router = useRouter();
@@ -58,7 +57,8 @@ const Profilepage = () => {
       <div
         className={`flex flex-row mt-12 gap-4 w-[100%] ${
           isFormVisible ? "pointer-events-none blur-md" : ""
-        }`}>
+        }`}
+      >
         <div className="w-[40%]">
           {user ? (
             <div
@@ -66,73 +66,60 @@ const Profilepage = () => {
               style={{ boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.5)" }}
             >
               <div className="flex flex-col items-center">
-             
-                  <img
-                    src={user?.image}
-                    alt=""
-                    className="rounded-full item-center w-[100px] h-[100px] mt-[-50px] object-cover"
-                    style={{ boxShadow: "3px 3px 8px rgba(0, 0, 0, 0.5)" }}
-                  />
-                  <div className="text-center ">
-                    <div className="text-xl font-bold mt-2">{user.name}</div>
-                    <p className="">{user.ethnicity}</p>
-                  </div>
-                  <div className="flex flex-col pl-12 pr-12 text-xl mt-4 gap-4">
-                    <p className=" text-lg">
-                      <img
-                        src={email.src}
-                        alt="x"
-                        className="inline-block w-6"
-                      />{" "}
-                      {user.userEmail}
-                    </p>
-                    <p className=" text-lg">
-                      <img
-                        src={gender.src}
-                        alt="x"
-                        className="inline-block w-6"
-                      />{" "}
-                      {user.gender}
-                    </p>
-                    <p className=" text-lg">
-                      <img
-                        src={bday.src}
-                        alt="x"
-                        className="inline-block w-6"
-                      />{" "}
-                      {user.birthday}
-                    </p>
-                    <p className=" text-lg">
-                      <img
-                        src={phone.src}
-                        alt="x"
-                        className="inline-block w-6"
-                      />{" "}
-                      {user.phonenumber}
-                    </p>
-                    <p className=" text-lg mb-4 ">
-                      <img src={loc.src} alt="x" className="inline-block w-6" />{" "}
-                      {user?.location?.address.fullAddress}
-                    </p>
-                  </div>
-                  {userParams ? null : (
-                    <button
-                      className="text-center bg-blue-500 text-white font-bold mb-6 ml-4 mr-4 w-[80%] rounded h-[45px] hover:bg-white hover:text-blue-500 hover:border-[2px] hover:border-blue-500 hover:ease-in-out duration-300"
-                      onClick={HandleEditProfileClick}
-                    >
-                      Edit Profile
-                    </button>
-                  )}
-            
+                <img
+                  src={user?.image}
+                  alt=""
+                  className="rounded-full item-center w-[100px] h-[100px] mt-[-50px] object-cover"
+                  style={{ boxShadow: "3px 3px 8px rgba(0, 0, 0, 0.5)" }}
+                />
+                <div className="text-center ">
+                  <div className="text-xl font-bold mt-2">{user.name}</div>
+                  <p className="">{user.ethnicity}</p>
+                </div>
+                <div className="flex flex-col pl-12 pr-12 text-xl mt-4 gap-4">
+                  <p className=" text-lg">
+                    <img src={email.src} alt="x" className="inline-block w-6" />{" "}
+                    {user.userEmail}
+                  </p>
+                  <p className=" text-lg">
+                    <img
+                      src={gender.src}
+                      alt="x"
+                      className="inline-block w-6"
+                    />{" "}
+                    {user.gender}
+                  </p>
+                  <p className=" text-lg">
+                    <img src={bday.src} alt="x" className="inline-block w-6" />{" "}
+                    {user.birthday}
+                  </p>
+                  <p className=" text-lg">
+                    <img src={phone.src} alt="x" className="inline-block w-6" />{" "}
+                    {user.phonenumber}
+                  </p>
+                  <p className=" text-lg mb-4 ">
+                    <img src={loc.src} alt="x" className="inline-block w-6" />{" "}
+                    {user?.location?.address.fullAddress}
+                  </p>
+                </div>
+                {userParams ? null : (
+                  <>
+                    {user.location !== undefined && (
+                      <button
+                        className="text-center bg-blue-500 text-white font-bold mb-6 ml-4 mr-4 w-[80%] rounded h-[45px] hover:bg-white hover:text-blue-500 hover:border-[2px] hover:border-blue-500 hover:ease-in-out duration-300"
+                        onClick={HandleEditProfileClick}
+                      >
+                        Edit Profile
+                      </button>
+                    )}
+                  </>
+                )}
               </div>
             </div>
-          ) : (
-            null
-          )}
+          ) : null}
         </div>
 
         <div className="border-2 w-[60%] h-auto">
-      
           <button
             className={`${
               profilepage === "Reviews"

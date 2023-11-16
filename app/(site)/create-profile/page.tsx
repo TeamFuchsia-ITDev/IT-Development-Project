@@ -7,8 +7,8 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import defaultProfileImage from "@/app/images/blank-profile.jpg";
 import logo1 from "@/app/images/Serve-ease.svg";
-import photo from "@/app/images/photo.svg";
 import { LocationData, LocationFeature, FormData } from "@/app/libs/interfaces";
+import { handleEnterKeyPress } from "@/app/libs/actions";
 
 export default function CreateProfile() {
   const { data: session, status } = useSession();
@@ -191,7 +191,7 @@ export default function CreateProfile() {
             <span className="block">about you. Want to continue later? <a className=" text-blue-500 hover:cursor-pointer" onClick={() => signOut()}> Sign Out</a></span>
           </p>
         </div>
-        <div className="flex flex-col justify-center items-center">
+        <div className="flex flex-col justify-center items-center" onKeyDown={(e) => handleEnterKeyPress(e, submitProfile, disabled, setDisabled)}>
           <label htmlFor="profileImage" className="">
             Click to upload a profile image
           </label>
