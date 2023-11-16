@@ -252,3 +252,10 @@ export interface DialogboxProps {
   disabled: boolean;
   setDisabled: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
+export interface ReviewCardProps {
+  isReviewcardVisible: boolean;
+  setIsReviewcardVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  disabled: boolean;
+  setDisabled: React.Dispatch<React.SetStateAction<boolean>>;
+}
