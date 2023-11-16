@@ -92,3 +92,13 @@ export  const ethnicityOptions = [
 ];
 
 export const genderOptions = ["Male", "Female", "Non-Binary", "Other"];
+
+
+export const labels: { [index: string]: string } = {
+  1: "Useless",
+  2: "Poor",
+  3: "Good",
+  4: "Great",
+  5: "Excellent",
+};
+

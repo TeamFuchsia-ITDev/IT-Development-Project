@@ -11,6 +11,8 @@ import gender from "@/app/images/gender.svg";
 import bday from "@/app/images/bday.svg";
 import loc from "@/app/images/location.svg";
 import EditProfile from "@/app/components/editProfile";
+import ReviewCard from "@/app/components/reviewcard";
+import review from "@/app/images/review.svg";
 
 const Profilepage = () => {
   const { data: session, status } = useSession();
@@ -20,6 +22,7 @@ const Profilepage = () => {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [disabled, setDisabled] = useState(false);
   const [editable, setEditable] = useState(false);
+  const [isReviewcardVisible, setIsReviewcardVisible] = useState(false);
   let tab = searchParams.get("tab") ?? "Reviews";
   const [profilepage, setprofilepage] = useState(tab);
   const [user, setUser] = useState<Partial<UserProps>>({});
@@ -51,12 +54,16 @@ const Profilepage = () => {
     setIsFormVisible(!isFormVisible);
   };
 
+  const HandleReviewClick = () => {
+    setIsReviewcardVisible(!isReviewcardVisible);
+  }
+
   return (
     <main className="pl-24 pr-24">
       <Navbar />
       <div
-        className={`flex flex-row mt-12 gap-4 w-[100%] ${
-          isFormVisible ? "pointer-events-none blur-md" : ""
+        className={`flex flex-row mt-12 gap-4 w-full ${
+          isFormVisible || isReviewcardVisible? "pointer-events-none blur-sm" : ""
         }`}
       >
         <div className="w-[40%]">
@@ -119,7 +126,7 @@ const Profilepage = () => {
           ) : null}
         </div>
 
-        <div className="border-2 w-[60%] h-auto">
+        <div className=" w-[60%] ">
           <button
             className={`${
               profilepage === "Reviews"
@@ -142,7 +149,17 @@ const Profilepage = () => {
             History
           </button>
 
-          {profilepage === "Reviews" ? <div>This is reviews</div> : null}
+          {profilepage === "Reviews" ? (
+            <div className=" w-auto ">
+              <div className="flex mt-4 ">
+                <div className="flex flex-row justify-center items-center  gap-4" >
+                  <img src={review.src} className="w-[50px] h-[50px] " onClick={HandleReviewClick}/>
+                  <h1 className="text-xl" >Click here to leave review</h1>
+                </div>
+              </div>
+
+            </div>
+          ) : null}
           {profilepage === "analytics" ? <div>This is History</div> : null}
         </div>
       </div>
@@ -156,6 +173,14 @@ const Profilepage = () => {
         editable={editable}
         setEditable={setEditable}
         setDisabled={setDisabled}
+      />
+
+      <ReviewCard 
+      isReviewcardVisible={isReviewcardVisible}
+      setIsReviewcardVisible={setIsReviewcardVisible}
+      disabled={disabled}
+      setDisabled={setDisabled}
+      
       />
     </main>
   );
