@@ -23,6 +23,7 @@ import UpdateApplicationForm from "@/app/components/applicationEdit";
 import EditRequest from "@/app/components/editRequest";
 import search from "@/app/images/Search.svg";
 import Dialogbox from "@/app/components/dialogbox";
+import ReviewCard from "@/app/components/reviewcard";
 
 
 
@@ -123,6 +124,7 @@ export default function Dashboard() {
   const [isDialogboxVisible, setIsDialogboxVisible] = useState(false);
   const [myApplications, setmyApplications] = useState<ApplicationProps[]>([]);
   const [myApplication, setMyApplication] = useState<ApplicationProps>();
+  const [isReviewcardVisible, setIsReviewcardVisible] = useState(false);
 
 
   const [data, setData] = useState({
@@ -617,7 +619,7 @@ export default function Dashboard() {
         <>
           <div
             className={`mt-24 w-[100%] ${
-              isFormVisible ? "pointer-events-none blur-sm" : ""
+              isFormVisible || isReviewcardVisible ? "pointer-events-none blur-sm" : ""
             }`}
           >
             <div className=" text-center">
@@ -651,7 +653,7 @@ export default function Dashboard() {
                 />
                 <img
                   src={search.src}
-                  className="w-[35px] h-[35px] absolute pl-2 pt-3"
+                  className="w-[35px] h-[30px] absolute pl-2 pt-3"
                 />
               </div>
 
@@ -852,7 +854,35 @@ export default function Dashboard() {
             </div>
           ) : null}
 
-          {compPage === "Completed" ? <div className="mb-24"></div> : null}
+          {compPage === "Completed" ?  <div
+              className={`mb-24 ${
+                isFormVisible || isReviewcardVisible ? "pointer-events-none blur-sm" : ""
+              }`}
+            >
+              <Carousel
+                loop={false}
+                slidesPerView={4}
+                cards={searchFilteredRequests
+                  .filter((request: RequestProps) =>
+                    myApplications.some(
+                      (app) =>
+                        app.requestId === request.id &&
+                        (app.status === "Pending" || app.status === "Accepted")
+                    )
+                  )
+                  .map((request: RequestProps, index: number) => (
+                    <div key={index}>
+                      <Card
+                        request={request}
+                        cardType="completedTasks"
+                        toggleFormVisibility={setIsFormVisible}
+                        onApplyClick={handleViewApplication}
+                        toggleReviewcardVisibility={setIsReviewcardVisible}
+                      />
+                    </div>
+                  ))}
+              />
+            </div> : null}
 
           {compPage === "Cancelled" ? <div className="mb-24"></div> : null}
 
@@ -910,6 +940,12 @@ export default function Dashboard() {
             editable={editable}
             setEditable={setEditable}
           />
+
+      <ReviewCard 
+      isReviewcardVisible={isReviewcardVisible}
+      setIsReviewcardVisible={setIsReviewcardVisible}
+      disabled={disabled}
+      setDisabled={setDisabled} />
 
           
 

@@ -13,6 +13,7 @@ export const Card = ({
   request,
   toggleFormVisibility,
   onApplyClick,
+  toggleReviewcardVisibility,
 }: CardProps) => {
   const { data: session, status } = useSession();
   const router = useRouter();
@@ -71,6 +72,12 @@ export const Card = ({
     router.push(
       `/mapchatpage?requestid=${request?.id}&username=${applicantName}&usertype=Companion`
     );
+  };
+
+  const handleLeaveRequesterReview = () => {
+    if (toggleReviewcardVisibility) {
+      toggleReviewcardVisibility(true);
+    }
   };
 
   return (
@@ -235,7 +242,7 @@ export const Card = ({
             )}
             <div className="flex justify-center mt-2">
               <button
-                className="text-center bg-rose-500 text-white text-[11px] font-bold  w-[270px] h-[35px] rounded-full hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300  mb-4"
+                className="text-center bg-blue-500 text-white text-[11px] font-bold  w-[270px] h-[35px] rounded-full hover:bg-white hover:text-blue-500 hover:border-[2px] hover:border-blue-500 hover:ease-in-out duration-300  mb-4"
                 onClick={() => setShowDetails(!showDetails)}
               >
                 {showDetails ? "Hide Options" : "Show options"}
@@ -414,6 +421,100 @@ export const Card = ({
                     Remove to Dashboard
                   </button>
                 </div>
+              </div>
+            )}
+            <div className="flex justify-center mt-2">
+              <button
+                className="text-center bg-blue-500 text-white text-[11px] font-bold  w-[270px] h-[35px] rounded-full hover:bg-white hover:text-blue-500 hover:border-[2px] hover:border-blue-500 hover:ease-in-out duration-300  mb-4"
+                onClick={() => setShowDetails(!showDetails)}
+              >
+                {showDetails ? "Hide Options" : "Show options"}
+              </button>
+            </div>
+          </div>
+        </main>
+      ) : null}
+
+
+       {cardType === "completedTasks" ? (
+        <main className=" border-2 w-[300px] h-auto rounded-[10px] hover:translate-y-[-20px] mt-5">
+          <div className="">
+            <img
+              src={imageMapping[request?.category!]}
+              className="rounded-t-lg"
+            />
+            <div className="ml-2 mr-2">
+              <div className="flex flex-row">
+                <Link
+                  href={{
+                    pathname: "/profilepage",
+                    query: `user=${request?.userEmail}`,
+                  }}
+                >
+                  <img
+                    src={request?.requesterImage}
+                    className="w-[50px] h-[50px] rounded-full border-2 object-cover border-white mt-[-15px]"
+                    style={{
+                      boxShadow: "2px 2px 6px rgba(153, 153, 153, 100%)",
+                    }}
+                    title={"Click to view profile"}
+                  />
+                </Link>
+                <div className="flex flex-col justify-center ml-2 pt-1">
+                  <p className="text-[12px]">{request?.requesterName}</p>
+                  <p className="text-gray-500 text-[12px]">
+                    {request?.requesterCity}
+                  </p>
+                </div>
+                <div className="ml-auto mt-2 text-rose-500">
+                  <p className="font-bold text-[10px]">{request?.category}</p>
+                  <div className=" text-[10px] text-blue-500">
+                    {" "}
+                    <p
+                      className={
+                        applicationStatus === "Accepted"
+                          ? "text-green-500"
+                          : "text-yellow-500"
+                      }
+                    >
+                      {applicationStatus}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-col pl-2">
+                <p
+                  className={`text-[20px] font-bold mt-4 ${
+                    showDetails ? "break-words" : "truncate"
+                  }`}
+                >
+                  {request?.taskname}
+                </p>
+                <p className="  text-gray-500 text-[12px]">
+                  {new Date(request?.datetime!).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </p>
+              </div>
+            </div>
+            {showDetails && (
+              <div className="flex flex-col gap-2 ">
+                <p className="pl-4">{request?.description}</p>
+                <div className="flex justify-center">
+                  <button className="text-center h-[35px] w-[270px] bg-green-500 text-white text-[11px] font-bold rounded-full hover:bg-white hover:text-green-500 hover:border-[2px] hover:border-green-500 hover:ease-in-out duration-300 " onClick={handleLeaveRequesterReview}>
+                    Leave a Review
+                  </button>
+                </div>
+                <div className="flex justify-center">
+                  <button className="text-center h-[35px] w-[270px] bg-red-500 text-white text-[11px] font-bold rounded-full hover:bg-white hover:text-red-500 hover:border-[2px] hover:border-red-500 hover:ease-in-out duration-300 ">
+                    Remove to Dashboard
+                  </button>
+                </div>
+
               </div>
             )}
             <div className="flex justify-center mt-2">

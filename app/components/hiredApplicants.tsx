@@ -5,8 +5,9 @@ import toast from "react-hot-toast";
 import { useState, useEffect, FormEvent } from "react";
 import { limitText } from "@/app/libs/actions";
 import axios from "axios";
+import {HiredApplicantsCardProps} from "@/app/libs/interfaces";
 
-export const CompanionCard = ({ application }: CompanionCardProps) => {
+export const HiredApplicantsCard = ({ application, toggleReviewCardVisibility }: HiredApplicantsCardProps) => {
   const [showWhy, setShowWhy] = useState(false);
   const [disabled, setDisabled] = useState(false);
 
@@ -53,6 +54,12 @@ export const CompanionCard = ({ application }: CompanionCardProps) => {
     }
   };
 
+  const handleLeaveRequesterReview = () => {
+    if (toggleReviewCardVisibility ) {
+        toggleReviewCardVisibility (true);
+    }
+  };
+
   return (
       <div
         className=" border-[1px]  h-auto w-auto mb-4 rounded-[10px] hover:translate-y-[-20px] mt-5"
@@ -84,24 +91,14 @@ export const CompanionCard = ({ application }: CompanionCardProps) => {
             </div>
           </div>
           <div>
-            <h1 className="ml-4 mr-4 mt-2 mb-2 break-words">
-              {showWhy ? application?.description : ""}
-            </h1>
+           
           </div>
           <div className="flex flex-col pl-4 pr-4 gap-2 mt-2 mb-4">
-            
-            <button
-              className="text-center bg-rose-500 text-white text-[15px] rounded-full h-[35px]  w-auto hover:bg-white hover:text-rose-500 hover:border-[2px] hover:border-rose-500 hover:ease-in-out duration-300"
-              onClick={() => setShowWhy(!showWhy)}
-            >
-              {showWhy ? "Hide" : "Why Hire Me?"}
-            </button>
             <button
               className={`${disabled ? "text-center bg-green-500 text-white text-[15px] rounded-full h-[35px]  w-auto opacity-50 cursor-not-allowed" : "text-center bg-green-500 text-white text-[15px] rounded-full h-[35px]  w-auto hover:bg-white hover:text-green-500 hover:border-[2px] hover:border-green-500 hover:ease-in-out duration-300"}`}
-              onClick={(e) => handleAcceptClick(e, application!)}
-              disabled={disabled}
-            >
-              Accept
+              
+            onClick={handleLeaveRequesterReview}>
+             Leave a Review
             </button>
           </div>
         </div>

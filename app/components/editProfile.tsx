@@ -221,7 +221,7 @@ const EditProfile: React.FC<EditProfileFormProps> = ({
                       name="gender"
                       type="radio"
                       checked={gender === option}
-                      className={`form-radio h-4 w-4 text-rose-500 focus:ring-white ${
+                      className={`form-radio h-4 w-4 text-blue-500 focus:ring-white ${
                         editable ? "" : "pointer-events-none"
                       }`}
                       value={option}
@@ -316,7 +316,7 @@ const EditProfile: React.FC<EditProfileFormProps> = ({
                 className={`${
                   disabled
                     ? " text-center bg-blue-500 opacity-50 text-white font-bold w-[400px] rounded mb-4 h-[45px] cursor-not-allowed"
-                    : "text-center bg-blue-500 text-white font-bold w-[400px] rounded mb-4 h-[45px] hover:bg-white hover:text-blue-500 hover:border-[2px] hover:border-blue-500 hover:ease-in-out duration-300"
+                    : "text-center bg-green-500 text-white font-bold w-[400px] rounded mb-4 h-[45px] hover:bg-white hover:text-green-500 hover:border-[2px] hover:border-green-500 hover:ease-in-out duration-300"
                 } ${disabled && "cursor-not-allowed"}`}
                 onClick={updateProfile}
                 disabled={disabled}
