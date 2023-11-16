@@ -26,7 +26,7 @@ const ReviewCard: React.FC<ReviewCardProps> = (
   return (
     isReviewcardVisible && (
     <main className="w-[370px] bg-white fixed left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 "  style={{ boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.5)" }}>
-      <div className="flex flex-col justify-center items-center gap-4 ">
+      <div className="flex flex-col justify-center items-center gap-2 ">
         <div>
             <h1 className="text-xl pt-4">Leave a Review to this user</h1>
         </div>
@@ -56,7 +56,7 @@ const ReviewCard: React.FC<ReviewCardProps> = (
           placeholder="Can you tell us why you gave this Rating? ... "
         />
         
-        <button className="text-center bg-green-500 text-white rounded-full h-[35px] w-[300px] hover:bg-white hover:text-green-500 hover:border-[2px] hover:border-green-500 hover:ease-in-out duration-300">
+        <button className="text-center bg-green-500 text-white mt-2 rounded-full h-[35px] w-[300px] hover:bg-white hover:text-green-500 hover:border-[2px] hover:border-green-500 hover:ease-in-out duration-300">
         Submit
         </button>
         <button className="text-center bg-red-500 text-white  mb-4 rounded-full h-[35px] w-[300px] hover:bg-white hover:text-red-500 hover:border-[2px] hover:border-red-500 hover:ease-in-out duration-300"  onClick={() => {

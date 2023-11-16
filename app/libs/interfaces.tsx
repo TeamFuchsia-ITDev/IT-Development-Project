@@ -83,6 +83,7 @@ export interface CardProps {
     requesterName?: string;
     datetime?: string;
   }) => void;
+  toggleReviewcardVisibility?: (isVisible: boolean) => void;
 }
 
 export interface RequestCardProps {
@@ -99,6 +100,11 @@ export interface NavBarProps {
 
 export interface CompanionCardProps {
   application?: ApplicationProps;
+}
+
+export interface HiredApplicantsCardProps {
+  application?: ApplicationProps;
+  toggleReviewCardVisibility: (isVisible: boolean) => void;
 }
 
 export interface LocationFeature {

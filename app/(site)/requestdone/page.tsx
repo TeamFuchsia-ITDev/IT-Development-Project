@@ -12,8 +12,11 @@ import toast from "react-hot-toast";
 import Link from "next/link";
 import { ethnicityOptions, genderOptions } from "@/app/libs/reusables";
 import search from "@/app/images/search.svg";
+import { HiredApplicantsCard } from "@/app/components/hiredApplicants";
+import ReviewCard from "@/app/components/reviewcard";
 
-export default function MyJobs() {
+
+export default function RequestDonePage() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -22,6 +25,7 @@ export default function MyJobs() {
   const [request, setRequest] = useState<RequestProps | undefined>(undefined);
   const [activeDropdown, setActiveDropdown] = useState(-1);
   const [disabled, setDisabled] = useState(false);
+  const [isReviewcardVisible, setIsReviewcardVisible] = useState(false);
 
   const toggleDropdown = (index: number) => {
     if (activeDropdown === index) {
@@ -84,11 +88,11 @@ export default function MyJobs() {
   return (
     <main className="pl-24 pr-24">
       <Navbar />
-      <div>
+      <div className={`${isReviewcardVisible ? "pointer-events-none blur-sm" : ""}`}>
         <div className="mt-6 text-center">
-          <p className="text-[30px] mt-12"> {request?.taskname} Applicants</p>
+          <p className="text-[30px] mt-12"> {request?.taskname} <span className="text-blue-500">applicants</span></p>
           <p className="text-md">
-            In here you will be able to see al the companions that have applied
+            In here you will be able to see all the hired applicants
             to your request
           </p>
           <div className="flex flex-row gap-4  justify-center mt-4">
@@ -130,7 +134,7 @@ export default function MyJobs() {
 
         <div>
           <div className="flex flex-row items-center">
-            <h1 className="font-bold mt-8 mb-4">Your Accepted Applicants </h1>
+            <h1 className="font-bold mt-8 mb-4">Your reviewed applicants </h1>
             {applications
               .filter((app: ApplicationProps) => app.status === "Accepted")
               .map((app: ApplicationProps, index) => (
@@ -188,12 +192,20 @@ export default function MyJobs() {
               )
               .map((application: ApplicationProps, index: number) => (
                 <div key={index}>
-                  <CompanionCard application={application} />
+                  <HiredApplicantsCard application={application} 
+                  toggleReviewCardVisibility={setIsReviewcardVisible}
+                  />
                 </div>
               ))}
           />
         </div>
       </div>
+
+      <ReviewCard 
+      isReviewcardVisible={isReviewcardVisible}
+      setIsReviewcardVisible={setIsReviewcardVisible}
+      disabled={disabled}
+      setDisabled={setDisabled} />
     </main>
   );
 }

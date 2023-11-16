@@ -167,10 +167,10 @@ export const RequestCard: React.FC<RequestCardProps> = ({
           </p>
         </div>
         {showOptions && (
-          <div className="flex flex-col justify-center items-center mt-4">
+          <div className="flex flex-col justify-center items-center ">
             {request?.status === "Pending" || request?.status === "Lapsed" ? (
               <button
-                className="text-center bg-orange-500 text-white mb-4 rounded-full h-[35px]  w-[350px] hover:bg-white hover:text-yellow-500 hover:border-[2px] hover:border-yellow-500 hover:ease-in-out duration-300"
+                className="text-center bg-orange-500 text-white mb-4 rounded-full h-[35px] mt-4 w-[350px] hover:bg-white hover:text-yellow-500 hover:border-[2px] hover:border-yellow-500 hover:ease-in-out duration-300"
                 onClick={handleEditRequestClick}
               >
                 {request?.status === "Pending"
@@ -181,7 +181,7 @@ export const RequestCard: React.FC<RequestCardProps> = ({
 
             {request?.status === "OnGoing" ? (
               <button
-                className={`mb-4 text-center bg-yellow-400 text-white rounded-full h-[35px]  w-[350px] hover:bg-white hover:text-yellow-400 hover:border-[2px] hover:border-yellow-400 hover:ease-in-out duration-300 ${
+                className={`mb-4 text-center bg-yellow-400 text-white rounded-full h-[35px] mt-4 w-[350px] hover:bg-white hover:text-yellow-400 hover:border-[2px] hover:border-yellow-400 hover:ease-in-out duration-300 ${
                   disabled ? "pointer-events-none opacity-25" : ""
                 }`}
                 onClick={handleOpenChatMapPage}
@@ -213,6 +213,17 @@ export const RequestCard: React.FC<RequestCardProps> = ({
               >
                 Request Completed
               </button>
+            ) : null}
+
+            {request?.status === "Completed" ? (
+              <Link href={`/requestdone?id=${request?.id}`}>
+              <button
+                className={`mt-4 text-center bg-green-500 text-white rounded-full h-[35px]  w-[350px] hover:bg-white hover:text-green-400 hover:border-[2px] hover:border-green-400 hover:ease-in-out duration-300 ${
+                  disabled ? "pointer-events-none opacity-25" : ""
+                }`}>
+                View Applicants 
+              </button>
+              </Link>
             ) : null}
 
             {request?.status === "Pending" ? (

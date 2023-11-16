@@ -33,7 +33,7 @@ const ApplicationFormPopUp: React.FC<ApplicationFormProps> = ({
           }}
         />
 
-        <p className="text-center underline underline-offset-8 decoration-rose-500 decoration-2 mt-6">
+        <p className="text-center underline underline-offset-8 decoration-blue-500 decoration-2 mt-6">
           Application Form
         </p>
         <div className="ml-4 mr-4 text-center ">

@@ -12,7 +12,7 @@ import bday from "@/app/images/bday.svg";
 import loc from "@/app/images/location.svg";
 import EditProfile from "@/app/components/editProfile";
 import ReviewCard from "@/app/components/reviewcard";
-import review from "@/app/images/review.svg";
+import { ReviewInfoCard } from "@/app/components/reviewinfocard";
 
 const Profilepage = () => {
   const { data: session, status } = useSession();
@@ -54,22 +54,19 @@ const Profilepage = () => {
     setIsFormVisible(!isFormVisible);
   };
 
-  const HandleReviewClick = () => {
-    setIsReviewcardVisible(!isReviewcardVisible);
-  }
 
   return (
     <main className="pl-24 pr-24">
       <Navbar />
       <div
         className={`flex flex-row mt-12 gap-4 w-full ${
-          isFormVisible || isReviewcardVisible? "pointer-events-none blur-sm" : ""
+          isFormVisible ? "pointer-events-none blur-sm" : ""
         }`}
       >
         <div className="w-[40%]">
           {user ? (
             <div
-              className="h-auto  rounded-[5px] mt-12"
+              className="h-auto pl-12 pr-12 rounded-[5px] mt-12"
               style={{ boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.5)" }}
             >
               <div className="flex flex-col items-center">
@@ -83,7 +80,7 @@ const Profilepage = () => {
                   <div className="text-xl font-bold mt-2">{user.name}</div>
                   <p className="">{user.ethnicity}</p>
                 </div>
-                <div className="flex flex-col pl-12 pr-12 text-xl mt-4 gap-4">
+                <div className="flex flex-col  text-xl mt-4 gap-4">
                   <p className=" text-lg">
                     <img src={email.src} alt="x" className="inline-block w-6" />{" "}
                     {user.userEmail}
@@ -113,7 +110,7 @@ const Profilepage = () => {
                   <>
                     {user.location !== undefined && (
                       <button
-                        className="text-center bg-blue-500 text-white font-bold mb-6 ml-4 mr-4 w-[80%] rounded h-[45px] hover:bg-white hover:text-blue-500 hover:border-[2px] hover:border-blue-500 hover:ease-in-out duration-300"
+                        className="text-center bg-blue-500 text-white font-bold mb-6 ml-4 mr-4 w-full rounded h-[45px] hover:bg-white hover:text-blue-500 hover:border-[2px] hover:border-blue-500 hover:ease-in-out duration-300"
                         onClick={HandleEditProfileClick}
                       >
                         Edit Profile
@@ -130,8 +127,8 @@ const Profilepage = () => {
           <button
             className={`${
               profilepage === "Reviews"
-                ? " bg-white w-[50%] h-12 text-orange-500 font-bold border-t-4 border-orange-500 "
-                : "  w-[50%] text-gray-400  h-12 border-b-2 "
+                ? " bg-white w-[50%] h-12 text-orange-500 font-bold border-t-4 border-orange-500 rounded-t-xl"
+                : "  w-[50%] text-gray-400  h-12 border-b-2 rounded-b-xl border-l-2"
             }`}
             onClick={() => setprofilepage("Reviews")}
           >
@@ -140,8 +137,8 @@ const Profilepage = () => {
           <button
             className={`${
               profilepage === "analytics"
-                ? " bg-white w-[50%] h-12 text-blue-500 font-bold border-t-4 border-blue-500 "
-                : "  w-[50%] text-gray-400  h-12 border-b-2 "
+                ? " bg-white w-[50%] h-12 text-blue-500 font-bold border-t-4 border-blue-500 rounded-t-xl"
+                : "  w-[50%] text-gray-400  h-12 border-b-2 rounded-b-xl border-r-2"
             }`}
             onClick={() => setprofilepage("analytics")}
             id="analytics"
@@ -150,13 +147,10 @@ const Profilepage = () => {
           </button>
 
           {profilepage === "Reviews" ? (
-            <div className=" w-auto ">
-              <div className="flex mt-4 ">
-                <div className="flex flex-row justify-center items-center  gap-4" >
-                  <img src={review.src} className="w-[50px] h-[50px] " onClick={HandleReviewClick}/>
-                  <h1 className="text-xl" >Click here to leave review</h1>
-                </div>
-              </div>
+            <div className="grid grid-cols-2 pl-6 ">
+              <ReviewInfoCard />
+              <ReviewInfoCard />
+              <ReviewInfoCard />
 
             </div>
           ) : null}
