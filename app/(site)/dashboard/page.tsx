@@ -22,6 +22,8 @@ import { useMode } from "@/app/context/ModeContext";
 import UpdateApplicationForm from "@/app/components/applicationEdit";
 import EditRequest from "@/app/components/editRequest";
 import search from "@/app/images/Search.svg";
+import Dialogbox from "@/app/components/dialogbox";
+
 
 export default function Dashboard() {
   const { data: session, status } = useSession();
@@ -31,6 +33,7 @@ export default function Dashboard() {
   const [page, setPage] = useState("Pending");
   const { mode } = useMode();
   const [compPage, setCompPage] = useState("Requests");
+  
 
   const [isMounted, setisMounted] = useState(false);
   const searchParams = useSearchParams();
@@ -116,8 +119,10 @@ export default function Dashboard() {
     completedRequests: [],
   });
   const [isFormVisible, setIsFormVisible] = useState(false);
+  const [isDialogboxVisible, setIsDialogboxVisible] = useState(false);
   const [myApplications, setmyApplications] = useState<ApplicationProps[]>([]);
   const [myApplication, setMyApplication] = useState<ApplicationProps>();
+
 
   const [data, setData] = useState({
     requestid: "",
@@ -400,7 +405,7 @@ export default function Dashboard() {
         <div className={`mt-24`}>
           <div
             className={`text-center ${
-              isFormVisible ? "pointer-events-none blur-sm" : ""
+              isFormVisible || isDialogboxVisible ? "pointer-events-none blur-sm" : ""
             }`}
           >
             <p className="text-[40px]">
@@ -420,7 +425,7 @@ export default function Dashboard() {
           </div>
           <div
             className={`flex items-center justify-center mt-8 mb-4 ${
-              isFormVisible ? "pointer-events-none blur-sm" : ""
+              isFormVisible || isDialogboxVisible ? "pointer-events-none blur-sm" : ""
             }`}
           >
             <div className="flex flex-row w-[100%] h-[40px]">
@@ -482,7 +487,7 @@ export default function Dashboard() {
             ) : (
               <div
                 className={`mb-24 ${
-                  isFormVisible ? "pointer-events-none blur-sm" : ""
+                  isFormVisible || isDialogboxVisible ? "pointer-events-none blur-sm" : ""
                 }`}
               >
                 <Carousel
@@ -511,7 +516,7 @@ export default function Dashboard() {
           {page === "Active" ? (
             <div
               className={`mb-24 ${
-                isFormVisible ? "pointer-events-none blur-sm" : ""
+                isFormVisible || isDialogboxVisible ? "pointer-events-none blur-sm" : ""
               }`}
             >
               <Carousel
@@ -527,6 +532,7 @@ export default function Dashboard() {
                         request={request}
                         toggleFormVisibility={setIsFormVisible}
                         onEditRequestClick={handleEditRequest}
+                        toggleDialogboxVisibility={setIsDialogboxVisible}
                       />
                     </div>
                   ))}
@@ -537,7 +543,7 @@ export default function Dashboard() {
           {page === "Completed" ? (
             <div
               className={`mb-24 ${
-                isFormVisible ? "pointer-events-none blur-sm" : ""
+                isFormVisible || isDialogboxVisible ? "pointer-events-none blur-sm" : ""
               }`}
             >
               <Carousel
@@ -563,7 +569,7 @@ export default function Dashboard() {
           {page === "Cancelled" ? (
             <div
               className={`mb-24 ${
-                isFormVisible ? "pointer-events-none blur-sm" : ""
+                isFormVisible || isDialogboxVisible ? "pointer-events-none blur-sm" : ""
               }`}
             >
               <Carousel
@@ -595,6 +601,13 @@ export default function Dashboard() {
             editable={editable}
             setEditable={setEditable}
             updateRequest={updateRequest}
+          />
+
+          <Dialogbox 
+          isDialogboxVisible={isDialogboxVisible}
+          setIsDialogboxVisible={setIsDialogboxVisible}
+          disabled={disabled}
+          setDisabled={setDisabled}
           />
         </div>
       ) : (
@@ -894,6 +907,10 @@ export default function Dashboard() {
             editable={editable}
             setEditable={setEditable}
           />
+
+          
+
+        
         </>
       )}
     </main>

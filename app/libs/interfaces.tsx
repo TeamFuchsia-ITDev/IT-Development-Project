@@ -89,6 +89,7 @@ export interface RequestCardProps {
   request?: RequestProps;
   toggleFormVisibility: (isVisible: boolean) => void;
   onEditRequestClick: (requestData: RequestProps) => void;
+  toggleDialogboxVisibility?: (isVisible: boolean) => void ;
 }
 
 export interface NavBarProps {
@@ -242,4 +243,12 @@ export interface ChatProps {
 
 export interface SocketReference {
   current: Socket | null;
+}
+
+
+export interface DialogboxProps {
+  isDialogboxVisible: boolean;
+  setIsDialogboxVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  disabled: boolean;
+  setDisabled: React.Dispatch<React.SetStateAction<boolean>>;
 }

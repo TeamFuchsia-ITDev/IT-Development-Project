@@ -177,7 +177,7 @@ const EditProfile: React.FC<EditProfileFormProps> = ({
               <input
                 type="text"
                 placeholder=""
-                className={`border-1 border-gray-300 h-[45px] w-[400px] mt-4 focus:ring-blue-400 ${
+                className={`border-1 border-gray-300 h-[45px] w-[400px] mt-4 focus:ring-blue-400 rounded-md ${
                   editable ? "" : "pointer-events-none"
                 }`}
                 value={editProfileData.name}
@@ -262,7 +262,7 @@ const EditProfile: React.FC<EditProfileFormProps> = ({
               <input
                 type="text"
                 placeholder=""
-                className={`border-1 border-gray-300 h-[45px] w-[400px] mt-4 mb-4  focus:ring-blue-400 ${
+                className={`border-1 border-gray-300 h-[45px] w-[400px] mt-4 mb-4  focus:ring-blue-400 rounded-md ${
                   editable ? "" : "pointer-events-none"
                 }`}
                 value={editProfileData.phonenumber}
@@ -276,7 +276,7 @@ const EditProfile: React.FC<EditProfileFormProps> = ({
                   type="text"
                   value={address}
                   onChange={handleLocationChange}
-                  className={`border-1 border-gray-300 h-[45px] w-[400px]  mb-4  focus:ring-blue-400 ${
+                  className={`border-1 border-gray-300 h-[45px] w-[400px]  mb-4  focus:ring-blue-400 rounded-md ${
                     editable ? "" : "pointer-events-none"
                   }`}
                 />
