@@ -11,6 +11,7 @@ import {
   CategoryOptions,
   numberofCompanion,
 } from "@/app/libs/reusables";
+import { handleEnterKeyPress } from "@/app/libs/actions";
 
 export default function PostRequest() {
   const { data: session, status } = useSession();
@@ -78,7 +79,7 @@ export default function PostRequest() {
           <div className="flex flex-col w-[700px] border-2 mt-4 items-center mb-12 shadow-lg ">
             <img src={imageMapping[data.category]} className="" />
 
-            <div className="flex flex-col w-[400px] gap-4 ">
+            <div className="flex flex-col w-[400px] gap-4 " onKeyDown={(e) => handleEnterKeyPress(e, postRequest, disabled, setDisabled)}>
               {" "}
               <p className="text-center underline underline-offset-8 decoration-blue-500 decoration-2 mt-12">
                 Request Form

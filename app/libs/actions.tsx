@@ -60,7 +60,7 @@ export async function updateProfile(
         },
         data: {
           compImage: image,
-		  compName: name,
+          compName: name,
           compCity: city,
           compEthnicity: ethnicity,
           compGender: gender,
@@ -80,7 +80,6 @@ export async function updateProfile(
     throw new Error("Please enter your complete address");
   }
 }
-  
 
 export const limitText = (text: string, maxLength: number) => {
   if (text.length > maxLength) {
@@ -100,8 +99,8 @@ export async function lapseChecker() {
       },
       status: {
         not: {
-			in: ["Lapsed", "OnGoing"]
-		},
+          in: ["Lapsed", "OnGoing"],
+        },
       },
     },
   });
@@ -114,3 +113,20 @@ export async function lapseChecker() {
     });
   }
 }
+
+export const handleEnterKeyPress = (
+  e: React.KeyboardEvent,
+  callback: (e: React.KeyboardEvent) => void,
+  disabled: boolean,
+  setDisabled: React.Dispatch<React.SetStateAction<boolean>>
+) => {
+  if (e.key === "Enter" && !disabled) {
+    callback(e);
+
+    setDisabled(true);
+
+    setTimeout(() => {
+      setDisabled(false);
+    }, 2000);
+  }
+};
