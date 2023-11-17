@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ApplicationProps, RequestProps } from "@/app/libs/interfaces";
+import { calculateAge } from "@/app/libs/actions";
 import { CompanionCard } from "@/app/components/companioncard";
 import Carousel from "@/app/components/carousel";
 import axios from "axios";
@@ -22,6 +23,11 @@ export default function MyJobs() {
   const [request, setRequest] = useState<RequestProps | undefined>(undefined);
   const [activeDropdown, setActiveDropdown] = useState(-1);
   const [disabled, setDisabled] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchAge, setSearchAge] = useState("");
+  const [searchRate, setSearchRate] = useState("");
+  const [selectedEthnicity, setSelectedEthnicity] = useState("");
+  const [selectedGender, setSelectedGender] = useState("");
 
   const toggleDropdown = (index: number) => {
     if (activeDropdown === index) {
@@ -47,15 +53,10 @@ export default function MyJobs() {
           toast.dismiss();
           window.location.reload();
         }, 2000);
-      } 
-
+      }
     } catch (error) {
       console.error("Unable to remove applicant", error);
     }
-
-
-   
-    
   };
 
   useEffect(() => {
@@ -81,6 +82,21 @@ export default function MyJobs() {
     }
   }, [session?.user.email, requestIDParams]);
 
+  const searchFilteredAcceptedApplications = applications.filter(
+    (application: ApplicationProps) => {
+      return (
+        (application.compName.toLowerCase().includes(searchTerm) ||
+          application.description.toLowerCase().includes(searchTerm) ||
+          application.compCity.toLowerCase().includes(searchTerm)) &&
+        (selectedEthnicity === "" ||
+          application.compEthnicity === selectedEthnicity) &&
+        (selectedGender === "" || application.compGender === selectedGender) &&
+        (searchAge === "" || calculateAge(application.compBirthday).toString() === searchAge) &&
+		(searchRate === "" || application.amount.toString() === searchRate)
+      );
+    }
+  );
+
   return (
     <main className="pl-24 pr-24">
       <Navbar />
@@ -95,8 +111,10 @@ export default function MyJobs() {
             <div className="flex flex-row">
               <input
                 type="text"
-                placeholder="Search by description, city, name ..."
+                placeholder="Search by name, city, or description..."
                 className="w-[400px] rounded-md border-gray-300 border-2 p-2 focus:outline-none focus:border-transparent pl-10"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value.toLowerCase())}
               />
 
               <img
@@ -105,20 +123,47 @@ export default function MyJobs() {
               />
             </div>
             <input
-              type="text"
-              placeholder="Age ..."
+              type="number"
+			  min="0"
+			  max="100"
+              placeholder="By age"
               className="w-[100px] rounded-md border-gray-300 border-2 p-2 focus:outline-none focus:border-transparent pl-3"
+              value={searchAge}
+              onChange={(e) => setSearchAge(e.target.value)}
             />
-            <select className="w-[170px] rounded-lg border-gray-300 border-2 p-2 focus:outline-none focus:border-transparent text-gray-500 pl-3">
-              {" "}
+			<input
+              type="number"
+			  min="0"
+			  step="0.01"
+              placeholder="By rate"
+              className="w-[100px] rounded-md border-gray-300 border-2 p-2 focus:outline-none focus:border-transparent pl-3"
+              value={searchRate}
+              onChange={(e) => setSearchRate(e.target.value)}
+            />
+            <select
+              className="w-[170px] rounded-lg border-gray-300 border-2 p-2 focus:outline-none focus:border-transparent pl-3"
+              value={selectedEthnicity}
+              onChange={(e) => setSelectedEthnicity(e.target.value)}
+            >
+              <option value="" disabled>
+                Select Ethnicity
+              </option>
+              <option value="">All Ethnicities</option>
               {ethnicityOptions.map((option, index) => (
                 <option key={index} value={option}>
                   {option}
                 </option>
               ))}
             </select>
-            <select className="w-[140px] rounded-lg border-gray-300 border-2 p-2 focus:outline-none focus:border-transparent text-gray-500 pl-3">
-              {" "}
+            <select
+              className="w-[160px] rounded-lg border-gray-300 border-2 p-2 focus:outline-none focus:border-transparent pl-3"
+              value={selectedGender}
+              onChange={(e) => setSelectedGender(e.target.value)}
+            >
+              <option value="" disabled>
+                Select Gender
+              </option>
+              <option value="">All Genders</option>
               {genderOptions.map((option, index) => (
                 <option key={index} value={option}>
                   {option}
@@ -165,7 +210,11 @@ export default function MyJobs() {
                     </li>
                     <li>
                       <button
-                        className={`${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"} block px-4 py-2 w-full hover:text-red-500 hover:text-bold`}
+                        className={`${
+                          disabled
+                            ? "opacity-50 cursor-not-allowed"
+                            : "cursor-pointer"
+                        } block px-4 py-2 w-full hover:text-red-500 hover:text-bold`}
                         onClick={() => revertApplicantStatus(app.id)}
                         disabled={disabled}
                       >
@@ -181,7 +230,7 @@ export default function MyJobs() {
           <Carousel
             loop={false}
             slidesPerView={4}
-            cards={applications
+            cards={searchFilteredAcceptedApplications
               .filter(
                 (application: ApplicationProps) =>
                   application.status === "Pending"

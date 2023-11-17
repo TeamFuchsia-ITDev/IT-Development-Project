@@ -130,3 +130,10 @@ export const handleEnterKeyPress = (
     }, 2000);
   }
 };
+
+export function calculateAge(birthdate: string) {
+    const birthYear = new Date(birthdate).getFullYear();
+    const currentYear = new Date().getFullYear();
+    const age = currentYear - birthYear;
+    return age;
+  }
