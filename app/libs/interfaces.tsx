@@ -90,7 +90,8 @@ export interface RequestCardProps {
   request?: RequestProps;
   toggleFormVisibility: (isVisible: boolean) => void;
   onEditRequestClick: (requestData: RequestProps) => void;
-  toggleDialogboxVisibility?: (isVisible: boolean) => void ;
+  toggleDialogboxVisibility?: (isVisible: boolean) => void;
+  onMarkAsCompletedClick?: (requestData: RequestProps) => void;
 }
 
 export interface NavBarProps {
@@ -251,12 +252,12 @@ export interface SocketReference {
   current: Socket | null;
 }
 
-
 export interface DialogboxProps {
   isDialogboxVisible: boolean;
   setIsDialogboxVisible: React.Dispatch<React.SetStateAction<boolean>>;
   disabled: boolean;
   setDisabled: React.Dispatch<React.SetStateAction<boolean>>;
+  request: RequestProps
 }
 
 export interface ReviewCardProps {
