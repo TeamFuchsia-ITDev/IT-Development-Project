@@ -12,7 +12,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import Link from "next/link";
 import { ethnicityOptions, genderOptions } from "@/app/libs/reusables";
-import search from "@/app/images/search.svg";
+import search from "@/app/images/Search.svg";
 
 export default function MyJobs() {
   const { data: session, status } = useSession();

@@ -21,7 +21,7 @@ import ApplicationFormPopUp from "@/app/components/applicationform";
 import { useMode } from "@/app/context/ModeContext";
 import UpdateApplicationForm from "@/app/components/applicationEdit";
 import EditRequest from "@/app/components/editRequest";
-import search from "@/app/images/search.svg";
+import search from "@/app/images/Search.svg";
 import Dialogbox from "@/app/components/dialogbox";
 import ReviewCard from "@/app/components/reviewcard";
 

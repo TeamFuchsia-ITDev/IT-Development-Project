@@ -11,7 +11,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import Link from "next/link";
 import { ethnicityOptions, genderOptions } from "@/app/libs/reusables";
-import search from "@/app/images/search.svg";
+import search from "@/app/images/Search.svg";
 import { HiredApplicantsCard } from "@/app/components/hiredApplicants";
 import ReviewCard from "@/app/components/reviewcard";
 
