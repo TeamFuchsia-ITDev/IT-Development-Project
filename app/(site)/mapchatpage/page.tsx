@@ -170,7 +170,7 @@ const MapChatPage = () => {
     setAddress(val);
 
     const endpoint = `https://api.mapbox.com/geocoding/v5/mapbox.places/${val}
-      .json?&country=ca&proximity=ip&types=address%2Cpoi&language=en&limit=3&access_token=${process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}`;
+      .json?&country=ca&proximity=ip&limit=5&access_token=${process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}`;
     try {
       const response = await axios.get(endpoint);
       setSuggestions(response.data?.features);
