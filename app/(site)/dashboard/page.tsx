@@ -25,8 +25,6 @@ import search from "@/app/images/Search.svg";
 import Dialogbox from "@/app/components/dialogbox";
 import ReviewCard from "@/app/components/reviewcard";
 
-
-
 export default function Dashboard() {
   const { data: session, status } = useSession();
   const router = useRouter();
@@ -35,7 +33,6 @@ export default function Dashboard() {
   const [page, setPage] = useState("Pending");
   const { mode } = useMode();
   const [compPage, setCompPage] = useState("Requests");
-  
 
   const [isMounted, setisMounted] = useState(false);
   const searchParams = useSearchParams();
@@ -120,12 +117,13 @@ export default function Dashboard() {
     cancelledRequests: [],
     completedRequests: [],
   });
+  const [completedRequestData, setCompletedRequestData] =
+    useState<RequestProps>();
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [isDialogboxVisible, setIsDialogboxVisible] = useState(false);
   const [myApplications, setmyApplications] = useState<ApplicationProps[]>([]);
   const [myApplication, setMyApplication] = useState<ApplicationProps>();
   const [isReviewcardVisible, setIsReviewcardVisible] = useState(false);
-
 
   const [data, setData] = useState({
     requestid: "",
@@ -285,6 +283,10 @@ export default function Dashboard() {
     });
   };
 
+  const handleMarkAsCompleted = (requestData: RequestProps) => {
+    setCompletedRequestData(requestData);
+  };
+
   const postApplication = async (e: FormEvent) => {
     setDisabled(true);
     e.preventDefault();
@@ -400,97 +402,134 @@ export default function Dashboard() {
     }
   };
 
-
-  return session?.user.isNewUser === false && (
-    <main className="pl-24 pr-24">
-      <Navbar />
-      {mode ? (
-        <div className={`mt-24`}>
-          <div
-            className={`text-center ${
-              isFormVisible || isDialogboxVisible ? "pointer-events-none blur-sm" : ""
-            }`}
-          >
-            <p className="text-[40px]">
-              Welcome to your Dashboard{" "}
-              {user?.name !== undefined ? user.name.split(" ")[0] : ""}
-            </p>
-            <p className="text-[16px] ">
-              You are now signed in as a Requester. In here you will be able to
-              see all the requests you
-            </p>
-            <p className=" ">
-              have created. Need further explanation?{" "}
-              <a href="#" className="text-blue-500 font-bold">
-                click here
-              </a>
-            </p>
-          </div>
-          <div
-            className={`flex items-center justify-center mt-8 mb-4 ${
-              isFormVisible || isDialogboxVisible ? "pointer-events-none blur-sm" : ""
-            }`}
-          >
-            <div className="flex flex-row w-[100%] h-[40px]">
-              <button
-                className={`${
-                  page === "Pending"
-                    ? " bg-white w-[25%] text-orange-500 font-bold border-t-4 border-orange-500 rounded-t-2xl"
-                    : "  w-[25%] text-gray-400 bg-gray-100  rounded-t-2xl "
-                }`}
-                onClick={() => setPage("Pending")}
-              >
-                Pending Request
-              </button>
-              <button
-                className={`${
-                  page === "Active"
-                    ? " bg-white w-[25%] text-green-500 font-bold border-t-4 border-green-500 rounded-t-2xl"
-                    : "  w-[25%] text-gray-400 bg-gray-100 rounded-t-2xl "
-                }`}
-                onClick={() => setPage("Active")}
-              >
-                Active Request
-              </button>
-              <button
-                className={`${
-                  page === "Completed"
-                    ? " bg-white w-[25%] text-blue-500 font-bold border-t-4 border-blue-500 rounded-t-2xl"
-                    : "  w-[25%] text-gray-400 bg-gray-100  rounded-t-2xl "
-                }`}
-                onClick={() => setPage("Completed")}
-              >
-                Completed Request
-              </button>
-              <button
-                className={`${
-                  page === "Cancelled"
-                    ? " bg-white w-[25%] text-red-500 font-bold border-t-4 border-red-500 rounded-t-2xl"
-                    : "  w-[25%] text-gray-400 bg-gray-100  rounded-t-2xl "
-                }`}
-                onClick={() => setPage("Cancelled")}
-              >
-                Cancelled Request
-              </button>
+  return (
+    session?.user.isNewUser === false && (
+      <main className="pl-24 pr-24">
+        <Navbar />
+        {mode ? (
+          <div className={`mt-24`}>
+            <div
+              className={`text-center ${
+                isFormVisible || isDialogboxVisible
+                  ? "pointer-events-none blur-sm"
+                  : ""
+              }`}
+            >
+              <p className="text-[40px]">
+                Welcome to your Dashboard{" "}
+                {user?.name !== undefined ? user.name.split(" ")[0] : ""}
+              </p>
+              <p className="text-[16px] ">
+                You are now signed in as a Requester. In here you will be able
+                to see all the requests you
+              </p>
+              <p className=" ">
+                have created. Need further explanation?{" "}
+                <a href="#" className="text-blue-500 font-bold">
+                  click here
+                </a>
+              </p>
             </div>
-          </div>
-          {page === "Pending" ? (
-            myRequests.filter(
-              (request: RequestProps) =>
-                request.status === "Pending" || request.status === "Lapsed"
-            ).length <= 0 ? (
-              <div className=" text-center justify-center mt-48">
-                <p className="text-2xl">
-                  You have not created a request yet{" "}
-                  <a href="/post" className="text-blue-500">
-                    Create one now
-                  </a>
-                </p>
+            <div
+              className={`flex items-center justify-center mt-8 mb-4 ${
+                isFormVisible || isDialogboxVisible
+                  ? "pointer-events-none blur-sm"
+                  : ""
+              }`}
+            >
+              <div className="flex flex-row w-[100%] h-[40px]">
+                <button
+                  className={`${
+                    page === "Pending"
+                      ? " bg-white w-[25%] text-orange-500 font-bold border-t-4 border-orange-500 rounded-t-2xl"
+                      : "  w-[25%] text-gray-400 bg-gray-100  rounded-t-2xl "
+                  }`}
+                  onClick={() => setPage("Pending")}
+                >
+                  Pending Request
+                </button>
+                <button
+                  className={`${
+                    page === "Active"
+                      ? " bg-white w-[25%] text-green-500 font-bold border-t-4 border-green-500 rounded-t-2xl"
+                      : "  w-[25%] text-gray-400 bg-gray-100 rounded-t-2xl "
+                  }`}
+                  onClick={() => setPage("Active")}
+                >
+                  Active Request
+                </button>
+                <button
+                  className={`${
+                    page === "Completed"
+                      ? " bg-white w-[25%] text-blue-500 font-bold border-t-4 border-blue-500 rounded-t-2xl"
+                      : "  w-[25%] text-gray-400 bg-gray-100  rounded-t-2xl "
+                  }`}
+                  onClick={() => setPage("Completed")}
+                >
+                  Completed Request
+                </button>
+                <button
+                  className={`${
+                    page === "Cancelled"
+                      ? " bg-white w-[25%] text-red-500 font-bold border-t-4 border-red-500 rounded-t-2xl"
+                      : "  w-[25%] text-gray-400 bg-gray-100  rounded-t-2xl "
+                  }`}
+                  onClick={() => setPage("Cancelled")}
+                >
+                  Cancelled Request
+                </button>
               </div>
-            ) : (
+            </div>
+            {page === "Pending" ? (
+              myRequests.filter(
+                (request: RequestProps) =>
+                  request.status === "Pending" || request.status === "Lapsed"
+              ).length <= 0 ? (
+                <div className=" text-center justify-center mt-48">
+                  <p className="text-2xl">
+                    You have not created a request yet{" "}
+                    <a href="/post" className="text-blue-500">
+                      Create one now
+                    </a>
+                  </p>
+                </div>
+              ) : (
+                <div
+                  className={`mb-24 ${
+                    isFormVisible || isDialogboxVisible
+                      ? "pointer-events-none blur-sm"
+                      : ""
+                  }`}
+                >
+                  <Carousel
+                    loop={false}
+                    slidesPerView={3}
+                    cards={myRequests
+                      .filter(
+                        (request: RequestProps) =>
+                          request.status === "Pending" ||
+                          request.status === "Lapsed"
+                      )
+                      .map((request: RequestProps, index: number) => (
+                        <div key={index}>
+                          <RequestCard
+                            request={request}
+                            toggleFormVisibility={setIsFormVisible}
+                            onEditRequestClick={handleEditRequest}
+                          />
+                        </div>
+                      ))}
+                  />
+                </div>
+              )
+            ) : null}
+
+            {page === "Active" ? (
               <div
                 className={`mb-24 ${
-                  isFormVisible || isDialogboxVisible ? "pointer-events-none blur-sm" : ""
+                  isFormVisible || isDialogboxVisible
+                    ? "pointer-events-none blur-sm"
+                    : ""
                 }`}
               >
                 <Carousel
@@ -498,9 +537,37 @@ export default function Dashboard() {
                   slidesPerView={3}
                   cards={myRequests
                     .filter(
-                      (request: RequestProps) =>
-                        request.status === "Pending" ||
-                        request.status === "Lapsed"
+                      (request: RequestProps) => request.status === "OnGoing"
+                    )
+                    .map((request: RequestProps, index: number) => (
+                      <div key={index}>
+                        <RequestCard
+                          request={request}
+                          toggleFormVisibility={setIsFormVisible}
+                          onEditRequestClick={handleEditRequest}
+                          toggleDialogboxVisibility={setIsDialogboxVisible}
+                          onMarkAsCompletedClick={handleMarkAsCompleted}
+                        />
+                      </div>
+                    ))}
+                />
+              </div>
+            ) : null}
+
+            {page === "Completed" ? (
+              <div
+                className={`mb-24 ${
+                  isFormVisible || isDialogboxVisible
+                    ? "pointer-events-none blur-sm"
+                    : ""
+                }`}
+              >
+                <Carousel
+                  loop={false}
+                  slidesPerView={3}
+                  cards={myRequests
+                    .filter(
+                      (request: RequestProps) => request.status === "Completed"
                     )
                     .map((request: RequestProps, index: number) => (
                       <div key={index}>
@@ -513,445 +580,401 @@ export default function Dashboard() {
                     ))}
                 />
               </div>
-            )
-          ) : null}
+            ) : null}
 
-          {page === "Active" ? (
-            <div
-              className={`mb-24 ${
-                isFormVisible || isDialogboxVisible ? "pointer-events-none blur-sm" : ""
-              }`}
-            >
-              <Carousel
-                loop={false}
-                slidesPerView={3}
-                cards={myRequests
-                  .filter(
-                    (request: RequestProps) => request.status === "OnGoing"
-                  )
-                  .map((request: RequestProps, index: number) => (
-                    <div key={index}>
-                      <RequestCard
-                        request={request}
-                        toggleFormVisibility={setIsFormVisible}
-                        onEditRequestClick={handleEditRequest}
-                        toggleDialogboxVisibility={setIsDialogboxVisible}
-                      />
-                    </div>
-                  ))}
-              />
-            </div>
-          ) : null}
-
-          {page === "Completed" ? (
-            <div
-              className={`mb-24 ${
-                isFormVisible || isDialogboxVisible ? "pointer-events-none blur-sm" : ""
-              }`}
-            >
-              <Carousel
-                loop={false}
-                slidesPerView={3}
-                cards={myRequests
-                  .filter(
-                    (request: RequestProps) => request.status === "Completed"
-                  )
-                  .map((request: RequestProps, index: number) => (
-                    <div key={index}>
-                      <RequestCard
-                        request={request}
-                        toggleFormVisibility={setIsFormVisible}
-                        onEditRequestClick={handleEditRequest}
-                      />
-                    </div>
-                  ))}
-              />
-            </div>
-          ) : null}
-
-          {page === "Cancelled" ? (
-            <div
-              className={`mb-24 ${
-                isFormVisible || isDialogboxVisible ? "pointer-events-none blur-sm" : ""
-              }`}
-            >
-              <Carousel
-                loop={false}
-                slidesPerView={3}
-                cards={myRequests
-                  .filter(
-                    (request: RequestProps) => request.status === "Cancelled"
-                  )
-                  .map((request: RequestProps, index: number) => (
-                    <div key={index}>
-                      <RequestCard
-                        request={request}
-                        toggleFormVisibility={setIsFormVisible}
-                        onEditRequestClick={handleEditRequest}
-                      />
-                    </div>
-                  ))}
-              />
-            </div>
-          ) : null}
-
-          <EditRequest
-            isFormVisible={isFormVisible}
-            setIsFormVisible={setIsFormVisible}
-            disabled={disabled}
-            editRequestData={editRequestData}
-            setEditRequestData={setEditRequestData}
-            editable={editable}
-            setEditable={setEditable}
-            updateRequest={updateRequest}
-          />
-
-          <Dialogbox 
-          isDialogboxVisible={isDialogboxVisible}
-          setIsDialogboxVisible={setIsDialogboxVisible}
-          disabled={disabled}
-          setDisabled={setDisabled}
-          />
-
-         
-        </div>
-      ) : (
-        <>
-          <div
-            className={`mt-24 w-[100%] ${
-              isFormVisible || isReviewcardVisible ? "pointer-events-none blur-sm" : ""
-            }`}
-          >
-            <div className=" text-center">
-              {user ? (
-                <>
-                  <p className="text-[40px]">
-                    Welcome to your Dashboard {user.name.split(" ")[0]}
-                  </p>
-                </>
-              ) : (
-                <p className="text-[40px]">Welcome to your Dashboard</p>
-              )}
-              <p className="text-[16px] ">
-                You are now signed in as a Companion. In here you will be able
-                to see latest requests
-              </p>
-              <p className="text-[16px]">
-                need further explantion?{" "}
-                <a className="text-blue-500 font-bold " href="#">click here</a>
-              </p>
-            </div>
-
-            <div className=" flex flex-row  mr-4 mt-12 items-center justify-center">
-              <div className="flex flex-row">
-                <input
-                  type="text"
-                  placeholder="Search by task name or description"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="border-2 border-gray-300  h-[45px] w-[520px] pl-10 "
-                />
-                <img
-                  src={search.src}
-                  className="w-[35px] h-[30px] absolute pl-2 pt-3"
+            {page === "Cancelled" ? (
+              <div
+                className={`mb-24 ${
+                  isFormVisible || isDialogboxVisible
+                    ? "pointer-events-none blur-sm"
+                    : ""
+                }`}
+              >
+                <Carousel
+                  loop={false}
+                  slidesPerView={3}
+                  cards={myRequests
+                    .filter(
+                      (request: RequestProps) => request.status === "Cancelled"
+                    )
+                    .map((request: RequestProps, index: number) => (
+                      <div key={index}>
+                        <RequestCard
+                          request={request}
+                          toggleFormVisibility={setIsFormVisible}
+                          onEditRequestClick={handleEditRequest}
+                        />
+                      </div>
+                    ))}
                 />
               </div>
+            ) : null}
 
-              <select
-                className="border-2 border-gray-300  h-[45px] w-[250px] ml-4"
-                value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
-              >
-                <option value="" disabled>
-                  Select Category
-                </option>
-                <option value="">All Categories</option>
-                {/* Map through the array to generate options */}
-                {CategoryOptions.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
+            <EditRequest
+              isFormVisible={isFormVisible}
+              setIsFormVisible={setIsFormVisible}
+              disabled={disabled}
+              editRequestData={editRequestData}
+              setEditRequestData={setEditRequestData}
+              editable={editable}
+              setEditable={setEditable}
+              updateRequest={updateRequest}
+            />
 
-              <select
-                className="border-2 border-gray-300  h-[45px] w-[250px] ml-4"
-                value={selectedCity}
-                onChange={(e) => setSelectedCity(e.target.value)}
-              >
-                <option value="" disabled>
-                  Select City
-                </option>
-                <option value="">All Cities</option>
-                {/* Map through the array to generate options */}
-                {cities.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className="mt-12 mb-12">
-              <div className="flex flex-row w-[100%] h-[40px] rounded-t-2xl">
-                <button
-                  className={`${
-                    compPage === "Requests"
-                      ? " bg-white w-[25%] text-orange-500 font-bold border-t-4 border-orange-500 rounded-t-2xl"
-                      : "  w-[20%] text-gray-400 bg-gray-100  rounded-t-2xl "
-                  }`}
-                  onClick={() => setCompPage("Requests")}
-                >
-                  View Requests
-                </button>
-                <button
-                  className={`${
-                    compPage === "Pending"
-                      ? " bg-white w-[25%] text-yellow-400 font-bold border-t-4 border-yellow-400 rounded-t-2xl"
-                      : "  w-[20%] text-gray-400 bg-gray-100 rounded-t-2xl "
-                  }`}
-                  onClick={() => setCompPage("Pending")}
-                >
-                  Pending Applications
-                </button>
-                <button
-                  className={`${
-                    compPage === "Active"
-                      ? " bg-white w-[25%] text-green-500 font-bold border-t-4 border-green-500 rounded-t-2xl"
-                      : "  w-[20%] text-gray-400 bg-gray-100 rounded-t-2xl "
-                  }`}
-                  onClick={() => setCompPage("Active")}
-                >
-                  Ongoing Tasks
-                </button>
-                <button
-                  className={`${
-                    compPage === "Completed"
-                      ? " bg-white w-[25%] text-blue-500 font-bold border-t-4 border-blue-500 rounded-t-2xl"
-                      : "  w-[20%] text-gray-400 bg-gray-100  rounded-t-2xl "
-                  }`}
-                  onClick={() => setCompPage("Completed")}
-                >
-                  Completed Tasks
-                </button>
-                <button
-                  className={`${
-                    compPage === "Cancelled"
-                      ? " bg-white w-[25%] text-red-500 font-bold border-t-4 border-red-500 rounded-t-2xl"
-                      : "  w-[20%] text-gray-400 bg-gray-100  rounded-t-2xl "
-                  }`}
-                  onClick={() => setCompPage("Cancelled")}
-                >
-                  Cancelled Applications
-                </button>
-
-                <button
-                  className={`${
-                    compPage === "CancelledRequests"
-                      ? " bg-white w-[25%] text-red-500 font-bold border-t-4 border-red-500 rounded-t-2xl"
-                      : "  w-[20%] text-gray-400 bg-gray-100  rounded-t-2xl "
-                  }`}
-                  onClick={() => setCompPage("CancelledRequests")}
-                >
-                  Cancelled Requests
-                </button>
-              </div>
-            </div>
+            <Dialogbox
+              isDialogboxVisible={isDialogboxVisible}
+              setIsDialogboxVisible={setIsDialogboxVisible}
+              disabled={disabled}
+              setDisabled={setDisabled}
+			  request={completedRequestData!}
+            />
           </div>
-
-          {compPage === "Requests" ? (
+        ) : (
+          <>
             <div
-              className={`mb-24 ${
-                isFormVisible ? "pointer-events-none blur-sm" : ""
+              className={`mt-24 w-[100%] ${
+                isFormVisible || isReviewcardVisible
+                  ? "pointer-events-none blur-sm"
+                  : ""
               }`}
             >
-              <Carousel
-                loop={false}
-                slidesPerView={4}
-                cards={searchFilteredRequests
-                  .filter(
-                    (request: RequestProps) =>
-                      !myApplications.some(
+              <div className=" text-center">
+                {user ? (
+                  <>
+                    <p className="text-[40px]">
+                      Welcome to your Dashboard {user.name.split(" ")[0]}
+                    </p>
+                  </>
+                ) : (
+                  <p className="text-[40px]">Welcome to your Dashboard</p>
+                )}
+                <p className="text-[16px] ">
+                  You are now signed in as a Companion. In here you will be able
+                  to see latest requests
+                </p>
+                <p className="text-[16px]">
+                  need further explantion?{" "}
+                  <a className="text-blue-500 font-bold " href="#">
+                    click here
+                  </a>
+                </p>
+              </div>
+
+              <div className=" flex flex-row  mr-4 mt-12 items-center justify-center">
+                <div className="flex flex-row">
+                  <input
+                    type="text"
+                    placeholder="Search by task name or description"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="border-2 border-gray-300  h-[45px] w-[520px] pl-10 "
+                  />
+                  <img
+                    src={search.src}
+                    className="w-[35px] h-[30px] absolute pl-2 pt-3"
+                  />
+                </div>
+
+                <select
+                  className="border-2 border-gray-300  h-[45px] w-[250px] ml-4"
+                  value={selectedCategory}
+                  onChange={(e) => setSelectedCategory(e.target.value)}
+                >
+                  <option value="" disabled>
+                    Select Category
+                  </option>
+                  <option value="">All Categories</option>
+                  {/* Map through the array to generate options */}
+                  {CategoryOptions.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+
+                <select
+                  className="border-2 border-gray-300  h-[45px] w-[250px] ml-4"
+                  value={selectedCity}
+                  onChange={(e) => setSelectedCity(e.target.value)}
+                >
+                  <option value="" disabled>
+                    Select City
+                  </option>
+                  <option value="">All Cities</option>
+                  {/* Map through the array to generate options */}
+                  {cities.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="mt-12 mb-12">
+                <div className="flex flex-row w-[100%] h-[40px] rounded-t-2xl">
+                  <button
+                    className={`${
+                      compPage === "Requests"
+                        ? " bg-white w-[25%] text-orange-500 font-bold border-t-4 border-orange-500 rounded-t-2xl"
+                        : "  w-[20%] text-gray-400 bg-gray-100  rounded-t-2xl "
+                    }`}
+                    onClick={() => setCompPage("Requests")}
+                  >
+                    View Requests
+                  </button>
+                  <button
+                    className={`${
+                      compPage === "Pending"
+                        ? " bg-white w-[25%] text-yellow-400 font-bold border-t-4 border-yellow-400 rounded-t-2xl"
+                        : "  w-[20%] text-gray-400 bg-gray-100 rounded-t-2xl "
+                    }`}
+                    onClick={() => setCompPage("Pending")}
+                  >
+                    Pending Applications
+                  </button>
+                  <button
+                    className={`${
+                      compPage === "Active"
+                        ? " bg-white w-[25%] text-green-500 font-bold border-t-4 border-green-500 rounded-t-2xl"
+                        : "  w-[20%] text-gray-400 bg-gray-100 rounded-t-2xl "
+                    }`}
+                    onClick={() => setCompPage("Active")}
+                  >
+                    Ongoing Tasks
+                  </button>
+                  <button
+                    className={`${
+                      compPage === "Completed"
+                        ? " bg-white w-[25%] text-blue-500 font-bold border-t-4 border-blue-500 rounded-t-2xl"
+                        : "  w-[20%] text-gray-400 bg-gray-100  rounded-t-2xl "
+                    }`}
+                    onClick={() => setCompPage("Completed")}
+                  >
+                    Completed Tasks
+                  </button>
+                  <button
+                    className={`${
+                      compPage === "Cancelled"
+                        ? " bg-white w-[25%] text-red-500 font-bold border-t-4 border-red-500 rounded-t-2xl"
+                        : "  w-[20%] text-gray-400 bg-gray-100  rounded-t-2xl "
+                    }`}
+                    onClick={() => setCompPage("Cancelled")}
+                  >
+                    Cancelled Applications
+                  </button>
+
+                  <button
+                    className={`${
+                      compPage === "CancelledRequests"
+                        ? " bg-white w-[25%] text-red-500 font-bold border-t-4 border-red-500 rounded-t-2xl"
+                        : "  w-[20%] text-gray-400 bg-gray-100  rounded-t-2xl "
+                    }`}
+                    onClick={() => setCompPage("CancelledRequests")}
+                  >
+                    Cancelled Requests
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {compPage === "Requests" ? (
+              <div
+                className={`mb-24 ${
+                  isFormVisible ? "pointer-events-none blur-sm" : ""
+                }`}
+              >
+                <Carousel
+                  loop={false}
+                  slidesPerView={4}
+                  cards={searchFilteredRequests
+                    .filter(
+                      (request: RequestProps) =>
+                        !myApplications.some(
+                          (app) =>
+                            app.requestId === request.id &&
+                            (app.status === "Pending" ||
+                              app.status === "Accepted")
+                        )
+                    )
+                    .map((request: RequestProps, index: number) => (
+                      <div key={index}>
+                        <Card
+                          request={request}
+                          cardType="allRequests"
+                          toggleFormVisibility={setIsFormVisible}
+                          onApplyClick={handleApplyRequest}
+                        />
+                      </div>
+                    ))}
+                />
+              </div>
+            ) : null}
+
+            {compPage === "Pending" ? (
+              <div
+                className={`mb-24 ${
+                  isFormVisible ? "pointer-events-none blur-sm" : ""
+                }`}
+              >
+                <Carousel
+                  loop={false}
+                  slidesPerView={4}
+                  cards={searchFilteredRequests
+                    .filter((request: RequestProps) =>
+                      myApplications.some(
                         (app) =>
                           app.requestId === request.id &&
                           (app.status === "Pending" ||
                             app.status === "Accepted")
                       )
-                  )
-                  .map((request: RequestProps, index: number) => (
-                    <div key={index}>
-                      <Card
-                        request={request}
-                        cardType="allRequests"
-                        toggleFormVisibility={setIsFormVisible}
-                        onApplyClick={handleApplyRequest}
-                      />
-                    </div>
-                  ))}
-              />
-            </div>
-          ) : null}
-
-          {compPage === "Pending" ? (
-            <div
-              className={`mb-24 ${
-                isFormVisible ? "pointer-events-none blur-sm" : ""
-              }`}
-            >
-              <Carousel
-                loop={false}
-                slidesPerView={4}
-                cards={searchFilteredRequests
-                  .filter((request: RequestProps) =>
-                    myApplications.some(
-                      (app) =>
-                        app.requestId === request.id &&
-                        (app.status === "Pending" || app.status === "Accepted")
                     )
-                  )
-                  .map((request: RequestProps, index: number) => (
-                    <div key={index}>
-                      <Card
-                        request={request}
-                        cardType="pendingApplication"
-                        toggleFormVisibility={setIsFormVisible}
-                        onApplyClick={handleViewApplication}
-                      />
-                    </div>
-                  ))}
-              />
-            </div>
-          ) : null}
+                    .map((request: RequestProps, index: number) => (
+                      <div key={index}>
+                        <Card
+                          request={request}
+                          cardType="pendingApplication"
+                          toggleFormVisibility={setIsFormVisible}
+                          onApplyClick={handleViewApplication}
+                        />
+                      </div>
+                    ))}
+                />
+              </div>
+            ) : null}
 
-          {compPage === "Active" ? (
-            <div
-              className={`mb-24 ${
-                isFormVisible ? "pointer-events-none blur-sm" : ""
-              }`}
-            >
-              <Carousel
-                loop={false}
-                slidesPerView={4}
-                cards={searchFilteredRequests
-                  .filter((request: RequestProps) =>
-                    myApplications.some(
-                      (app) =>
-                        app.requestId === request.id &&
-                        (app.status === "Pending" || app.status === "Accepted")
+            {compPage === "Active" ? (
+              <div
+                className={`mb-24 ${
+                  isFormVisible ? "pointer-events-none blur-sm" : ""
+                }`}
+              >
+                <Carousel
+                  loop={false}
+                  slidesPerView={4}
+                  cards={searchFilteredRequests
+                    .filter((request: RequestProps) =>
+                      myApplications.some(
+                        (app) =>
+                          app.requestId === request.id &&
+                          (app.status === "Pending" ||
+                            app.status === "Accepted")
+                      )
                     )
-                  )
-                  .map((request: RequestProps, index: number) => (
-                    <div key={index}>
-                      <Card
-                        request={request}
-                        cardType="ongoingtasks"
-                        toggleFormVisibility={setIsFormVisible}
-                        onApplyClick={handleViewApplication}
-                      />
-                    </div>
-                  ))}
-              />
-            </div>
-          ) : null}
+                    .map((request: RequestProps, index: number) => (
+                      <div key={index}>
+                        <Card
+                          request={request}
+                          cardType="ongoingtasks"
+                          toggleFormVisibility={setIsFormVisible}
+                          onApplyClick={handleViewApplication}
+                        />
+                      </div>
+                    ))}
+                />
+              </div>
+            ) : null}
 
-          {compPage === "Completed" ?  <div
-              className={`mb-24 ${
-                isFormVisible || isReviewcardVisible ? "pointer-events-none blur-sm" : ""
-              }`}
-            >
-              <Carousel
-                loop={false}
-                slidesPerView={4}
-                cards={searchFilteredRequests
-                  .filter((request: RequestProps) =>
-                    myApplications.some(
-                      (app) =>
-                        app.requestId === request.id &&
-                        (app.status === "Pending" || app.status === "Accepted")
+            {compPage === "Completed" ? (
+              <div
+                className={`mb-24 ${
+                  isFormVisible || isReviewcardVisible
+                    ? "pointer-events-none blur-sm"
+                    : ""
+                }`}
+              >
+                <Carousel
+                  loop={false}
+                  slidesPerView={4}
+                  cards={searchFilteredRequests
+                    .filter((request: RequestProps) =>
+                      myApplications.some(
+                        (app) =>
+                          app.requestId === request.id &&
+                          (app.status === "Pending" ||
+                            app.status === "Accepted")
+                      )
                     )
-                  )
-                  .map((request: RequestProps, index: number) => (
-                    <div key={index}>
-                      <Card
-                        request={request}
-                        cardType="completedTasks"
-                        toggleFormVisibility={setIsFormVisible}
-                        onApplyClick={handleViewApplication}
-                        toggleReviewcardVisibility={setIsReviewcardVisible}
-                      />
-                    </div>
-                  ))}
-              />
-            </div> : null}
+                    .map((request: RequestProps, index: number) => (
+                      <div key={index}>
+                        <Card
+                          request={request}
+                          cardType="completedTasks"
+                          toggleFormVisibility={setIsFormVisible}
+                          onApplyClick={handleViewApplication}
+                          toggleReviewcardVisibility={setIsReviewcardVisible}
+                        />
+                      </div>
+                    ))}
+                />
+              </div>
+            ) : null}
 
-          {compPage === "Cancelled" ? <div className="mb-24"></div> : null}
+            {compPage === "Cancelled" ? <div className="mb-24"></div> : null}
 
-          {compPage === "CancelledRequests" ? (
-            <div
-              className={`mb-24 ${
-                isFormVisible ? "pointer-events-none blur-sm" : ""
-              }`}
-            >
-              <Carousel
-                loop={false}
-                slidesPerView={4}
-                cards={searchFilteredRequests
-                  .filter((request: RequestProps) =>
-                    myApplications.some(
-                      (app) =>
-                        app.requestId === request.id &&
-                        app.status === "Requester-Cancelled"
+            {compPage === "CancelledRequests" ? (
+              <div
+                className={`mb-24 ${
+                  isFormVisible ? "pointer-events-none blur-sm" : ""
+                }`}
+              >
+                <Carousel
+                  loop={false}
+                  slidesPerView={4}
+                  cards={searchFilteredRequests
+                    .filter((request: RequestProps) =>
+                      myApplications.some(
+                        (app) =>
+                          app.requestId === request.id &&
+                          app.status === "Requester-Cancelled"
+                      )
                     )
-                  )
-                  .map((request: RequestProps, index: number) => (
-                    <div key={index}>
-                      <Card
-                        request={request}
-                        cardType="cancelledRequest"
-                        toggleFormVisibility={setIsFormVisible}
-                        onApplyClick={handleViewApplication}
-                      />
-                    </div>
-                  ))}
-              />
-            </div>
-          ) : null}
+                    .map((request: RequestProps, index: number) => (
+                      <div key={index}>
+                        <Card
+                          request={request}
+                          cardType="cancelledRequest"
+                          toggleFormVisibility={setIsFormVisible}
+                          onApplyClick={handleViewApplication}
+                        />
+                      </div>
+                    ))}
+                />
+              </div>
+            ) : null}
 
-          <ApplicationFormPopUp
-            isFormVisible={isFormVisible}
-            setIsFormVisible={setIsFormVisible}
-            applicationData={applicationData}
-            data={data}
-            setData={setData}
-            disabled={disabled}
-            postApplication={postApplication}
-          />
+            <ApplicationFormPopUp
+              isFormVisible={isFormVisible}
+              setIsFormVisible={setIsFormVisible}
+              applicationData={applicationData}
+              data={data}
+              setData={setData}
+              disabled={disabled}
+              postApplication={postApplication}
+            />
 
-          <UpdateApplicationForm
-            isFormVisible={isFormVisible}
-            setIsFormVisible={setIsFormVisible}
-            applicationData={applicationData}
-            data={data}
-            setData={setData}
-            disabled={disabled}
-            updateApplication={updateApplication}
-            cancelApplication={cancelApplication}
-            compPage={compPage}
-            editable={editable}
-            setEditable={setEditable}
-          />
+            <UpdateApplicationForm
+              isFormVisible={isFormVisible}
+              setIsFormVisible={setIsFormVisible}
+              applicationData={applicationData}
+              data={data}
+              setData={setData}
+              disabled={disabled}
+              updateApplication={updateApplication}
+              cancelApplication={cancelApplication}
+              compPage={compPage}
+              editable={editable}
+              setEditable={setEditable}
+            />
 
-      <ReviewCard 
-      isReviewcardVisible={isReviewcardVisible}
-      setIsReviewcardVisible={setIsReviewcardVisible}
-      disabled={disabled}
-      setDisabled={setDisabled} />
-
-          
-
-        
-        </>
-      )}
-    </main>
+            <ReviewCard
+              isReviewcardVisible={isReviewcardVisible}
+              setIsReviewcardVisible={setIsReviewcardVisible}
+              disabled={disabled}
+              setDisabled={setDisabled}
+            />
+          </>
+        )}
+      </main>
+    )
   );
 }
