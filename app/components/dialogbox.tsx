@@ -2,6 +2,8 @@
 
 import { DialogboxProps } from "@/app/libs/interfaces";
 import done from "@/app/images/done.svg";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 const Dialogbox: React.FC<DialogboxProps> = ({
   isDialogboxVisible,
@@ -10,10 +12,28 @@ const Dialogbox: React.FC<DialogboxProps> = ({
   setDisabled,
   request,
 }) => {
-  const handleYesClick = () => {
-	if (request) {
-		console.log("REQUEST FROM YES", request);
-	}
+  const handleYesClick = async () => {
+    try {
+      setDisabled(true);
+      const response = await axios.patch(`/api/user/request/completed`, {
+        data: {
+          requestid: request.id,
+        },
+      });
+      if (response.status !== 200) {
+        const errorMessage = response.data?.error || "An error occurred";
+        toast.error(errorMessage);
+      } else {
+        toast.success("Request successfully closed");
+        setTimeout(() => setDisabled(false), 4000);
+        setTimeout(() => {
+          toast.dismiss();
+          window.location.reload();
+        }, 2000);
+      }
+    } catch (error) {
+      console.error("An error has occurred", error);
+    }
   };
 
   return (
@@ -28,8 +48,11 @@ const Dialogbox: React.FC<DialogboxProps> = ({
             Are you sure you want to end the task and mark it as{" "}
             <span className="text-green-500">complete</span>?
           </h1>
-          <button className="text-sm text-center bg-green-500 text-white rounded-full h-[35px]   hover:bg-white hover:text-green-400 hover:border-[2px] hover:border-green-400 hover:ease-in-out duration-300"
-		  onClick={handleYesClick}>
+          <button
+            className="text-sm text-center bg-green-500 text-white rounded-full h-[35px]   hover:bg-white hover:text-green-400 hover:border-[2px] hover:border-green-400 hover:ease-in-out duration-300"
+            onClick={handleYesClick}
+			disabled={disabled}
+          >
             Yes
           </button>
           <button
