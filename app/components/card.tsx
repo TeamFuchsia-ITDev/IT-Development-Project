@@ -7,6 +7,7 @@ import { imageMapping } from "@/app/libs/reusables";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 export const Card = ({
   cardType,
@@ -18,6 +19,7 @@ export const Card = ({
   const { data: session, status } = useSession();
   const router = useRouter();
   const [showDetails, setShowDetails] = useState(false);
+  const [disabled, setDisabled] = useState(false);
   const [applications, setApplications] = useState([]);
   const [applicationStatus, setApplicationStatus] = useState<
     string | undefined
@@ -77,6 +79,30 @@ export const Card = ({
   const handleLeaveRequesterReview = () => {
     if (toggleReviewcardVisibility) {
       toggleReviewcardVisibility(true);
+    }
+  };
+
+  const handleCancelTask = async () => {
+    setDisabled(true);
+    toast.loading("Cancelling ongoing task...", {
+      duration: 4000,
+    });
+
+    const response = await axios.patch(`api/user/application/cancel/ongoing`, {
+      data: {
+        requestid: request?.id,
+      },
+    });
+    if (response.data.status !== 200) {
+      const errorMessage = response.data?.error || "An error occurred";
+      toast.error(errorMessage);
+      setTimeout(() => setDisabled(false), 2000);
+    } else {
+      toast.success("Ongoing task successfully cancelled");
+      setTimeout(() => {
+        toast.dismiss();
+        window.location.reload();
+      }, 2000);
     }
   };
 
@@ -330,7 +356,11 @@ export const Card = ({
                   </button>
                 </div>
                 <div className="flex justify-center">
-                  <button className="text-center h-[35px] w-[270px] bg-red-500 text-white text-[11px] font-bold rounded-full hover:bg-white hover:text-red-500 hover:border-[2px] hover:border-red-500 hover:ease-in-out duration-300 ">
+                  <button
+                    className="text-center h-[35px] w-[270px] bg-red-500 text-white text-[11px] font-bold rounded-full hover:bg-white hover:text-red-500 hover:border-[2px] hover:border-red-500 hover:ease-in-out duration-300 "
+                    onClick={handleCancelTask}
+					disabled={disabled}
+                  >
                     Cancel Task
                   </button>
                 </div>
@@ -435,8 +465,7 @@ export const Card = ({
         </main>
       ) : null}
 
-
-       {cardType === "completedTasks" ? (
+      {cardType === "completedTasks" ? (
         <main className=" border-2 w-[300px] h-auto rounded-[10px] hover:translate-y-[-20px] mt-5">
           <div className="">
             <img
@@ -505,7 +534,10 @@ export const Card = ({
               <div className="flex flex-col gap-2 ">
                 <p className="pl-4">{request?.description}</p>
                 <div className="flex justify-center">
-                  <button className="text-center h-[35px] w-[270px] bg-green-500 text-white text-[11px] font-bold rounded-full hover:bg-white hover:text-green-500 hover:border-[2px] hover:border-green-500 hover:ease-in-out duration-300 " onClick={handleLeaveRequesterReview}>
+                  <button
+                    className="text-center h-[35px] w-[270px] bg-green-500 text-white text-[11px] font-bold rounded-full hover:bg-white hover:text-green-500 hover:border-[2px] hover:border-green-500 hover:ease-in-out duration-300 "
+                    onClick={handleLeaveRequesterReview}
+                  >
                     Leave a Review
                   </button>
                 </div>
@@ -514,7 +546,6 @@ export const Card = ({
                     Remove to Dashboard
                   </button>
                 </div>
-
               </div>
             )}
             <div className="flex justify-center mt-2">
