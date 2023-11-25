@@ -369,36 +369,47 @@ export default function Dashboard() {
 
   const updateRequest = async () => {
     setDisabled(true);
-    toast.loading("Updating request...", {
-      duration: 4000,
+
+    const myPendingRequests = await myRequests.filter((request) => {
+      if (request.status === "Pending" || request.status === "OnGoing")
+        return request;
     });
 
-    try {
-      const response = await axios.patch(
-        `/api/user/request/${editRequestData.id}`,
-        {
-          data: {
-            taskname: editRequestData.taskname,
-            category: editRequestData.category,
-            compNeeded: editRequestData.compNeeded,
-            datetime: editRequestData.datetime,
-            description: editRequestData.description,
-          },
+    if (myPendingRequests.length >= 5) {
+      toast.error("You can only have 5 pending requests at a time");
+      setTimeout(() => setDisabled(false), 2000);
+    } else {
+      toast.loading("Updating request...", {
+        duration: 4000,
+      });
+
+      try {
+        const response = await axios.patch(
+          `/api/user/request/${editRequestData.id}`,
+          {
+            data: {
+              taskname: editRequestData.taskname,
+              category: editRequestData.category,
+              compNeeded: editRequestData.compNeeded,
+              datetime: editRequestData.datetime,
+              description: editRequestData.description,
+            },
+          }
+        );
+        if (response.status !== 200) {
+          const errorMessage = response.data?.error || "An error occurred";
+          toast.error(errorMessage);
+          setTimeout(() => setDisabled(false), 2000);
+        } else {
+          toast.success("Request successfully updated");
+          setTimeout(() => {
+            toast.dismiss();
+            window.location.reload();
+          }, 2000);
         }
-      );
-      if (response.status !== 200) {
-        const errorMessage = response.data?.error || "An error occurred";
-        toast.error(errorMessage);
-        setTimeout(() => setDisabled(false), 2000);
-      } else {
-        toast.success("Request successfully updated");
-        setTimeout(() => {
-          toast.dismiss();
-          window.location.reload();
-        }, 2000);
+      } catch (error) {
+        toast.error("Something went wrong while updating your request");
       }
-    } catch (error) {
-      toast.error("Something went wrong while updating your request");
     }
   };
 
@@ -626,7 +637,7 @@ export default function Dashboard() {
               setIsDialogboxVisible={setIsDialogboxVisible}
               disabled={disabled}
               setDisabled={setDisabled}
-			  request={completedRequestData!}
+              request={completedRequestData!}
             />
           </div>
         ) : (
