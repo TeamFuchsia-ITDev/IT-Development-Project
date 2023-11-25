@@ -375,7 +375,7 @@ export default function Dashboard() {
         return request;
     });
 
-    if (myPendingRequests.length >= 5) {
+    if (editRequestData.status === "Lapsed" && myPendingRequests.length >= 5) {
       toast.error("You can only have 5 pending requests at a time");
       setTimeout(() => setDisabled(false), 2000);
     } else {
