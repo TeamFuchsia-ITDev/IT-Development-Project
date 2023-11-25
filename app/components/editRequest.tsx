@@ -3,6 +3,7 @@
 import { CategoryOptions, numberofCompanion } from "@/app/libs/reusables";
 import { UpdateRequestFormProps } from "../libs/interfaces";
 import x from "@/app/images/x.svg";
+import { isDST } from "@/app/libs/reusables";
 
 const EditRequest: React.FC<UpdateRequestFormProps> = ({
   isFormVisible,
@@ -21,13 +22,15 @@ const EditRequest: React.FC<UpdateRequestFormProps> = ({
         style={{ boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.5)" }}
       >
         {" "}
-        <img
-          src={x.src}
-          alt="X"
-          width={20}
-          className="absolute right-0 top-0 cursor-pointer mt-2 mr-2"
-          onClick={() => setIsFormVisible(!isFormVisible)}
-        />
+        {!editable && (
+          <img
+            src={x.src}
+            alt="X"
+            width={20}
+            className="absolute right-0 top-0 cursor-pointer mt-2 mr-2"
+            onClick={() => setIsFormVisible(!isFormVisible)}
+          />
+        )}
         <div className="flex flex-col w-[500px] mt-4 items-center mb-4">
           <div className="flex flex-col w-[400px] gap-4 ">
             <p className="text-[10px] mt-4">Category</p>
@@ -98,13 +101,22 @@ const EditRequest: React.FC<UpdateRequestFormProps> = ({
                 editable ? "" : "pointer-events-none"
               }`}
               value={
-                editRequestData.datetime
-                  ? new Date(
-                      new Date(editRequestData.datetime).getTime() -
-                        7 * 60 * 60 * 1000
-                    )
-                      .toISOString()
-                      .slice(0, 16)
+                editable
+                  ? editRequestData.datetime
+                  : editRequestData.datetime
+                  ? isDST()
+                    ? new Date(
+                        new Date(editRequestData.datetime).getTime() -
+                          7 * 60 * 60 * 1000
+                      )
+                        .toISOString()
+                        .slice(0, 16)
+                    : new Date(
+                        new Date(editRequestData.datetime).getTime() -
+                          8 * 60 * 60 * 1000
+                      )
+                        .toISOString()
+                        .slice(0, 16)
                   : ""
               }
               onChange={(e) =>
