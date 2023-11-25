@@ -4,6 +4,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { APIErr } from "@/app/libs/interfaces";
 import { lapseChecker } from "@/app/libs/actions";
+import { futureDateTime } from "@/app/libs/reusables";
 
 export async function POST(request: Request) {
   const session = await getServerSession(authOptions);
@@ -62,6 +63,12 @@ export async function POST(request: Request) {
           message:
             "Please select a date and time for when you want the requested service",
         };
+      if (new Date(datetime) < futureDateTime)
+        throw {
+          code: 400,
+          message:
+            "Please enter a date and time with a 30-minute buffer from the current date and time",
+        };
       if (!description)
         throw {
           code: 400,
@@ -106,8 +113,8 @@ export async function POST(request: Request) {
 }
 
 export async function GET(request: Request) {
-  try {   
-	await lapseChecker();
+  try {
+    await lapseChecker();
     const requests = await prisma.request.findMany();
     return NextResponse.json({ requests, status: 200 });
   } catch (error) {

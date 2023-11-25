@@ -21,6 +21,7 @@ import virtual from "@/app/images/Virtual.png";
 import outdoor from "@/app/images/Outdoor.png";
 import transportation from "@/app/images/Transportation.png";
 import tech from "@/app/images/Techsupport.png";
+import moment from "moment-timezone";
 
 export const imageMapping: ImageMapping = {
   Gaming: gaming.src,
@@ -101,4 +102,15 @@ export const labels: { [index: string]: string } = {
   4: "Great",
   5: "Excellent",
 };
+
+export const currentDateTime = new Date(Date.now());
+export const futureDateTime = new Date(currentDateTime.getTime() + 30 * 60000); // + 30 minutes
+
+export function isDST() {
+	const timeZone = 'America/Vancouver';
+	const currentMoment = moment.tz(timeZone);
+
+	// Check if the current moment is in DST
+	return currentMoment.isDST();
+}
 

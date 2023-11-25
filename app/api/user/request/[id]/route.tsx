@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { APIErr } from "@/app/libs/interfaces";
+import { futureDateTime } from "@/app/libs/reusables";
 
 export async function GET(
   request: Request,
@@ -92,6 +93,12 @@ export async function PATCH(
           code: 400,
           message:
             "Please select a date and time for when you want the requested service",
+        };
+      if (new Date(datetime) < futureDateTime)
+        throw {
+          code: 400,
+          message:
+            "Please enter a date and time with a 30-minute buffer from the current date and time",
         };
       if (!description)
         throw {

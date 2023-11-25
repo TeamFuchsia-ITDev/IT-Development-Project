@@ -396,7 +396,7 @@ export default function Dashboard() {
             },
           }
         );
-        if (response.status !== 200) {
+        if (response.data.status === 400) {
           const errorMessage = response.data?.error || "An error occurred";
           toast.error(errorMessage);
           setTimeout(() => setDisabled(false), 2000);
