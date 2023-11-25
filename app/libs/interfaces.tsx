@@ -266,3 +266,10 @@ export interface ReviewCardProps {
   disabled: boolean;
   setDisabled: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
+export interface TestimonialCardProps {
+  name: string;
+  image: string;
+  testimonial: string;
+  role: string;
+}

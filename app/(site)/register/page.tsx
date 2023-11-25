@@ -92,14 +92,14 @@ export default function Register() {
 
   return (
     <div className="flex flex-row">
-      <div className="flex flex-row w-[100%]">
+      <div className="flex flex-row w-[100%] justify-center items-center">
         <div className="w-full md:w-1/2 lg:w-1/2 xl:w-1/2">
-          <div className="">
+        <div className="">
             <Link href="/">
-              <Image src={SElogo} alt="Login" className="w-[150px] mt-4" />
+              <Image src={SElogo} alt="Login" className="absolute  top-[10px] w-[150px] mt-4" />
             </Link>
           </div>
-          <div className="flex flex-col h-[660px] justify-center items-center  pl-7 md:pl-0 lg:pl-0 xl:pl-0 pt-32 md:pt-0 lg-pt-0 xl:pt-0">
+          <div className="flex flex-col h-[660px] justify-center items-center  pl-3 md:pl-0 lg:pl-0 xl:pl-0 pt-32 md:pt-0 lg-pt-0 xl:pt-0">
             <div className="flex flex-col">
               <h1 className="text-4xl font-bold mb-2 mt-4 text-left">
                 Welcome back to{" "}
