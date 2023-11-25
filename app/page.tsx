@@ -27,42 +27,46 @@ export default async function Home() {
   }
 
   return (
-    <div>
+    <div className="">
       <div className="">
         <NavbarLanding />
       </div>
       <div className="relative">
-        <div className="flex h-[650px] justify-center items-center">
-          <div className=" text-center">
+        <div className="flex h-[650px] justify-center items-center pl-12 pr-12" >
+          <div className=" text-center ">
             <img
               src={ImageLandings.src}
               alt="Serve-Ease"
               className="absolute z-[-1] top-0 h-[680px] left-0 w-screen object-cover sm:block hidden md:block lg:block xl:block"
             />
-            <h1 className="text-[30px] text-white">
+            <h1 className="text-[30px] sm:text-black md:text-white">
               JOIN THE <span className="text-blue-500 ">SERVE-EASE</span>{" "}
               COMMUNITY TODAY
             </h1>
-            <h1 className="text-[30px] text-white">
+            <h1 className="md:text-[30px] sm:text-black md:text-white">
               {" "}
-              AND START HELPING OR START GIVING OPPORTUNITIES
+             
             </h1>
-            <p className="text-[18.5px] text-white">
-              Become a <span className="text-red-500 ">Companion</span> to lend
+            <p className=" md:text-[18.5px]  sm:text-black md:text-white">
+                Become a <span className="text-red-500 ">Companion</span> to lend
               a helping hand or be a{" "}
               <span className="text-blue-500">Requester</span> to seek for help,
               sign up today.
             </p>
             <div className="flex flex-row gap-2  justify-center mt-5">
               <Link href={`/register`}>
-                <button className="bg-blue-500 text-white font-bold text-[15px] rounded w-[300px] h-[45px] hover:bg-white hover:text-blue-500 hover:border-[3px] hover:border-blue-500 hover:ease-in-out duration-300">
+                <button
+                  className="bg-blue-500 text-white font-bold text-[15px] rounded w-[300px] h-[45px] hover:bg-white hover:text-blue-500 hover:border-[3px] hover:border-blue-500 hover:ease-in-out duration-300"
+                  style={{ boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)" }}
+                >
                   Sign up free!
                 </button>
               </Link>
             </div>
           </div>
         </div>
-        <div className="pl-24 p-24">
+
+        <div className="pl-24 p-24  overflow-hidden">
           <div className="flex flex-row h-[650px] w-[100%] justify-center items-center gap-12 mt-12">
             <div className="w-1/2 flex flex-col ">
               <h1 className="text-[50px]">
@@ -98,110 +102,116 @@ export default async function Home() {
               <img src={blobimage.src} alt="" className="w-[700px]" />
             </div>
           </div>
+        </div>
 
-          <div className="flex flex-col w-[100%] justify-center items-center ">
-            <div>
-              <h1 className="text-[30px] mt-16">
-                What do our <a className="text-blue-500">users</a> think?
-              </h1>
-            </div>
-            <div className="">
-              <div className="grid md:grid-cols-3 sm:grid-cols-2 gap-12 mt-4 mb-12 ">
-                {" "}
-                <TestimonialCard />
-              </div>
-            </div>
+        <div className="flex flex-col w-[100%] justify-center items-center ">
+          <div>
+            <h1 className="text-[30px] mt-16">
+              What do our <a className="text-blue-500">users</a> think?
+            </h1>
           </div>
-          <div className="flex flex-col">
-            <div className="flex justify-center">
-              <h1 className="text-[30px] mt-16">
-                What can <a className="text-blue-500">users</a> do?
-              </h1>
+          <div className="flex flex-wrap gap-4 justify-center items-center">
+            <TestimonialCard
+              image={blankprofile.src}
+              role="Requester"
+              name="John Doe"
+              testimonial="Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum mollitia illum consequuntur quisquam asperiores fuga et quasi repellat esse non, nostrum cumque ea veniam modi! Voluptas odit rem atque impedit."
+            />
+
+
+           
+            
+          </div>
+
+        </div>
+        <div className="flex flex-col mt-52">
+          <div className="flex justify-center">
+            <h1 className="text-[30px] ">
+              What can <a className="text-blue-500">users</a> do?
+            </h1>
+          </div>
+
+          <div className="flex flex-wrap justify-center gap-12 mt-12">
+            <div className="flex flex-row w-[400px]">
+              <div className="flex flex-col  justify-center rounded-xl">
+                <h1 className="text-xl ">
+                  Creating a <a className="text-blue-500 ">Request</a>
+                </h1>
+                <p className="text">
+                  users will be allowed to create a request or tasks they need
+                  with various categories
+                </p>
+              </div>
+              <img src={post.src} alt="" className="" />
             </div>
 
-            <div className="grid grid-cols-3 justify-center gap-12 mt-8">
-              <div className="flex flex-row w-[400px]">
-                <div className="flex flex-col  justify-center rounded-xl">
-                  <h1 className="text-xl ">
-                    Creating a <a className="text-blue-500 ">Request</a>
-                  </h1>
-                  <p className="text">
-                    users will be allowed to create a request or tasks they need
-                    with various categories
-                  </p>
-                </div>
-                <img src={post.src} alt="" className="" />
+            <div className="flex flex-row w-[400px]">
+              <div className="flex flex-col  justify-center rounded-xl">
+                <h1 className="text-xl ">
+                  Choosing a <a className="text-red-500 ">Companion</a>
+                </h1>
+                <p className="text">
+                  users who have created a request will be able to choose
+                  companions freely
+                </p>
               </div>
+              <img src={choose.src} alt="" className="" />
+            </div>
 
-              <div className="flex flex-row w-[400px]">
-                <div className="flex flex-col  justify-center rounded-xl">
-                  <h1 className="text-xl ">
-                    Choosing a <a className="text-red-500 ">Companion</a>
-                  </h1>
-                  <p className="text">
-                    users who have created a request will be able to choose
-                    companions freely
-                  </p>
-                </div>
-                <img src={choose.src} alt="" className="" />
+            <div className="flex flex-row w-[400px]">
+              <div className="flex flex-col  justify-center rounded-xl">
+                <h1 className="text-xl ">
+                  Manage your<a className="text-blue-500 "> Profile</a>
+                </h1>
+                <p className="text">
+                  users can freely manage their profile and edit it as they wish
+                  anytime , anywhere
+                </p>
               </div>
+              <img src={profile.src} alt="" className="" />
+            </div>
 
-              <div className="flex flex-row w-[400px]">
-                <div className="flex flex-col  justify-center rounded-xl">
-                  <h1 className="text-xl ">
-                    Manage your<a className="text-blue-500 "> Profile</a>
-                  </h1>
-                  <p className="text">
-                    users can freely manage their profile and edit it as they
-                    wish anytime , anywhere
-                  </p>
-                </div>
-                <img src={profile.src} alt="" className="" />
+            <div className="flex flex-row w-[400px]">
+              <div className="flex flex-col  justify-center rounded-xl">
+                <h1 className="text-xl ">
+                  Live<a className="text-red-500 "> Chat</a>
+                </h1>
+                <p className="text">
+                  when a requester have chosen their companion, they will be
+                  able to chat with one another
+                </p>
               </div>
+              <img src={chat.src} alt="" className="" />
+            </div>
 
-              <div className="flex flex-row w-[400px]">
-                <div className="flex flex-col  justify-center rounded-xl">
-                  <h1 className="text-xl ">
-                    Live<a className="text-red-500 "> Chat</a>
-                  </h1>
-                  <p className="text">
-                    when a requester have chosen their companion, they will be
-                    able to chat with one another
-                  </p>
-                </div>
-                <img src={chat.src} alt="" className="" />
+            <div className="flex flex-row w-[400px]">
+              <div className="flex flex-col  justify-center rounded-xl">
+                <h1 className="text-xl ">
+                  Share <a className="text-blue-500 "> Location | directions</a>
+                </h1>
+                <p className="text">
+                  users will be be allowed to share their current location and
+                  get directions to their destination
+                </p>
               </div>
+              <img
+                src={locationicon.src}
+                alt=""
+                className="w-[120px] h-[150px]"
+              />
+            </div>
 
-              <div className="flex flex-row w-[400px]">
-                <div className="flex flex-col  justify-center rounded-xl">
-                  <h1 className="text-xl ">
-                    Share{" "}
-                    <a className="text-blue-500 "> Location | directions</a>
-                  </h1>
-                  <p className="text">
-                    users will be be allowed to share their current location and
-                    get directions to their destination
-                  </p>
-                </div>
-                <img
-                  src={locationicon.src}
-                  alt=""
-                  className="w-[120px] h-[150px]"
-                />
+            <div className="flex flex-row w-[400px]">
+              <div className="flex flex-col  justify-center rounded-xl">
+                <h1 className="text-xl ">
+                  Seek for <a className="text-red-500 ">Opportunities</a>
+                </h1>
+                <p className="text">
+                  Endless opportunities awaits you, learning something and
+                  helping others at the same time
+                </p>
               </div>
-
-              <div className="flex flex-row w-[400px]">
-                <div className="flex flex-col  justify-center rounded-xl">
-                  <h1 className="text-xl ">
-                    Seek for <a className="text-red-500 ">Opportunities</a>
-                  </h1>
-                  <p className="text">
-                    Endless opportunities awaits you, learning something and
-                    helping others at the same time
-                  </p>
-                </div>
-                <img src={look.src} alt="" className="" />
-              </div>
+              <img src={look.src} alt="" className="" />
             </div>
           </div>
         </div>
