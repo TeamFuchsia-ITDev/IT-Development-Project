@@ -53,7 +53,6 @@ model Profile {
     birthday    String?
     phonenumber String?
     image       String?
-    address     String?
 
     // Define the 1-to-1 relationship with User using email as the reference
     userEmail String @unique @map("userEmail")
@@ -61,6 +60,7 @@ model Profile {
 
     // 1-to-1 relationship with Location
     location Location?
+    reviews  Review[]
 }
 
 model Location {
@@ -118,4 +118,14 @@ model Application {
     // Define the relation to the Request model
     request   Request @relation(fields: [requestId], references: [id])
     requestId String  @db.ObjectId
+}
+
+model Review {
+    id         String  @id @default(auto()) @map("_id") @db.ObjectId
+    requestId  String
+    rating     Int
+    comment    String
+    reviewType String // "CompanionReview, RequesterReview"
+    profile    Profile @relation(fields: [profileId], references: [id])
+    profileId  String  @db.ObjectId
 }

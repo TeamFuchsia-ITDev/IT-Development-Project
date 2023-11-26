@@ -30,7 +30,6 @@ export interface ProfileData {
   birthday: string;
   phonenumber: string;
   image: string;
-  address: string;
   userEmail: string;
 }
 
@@ -106,6 +105,7 @@ export interface CompanionCardProps {
 export interface HiredApplicantsCardProps {
   application?: ApplicationProps;
   toggleReviewCardVisibility: (isVisible: boolean) => void;
+  onLeaveReviewClick: (companionEmail: string) => void
 }
 
 export interface LocationFeature {
@@ -265,6 +265,7 @@ export interface ReviewCardProps {
   setIsReviewcardVisible: React.Dispatch<React.SetStateAction<boolean>>;
   disabled: boolean;
   setDisabled: React.Dispatch<React.SetStateAction<boolean>>;
+  selectedCompanionProfile?: ProfileData;
 }
 
 export interface TestimonialCardProps {

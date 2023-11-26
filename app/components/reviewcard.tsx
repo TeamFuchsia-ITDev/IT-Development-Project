@@ -15,6 +15,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({
   disabled,
   setIsReviewcardVisible,
   setDisabled,
+  selectedCompanionProfile,
 }) => {
   const [value, setValue] = useState<number | null>(5);
   const [hover, setHover] = useState(-1);
@@ -27,7 +28,9 @@ const ReviewCard: React.FC<ReviewCardProps> = ({
       >
         <div className="flex flex-col justify-center items-center gap-2 ">
           <div>
-            <h1 className="text-xl pt-4">Leave a Review to this user</h1>
+            <h1 className="text-xl pt-4">
+              Leave a review to {selectedCompanionProfile?.name}
+            </h1>
           </div>
           <div className="flex flex-col items-center justify-center">
             {value !== null && (
