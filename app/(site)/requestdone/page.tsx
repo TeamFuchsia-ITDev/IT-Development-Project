@@ -128,8 +128,6 @@ export default function RequestDonePage() {
       <ReviewCard
         isReviewcardVisible={isReviewcardVisible}
         setIsReviewcardVisible={setIsReviewcardVisible}
-        disabled={disabled}
-        setDisabled={setDisabled}
         selectedCompanionProfile={selectedCompanionProfile!}
         request={requestIDParams!}
 		reviewer={reviewer}

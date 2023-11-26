@@ -980,8 +980,6 @@ export default function Dashboard() {
             <ReviewCard
               isReviewcardVisible={isReviewcardVisible}
               setIsReviewcardVisible={setIsReviewcardVisible}
-              disabled={disabled}
-              setDisabled={setDisabled}
             />
           </>
         )}

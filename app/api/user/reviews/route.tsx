@@ -53,6 +53,8 @@ export async function POST(request: Request) {
           reviewerName: reviewer.name,
           reviewerEmail: reviewer.userEmail,
           reviewType: reviewType,
+          revieweeImage: reviewee.image,
+          reviewerImage: reviewer.image,
           profile: {
             connect: {
               id: reviewee.id,
@@ -70,4 +72,11 @@ export async function POST(request: Request) {
       });
     }
   }
+}
+
+export async function GET(request: Request) {
+  // Get all books from the database...
+  const reviews = await prisma.review.findMany();
+
+  return NextResponse.json({ reviews, status: 200 });
 }
