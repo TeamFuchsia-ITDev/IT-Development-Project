@@ -121,11 +121,15 @@ model Application {
 }
 
 model Review {
-    id         String  @id @default(auto()) @map("_id") @db.ObjectId
-    requestId  String
-    rating     Int
-    comment    String
-    reviewType String // "CompanionReview, RequesterReview"
-    profile    Profile @relation(fields: [profileId], references: [id])
-    profileId  String  @db.ObjectId
+    id            String  @id @default(auto()) @map("_id") @db.ObjectId
+    requestId     String
+    rating        Int
+    comment       String
+    revieweeEmail String
+    revieweeName  String
+    reviewerName  String
+    reviewerEmail String
+    reviewType    String // "CompanionReview, RequesterReview"
+    profile       Profile @relation(fields: [profileId], references: [id])
+    profileId     String  @db.ObjectId
 }

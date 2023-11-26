@@ -25,6 +25,7 @@ export default function RequestDonePage() {
   const [selectedCompanionProfile, setSelectedCompanionProfile] = useState<
     ProfileData | undefined
   >(undefined);
+  const [reviewer, setReviewer] = useState<ProfileData | undefined>(undefined);
   const [activeDropdown, setActiveDropdown] = useState(-1);
   const [disabled, setDisabled] = useState(false);
   const [isReviewcardVisible, setIsReviewcardVisible] = useState(false);
@@ -70,7 +71,11 @@ export default function RequestDonePage() {
     const selectedProfile = profiles.find((profile) => {
       return profile.userEmail === companionEmail;
     });
+    const currReviewer = profiles.find((profile) => {
+      return profile.userEmail === session?.user.email;
+    });
     setSelectedCompanionProfile(selectedProfile);
+	setReviewer(currReviewer)
   };
 
   return (
@@ -125,7 +130,9 @@ export default function RequestDonePage() {
         setIsReviewcardVisible={setIsReviewcardVisible}
         disabled={disabled}
         setDisabled={setDisabled}
-		selectedCompanionProfile={selectedCompanionProfile!}
+        selectedCompanionProfile={selectedCompanionProfile!}
+        request={requestIDParams!}
+		reviewer={reviewer}
       />
     </main>
   );
