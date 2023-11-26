@@ -4,7 +4,7 @@ import { Navbar } from "@/app/components/navbar";
 import { useState, useEffect, SetStateAction, FormEvent } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { UserProps } from "@/app/libs/interfaces";
+import { UserProps, ReviewData } from "@/app/libs/interfaces";
 import email from "@/app/images/email.svg";
 import phone from "@/app/images/phone.svg";
 import gender from "@/app/images/gender.svg";
@@ -13,19 +13,24 @@ import loc from "@/app/images/location.svg";
 import EditProfile from "@/app/components/editProfile";
 import ReviewCard from "@/app/components/reviewcard";
 import { ReviewInfoCard } from "@/app/components/reviewinfocard";
+import axios from "axios";
 
 const Profilepage = () => {
   const { data: session, status } = useSession();
   const router = useRouter();
+
   const searchParams = useSearchParams();
   const userParams = searchParams.get("user");
+  let tab = searchParams.get("tab") ?? "Reviews";
+
+  // useStates
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [disabled, setDisabled] = useState(false);
   const [editable, setEditable] = useState(false);
   const [isReviewcardVisible, setIsReviewcardVisible] = useState(false);
-  let tab = searchParams.get("tab") ?? "Reviews";
   const [profilepage, setprofilepage] = useState(tab);
   const [user, setUser] = useState<Partial<UserProps>>({});
+  const [allReviews, setAllReviews] = useState<ReviewData[]>([]);
 
   useEffect(() => {
     if (status !== "loading" && !session) {
@@ -43,10 +48,17 @@ const Profilepage = () => {
       setUser(data);
     };
 
+    const getReviews = async () => {
+      const response = await axios.get(`/api/user/reviews`);
+      setAllReviews(response.data.reviews);
+    };
+
     if (session?.user.email && userParams === null) {
       getUser(session?.user.email);
+      getReviews();
     } else if (session?.user.email && userParams !== null) {
       getUser(userParams);
+      getReviews();
     }
   }, [session?.user.email]);
 
@@ -54,6 +66,7 @@ const Profilepage = () => {
     setIsFormVisible(!isFormVisible);
   };
 
+  console.log("ALL REVIEWS", allReviews);
 
   return (
     <main className="pl-24 pr-24">
@@ -148,10 +161,19 @@ const Profilepage = () => {
 
           {profilepage === "Reviews" ? (
             <div className="grid grid-cols-2 pl-6 ">
-              <ReviewInfoCard />
-              <ReviewInfoCard />
-              <ReviewInfoCard />
-
+              {allReviews
+                .filter(
+                  (review) => review.revieweeEmail === session?.user.email
+                )
+                .map((review, index) => (
+                  <ReviewInfoCard
+                    key={index}
+                    rating={review.rating}
+                    reviewerName={review.reviewerName}
+                    comment={review.comment}
+                    reviewerImage={review.reviewerImage}
+                  />
+                ))}
             </div>
           ) : null}
           {profilepage === "analytics" ? <div>This is History</div> : null}
@@ -169,12 +191,9 @@ const Profilepage = () => {
         setDisabled={setDisabled}
       />
 
-      <ReviewCard 
-      isReviewcardVisible={isReviewcardVisible}
-      setIsReviewcardVisible={setIsReviewcardVisible}
-      disabled={disabled}
-      setDisabled={setDisabled}
-      
+      <ReviewCard
+        isReviewcardVisible={isReviewcardVisible}
+        setIsReviewcardVisible={setIsReviewcardVisible}
       />
     </main>
   );

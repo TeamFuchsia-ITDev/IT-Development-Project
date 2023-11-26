@@ -274,3 +274,25 @@ export interface TestimonialCardProps {
   testimonial: string;
   role: string;
 }
+
+export interface ReviewData {
+  id: string;
+  requestId: string;
+  rating: number;
+  comment: string;
+  revieweeEmail: string;
+  revieweeName: string;
+  reviewerName: string;
+  reviewerEmail: string;
+  reviewType: string;
+  revieweeImage: string;
+  reviewerImage: string;
+}
+
+export interface ReviewInfoCardProps {
+	comment: string;
+	rating: number;
+	reviewerName: string;
+	reviewerImage: string;
+
+  }

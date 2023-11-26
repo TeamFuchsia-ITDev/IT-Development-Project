@@ -129,6 +129,8 @@ model Review {
     revieweeName  String
     reviewerName  String
     reviewerEmail String
+	reviewerImage String
+	revieweeImage String
     reviewType    String // "CompanionReview, RequesterReview"
     profile       Profile @relation(fields: [profileId], references: [id])
     profileId     String  @db.ObjectId
