@@ -105,7 +105,7 @@ export interface CompanionCardProps {
 export interface HiredApplicantsCardProps {
   application?: ApplicationProps;
   toggleReviewCardVisibility: (isVisible: boolean) => void;
-  onLeaveReviewClick: (companionEmail: string) => void
+  onLeaveReviewClick: (companionEmail: string) => void;
 }
 
 export interface LocationFeature {
@@ -257,15 +257,15 @@ export interface DialogboxProps {
   setIsDialogboxVisible: React.Dispatch<React.SetStateAction<boolean>>;
   disabled: boolean;
   setDisabled: React.Dispatch<React.SetStateAction<boolean>>;
-  request: RequestProps
+  request: RequestProps;
 }
 
 export interface ReviewCardProps {
   isReviewcardVisible: boolean;
   setIsReviewcardVisible: React.Dispatch<React.SetStateAction<boolean>>;
-  disabled: boolean;
-  setDisabled: React.Dispatch<React.SetStateAction<boolean>>;
   selectedCompanionProfile?: ProfileData;
+  request?: string;
+  reviewer?: ProfileData;
 }
 
 export interface TestimonialCardProps {
