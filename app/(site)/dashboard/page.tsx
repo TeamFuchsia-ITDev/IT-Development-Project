@@ -1,9 +1,9 @@
 "use client";
 
-import { FormEvent, useEffect, useState, Suspense, useRef } from "react";
+import { FormEvent, useEffect, useState, useRef } from "react";
 import { useSession } from "next-auth/react";
 import axios from "axios";
-import { redirect, useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   UserProps,
   RequestProps,
