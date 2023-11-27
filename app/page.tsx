@@ -15,6 +15,7 @@ import chat from "@/app/images/chat.svg";
 import locationicon from "@/app/images/locationicon.svg";
 import look from "@/app/images/look.svg";
 import LandingSVG from "@/app/images/LandingSVG.svg";
+import { FooterLanding } from "./components/footerLanding";
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
@@ -33,8 +34,8 @@ export default async function Home() {
         <NavbarLanding />
       </div>
       <div className="pl-12 pr-12">
-        <div className=" w-full h-screen flex flex-row justify-center   md:text-left">
-          <div className=" sm:w-full md:w-full lg:w-[60%] flex flex-col justify-center">
+        <div className="w-full flex flex-row justify-center md:text-left">
+          <div className=" sm:w-full md:w-full lg:w-[60%] flex flex-col justify-start md:justify-start lg:justify-center xl:justify-center mt-12 md:mt-24 lg:mt-0 xl:mt-0">
          
             <h1 className="text-[25px] lg:text-[35px] sm:text-black md:text-black text-center md:text-center lg:text-left xl:text-left">
               JOIN THE <span className="text-blue-500">SERVE-EASE</span>{" "}
@@ -43,11 +44,11 @@ export default async function Home() {
             <img
               src={LandingSVG.src}
               alt="Serve-Ease"
-              className="w-full mt-2 mb-2 object-cover block md:hidden lg:hiden xl:hidden"
+              className="w-full  mb-2 object-cover block md:block lg:hidden xl:hidden"
             />
             <p className="text-[15px] lg:text-[18.5px] sm:text-black md:text-black text-center md:text-left">
               Discover the power of community at SERVE-EASE. Whether you're a
-              <span className="text-red-500 "> Companion</span> offering help or
+              <span className="text-red-500"> Companion</span> offering help or
               a<span className="text-blue-500"> Requester</span> seeking
               assistance, sign up today to make meaningful connections.
             </p>
@@ -63,7 +64,7 @@ export default async function Home() {
            
             </div>
           </div>
-          <div className="sm:w-[0%] md:w-[0%] lg:w-[50%] flex justify-center">
+          <div className="w-[0%] md:w-[0%] lg:w-[50%] xl:w-[50%] flex justify-center">
             <img src={LandingSVG.src} alt="" className="hidden md:hidden lg:block xl:block" />
             </div>
         </div>
@@ -76,11 +77,11 @@ export default async function Home() {
               className="w-[600px] object-cover hidden md:hidden lg:block xl:block"
             />
           </div>
-          <div className=" sm:w-full md:w-full lg:w-[50%] flex flex-col justify-center">
-            <h1 className="text-[25px] lg:text-[35px] sm:text-black md:text-black text-center md:text-center lg:text-left xl:text-left text-underline-2  ">
+          <div className="sm:w-full md:w-full lg:w-[50%] flex flex-col justify-center mt-[430px] md:mt-[430px] lg:mt-0 lg:mt-0">
+            <h1 className="text-[30px] lg:text-[35px] text-center md:text-center lg:text-left xl:text-left text-underline-2  ">
               Why <span className="text-blue-500">use</span> our App?
             </h1>
-            <p className="text-[15px] lg:text-[18.5px] sm:text-black md:text-black text-center md:text-left mt-4">
+            <p className="text-[18px] lg:text-[18.5px] sm:text-black md:text-black text-left md:text-left mt-4">
               Welcome to our platform, where we've crafted a unique space for
               connecting people who need a helping hand with tasks they can't
               tackle on their own. But that's not all – it's also a place for
@@ -88,7 +89,7 @@ export default async function Home() {
               friendly company.
             </p>
             <br />
-            <p className="text-[15px] lg:text-[18.5px] sm:text-black md:text-black text-center md:text-left">
+            <p className="text-[18px] lg:text-[18.5px] sm:text-black md:text-black text-left md:text-left">
               What sets us apart is the flexibility we offer.{" "}
               <span className="text-red-500">Companions</span> have the choice
               to provide their services either for free, as a gesture of
@@ -98,7 +99,7 @@ export default async function Home() {
               a helping hand or a friendly chat.
             </p>
             <br />
-            <p className="text-[15px] lg:text-[18.5px] sm:text-black md:text-black text-center md:text-left">
+            <p className="text-[18px] lg:text-[18.5px] sm:text-black md:text-black text-left md:text-left">
               Our main goal is simple: to ensure that our users always have
               someone to rely on in moments of loneliness, someone to share fun
               times with, or just someone to have a chat with. Join us today and
@@ -109,7 +110,7 @@ export default async function Home() {
 
         <div className="flex flex-col w-[100%] justify-center items-center ">
           <div>
-            <h1 className="text-[30px] mt-16">
+            <h1 className="text-[30px] lg:text-[35px] text-center mt-[550px] md:mt-[550px] lg:mt-24 lg:mt-0">
               What do our <a className="text-blue-500">users</a> think?
             </h1>
           </div>
@@ -124,14 +125,15 @@ export default async function Home() {
         </div>
         <div className="flex flex-col mt-[220px]">
           <div className="flex justify-center">
-            <h1 className="text-[30px] ">
-              What can <a className="text-blue-500">users</a> do?
+            <h1 className="text-[30px] lg:text-[35px] text-center ">
+              What can our<a className="text-blue-500"> users</a> do?
             </h1>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-12 mt-12">
+          <div className="flex flex-wrap justify-center gap-12 mt-12 mb-24">
             <div className="flex flex-row w-[400px]">
               <div className="flex flex-col  justify-center rounded-xl">
+              <img src={post.src} alt="" className="w-[70px] h-[70px] md:w-[70px] md:h-[70px] lg:hidden md:hidden" />
                 <h1 className="text-xl ">
                   Creating a <a className="text-blue-500 ">Request</a>
                 </h1>
@@ -140,11 +142,12 @@ export default async function Home() {
                   with various categories
                 </p>
               </div>
-              <img src={post.src} alt="" className="" />
+              <img src={post.src} alt="" className="hidden md:block md:w-24 lg:block lg:w-24" />
             </div>
 
             <div className="flex flex-row w-[400px]">
               <div className="flex flex-col  justify-center rounded-xl">
+              <img src={choose.src} alt="" className="w-[70px] h-[70px] md:w-[70px] md:h-[70px] lg:hidden md:hidden" />
                 <h1 className="text-xl ">
                   Choosing a <a className="text-red-500 ">Companion</a>
                 </h1>
@@ -153,11 +156,12 @@ export default async function Home() {
                   companions freely
                 </p>
               </div>
-              <img src={choose.src} alt="" className="" />
+              <img src={choose.src} alt="" className="hidden md:block md:w-24 lg:block lg:w-24" />
             </div>
 
             <div className="flex flex-row w-[400px]">
               <div className="flex flex-col  justify-center rounded-xl">
+              <img src={profile.src} alt="" className="w-[70px] h-[70px] md:w-[70px] md:h-[70px] lg:hidden md:hidden" />
                 <h1 className="text-xl ">
                   Manage your<a className="text-blue-500 "> Profile</a>
                 </h1>
@@ -166,11 +170,12 @@ export default async function Home() {
                   anytime , anywhere
                 </p>
               </div>
-              <img src={profile.src} alt="" className="" />
+              <img src={profile.src} alt="" className="hidden md:block md:w-24 lg:block lg:w-24" />
             </div>
 
             <div className="flex flex-row w-[400px]">
               <div className="flex flex-col  justify-center rounded-xl">
+              <img src={chat.src} alt="" className="w-[70px] h-[70px] md:w-[70px] md:h-[70px] lg:hidden md:hidden" />
                 <h1 className="text-xl ">
                   Live<a className="text-red-500 "> Chat</a>
                 </h1>
@@ -179,11 +184,12 @@ export default async function Home() {
                   able to chat with one another
                 </p>
               </div>
-              <img src={chat.src} alt="" className="" />
+              <img src={chat.src} alt="" className="hidden md:block md:w-24 lg:block lg:w-24"/>
             </div>
 
             <div className="flex flex-row w-[400px]">
               <div className="flex flex-col  justify-center rounded-xl">
+              <img src={locationicon.src} alt="" className="w-[70px] h-[70px] md:w-[70px] md:h-[70px] lg:hidden md:hidden" />
                 <h1 className="text-xl ">
                   Share <a className="text-blue-500 "> Location | directions</a>
                 </h1>
@@ -195,12 +201,13 @@ export default async function Home() {
               <img
                 src={locationicon.src}
                 alt=""
-                className="w-[120px] h-[150px]"
+                className="hidden md:block md:w-24 lg:block lg:w-24"
               />
             </div>
 
             <div className="flex flex-row w-[400px]">
-              <div className="flex flex-col  justify-center rounded-xl">
+              <div className="flex flex-col justify-center rounded-xl">
+                <img src={look.src} alt="" className="w-[70px] h-[70px] md:w-[70px] md:h-[70px] lg:hidden md:hidden" />
                 <h1 className="text-xl ">
                   Seek for <a className="text-red-500 ">Opportunities</a>
                 </h1>
@@ -209,11 +216,13 @@ export default async function Home() {
                   helping others at the same time
                 </p>
               </div>
-              <img src={look.src} alt="" className="" />
+              <img src={look.src} alt="" className="hidden md:block md:w-24 lg:block lg:w-24" />
             </div>
           </div>
-        </div>
+        </div>   
+        <FooterLanding />
       </div>
+   
     </div>
   );
 }

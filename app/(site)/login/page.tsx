@@ -112,14 +112,17 @@ export default function Login() {
   return (
     <div className="flex flex-row ">
       <div className="flex flex-row w-[100%] justify-center items-center">
-        <div className="w-full md:w-1/2 lg:w-1/2 xl:w-1/2">
+        <div className="w-full lg:w-1/2 xl:w-1/2">
           <div className="">
             <Link href="/">
-              <Image src={SElogo} alt="Login" className="absolute  top-[10px] w-[150px] mt-4" />
+              <Image src={SElogo} alt="Login" className="hidden md:hidden lg:block xl:block absolute  top-[10px] w-[150px] mt-4" />
             </Link>
           </div>
-          <div className="flex flex-col h-[680px] justify-center items-center pl-3 md:pl-0 lg:pl-0 xl:pl-0 ">
+          <div className="flex flex-col h-screen w-screen lg:w-full justify-start mt-12 md:mt-12 xl:mt-0 lg:mt-0 md:justify-center lg:justify-center xl:justify-center items-center  ">
             <div className="flex flex-col">
+            <Link href="/">
+              <img src={SElogo.src} alt="Login" className="block md:block lg:hidden xl:hidden w-[200px] ml-[-23px]" />
+              </Link>
               <h1 className="text-4xl font-bold mb-2 mt-4">
                 Welcome back to{" "}
                 <span className="text-blue-500 block">Serve-Ease</span>
@@ -210,7 +213,7 @@ export default function Login() {
           <img
             src={lsimage.src}
             alt="Login"
-            className=" h-screen w-screen object-cover sm:block hidden md:block lg:block xl:block"
+            className=" h-screen w-screen object-cover hidden md:block lg:block xl:block"
           />
         </div>
       </div>

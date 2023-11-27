@@ -12,9 +12,9 @@ export const TestimonialCard: React.FC<TestimonialCardProps> = ({
   role,
 }) => {
   return (
-    <div className="mt-24">
-      <div className="flex flex-col w-auto rounded-[10px] border-2 pb-4 pt-4 pl-4 pr-4 ">
-        <div className="flex flex-row justify-center items-center gap-4">
+    <div className="mt-12 md:mt-12 lg:mt-24 ">
+      <div className="flex flex-col w-full md:w-full lg:w-[900px] rounded-[10px] border-2 pb-4 pt-4 pl-4 pr-4 ">
+        <div className="flex flex-col justify-center items-center gap-4 md:flex-row lg-flex-row xl-flex-row ">
           <img
             src={blankprofile.src}
             alt="Serve-Ease"
@@ -24,11 +24,11 @@ export const TestimonialCard: React.FC<TestimonialCardProps> = ({
             <h1>{name}</h1>
             <h1>{role}</h1>
           </div>
-          <Rating name="size-large" defaultValue={5} size="large" readOnly />
+          <Rating name="size-large" defaultValue={5} size="large"  readOnly />
         </div>
         <div className="flex flex-col">
           <img src={quote.src} width={20} className="opacity-50"/>
-          <p className="mt-4 text-center text-[25px]">
+          <p className="mt-4 text-left text-[18px] lg:text-[18.5px] md:text-center lg-text-center xl-text-center">
             {testimonial}
           </p>
         </div>
