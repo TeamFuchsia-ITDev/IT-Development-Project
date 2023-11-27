@@ -11,13 +11,15 @@ import gender from "@/app/images/gender.svg";
 import bday from "@/app/images/bday.svg";
 import loc from "@/app/images/location.svg";
 import EditProfile from "@/app/components/editProfile";
-import ReviewCard from "@/app/components/reviewcard";
 import { ReviewInfoCard } from "@/app/components/reviewinfocard";
+import { useMode } from "@/app/context/ModeContext";
+
 import axios from "axios";
 
 const Profilepage = () => {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const { mode } = useMode();
 
   const searchParams = useSearchParams();
   const userParams = searchParams.get("user");
@@ -27,7 +29,6 @@ const Profilepage = () => {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [disabled, setDisabled] = useState(false);
   const [editable, setEditable] = useState(false);
-  const [isReviewcardVisible, setIsReviewcardVisible] = useState(false);
   const [profilepage, setprofilepage] = useState(tab);
   const [user, setUser] = useState<Partial<UserProps>>({});
   const [allReviews, setAllReviews] = useState<ReviewData[]>([]);
@@ -145,7 +146,7 @@ const Profilepage = () => {
             }`}
             onClick={() => setprofilepage("Reviews")}
           >
-            Reviews
+            {mode ? "Reviews as Requester" : "Reviews as Companion"}
           </button>
           <button
             className={`${
@@ -163,7 +164,7 @@ const Profilepage = () => {
             <div className="grid grid-cols-2 pl-6 ">
               {allReviews
                 .filter(
-                  (review) => review.revieweeEmail === session?.user.email
+                  (review) => review.revieweeEmail === session?.user.email && (mode ? review.reviewType === "RequesterReview" : "CompanionReview")
                 )
                 .map((review, index) => (
                   <ReviewInfoCard
@@ -189,11 +190,6 @@ const Profilepage = () => {
         editable={editable}
         setEditable={setEditable}
         setDisabled={setDisabled}
-      />
-
-      <ReviewCard
-        isReviewcardVisible={isReviewcardVisible}
-        setIsReviewcardVisible={setIsReviewcardVisible}
       />
     </main>
   );
