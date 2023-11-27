@@ -13,7 +13,7 @@ export const TestimonialCard: React.FC<TestimonialCardProps> = ({
 }) => {
   return (
     <div className="mt-24">
-      <div className="flex flex-col w-[800px] rounded-[10px] border-2 pb-4 pt-4 pl-4 pr-4 ">
+      <div className="flex flex-col w-auto rounded-[10px] border-2 pb-4 pt-4 pl-4 pr-4 ">
         <div className="flex flex-row justify-center items-center gap-4">
           <img
             src={blankprofile.src}
