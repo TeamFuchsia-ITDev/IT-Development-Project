@@ -16,6 +16,7 @@ import locationicon from "@/app/images/locationicon.svg";
 import look from "@/app/images/look.svg";
 import LandingSVG from "@/app/images/LandingSVG.svg";
 import { FooterLanding } from "./components/footerLanding";
+import { motion } from "framer-motion";
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
@@ -36,17 +37,17 @@ export default async function Home() {
       <div className="pl-12 pr-12">
         <div className="w-full flex flex-row justify-center md:text-left">
           <div className=" sm:w-full md:w-full lg:w-[60%] flex flex-col justify-start md:justify-start lg:justify-center xl:justify-center mt-12 md:mt-24 lg:mt-0 xl:mt-0">
-         
+         <p className="text-[20px] text-center md:text-center lg:text-left xl:text-left font-bold">Welcome to <span className="text-blue-500">Serve-Ease</span></p>
             <h1 className="text-[25px] lg:text-[35px] sm:text-black md:text-black text-center md:text-center lg:text-left xl:text-left">
-              JOIN THE <span className="text-blue-500">SERVE-EASE</span>{" "}
-              COMMUNITY TODAY
+              JOIN OUR COMMUNITY{" "}
+               TODAY
             </h1>
             <img
               src={LandingSVG.src}
               alt="Serve-Ease"
               className="w-full  mb-2 object-cover block md:block lg:hidden xl:hidden"
             />
-            <p className="text-[15px] lg:text-[18.5px] sm:text-black md:text-black text-center md:text-left">
+            <p className="text-[15px] lg:text-[16px]  text-center md:text-left">
               Discover the power of community at SERVE-EASE. Whether you're a
               <span className="text-red-500"> Companion</span> offering help or
               a<span className="text-blue-500"> Requester</span> seeking
@@ -61,6 +62,7 @@ export default async function Home() {
                   Sign up free!
                 </button>
               </Link>
+              
            
             </div>
           </div>
@@ -69,7 +71,7 @@ export default async function Home() {
             </div>
         </div>
 
-        <div className=" w-full h-screen flex flex-row justify-center  md:text-left">
+        <div className=" w-full h-screen flex flex-row justify-center  md:text-left ">
           <div className="sm:w-[0%] md:w-[0%] lg:w-[50%] xl:w-[50%] flex justify-center items-center">
             <img
               src={blobimage.src}
@@ -77,11 +79,11 @@ export default async function Home() {
               className="w-[600px] object-cover hidden md:hidden lg:block xl:block"
             />
           </div>
-          <div className="sm:w-full md:w-full lg:w-[50%] flex flex-col justify-center mt-[430px] md:mt-[430px] lg:mt-0 lg:mt-0">
-            <h1 className="text-[30px] lg:text-[35px] text-center md:text-center lg:text-left xl:text-left text-underline-2  ">
+          <div className="sm:w-full md:w-full lg:w-[50%] flex flex-col justify-center mt-[470px] md:mt-[200px] lg:mt-0 lg:mt-0 ">
+            <h1 className="text-[30px] lg:text-[35px] text-center md:text-center lg:text-left xl:text-left ">
               Why <span className="text-blue-500">use</span> our App?
             </h1>
-            <p className="text-[18px] lg:text-[18.5px] sm:text-black md:text-black text-left md:text-left mt-4">
+            <p className="text-[18px] lg:text-[18.5px]  text-left md:text-left mt-4">
               Welcome to our platform, where we've crafted a unique space for
               connecting people who need a helping hand with tasks they can't
               tackle on their own. But that's not all – it's also a place for
@@ -89,7 +91,7 @@ export default async function Home() {
               friendly company.
             </p>
             <br />
-            <p className="text-[18px] lg:text-[18.5px] sm:text-black md:text-black text-left md:text-left">
+            <p className="text-[18px] lg:text-[18.5px]  text-left md:text-left">
               What sets us apart is the flexibility we offer.{" "}
               <span className="text-red-500">Companions</span> have the choice
               to provide their services either for free, as a gesture of
@@ -99,7 +101,7 @@ export default async function Home() {
               a helping hand or a friendly chat.
             </p>
             <br />
-            <p className="text-[18px] lg:text-[18.5px] sm:text-black md:text-black text-left md:text-left">
+            <p className="text-[18px] lg:text-[18.5px]  text-left md:text-left">
               Our main goal is simple: to ensure that our users always have
               someone to rely on in moments of loneliness, someone to share fun
               times with, or just someone to have a chat with. Join us today and
@@ -222,7 +224,8 @@ export default async function Home() {
         </div>   
         <FooterLanding />
       </div>
-   
     </div>
   );
 }
+
+
