@@ -114,3 +114,7 @@ export function isDST() {
 	return currentMoment.isDST();
 }
 
+export const navItems = [
+  { text: "Why Join", link: "/why-join" },
+  { text: "How it works", link: "/how-it-works" },
+];
