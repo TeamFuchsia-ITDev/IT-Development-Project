@@ -107,21 +107,31 @@ export default function Login() {
         }
       });
     }, 2000);
-  }; 
+  };
 
   return (
-    <div className="flex flex-row ">
-      <div className="flex flex-row w-[100%] justify-center items-center">
-        <div className="w-full lg:w-1/2 xl:w-1/2">
+    <div className="flex">
+      <div className="flex w-full justify-center items-center ">
+        <div className="flex justify-center w-max max-w-[300px] md:max-w-full md:w-full lg:w-1/2 xl:w-1/2 ">
           <div className="">
             <Link href="/">
-              <Image src={SElogo} alt="Login" className="hidden md:hidden lg:block xl:block absolute  top-[10px] w-[150px] mt-4" />
+              <Image
+                src={SElogo}
+                alt="Login"
+                className="hidden md:hidden lg:block xl:block absolute top-[10px] w-[150px] left-[25px] mt-4"
+              />
             </Link>
           </div>
-          <div className="flex flex-col h-screen w-screen lg:w-full justify-start mt-12 md:mt-12 xl:mt-0 lg:mt-0 md:justify-center lg:justify-center xl:justify-center items-center  ">
-            <div className="flex flex-col">
-            <Link href="/">
-              <img src={SElogo.src} alt="Login" className="block md:block lg:hidden xl:hidden w-[200px] ml-[-23px]" />
+          {/* <div className="flex flex-col h-screen w-screen lg:w-full mt-12 xl:mt-0 lg:mt-0 md:justify-center lg:justify-center xl:justify-center items-center "> */}
+          <div className=" flex justify-center ">
+            {/* <div className="flex flex-col"> */}
+            <div className="">
+              <Link href="/">
+                <img
+                  src={SElogo.src}
+                  alt="Login"
+                  className="block md:block lg:hidden xl:hidden w-[200px] ml-[-23px]"
+                />
               </Link>
               <h1 className="text-4xl font-bold mb-2 mt-4">
                 Welcome back to{" "}
@@ -131,8 +141,10 @@ export default function Login() {
                 Sign in now and start using and exploring our app
               </p>
               <div
-                className="flex flex-col mt-4"
-                onKeyDown={(e) => handleEnterKeyPress(e, loginUser, disabled, setDisabled)}
+                className="flex flex-col mt-4 xl:w-[350px]"
+                onKeyDown={(e) =>
+                  handleEnterKeyPress(e, loginUser, disabled, setDisabled)
+                }
               >
                 <input
                   className="border-2 border-gray-300 h-[45px] rounded-md pl-4"
@@ -162,8 +174,8 @@ export default function Login() {
                 <button
                   className={`${
                     disabled
-                      ? "text-center bg-blue-500 opacity-50 text-white font-bold w-[360px] rounded h-[45px] cursor-not-allowed mt-4"
-                      : "text-center bg-blue-500 text-white font-bold w-[360px] rounded h-[45px] hover:bg-white hover:text-blue-500 hover:border-[2px] hover:border-blue-500 hover:ease-in-out duration-300 mt-4"
+                      ? "text-center bg-blue-500 opacity-50 text-white font-bold w-auto rounded h-[45px] cursor-not-allowed mt-4"
+                      : "text-center bg-blue-500 text-white font-bold w-auto rounded h-[45px] hover:bg-white hover:text-blue-500 hover:border-[2px] hover:border-blue-500 hover:ease-in-out duration-300 mt-4"
                   }`}
                   onClick={loginUser}
                   disabled={disabled}
@@ -173,43 +185,44 @@ export default function Login() {
               </div>
 
               <div className="inline-flex items-center w-full">
-                <hr className="w-[155px] h-px my-8 bg-gray-200 border-0 bg-gray-700"></hr>
+                <hr className="w-full h-px my-8 bg-gray-200 border-0 bg-gray-700"></hr>
                 <span className=" text-[12px] text-gray-900  bg-white ml-4 mr-4">
                   OR
                 </span>
-                <hr className="w-[155px] h-px my-8 bg-gray-200 border-0 bg-gray-700"></hr>
+                <hr className="w-full h-px my-8 bg-gray-200 border-0 bg-gray-700"></hr>
               </div>
+              <div className="flex flex-col ">
+                <button
+                  className="bg-white hover:opacity-80 border-2 font-bold text-[12px] rounded w-auto h-[45px] flex flex-row items-center justify-center"
+                  onClick={loginWithGoogle}
+                >
+                  <Image
+                    src={google}
+                    alt="google"
+                    className="w-[20px] h-[20px] mr-2"
+                  />
+                  <p className="">Sign in with google</p>
+                </button>
 
-              <button
-                className="bg-white hover:opacity-80 border-2 font-bold text-[12px] rounded w-[360px] h-[45px] flex flex-row items-center justify-center"
-                onClick={loginWithGoogle}
-              >
-                <Image
-                  src={google}
-                  alt="google"
-                  className="w-[20px] h-[20px] mr-2"
-                />
-                <p className="">Sign in with google</p>
-              </button>
-
-              <button
-                className="bg-blue-500 hover:bg-blue-600 border-2 text-white font-bold text-[12px] rounded w-[360px] h-[45px] flex flex-row mt-4 items-center justify-center mb-2"
-                onClick={loginWithFacebook}
-              >
-                <Image
-                  src={facebook}
-                  alt="google"
-                  className="w-[20px] h-[20px] mr-2"
-                />
-                <p className="">Sign in with Facebook</p>
-              </button>
-              <a className="text-blue-600 text-[12px] " href="/register">
-                Dont have an account? Sign up
-              </a>
+                <button
+                  className="bg-blue-500 hover:bg-blue-600 border-2 text-white font-bold text-[12px] rounded w-auto h-[45px] flex flex-row mt-4 items-center justify-center mb-2"
+                  onClick={loginWithFacebook}
+                >
+                  <Image
+                    src={facebook}
+                    alt="google"
+                    className="w-[20px] h-[20px] mr-2"
+                  />
+                  <p className="">Sign in with Facebook</p>
+                </button>
+                <a className="text-blue-600 text-[12px] " href="/register">
+                  Dont have an account? Sign up
+                </a>
+              </div>
             </div>
           </div>
         </div>
-        <div className="w-1/2 relative">
+        <div className="w-[0%] lg:w-1/2 relative">
           <img
             src={lsimage.src}
             alt="Login"

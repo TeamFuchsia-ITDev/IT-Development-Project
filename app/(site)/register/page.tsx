@@ -13,7 +13,6 @@ import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { handleEnterKeyPress } from "@/app/libs/actions";
 
-
 export default function Register() {
   const router = useRouter();
   const [disabled, setDisabled] = useState(false);
@@ -91,27 +90,40 @@ export default function Register() {
   };
 
   return (
-    <div className="flex flex-row">
-      <div className="flex flex-row w-[100%] justify-center items-center">
-        <div className="w-full md:w-1/2 lg:w-1/2 xl:w-1/2">
-        <div className="">
+    <div className="flex">
+      <div className="flex w-full justify-center items-center ">
+        <div className="flex justify-center w-max max-w-[300px] md:max-w-full md:w-full lg:w-1/2 xl:w-1/2 ">
+          <div className="">
             <Link href="/">
-              <Image src={SElogo} alt="Login" className="hidden md:hidden lg:block xl:block absolute  top-[10px] w-[150px] mt-4" />
+              <Image
+                src={SElogo}
+                alt="Login"
+                className="hidden md:hidden lg:block xl:block absolute top-[10px] w-[150px] left-[25px] mt-4"
+              />
             </Link>
           </div>
-          <div className="flex flex-col h-screen w-screen lg:w-full justify-start mt-12 md:mt-12 xl:mt-0 lg:mt-0 md:justify-center lg:justify-center xl:justify-center items-center">
-            <div className="flex flex-col">
-            <Link href="/">
-            <img src={SElogo.src} alt="Login" className="block md:block lg:hidden xl:hidden w-[200px] ml-[-23px]" />
-            </Link>
-              <h1 className="text-4xl font-bold mb-2 mt-4 text-left">
+          <div className=" flex justify-center">
+            <div className="">
+              <Link href="/">
+                <img
+                  src={SElogo.src}
+                  alt="Login"
+                  className="block md:block lg:hidden xl:hidden w-[200px] ml-[-23px]"
+                />
+              </Link>
+              <h1 className="text-4xl font-bold mb-2 mt-4">
                 Welcome back to{" "}
                 <span className="text-blue-500 block">Serve-Ease</span>
               </h1>
               <p className="text-sm">
                 Sign up now and start using and exploring our app
               </p>
-              <div className="flex flex-col w-[360px] mt-4" onKeyDown={(e) => handleEnterKeyPress(e, registerUser, disabled, setDisabled)}>
+              <div
+                className="flex flex-col mt-4 xl:w-[350px]"
+                onKeyDown={(e) =>
+                  handleEnterKeyPress(e, registerUser, disabled, setDisabled)
+                }
+              >
                 <input
                   type="text"
                   placeholder="Name"
@@ -179,8 +191,8 @@ export default function Register() {
                 <button
                   className={`${
                     disabled
-                      ? "text-center bg-blue-500 opacity-50 text-white font-bold w-[360px] rounded h-[45px] cursor-not-allowed mt-4"
-                      : "text-center bg-blue-500 text-white font-bold w-[360px] rounded h-[45px] hover:bg-white hover:text-blue-500 hover:border-[2px] hover:border-blue-500 hover:ease-in-out duration-300 mt-4"
+                      ? "text-center bg-blue-500 opacity-50 text-white font-bold w-auto rounded h-[45px] cursor-not-allowed mt-4"
+                      : "text-center bg-blue-500 text-white font-bold w-auto rounded h-[45px] hover:bg-white hover:text-blue-500 hover:border-[2px] hover:border-blue-500 hover:ease-in-out duration-300 mt-4"
                   }`}
                   onClick={registerUser}
                   disabled={disabled}
@@ -188,14 +200,14 @@ export default function Register() {
                   Sign up
                 </button>
                 <div className="inline-flex items-center w-full">
-                  <hr className="w-[155px] h-px my-8 bg-gray-200 border-0 bg-gray-700"></hr>
-                  <span className=" text-[12px] text-gray-900  bg-white ml-4 mr-4">
-                    OR
-                  </span>
-                  <hr className="w-[155px] h-px my-8 bg-gray-200 border-0 bg-gray-700"></hr>
-                </div>
+                <hr className="w-full h-px my-8 bg-gray-200 border-0 bg-gray-700"></hr>
+                <span className=" text-[12px] text-gray-900  bg-white ml-4 mr-4">
+                  OR
+                </span>
+                <hr className="w-full h-px my-8 bg-gray-200 border-0 bg-gray-700"></hr>
+              </div>
                 <button
-                  className="bg-white hover:opacity-80 border-2 font-bold text-[12px] rounded w-[360px] h-[45px] flex flex-row items-center justify-center"
+                  className="bg-white hover:opacity-80 border-2 font-bold text-[12px] rounded w-auto h-[45px] flex flex-row items-center justify-center"
                   onClick={loginWithGoogle}
                 >
                   <Image
@@ -207,7 +219,7 @@ export default function Register() {
                 </button>
 
                 <button
-                  className="bg-blue-500 hover:bg-blue-600 border-2 text-white font-bold text-[12px] rounded w-[360px] h-[45px] flex flex-row mt-4 items-center justify-center mb-2"
+                  className="bg-blue-500 hover:bg-blue-600 border-2 text-white font-bold text-[12px] rounded w-auto h-[45px] flex flex-row mt-4 items-center justify-center mb-2"
                   onClick={loginWithFacebook}
                 >
                   <Image
@@ -223,9 +235,8 @@ export default function Register() {
               </div>
             </div>
           </div>
-          
         </div>
-        <div className="w-1/2 relative">
+        <div className="w-[0%] lg:w-1/2 relative">
           <img
             src={lsimage.src}
             alt="Login"

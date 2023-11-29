@@ -177,26 +177,38 @@ export default function CreateProfile() {
   };
 
   return (
-    <div className="flex justify-center h-[screen] items-center">
-      <div className=" w-[500px] ">
-        <div className="flex justify-center">
-          <img src={logo1.src} alt="logo" className="h-[90px] w-[200px]" />
-        </div>
-        <div className="flex flex-col mt-4 text-center">
+    <div className="">
+      <div className="flex flex-col items-center text-center">
+        <img src={logo1.src} alt="logo" className="h-[90px] w-[200px]" />
+
+        <div className="">
           <h1 className="bold text-4xl">
             Profile <a className="text-blue-500">Creation</a> Page
           </h1>
           <p className="text-sm mb-4">
-            Almost there {session.user.name}, we need to know more 
-            <span className="block">about you. Want to continue later? <a className=" text-blue-500 hover:cursor-pointer" onClick={() => signOut()}> Sign Out</a></span>
+            Almost there {session.user.name}, we need to know more
+            <span className="block">
+              about you. Want to continue later?{" "}
+              <a
+                className=" text-blue-500 hover:cursor-pointer"
+                onClick={() => signOut()}
+              >
+                {" "}
+                Sign Out
+              </a>
+            </span>
           </p>
         </div>
-        <div className="flex flex-col justify-center items-center" onKeyDown={(e) => handleEnterKeyPress(e, submitProfile, disabled, setDisabled)}>
+        <div
+          className="flex flex-col items-center max-w-[420px] mx-auto px-4"
+          onKeyDown={(e) =>
+            handleEnterKeyPress(e, submitProfile, disabled, setDisabled)
+          }>
           <label htmlFor="profileImage" className="">
             Click to upload a profile image
           </label>
           <div className="mt-2">
-            <div onClick={() => fileInputRef.current?.click()}>
+            <div className="" onClick={() => fileInputRef.current?.click()}>
               {imageBase64 ? (
                 <img
                   src={imageBase64}
@@ -231,7 +243,7 @@ export default function CreateProfile() {
             placeholder="Name"
             value={data.name}
             onChange={handleNameChange}
-            className="border-2 border-gray-300 h-[45px] rounded-md pl-4 mt-8 w-[390px] "
+            className="border-2 border-gray-300 h-[45px] rounded-md pl-4 mt-8 w-full"
           />
 
           <select
@@ -239,7 +251,7 @@ export default function CreateProfile() {
             name="ethnicity"
             value={data.ethnicity}
             onChange={(e) => setData({ ...data, ethnicity: e.target.value })}
-            className=" border-2 border-gray-300 h-[45px] rounded-md pl-4 mt-8 w-[390px] "
+            className=" border-2 border-gray-300 h-[45px] rounded-md pl-4 mt-8 w-full"
           >
             <option value="" disabled>
               Select Ethnicity
@@ -265,7 +277,7 @@ export default function CreateProfile() {
                     onChange={(e) =>
                       setData({ ...data, gender: e.target.value })
                     }
-                    className="form-radio h-4 w-4 text-blue-500 focus:ring-blue-500 "
+                    className="form-radio h-4 w-4 text-blue-500 focus:ring-blue-500"
                   />
                   <label
                     htmlFor={option.toLowerCase()}
@@ -278,7 +290,7 @@ export default function CreateProfile() {
             </div>
           </div>
 
-          <div className="mt-8 flex gap-2">
+          <div className="mt-8 flex gap-2 w-full">
             <label className=" text-sm flex justify-center items-center">
               Birth Date
             </label>
@@ -295,9 +307,10 @@ export default function CreateProfile() {
                   .split("T")[0];
                 setData({ ...data, birthday: formattedDate });
               }}
-              className="border-2 border-gray-300 h-[45px] rounded-md pl-4  w-[315px]"
+              className="border-2 border-gray-300 h-[45px] rounded-md pl-4  w-full"
             />
-          </div> <div className="">
+          </div>
+         
             <input
               id="address"
               name="address"
@@ -305,11 +318,11 @@ export default function CreateProfile() {
               placeholder="Address"
               value={address}
               onChange={handleLocationChange}
-              className="border-2 border-gray-300 h-[45px] rounded-md pl-4 mt-8 w-[390px]"
+              className="border-2 border-gray-300 h-[45px] rounded-md pl-4 mt-8 w-full"
             />
-          </div>
+       
           {suggestions?.length > 0 && (
-            <div className="bg-white border border-gray-300 rounded-lg z-10 overflow-auto max-h-40 w-[390px]">
+            <div className="bg-white border border-gray-300 rounded-lg z-10 overflow-auto max-h-40 w-full">
               {suggestions.map((suggestion, index) => (
                 <p
                   className="p-4 cursor-pointer text-sm text-black transition duration-200 ease-in-out bg-gray-100 hover:bg-green-200"
@@ -323,7 +336,7 @@ export default function CreateProfile() {
                 </p>
               ))}
             </div>
-          )} 
+          )}
           <input
             id="phonenumber"
             name="phonenumber"
@@ -331,24 +344,24 @@ export default function CreateProfile() {
             type="text"
             value={data.phonenumber}
             onChange={handlePhoneNumberChange}
-            className="border-2 border-gray-300 h-[45px] rounded-md pl-4 mt-8 w-[390px]"
+            className="border-2 border-gray-300 h-[45px] rounded-md pl-4 mt-8 w-full"
           />
 
-         
-          <div className="mt-8">
-             <button 
+          <div className="mt-8 w-full">
+            <button
               onClick={submitProfile}
               type="submit"
-              className={`${disabled ? "text-center bg-blue-500 text-white font-bold w-[385px] rounded h-[45px] opacity-50 cursor-not-allowed mb-12" : "text-center bg-blue-500 text-white font-bold w-[385px] rounded h-[45px] hover:bg-white hover:text-blue-500 hover:border-[2px] hover:border-blue-500 hover:ease-in-out duration-300 mb-12"}`}
+              className={`${
+                disabled
+                  ? "text-center bg-blue-500 text-white font-bold w-full rounded h-[45px] opacity-50 cursor-not-allowed mb-12"
+                  : "text-center bg-blue-500 text-white font-bold w-full rounded h-[45px] hover:bg-white hover:text-blue-500 hover:border-[2px] hover:border-blue-500 hover:ease-in-out duration-300 mb-12"
+              }`}
               disabled={disabled}
             >
               Create your profile
             </button>
           </div>
-          
         </div>
-
-       
       </div>
     </div>
   );
