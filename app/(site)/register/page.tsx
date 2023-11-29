@@ -90,20 +90,20 @@ export default function Register() {
   };
 
   return (
-    <div className="flex">
+    <div className="flex w-full">
       <div className="flex w-full justify-center items-center ">
-        <div className="flex justify-center w-max max-w-[300px] md:max-w-full md:w-full lg:w-1/2 xl:w-1/2 ">
+        <div className="flex justify-center w-full  md:max-w-full md:w-full lg:w-1/2 xl:w-1/2 ">
           <div className="">
             <Link href="/">
               <Image
                 src={SElogo}
                 alt="Login"
-                className="hidden md:hidden lg:block xl:block absolute top-[10px] w-[150px] left-[25px] mt-4"
+                className="hidden md:hidden lg:block xl:block absolute top-[10px] w-[150px]  mt-4"
               />
             </Link>
           </div>
-          <div className=" flex justify-center">
-            <div className="">
+          <div className=" flex justify-center w-full  mt-4 px-4 ">
+            <div className="w-full max-w-[400px]">
               <Link href="/">
                 <img
                   src={SElogo.src}
@@ -119,7 +119,7 @@ export default function Register() {
                 Sign up now and start using and exploring our app
               </p>
               <div
-                className="flex flex-col mt-4 xl:w-[350px]"
+                className="flex flex-col mt-4 min-w-full xl:w-[340px]"
                 onKeyDown={(e) =>
                   handleEnterKeyPress(e, registerUser, disabled, setDisabled)
                 }
