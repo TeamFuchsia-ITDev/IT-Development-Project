@@ -142,7 +142,7 @@ export default function CreateProfile() {
 
         setTimeout(() => {
           toast.remove();
-          router.push("/dashboard");
+		  window.location.reload();
         }, 5000);
       }
     } catch (err) {
