@@ -99,7 +99,7 @@ export async function lapseChecker() {
       },
       status: {
         not: {
-          in: ["Lapsed", "OnGoing"],
+          in: ["Lapsed", "OnGoing", "Completed", "Cancelled"],
         },
       },
     },
