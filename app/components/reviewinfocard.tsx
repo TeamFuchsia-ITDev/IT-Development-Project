@@ -31,7 +31,6 @@ export const ReviewInfoCard: React.FC<ReviewInfoCardProps> = ({
           />
           <div className="flex flex-col justify-center">
             <p className="text-md font-bold">{reviewerName}</p>
-            <p className="text-md ">Senior Citizen</p>
           </div>
         </div>
       </div>
