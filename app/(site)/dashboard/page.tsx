@@ -10,6 +10,8 @@ import {
   RequestData,
   ApplicationProps,
   CompPageData,
+  ProfileData,
+  ReviewDataState,
 } from "@/app/libs/interfaces";
 import { Navbar } from "@/app/components/navbar";
 import { RequestCard } from "@/app/components/requestcard";
@@ -29,6 +31,12 @@ export default function Dashboard() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [user, setUser] = useState<UserProps | undefined>(undefined);
+  const [profiles, setProfiles] = useState<ProfileData[]>([]);
+  const [reviewData, setReviewData] = useState<ReviewDataState>({
+    reviewee: undefined,
+    reviewer: undefined,
+    request: "",
+  });
   const [myRequests, setMyRequests] = useState<RequestProps[]>([]);
   const [page, setPage] = useState("Pending");
   const { mode } = useMode();
@@ -92,6 +100,11 @@ export default function Dashboard() {
       }
     };
 
+    const getProfiles = async () => {
+      const response = await axios.get(`/api/user/profile`);
+      setProfiles(response.data.profiles);
+    };
+
     if (
       status !== "loading" &&
       session?.user.email &&
@@ -99,6 +112,7 @@ export default function Dashboard() {
     ) {
       fetchUserData();
       fetchUserRequests();
+      getProfiles();
     }
   }, [session?.user.email, status]);
 
@@ -285,6 +299,20 @@ export default function Dashboard() {
 
   const handleMarkAsCompleted = (requestData: RequestProps) => {
     setCompletedRequestData(requestData);
+  };
+
+  const handleLeaveReview = (requestData: RequestProps) => {
+    const selectedProfile = profiles.find((profile) => {
+      return profile.userEmail === requestData.userEmail;
+    });
+    const currReviewer = profiles.find((profile) => {
+      return profile.userEmail === session?.user.email;
+    });
+    setReviewData({
+      reviewee: selectedProfile,
+      reviewer: currReviewer,
+      request: requestData.id,
+    });
   };
 
   const postApplication = async (e: FormEvent) => {
@@ -901,8 +929,7 @@ export default function Dashboard() {
                       myApplications.some(
                         (app) =>
                           app.requestId === request.id &&
-                          (app.status === "Pending" ||
-                            app.status === "Accepted")
+                          app.status === "RequestCompleted"
                       )
                     )
                     .map((request: RequestProps, index: number) => (
@@ -913,6 +940,7 @@ export default function Dashboard() {
                           toggleFormVisibility={setIsFormVisible}
                           onApplyClick={handleViewApplication}
                           toggleReviewcardVisibility={setIsReviewcardVisible}
+                          onLeaveReviewClick={handleLeaveReview}
                         />
                       </div>
                     ))}
@@ -980,6 +1008,10 @@ export default function Dashboard() {
             <ReviewCard
               isReviewcardVisible={isReviewcardVisible}
               setIsReviewcardVisible={setIsReviewcardVisible}
+              request={reviewData.request}
+              reviewee={reviewData.reviewee}
+              reviewer={reviewData.reviewer}
+              mode="RequesterReview"
             />
           </>
         )}

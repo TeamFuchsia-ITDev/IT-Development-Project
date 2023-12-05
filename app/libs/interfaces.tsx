@@ -82,6 +82,7 @@ export interface CardProps {
     requesterName?: string;
     datetime?: string;
   }) => void;
+  onLeaveReviewClick?: (request: RequestProps) => void;
   toggleReviewcardVisibility?: (isVisible: boolean) => void;
 }
 
@@ -263,9 +264,10 @@ export interface DialogboxProps {
 export interface ReviewCardProps {
   isReviewcardVisible: boolean;
   setIsReviewcardVisible: React.Dispatch<React.SetStateAction<boolean>>;
-  selectedCompanionProfile?: ProfileData;
+  reviewee?: ProfileData;
   request?: string;
   reviewer?: ProfileData;
+  mode: string;
 }
 
 export interface TestimonialCardProps {
@@ -290,9 +292,14 @@ export interface ReviewData {
 }
 
 export interface ReviewInfoCardProps {
-	comment: string;
-	rating: number;
-	reviewerName: string;
-	reviewerImage: string;
+  comment: string;
+  rating: number;
+  reviewerName: string;
+  reviewerImage: string;
+}
 
+export interface ReviewDataState {
+	reviewee: ProfileData | undefined;
+	reviewer: ProfileData | undefined;
+	request: string;
   }

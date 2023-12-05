@@ -164,7 +164,11 @@ const Profilepage = () => {
             <div className="grid grid-cols-2 pl-6 ">
               {allReviews
                 .filter(
-                  (review) => review.revieweeEmail === user.userEmail && (mode ? review.reviewType === "RequesterReview" : "CompanionReview")
+                  (review) =>
+                    review.revieweeEmail === user.userEmail &&
+                    (mode
+                      ? review.reviewType === "RequesterReview"
+                      : review.reviewType === "CompanionReview")
                 )
                 .map((review, index) => (
                   <ReviewInfoCard

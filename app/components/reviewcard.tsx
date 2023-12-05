@@ -15,9 +15,10 @@ function getLabelText(value: number) {
 const ReviewCard: React.FC<ReviewCardProps> = ({
   isReviewcardVisible,
   setIsReviewcardVisible,
-  selectedCompanionProfile,
+  reviewee,
   request,
   reviewer,
+  mode,
 }) => {
   const [value, setValue] = useState<number | null>(5);
   const [hover, setHover] = useState(-1);
@@ -35,9 +36,10 @@ const ReviewCard: React.FC<ReviewCardProps> = ({
         requestid: request,
         rating: value,
         comment: comment,
-        reviewee: selectedCompanionProfile,
+        reviewee: reviewee,
         reviewer: reviewer,
-        reviewType: "CompanionReview",
+        reviewType:
+          mode === "CompanionReview" ? "CompanionReview" : "RequesterReview",
       },
     });
     if (response.data.status === 400) {
@@ -61,9 +63,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({
       >
         <div className="flex flex-col justify-center items-center gap-2 ">
           <div>
-            <h1 className="text-xl pt-4">
-              Leave a review to {selectedCompanionProfile?.name}
-            </h1>
+            <h1 className="text-xl pt-4">Leave a review to {reviewee?.name}</h1>
           </div>
           <div className="flex flex-col items-center justify-center">
             {value !== null && (
@@ -96,6 +96,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({
           <button
             className="text-center bg-green-500 text-white mt-2 rounded-full h-[35px] w-[300px] hover:bg-white hover:text-green-500 hover:border-[2px] hover:border-green-500 hover:ease-in-out duration-300"
             onClick={handleSubmit}
+			disabled={disabled}
           >
             Submit
           </button>
