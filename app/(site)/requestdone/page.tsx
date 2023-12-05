@@ -26,17 +26,7 @@ export default function RequestDonePage() {
     ProfileData | undefined
   >(undefined);
   const [reviewer, setReviewer] = useState<ProfileData | undefined>(undefined);
-  const [activeDropdown, setActiveDropdown] = useState(-1);
-  const [disabled, setDisabled] = useState(false);
   const [isReviewcardVisible, setIsReviewcardVisible] = useState(false);
-
-  const toggleDropdown = (index: number) => {
-    if (activeDropdown === index) {
-      setActiveDropdown(-1);
-    } else {
-      setActiveDropdown(index);
-    }
-  };
 
   useEffect(() => {
     if (status !== "loading" && !session) {
@@ -128,9 +118,10 @@ export default function RequestDonePage() {
       <ReviewCard
         isReviewcardVisible={isReviewcardVisible}
         setIsReviewcardVisible={setIsReviewcardVisible}
-        selectedCompanionProfile={selectedCompanionProfile!}
+        reviewee={selectedCompanionProfile!}
         request={requestIDParams!}
 		reviewer={reviewer}
+		mode="CompanionReview"
       />
     </main>
   );

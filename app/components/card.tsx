@@ -14,6 +14,7 @@ export const Card = ({
   request,
   toggleFormVisibility,
   onApplyClick,
+  onLeaveReviewClick,
   toggleReviewcardVisibility,
 }: CardProps) => {
   const { data: session, status } = useSession();
@@ -79,6 +80,9 @@ export const Card = ({
   const handleLeaveRequesterReview = () => {
     if (toggleReviewcardVisibility) {
       toggleReviewcardVisibility(true);
+    }
+    if (onLeaveReviewClick) {
+      onLeaveReviewClick(request!);
     }
   };
 
@@ -359,7 +363,7 @@ export const Card = ({
                   <button
                     className="text-center h-[35px] w-[270px] bg-red-500 text-white text-[11px] font-bold rounded-full hover:bg-white hover:text-red-500 hover:border-[2px] hover:border-red-500 hover:ease-in-out duration-300 "
                     onClick={handleCancelTask}
-					disabled={disabled}
+                    disabled={disabled}
                   >
                     Cancel Task
                   </button>
@@ -497,18 +501,6 @@ export const Card = ({
                 </div>
                 <div className="ml-auto mt-2 text-rose-500">
                   <p className="font-bold text-[10px]">{request?.category}</p>
-                  <div className=" text-[10px] text-blue-500">
-                    {" "}
-                    <p
-                      className={
-                        applicationStatus === "Accepted"
-                          ? "text-green-500"
-                          : "text-yellow-500"
-                      }
-                    >
-                      {applicationStatus}
-                    </p>
-                  </div>
                 </div>
               </div>
               <div className="flex flex-col pl-2">
