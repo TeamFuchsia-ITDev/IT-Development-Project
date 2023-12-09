@@ -948,7 +948,9 @@ export default function Dashboard() {
               </div>
             ) : null}
 
-            {compPage === "Cancelled" ? <div className="mb-24"></div> : null}
+            {compPage === "Cancelled" ? <div className="flex justify-center  h-[400px] items-center">
+              <p className="bg-red-500 origin-bottom -rotate-12 text-[30px] p-2 w-[400px] text-center text-white">Coming soon</p>
+            </div> : null}
 
             {compPage === "CancelledRequests" ? (
               <div
