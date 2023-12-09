@@ -181,7 +181,11 @@ const Profilepage = () => {
                 ))}
             </div>
           ) : null}
-          {profilepage === "analytics" ? <div>This is History</div> : null}
+          {profilepage === "analytics" ? (
+            <div className="flex justify-center  h-[400px] items-center">
+              <p className="bg-red-500 origin-bottom -rotate-12 text-[30px] p-2 w-[400px] text-center text-white">Coming soon</p>
+            </div>
+          ) : null}
         </div>
       </div>
 
